@@ -331,3 +331,13 @@
 - **Principle:** V4's layered retrieval system grew through accumulated mechanisms, but those layers may encode real value and useful synergy. V5 should improve the architecture without blindly porting the patchwork or indiscriminately removing mechanisms because current models are stronger or fewer components seem simpler.
 - **Decision method:** Before preserving, merging, replacing, deferring, or removing a capability, map the user problem, V4 mechanisms/interactions, benefit/failure evidence, context/latency/maintenance/approval costs, and what current models/source can recover. Simplify only when the demonstrated outcome is preserved or no longer valuable.
 - **Outcome:** Added a capability-preservation method to C02 and updated the first-slice handoff and roadmap. The next design step is to map V4 retrieval capabilities/interactions and costs before selecting a V5 knowledge interface. No V5 code, Python files, or DiaWorkspace files were changed.
+
+### V5-20261006-035 — Preliminary V4 retrieval-capability map drafted
+
+- **Recorded:** 2026-10-06T15:50:15+02:00
+- **Type:** Capability mapping / architecture analysis
+- **Status:** Preliminary map for user review; no V5 disposition selected
+- **Scope mapped:** session orientation/DIGEST; hot MOC/domain routing; semantic-map cold retrieval; graphify topology; feature and procedure retrieval; write/conflict/lifecycle controls; episodic logs and `/retro`; freshness signals and metrics; separate user notes and AgenticLab improvement backlog.
+- **Interactions noted:** discovery/source analysis → user-reviewed preservation and routing → digest/MOC/map/feature-based retrieval → current-source verification → review/refine/retro and supersession. Removing one surface can shift cost or failure to another.
+- **Evidence/cost caveats:** backup docs and Pi adapter code confirm many mechanisms exist, and the backup contains populated artifacts. They do not prove current-model user benefit. Caps and thresholds exist, but some are explicitly reasoned-not-measured; metrics largely count matches/cost rather than answer improvement or candidate-selection rationale. Specified traversal can differ between harnesses; confirm behavior per mode.
+- **Next:** Review the capability map and classify each capability as preserve/merge/replace/defer/remove only after user need, evidence, interaction, model recoverability, and cost are clear. Do not implement or import the V3 backup.
