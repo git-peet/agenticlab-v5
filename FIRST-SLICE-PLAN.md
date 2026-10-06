@@ -1,10 +1,10 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Exercises 5 and 6 code changes are implemented; all six controller tests and both root smoke tests pass. The Pi gate is published and staged; an index-based decision retrieval and current-source verification succeeded in a fresh session, with no edits. The response does not make explicit whether the linked record file itself was opened.
+**Status:** Exercises 5 and 6 code changes are implemented; all six controller tests and both root smoke tests pass. The Pi gate is published and staged; an index-based decision retrieval and current-source verification succeeded in a fresh session, with no edits. The first vertical slice is paused at review/next-scope selection while the knowledge interface is designed; the response does not establish whether the linked record file itself was opened.
 
 **Prepared:** 2026-10-06
 
-**Current handoff:** The bounded implementation and first fresh-session index-retrieval check are complete. The record write and later index update each required approval—two successful prompts for one decision. The user clarified that friction is primarily about how many times the workflow interrupts them, not prompt wording. Next, review whether the record was useful and whether that interruption rate felt worthwhile; do not expand the gate or implement Jev from this single trial. The response confirms index discovery and source verification but does not show whether the linked record file was opened. The Python application changes and host integration remain uncommitted/unpushed; do not commit or push them without approval. The real expense database was not opened or modified.
+**Current handoff / checkpoint:** The V5 first vertical slice's host-continuity phase and first fresh-session retrieval check are complete; work is paused at its review/next-scope decision. While implementing the knowledge capture/index/retrieval path, we recognized that records are expected to grow and that the knowledge interface—structure, navigation, and retrieval—determines both retrieval accuracy and maintenance/approval frequency. Therefore, design that interface before further memory-capture or gate work; this is a deliberate ordering change, not approval to implement a MOC, semantic map, wikilinks, or a new writer. Two successful prompts were required for one decision (record write and index update); the user clarified that interruption count, not prompt wording, is the main friction concern. The pasted response confirms index discovery and source verification but not direct record-file access. Python changes remain uncommitted/unpushed; the real database was not opened or modified.
 
 **Parent direction:** [`V5.2-roadmap.md`](V5.2-roadmap.md)
 
@@ -155,7 +155,7 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
-Report what worked, what was re-explained, whether retrieval was relevant/current/in scope, approval-interruption count per task, any false/redundant prompts, user attention, time/cost if readily available, and maintenance burden. Decide whether to keep, revise, defer, or reject the exercised mechanism. One experience is qualitative evidence, not a statistical memory-benefit claim.
+The first trial showed index-based retrieval and source verification, and exposed an architectural dependency: the knowledge interface must be designed before expanding the capture/index workflow. **Next:** define the minimum knowledge structure/navigation/retrieval contract and evaluate it against expected growth, retrieval accuracy, maintenance, and approval interruptions. This is a design step only; no map, link system, custom writer, or gate change is selected. Then decide whether to retain, revise, defer, or expand the exercised mechanism. One experience is qualitative evidence, not a statistical memory-benefit claim.
 
 ## 7. Scope exclusions and stop conditions
 

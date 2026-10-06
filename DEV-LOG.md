@@ -271,3 +271,13 @@
 - **Observed sample:** One decision required two successful approvals: one for saving the decision record and a separate one for updating the knowledge index. A no-preview index attempt was canceled while fixing the adapter; an earlier read-only shell false positive was also encountered and then fixed. These are pilot/setup events, not a stable estimate of normal-use prompt frequency.
 - **Implication:** Future evaluation should count approval interruptions per meaningful task/decision and separate necessary durable changes from redundant index/metadata edits and false positives. The user affirmed the fresh-session answer was useful but did not yet state that the observed approval frequency was acceptable.
 - **Outcome:** Updated C02, C09, the first-slice plan, and roadmap to emphasize frequency/attention cost and defer batching or Jev support until recurring friction is observed. No implementation change was made.
+
+### V5-20261006-029 — Pause capture workflow to define the knowledge interface
+
+- **Recorded:** 2026-10-06T15:03:03+02:00
+- **Type:** Phase-order checkpoint / architecture priority
+- **Status:** Agreed next design focus; no structure or implementation selected
+- **Pause point:** During the V5 first vertical slice's knowledge capture/index/retrieval work (Phase 3 host continuity, now reviewed), the team recognized that project knowledge records will grow. The index/structure and retrieval contract determine navigation accuracy, maintenance work, and how many separate user approvals are needed.
+- **Why reorder:** The trial required separate approvals for record creation and index maintenance. Choosing a per-record index or a stable directory index before discussing the knowledge interface could prematurely optimize for one-record use and harm navigation as the collection grows. Defer further capture/gate workflow changes until the knowledge interface is defined.
+- **Next phase:** Bounded design discussion of expected growth, record units/lifecycle, structure/navigation alternatives (including MOC, semantic maps, and links), retrieval accuracy/verification, maintenance, and approval interruptions. Compare options; do not assume any particular structure or build it yet.
+- **Boundary:** This changes the order of work, not the approved Python scope. Jev remains deferred; the real database is untouched; Python host changes remain uncommitted/unpushed. `FIRST-SLICE-PLAN.md` now records the current handoff.
