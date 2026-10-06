@@ -68,7 +68,68 @@ Proposed V5 test objective: use this cross-layer issue to test whether the syste
 
 The first runnable path may use one host only. Its shared contract should not bake Pi-specific details into the knowledge model. A user-invoked workflow remains a supported design requirement, but porting all V4 prompts or building a workflow router is outside this first slice.
 
-## 5. Proposed phases and gates
+## 5. Proposed V5 skeleton and Pi workspace integration (for approval)
+
+This is the proposed minimum architecture for the first runnable slice. It is **not** an implementation go.
+
+### Canonical source in V5
+
+Keep distributable AgenticLab assets under a dedicated `system/` directory so developer-only files (`backlog/`, roadmap, `DEV-LOG.md`, evaluation notes) are not copied into a project installation. Proposed minimum contents:
+
+```text
+AgenticLab-v5/
+  system/
+    README.md                  # what the workspace snapshot contains
+    AGENTS.md                  # AgenticLab operating entry instructions
+    brain/
+      operating-contract.md    # scope, default/workflow boundary, approvals
+      knowledge-contract.md    # one scoped decision/experience record shape
+    adapters/pi/
+      knowledge-write-gate.ts  # project-local, narrowly scoped write confirmation
+      tests/                   # path, allow/block, and no-UI fail-closed cases
+```
+
+Do not create a generalized plugin framework, database, vector index, or broad prompt library in this slice. Keep the knowledge record human-readable (Markdown) and project data out of canonical system sources.
+
+### Python workspace snapshot
+
+After a source revision is reviewed, stage a deliberate snapshot into the Python project:
+
+```text
+Python project root/
+  AGENTS.md                   # thin pointer to AgenticLab/AGENTS.md
+  .pi/settings.json           # explicitly loads the project-local extension after trust
+  AgenticLab/                 # reviewed copy of V5 system payload + revision marker
+    AGENTS.md
+    brain/
+    adapters/pi/
+    knowledge/                # project-specific records; not overwritten on refresh
+```
+
+The project `.pi/settings.json` would list the extension path relative to `.pi` (proposed: `../AgenticLab/adapters/pi/knowledge-write-gate.ts`); verify this with a workspace-local Pi run before staging. No symlink: the host copy is a versioned instance; canonical edits occur only in V5. Keep project knowledge/configuration separate from the copied system payload and make refresh logic preserve project data. No packaging/installer script is needed for one prototype; record the source revision and manually verify the copy.
+
+Pi 1.0.4 behavior relevant to this proposal (read from the installed `configuration.md`, `security.md`, `extensions.md`, `settings.md`, and `cli.md`, plus the `permission-gate.ts`/`protected-paths.ts` examples): project context `AGENTS.md` loads without project trust and is not a security boundary; project `.pi` extensions/settings are trust-gated; `tool_call` handlers can block built-in tool calls; `ctx.hasUI` distinguishes interactive confirmation availability; extensions run with the Pi process's OS permissions. These are documented capabilities, not yet exercised in a V5 workspace. The user must review/trust the project-local adapter. No global Pi settings are changed. If project trust is declined or the extension is unavailable, durable AgenticLab writes are unavailable; instructions alone must not claim enforcement.
+
+### Memory-write approval boundary
+
+The candidate adapter would use Pi's `tool_call` hook to gate `write`/`edit` operations under the exact project knowledge directory. In interactive mode it requests an explicit UI confirmation; without UI it blocks. Tests cover permitted non-memory writes, approved/rejected knowledge writes, path normalization/traversal, and no-UI behavior. The extension has full process permissions and the proposed hook does **not** sandbox the OS or reliably intercept arbitrary shell programs. Therefore the prototype must not claim comprehensive write protection against shell bypass; either route durable writes only through the gated file-tool path and keep this limitation explicit, or design a stronger boundary before relying on it.
+
+### First-slice behavior
+
+- Default-agent work is the exercised path; explicit workflow invocation remains an architectural seam, not a V4 prompt port in this slice.
+- User first investigates the date mismatch with current code. The intended date format is a decision to confirm during the project task (the UI and plan point to `YYYY-MM-DD`).
+- A scoped candidate record is proposed and shown to the user; promotion/save requires the agreed gate. A fresh Pi session retrieves it only for the Python project and checks current source before use.
+- After safe test isolation, Exercise 6 updates controller date validation and focused tests. Run the full suite only after the date behavior is made consistent and tests remain on the temporary DB.
+- Evaluate qualitative outcomes: was the record found when relevant, ignored when unrelated, accurate/current, and helpful without re-explanation? Note corrections and attention/cost; one run is not a statistical claim.
+
+### Proposed implementation work units
+
+1. **V5 system payload:** add the small `system/` source and unit tests in the V5 repository.
+2. **Workspace integration:** generate/copy `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot into the Python host; verify Pi's project-trust prompt and loaded-resource list. Do not alter global settings.
+3. **Project task:** after the separate bounded Exercise 6 approval, agree the date format, edit only the relevant controller/tests, run focused and then full tests in `.venv`, and confirm the real DB metadata did not change.
+4. **Review:** fresh-session recall check; report limitations and decide whether this slice earns expansion.
+
+## 6. Proposed phases and gates
 
 ### Phase 0 — Confirm decisions (no code)
 
@@ -90,7 +151,7 @@ If Exercise 6 is selected, create one real, user-approved date-format decision r
 
 Report what worked, what was re-explained, whether retrieval was relevant/current/in scope, any corrections, user attention, time/cost if readily available, and maintenance burden. Decide whether to keep, revise, defer, or reject the exercised mechanism. One experience is qualitative evidence, not a statistical memory-benefit claim.
 
-## 6. Scope exclusions and stop conditions
+## 7. Scope exclusions and stop conditions
 
 - No changes outside the selected files in V5 and the approved Python task scope.
 - No reading/querying/copying the real expense database; no app launch before the test/data safety boundary is reviewed.
@@ -98,7 +159,7 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 - No global Pi config changes, external API/model calls, vector DB, external service, raw session mining, V4 memory import, automatic memory promotion, or additional harness port.
 - Stop on unexpected database side effects, unclear approval, test isolation failure, a material project-scope change, or a need for infrastructure outside the agreed first slice.
 
-## 7. Decisions needed before implementation
+## 8. Decisions needed before implementation
 
 1. Exercise 5's bounded code scope is implemented and its focused test passed in the isolated Python 3.12 `.venv`. The pinned requirements are installed locally; the original requirements file is unchanged. No full suite has run.
 2. GitHub rejected the initial push due to commit email privacy. A repository-local GitHub no-reply identity is configured; do not change global identity. Publish only V5 repository files, never Python application changes to this remote.

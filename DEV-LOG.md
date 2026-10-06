@@ -136,3 +136,12 @@
 - **Outcome:** Installed Python 3.12.15 via mise without changing mise configuration; created the Python project's ignored `.venv`; decoded the UTF-16 pinned `requirements.txt` to a temporary UTF-8 file without editing the original; installed the pinned packages into `.venv` from PyPI because the configured package index lacked `ttkthemes`. Added a project `.gitignore` for `.venv/`, `__pycache__/`, and bytecode. The focused temporary-database isolation test passed; GUI/application modules imported without launching the app; `pip check` found no broken requirements.
 - **Safety:** No application main/UI was launched; the full test suite was not run; no dependencies were installed globally; the real `data/expenses.db` was not opened or modified (its metadata is unchanged). The Python source and `.gitignore` remain uncommitted in the separate Python repo; nothing from it was pushed to V5 GitHub.
 - **Next:** Exercise 5 isolation is behaviorally verified. Before Exercise 6, confirm the date-format decision and bounded file/test scope; then test only against `.venv` and the isolated temporary database.
+
+### V5-20261006-014 — Pi-native first-slice architecture proposed
+
+- **Recorded:** 2026-10-06T10:42:44+02:00
+- **Type:** Architecture proposal / runtime research
+- **Status:** Proposed in `FIRST-SLICE-PLAN.md`; no runtime implementation authorized
+- **Evidence:** Read the installed Pi 1.0.4 configuration, security, extension, settings, CLI, and terminal-UI docs plus the permission-gate/protected-path examples. Relevant findings are summarized in the plan: root context files load independently of project trust; project `.pi` settings/extensions are trust-gated; `tool_call` handlers can block built-in tool calls; extensions run with Pi process permissions and are not a sandbox.
+- **Proposal:** Keep shippable assets in a V5 `system/` payload, stage a reviewed snapshot as Python-root `AgenticLab/`, use a root `AGENTS.md` pointer, and register a small project-local Pi write-confirmation gate. Durable record data remains project-specific. The gate's limitation against arbitrary shell/process writes is explicit; do not claim comprehensive protection.
+- **Next:** User reviews/approves or changes the proposed skeleton scope before V5 source code, Pi adapter, project snapshot, or Python application changes proceed.
