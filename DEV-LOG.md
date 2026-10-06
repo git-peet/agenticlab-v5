@@ -467,3 +467,28 @@
 - **Direction:** Keep a central `INDEX.md` routing to domain/topic MOCs, with MOCs grouping concepts and linking across record types. Treat atomic records and their metadata as authoritative; categories remain metadata rather than folders. A complete read-only inventory/search fallback must prevent an omitted MOC link from producing a false no-match.
 - **Reason:** Supports organized, growing knowledge while preserving curated navigation and making record discovery complete. Avoid a separate manual index write/approval for every record where possible.
 - **Next:** Specify how the authoritative record corpus is enumerated, how MOCs stay useful without being exhaustive per-record manifests, and how no-match is proven without a second approval per record. No code or host changes are authorized by this design direction alone.
+
+### V5-20261006-047 — Development-log identifier correction
+
+- **Recorded:** 2026-10-06T21:27:16+02:00
+- **Type:** Log integrity correction
+- **Status:** Corrected prospectively; prior entries retained
+- **Correction:** Two adjacent entries were accidentally assigned ID `V5-20261006-046` while recording the same hierarchical index/MOC design direction. Their timestamps and content remain intact; treat them as a duplicate-ID recording error, not separate architecture decisions. `C02-knowledge-lifecycle.md` and `FIRST-SLICE-PLAN.md` are the current design/handoff sources.
+
+### V5-20261006-048 — Native record inventory checked against the index
+
+- **Recorded:** 2026-10-06T21:27:16+02:00
+- **Type:** Read-only completeness check / knowledge retrieval
+- **Status:** Current one-record corpus inventory agrees with index; scaling behavior remains untested
+- **Trace:** In a fresh Python Pi session, the user asked Pi to enumerate `AgenticLab/knowledge/records/` and compare it with `INDEX.md`. The active toolset exposed `read` and `ls`; `find` and `grep` were not available to the model despite being requested. Pi listed the directory, read the record header, and found one flat record, no subdirectories, and a matching index entry. No data files, DB, app, tests, or edits were accessed.
+- **Result:** Together with the prior explicit no-match query, this confirms no-match reporting against the current flat, one-record corpus. It does not test recursion, many records, or a record omitted from a map. The native `ls`/`read` baseline is sufficient at this scale; search/inventory tooling for growth remains an open design question.
+- **Next:** Compare the cost and reliability of scoped Pi-native listing/search with a generated read-only inventory; keep the record corpus authoritative and the MOC a navigation aid. No implementation or Python changes.
+
+### V5-20261006-049 — Native Pi `find` availability confirmed for current records tree
+
+- **Recorded:** 2026-10-06T21:36:18+02:00
+- **Type:** Read-only tool capability / inventory check
+- **Status:** Current flat-tree inventory succeeded; recursive/scale and grep behavior remain untested
+- **Trace:** In a new Python Pi session with the read-only tool selection, the user asked Pi to use its native `find` tool (not Bash) to list `AgenticLab/knowledge/records/`. The tool enumerated one Markdown record with a result limit of 1,000. No record contents, data files, database, `.env`, app, or tests were accessed; no files were edited.
+- **Result:** Native `find` works in this session and confirms the current flat, one-record directory. Together with the prior `ls`/INDEX comparison, the current inventory matches the index. This is not evidence for larger/nested collections; grep/lexical search has not been tested.
+- **Next:** Compare native `find`/`grep` against a generated read-only inventory as record count and hierarchy grow. No custom catalog, code, or Python change selected.
