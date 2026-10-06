@@ -17,6 +17,13 @@ export function registerKnowledgeWriteGate(pi) {
     const request = classifyKnowledgeMutation(event.toolName, event.input, ctx.cwd);
     if (!request) return undefined;
 
+    if (request.preview === null) {
+      return {
+        block: true,
+        reason: "A reviewable preview could not be built for this project knowledge change; it was blocked.",
+      };
+    }
+
     if (!ctx.hasUI) {
       const decision = decideKnowledgeMutation(request, false, false);
       return { block: true, reason: decision.reason };

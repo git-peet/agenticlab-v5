@@ -32,6 +32,16 @@ test("file writes to project knowledge require confirmation", () => {
   }, cwd);
   assert.equal(request?.kind, "file-tool");
   assert.equal(request?.target, `${cwd}/AgenticLab/knowledge/decisions/date-format.md`);
+  assert.match(request?.preview, /Synthetic fixture only/);
+});
+
+test("current Pi edits[] input produces a before-and-after preview", () => {
+  const request = classifyKnowledgeMutation("edit", {
+    path: "AgenticLab/knowledge/INDEX.md",
+    edits: [{ oldText: "No records yet", newText: "One record listed" }],
+  }, cwd);
+  assert.match(request?.preview, /--- existing text ---\nNo records yet/);
+  assert.match(request?.preview, /\+\+\+ proposed text \+\+\+\nOne record listed/);
 });
 
 test("writes outside project knowledge and path traversal are not classified as memory writes", () => {
@@ -77,7 +87,13 @@ test("Pi handler asks and blocks when the user rejects", async () => {
   let shown = "";
   registerKnowledgeWriteGate(mock.pi);
   const result = await mock.call(
-    { toolName: "edit", input: { path: "AgenticLab/knowledge/INDEX.md", newText: "fixture" } },
+    {
+      toolName: "edit",
+      input: {
+        path: "AgenticLab/knowledge/INDEX.md",
+        edits: [{ oldText: "old fixture", newText: "new fixture" }],
+      },
+    },
     {
       cwd,
       hasUI: true,
@@ -86,7 +102,25 @@ test("Pi handler asks and blocks when the user rejects", async () => {
   );
   assert.equal(result?.block, true);
   assert.match(shown, /AgenticLab\/knowledge\/INDEX\.md/);
-  assert.match(shown, /fixture/);
+  assert.match(shown, /old fixture/);
+  assert.match(shown, /new fixture/);
+});
+
+test("Pi handler blocks a knowledge edit if it cannot build a preview", async () => {
+  const mock = makePi();
+  let confirmationRequested = false;
+  registerKnowledgeWriteGate(mock.pi);
+  const result = await mock.call(
+    { toolName: "edit", input: { path: "AgenticLab/knowledge/INDEX.md", edits: [{ unexpected: "shape" }] } },
+    {
+      cwd,
+      hasUI: true,
+      ui: { async confirm() { confirmationRequested = true; return true; } },
+    },
+  );
+  assert.equal(result?.block, true);
+  assert.equal(confirmationRequested, false);
+  assert.match(result?.reason, /reviewable preview could not be built/);
 });
 
 test("Pi handler blocks shell access to knowledge without a misleading approval prompt", async () => {

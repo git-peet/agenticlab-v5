@@ -32,6 +32,29 @@ export function shellReferencesKnowledge(cwd, command) {
  * Return a confirmation request for built-in file writes/edits under AgenticLab/knowledge,
  * and for shell commands that visibly refer to that subtree. Return null for unrelated calls.
  */
+function getFileChangePreview(toolName, input) {
+  if (toolName === "write" && typeof input?.content === "string") {
+    return `Proposed file contents:\n${input.content || "(empty file)"}`;
+  }
+
+  const edits = Array.isArray(input?.edits)
+    ? input.edits
+    : typeof input?.oldText === "string" && typeof input?.newText === "string"
+      ? [{ oldText: input.oldText, newText: input.newText }]
+      : [];
+  if (!edits.length || edits.some((edit) => typeof edit?.oldText !== "string" || typeof edit?.newText !== "string")) {
+    return null;
+  }
+
+  return edits.map((edit, index) => [
+    `Edit ${index + 1}:`,
+    "--- existing text ---",
+    edit.oldText || "(empty)",
+    "+++ proposed text +++",
+    edit.newText || "(empty)",
+  ].join("\n")).join("\n\n");
+}
+
 export function classifyKnowledgeMutation(toolName, input, cwd) {
   if (toolName === "write" || toolName === "edit") {
     const protectedPath = resolveKnowledgePath(cwd, input?.path);
@@ -40,7 +63,7 @@ export function classifyKnowledgeMutation(toolName, input, cwd) {
       kind: "file-tool",
       toolName,
       target: protectedPath,
-      preview: typeof input?.content === "string" ? input.content : typeof input?.newText === "string" ? input.newText : "",
+      preview: getFileChangePreview(toolName, input),
     };
   }
 
