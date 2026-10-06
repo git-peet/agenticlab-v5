@@ -251,3 +251,13 @@
 - **Fresh session:** Without prior conversation history, Pi reported the applicable active `YYYY-MM-DD` decision and record path, then checked `src/gui.py`, `src/controller.py`, and `src/tests/test_expense_tracker.py`. The response was consistent with the current source and reported no edits.
 - **Evidence limit:** The pasted response confirms index-based discovery and current-source verification but does not explicitly establish whether Pi opened `records/expense-date-format.md` itself. Treat this as a successful index-level recall trial, not proof of a direct record-file read. No utility or interruption-cost conclusion is warranted from one run.
 - **Next:** Review the trial qualitatively; if the Pi tool transcript makes it easy to tell, note whether the linked record file was read. Do not change the knowledge gate or add Jev support from this single result.
+
+### V5-20261006-027 — Fresh-session handoff and status clarification
+
+- **Recorded:** 2026-10-06T13:20:07+02:00
+- **Type:** Current-state / next-session handoff
+- **Status:** First bounded slice and first index-retrieval check complete; qualitative review remains
+- **Current result:** The approved date decision is saved and indexed. In a new session, Pi found it via the index and verified current GUI/controller/tests without editing. The response does not establish that the linked record file itself was opened.
+- **Next:** Review relevance, source consistency, re-explanation/attention cost, and whether the record helped. Do not add more gate mechanisms or implement the deferred Jev idea unless further observations support a specific change.
+- **Boundaries:** Python host changes and integration remain uncommitted/unpushed; do not publish them without approval. The real expense DB was not opened or modified. No global Pi settings changed. Pi project trust is session-only.
+- **Log navigation:** Entries `024` and `025` are displayed out of timestamp order and their `Next` lines describe earlier states. Entry `026` records the retrieval outcome; this entry plus `FIRST-SLICE-PLAN.md` hold the current handoff.
