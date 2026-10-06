@@ -533,3 +533,12 @@
 - **Read path:** scope → MOC route → complete record inventory/search → metadata filters → read a small candidate set → source verification → explicit retrieval outcome and trace. No-match requires a successful complete scan; capped/unavailable search must be reported as incomplete.
 - **Acceptance gate:** mapped record recall; map-omitted in-scope record found; inactive/wrong-scope records filtered; true no-match only after complete inventory; incomplete/capped inventory surfaced; trace shows activation and record fetch.
 - **Boundaries:** maps need not be updated for each new record; one approval per record remains the target. This is a design contract, not approval for a custom catalog, graph, MOC generation, or write transaction.
+
+### V5-20261006-054 — V0 read-side instructions implemented and Python snapshot refreshed
+
+- **Recorded:** 2026-10-06T22:14:11+02:00
+- **Type:** Approved contract implementation / host snapshot refresh
+- **Status:** Published and staged; live Pi verification pending
+- **V5 changes:** Updated only `system/AGENTS.md` and `system/brain/knowledge-contract.md` to define the INDEX/MOC/records roles, use maps as navigation rather than exhaustive inventories, require complete scoped record search before `no match`, report incomplete/unavailable scans, and cite actual record paths when they materially inform an answer. The `find`/`grep`/`read`/`ls` instruction is capability-aware and prohibits Bash for knowledge search.
+- **Verification:** All 12 Pi gate Node tests pass. Published source revision is `647043d9008703a4b5a52ec5d2d732f19d879f0e`. Refreshed only the corresponding Python snapshot files and `AgenticLab/SOURCE-REVISION.txt`; `cmp` confirmed byte identity. No project knowledge, application code, tests, or database was touched by the refresh.
+- **Next:** Load this snapshot in a fresh Python Pi session with read-only tools and verify one relevant natural task and one explicit no-match requiring a complete record scan. Keep `data/`/`.env` off-limits; do not run tests/app or use Bash. Confirm the actual tool trace, not only the answer.
