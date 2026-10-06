@@ -82,3 +82,22 @@
 - **Outcome:** Updated `FIRST-SLICE-PLAN.md` and `V5.2-roadmap.md` to distinguish confirmed direction from remaining implementation decisions. GitHub `origin` was already connected; no initial commit or push was performed.
 - **Still requires a separate bounded go:** Python source edits/test execution, creation of the host snapshot, V5 runtime/adapter implementation, and initial commit/push. Do not run bundled tests against the current fixed DB path.
 - **Next:** Define the exact local Pi loading/snapshot contents and prepare a bounded Exercise 5 implementation scope for user approval.
+
+### V5-20261006-008 — Documentation baseline committed; test-isolation scope proposed
+
+- **Recorded:** 2026-10-06T09:50:59+02:00
+- **Type:** Repository baseline / implementation proposal
+- **Status:** Initial docs commit complete; Python implementation scope awaiting approval
+- **Outcome:** Created local root commit `bbe260c` (`docs: establish V5.2 roadmap and candidate portfolio`) on `main`, covering the current roadmap, first-slice plan, backlog and development log. No push was made. The remote had no refs at setup. The latest edits to `FIRST-SLICE-PLAN.md` and `V5.2-roadmap.md` record the user's confirmed direction and are currently uncommitted.
+- **Exercise 5 proposal:** Limit changes to `src/data.py` (optional DB-path injection, default remains unchanged), `src/controller.py` (optional model injection, default remains unchanged), and `src/tests/test_expense_tracker.py` (per-test temporary DB, explicit injected model, connection close/cleanup, focused synthetic persistence assertion). Do not change GUI/preferences/main, access `data/expenses.db`, run the app, install dependencies, or run the full suite before Exercise 6 fixes the known date mismatch. This is a proposed boundary, not approval to edit Python files.
+- **Next:** User approves/revises this exact source/test scope. Initial push and Python code changes remain unapproved.
+
+### V5-20261006-009 — Exercise 5 test isolation implemented; focused test blocked
+
+- **Recorded:** 2026-10-06T09:56:39+02:00
+- **Type:** Approved project-scope implementation / validation result
+- **Status:** Code changes made; behavioral verification blocked by environment dependency
+- **Approved changes:** In the Python workspace, `ExpenseModel` now accepts an optional database path (existing application path remains default); `ExpenseTrackerController` accepts an optional model (default construction remains unchanged); controller tests use per-test temporary databases, close/clean them up, and include a focused synthetic persistence/isolation assertion.
+- **Validation:** AST parsing succeeded for all three changed files. The focused `unittest` invocation failed during module import because the active Python interpreter lacks `pandas`; no dependency installation was attempted. The test failed before constructing `ExpenseModel`; the SQLite database was not opened. Its file metadata remained the previously observed 16,384 bytes and timestamp. No app or full suite was run. The `python -m unittest` import attempt generated Python 3.14 cache files; those exact generated cache files were removed.
+- **Scope:** No changes to GUI/preferences/main, `data/expenses.db`, requirements, or V5 runtime. Python source changes are uncommitted. V5 doc updates since the initial baseline commit are also uncommitted pending approved push.
+- **Next:** Do not install packages or broaden the change without approval. Ask for an existing environment with pandas or explicit approval for a safe dependency setup; rerun only the focused isolation test there. Exercise 6 remains unstarted.

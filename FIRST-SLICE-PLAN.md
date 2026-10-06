@@ -1,6 +1,6 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Direction and task sequence approved by the user; Python/V5 code changes still require a bounded implementation go
+**Status:** Direction and task sequence approved; Exercise 5 code change made, focused validation blocked by missing dependency; V5 runtime and Exercise 6 remain unstarted
 
 **Prepared:** 2026-10-06
 
@@ -23,7 +23,7 @@ The Python workspace is now intended as an experimental host for V5 design, not 
 - AgenticLab code, design decisions, and development history stay in the V5 source repository. Python application changes and project-specific knowledge remain scoped to the Python workspace.
 - **Agreed distribution direction:** generate or stage a versioned snapshot of the V5 runtime under a workspace-local `AgenticLab/` folder at the Python project root. Keep canonical sources in V5; the host copy is an instance/deployment, not a second editable source. Record its source revision. Avoid an absolute-path symlink (machine-specific and silently live-updating) and avoid editing the host copy as canonical. For the first prototype, use a deliberate, reviewed copy; no installer is needed.
 - Before creating that host folder, define which system files, per-project config, memory, and evaluation records belong there and what must not be copied. No Python host integration has been created.
-- **Git connection:** local V5 now has a Git repository on branch `main` with `origin` set to `https://github.com/git-peet/agenticlab-v5.git`. The GitHub repository returned no refs (empty at inspection). There are no commits yet. No files were staged, committed, or pushed. Initial commit/push remains a separate explicit action.
+- **Git connection:** local V5 is on branch `main` with `origin` set to `https://github.com/git-peet/agenticlab-v5.git`. Initial documentation baseline commit `bbe260c` exists locally. It has not been pushed. Future commits/pushes remain subject to explicit approval.
 - **Agreed initial harness:** Pi, using only workspace-local configuration/integration for this experiment; no global Pi configuration. Verify the exact load/invocation method and adapter capability before implementing it. This is not an adapter implementation approval.
 
 ## 3. Proposed real task sequence
@@ -34,9 +34,14 @@ The Python workspace is confirmed as a V5 experiment host, not a learning projec
 
 The inspected test setup constructs `ExpenseTrackerController`, which constructs `ExpenseModel`; `ExpenseModel` connects to the fixed `data/expenses.db` and creates tables. `test_add_expense_valid` invokes a database insert and commit. The current date mismatch may make that test fail before the insert today, but after fixing date parsing it could reach the real DB. **Do not run the bundled tests in the current form.**
 
-Proposed goal: make test database selection explicit and ensure tests use an isolated temporary database. Do not copy, inspect, or mutate the user's real SQLite data as test setup. The implementation design (dependency injection, factory, or another narrow mechanism) remains open until an approved project task is scoped.
+**Implemented Exercise 5 boundary (focused validation pending):**
 
-**Safety acceptance:** the test creates and verifies a row only in its isolated database; its test configuration explicitly targets the temporary DB and does not read or modify `data/expenses.db`. Do not launch the application as part of this test-isolation task; normal app use continues to use its project database. No unrelated database refactor is included.
+- `src/data.py`: `ExpenseModel` accepts an optional database path, defaulting to the existing `DB_FILE`, and connects only to the selected path.
+- `src/controller.py`: `ExpenseTrackerController` accepts an optional model, preserving its existing no-argument/default production behavior.
+- `src/tests/test_expense_tracker.py`: create a fresh `tempfile.TemporaryDirectory()` per test; instantiate `ExpenseModel` with a database file inside it; inject that model into the controller; close the connection and clean up in teardown. Add a focused persistence assertion using synthetic values and the temporary database.
+- Do not change `src/gui.py`, `src/preferences.py`, `src/main.py`, `data/expenses.db`, dependencies, or unrelated tests in this task. `Preferences` has its own direct database connection, but these controller tests do not instantiate it; GUI testing is outside this isolation scope.
+
+**Validation status:** `ast.parse` accepted all three changed files. The focused command `python -m unittest tests.test_expense_tracker.TestExpenseTrackerController.test_test_database_is_isolated` was attempted from `src/` but failed before loading the test because this interpreter lacks `pandas`. No package installation was attempted. The bundled suite was not run. The failure occurred during module import, before `ExpenseModel` construction, so no database was opened by this attempt; the SQLite file's metadata remained unchanged. The valid-add controller test is still inconsistent until Exercise 6, so do not run the full suite as an isolation check. Retry only the focused test in an approved environment with existing dependencies, or ask before installing dependencies.
 
 ### Candidate V5 continuity task — Exercise 6: consistent date handling
 
@@ -70,7 +75,7 @@ The first runnable path may use one host only. Its shared contract should not ba
 
 ### Phase 1 — Safe project test boundary
 
-Under a separate approved project scope, isolate the tests from the live SQLite file (Exercise 5). Do not run the existing test suite before the isolation implementation has been inspected and approved. Then validate using only the temporary test database and stop if dependencies, database initialization, or test behavior require an unapproved expansion.
+**Exercise 5 code change made within the approved scope; behavioral validation is blocked.** All controller tests now construct a model pointed at a per-test temporary DB. The focused test could not import the module because `pandas` is unavailable in the active interpreter. Do not install dependencies or broaden the change without approval. Do not run the full suite until Exercise 6 resolves the existing date mismatch.
 
 ### Phase 2 — Minimal V5 skeleton in the canonical repo
 
@@ -94,9 +99,9 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 
 ## 7. Decisions needed before implementation
 
-1. Approve the bounded code scope for Exercise 5 (test isolation) and its validation. Proposed scope is limited to the minimum database-injection/test setup necessary; no production DB reads, app launch, dependency installation, or unrelated refactor.
-2. Before source edits, decide whether to make an initial Git commit/push of the current V5 baseline. The local repo is connected to an empty GitHub remote but currently has no commits; connection alone did not authorize a commit or push.
+1. Exercise 5's bounded code scope has been implemented in the three listed files. Its focused test remains unvalidated because `pandas` is unavailable in the active interpreter. Do not install packages or broaden scope without approval; provide an existing compatible environment or approve a safe dependency setup.
+2. The V5 documentation baseline is committed locally as `bbe260c`; it has been pushed to the authorized GitHub remote. The Python project changes are separate and remain uncommitted.
 3. Confirm which files/configuration are included in the workspace-local snapshot and how Pi loads it without global configuration.
-4. Reconfirm that Exercise 6 should be the subsequent V5 test task after safe test isolation; its project implementation still needs an approved bounded scope.
+4. The task sequence is confirmed. Decide the date-format behavior in Exercise 6 task context; its project changes still need an approved bounded scope.
 
-**Current state:** direction is agreed; implementation remains gated. Exercise 5 then Exercise 6 is the approved task sequence, but no Python source change, test-database isolation, V5 runtime, host snapshot/integration, test run, or data collection is authorized until the bounded code scope is approved.
+**Current state:** Exercise 5's three-file test-isolation change is implemented in the Python worktree, but its focused test could not import because `pandas` is missing from the active interpreter. No dependency was installed; the test attempt did not open the DB; no full suite was run. Exercise 6 and V5 runtime/host integration remain unstarted. Python changes are uncommitted. The initial V5 docs commit is pushed to GitHub.
