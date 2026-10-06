@@ -4,7 +4,7 @@
 
 **Prepared:** 2026-10-06
 
-**Current handoff / checkpoint:** The V5 first vertical slice's host-continuity phase and first fresh-session retrieval check are complete; work is paused at its review/next-scope decision. While implementing the knowledge capture/index/retrieval path, we recognized that records are expected to grow and that the knowledge interface—structure, navigation, and retrieval—determines both retrieval accuracy and maintenance/approval frequency. Therefore, design that interface before further memory-capture or gate work; this is a deliberate ordering change, not approval to implement a MOC, semantic map, wikilinks, or a new writer. Two successful prompts were required for one decision (record write and index update); the user clarified that interruption count, not prompt wording, is the main friction concern. The pasted response confirms index discovery and source verification but not direct record-file access. Python changes remain uncommitted/unpushed; the real database was not opened or modified.
+**Current handoff / checkpoint:** The V5 first vertical slice's host-continuity phase and first fresh-session retrieval check are complete. Because records are expected to grow and structure affects retrieval accuracy, maintenance, and approval frequency, the next phase is a bounded knowledge-interface design before more capture/gate work. C02 now contains proposed retrieval jobs and a comparison of structure alternatives for review; none is selected. Two successful prompts were required for one decision (record write and index update); the user clarified that interruption count, not prompt wording, is the main friction concern. The pasted response confirms index discovery and source verification but not direct record-file access. Python changes remain uncommitted/unpushed; the real database was not opened or modified.
 
 **Parent direction:** [`V5.2-roadmap.md`](V5.2-roadmap.md)
 
@@ -155,7 +155,7 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
-The first trial showed index-based retrieval and source verification, and exposed an architectural dependency: the knowledge interface must be designed before expanding the capture/index workflow. **Next:** define the minimum knowledge structure/navigation/retrieval contract and evaluate it against expected growth, retrieval accuracy, maintenance, and approval interruptions. This is a design step only; no map, link system, custom writer, or gate change is selected. Then decide whether to retain, revise, defer, or expand the exercised mechanism. One experience is qualitative evidence, not a statistical memory-benefit claim.
+The first trial showed index-based retrieval and source verification, and exposed an architectural dependency: the knowledge interface must be designed before expanding the capture/index workflow. **Next:** review the proposed retrieval jobs and structure comparison in C02; resolve growth assumptions, category cardinality, and cross-record query needs. This is a design step only; no map, link system, custom writer, or gate change is selected. One experience is qualitative evidence, not a statistical memory-benefit claim.
 
 ## 7. Scope exclusions and stop conditions
 

@@ -281,3 +281,13 @@
 - **Why reorder:** The trial required separate approvals for record creation and index maintenance. Choosing a per-record index or a stable directory index before discussing the knowledge interface could prematurely optimize for one-record use and harm navigation as the collection grows. Defer further capture/gate workflow changes until the knowledge interface is defined.
 - **Next phase:** Bounded design discussion of expected growth, record units/lifecycle, structure/navigation alternatives (including MOC, semantic maps, and links), retrieval accuracy/verification, maintenance, and approval interruptions. Compare options; do not assume any particular structure or build it yet.
 - **Boundary:** This changes the order of work, not the approved Python scope. Jev remains deferred; the real database is untouched; Python host changes remain uncommitted/unpushed. `FIRST-SLICE-PLAN.md` now records the current handoff.
+
+### V5-20261006-030 — Retrieval jobs and knowledge-structure alternatives drafted
+
+- **Recorded:** 2026-10-06T15:09:46+02:00
+- **Type:** Knowledge-interface design work
+- **Status:** Draft for user review; no structure selected and no implementation authorized
+- **Work:** Expanded C02 with proposed retrieval jobs (exact decision recall, task-relevant procedures/risks, cross-record relations/conflicts, correct negative outcomes, and freshness/source verification), evaluation measures, structure alternatives, and a candidate retrieval flow.
+- **Alternatives compared:** atomic records with a maintained index; a stable index plus record-directory discovery; category directories; atomic records with MOC/topic maps and Markdown links; and a semantic map/graph. Clarified that atomicity, category metadata, MOCs, semantic relations, and wikilink syntax solve different problems.
+- **Initial hypothesis only:** keep atomic source-linked records and existing categories as metadata; defer category-based folders and graph structures until retrieval jobs justify them. Expected growth, category cardinality, and actual cross-record query needs remain to be discussed.
+- **Next:** Review the proposed retrieval jobs and compare structure tradeoffs with the user. Select no architecture until the retrieval workload and growth assumptions are clear. No code or Python changes were made.
