@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   classifyKnowledgeMutation,
   decideKnowledgeMutation,
+  shellReferencesKnowledge,
 } from "../knowledge-write-policy.mjs";
 import { registerKnowledgeWriteGate } from "../knowledge-write-gate.mjs";
 
@@ -41,11 +42,10 @@ test("writes outside project knowledge and path traversal are not classified as 
   );
 });
 
-test("shell commands that visibly refer to project knowledge require confirmation", () => {
-  const request = classifyKnowledgeMutation("bash", {
-    command: "printf '%s' candidate > AgenticLab/knowledge/decisions/example.md",
-  }, cwd);
-  assert.equal(request?.kind, "shell-command");
+test("shell commands that visibly reference project knowledge are detected for blocking", () => {
+  const command = "find AgenticLab/knowledge -maxdepth 2 -type f";
+  assert.equal(shellReferencesKnowledge(cwd, command), true);
+  assert.equal(classifyKnowledgeMutation("bash", { command }, cwd), null);
 });
 
 test("unrelated tools and shell commands pass without a confirmation prompt", () => {
@@ -89,14 +89,17 @@ test("Pi handler asks and blocks when the user rejects", async () => {
   assert.match(shown, /fixture/);
 });
 
-test("Pi handler blocks shell access to knowledge when UI is unavailable", async () => {
+test("Pi handler blocks shell access to knowledge without a misleading approval prompt", async () => {
   const mock = makePi();
+  let confirmationRequested = false;
   registerKnowledgeWriteGate(mock.pi);
   const result = await mock.call(
-    { toolName: "bash", input: { command: "printf x > AgenticLab/knowledge/INDEX.md" } },
-    { cwd, hasUI: false },
+    { toolName: "bash", input: { command: "find AgenticLab/knowledge -maxdepth 2 -type f" } },
+    { cwd, hasUI: true, ui: { async confirm() { confirmationRequested = true; return true; } } },
   );
   assert.equal(result?.block, true);
+  assert.equal(confirmationRequested, false);
+  assert.match(result?.reason, /Use Pi's read tool/);
 });
 
 test("Pi handler blocks if confirmation UI fails", async () => {

@@ -1,11 +1,19 @@
 import {
   classifyKnowledgeMutation,
   decideKnowledgeMutation,
+  shellReferencesKnowledge,
   formatKnowledgeConfirmation,
 } from "./knowledge-write-policy.mjs";
 
 export function registerKnowledgeWriteGate(pi) {
   pi.on("tool_call", async (event, ctx) => {
+    if (event.toolName === "bash" && shellReferencesKnowledge(ctx.cwd, event.input?.command)) {
+      return {
+        block: true,
+        reason: "Shell access to AgenticLab project knowledge is blocked. Use Pi's read tool to inspect it and the gated write/edit path to change it.",
+      };
+    }
+
     const request = classifyKnowledgeMutation(event.toolName, event.input, ctx.cwd);
     if (!request) return undefined;
 

@@ -14,7 +14,7 @@ export function resolveKnowledgePath(cwd, candidatePath) {
   return isWithin(root, target) ? target : null;
 }
 
-function shellMentionsKnowledge(cwd, command) {
+export function shellReferencesKnowledge(cwd, command) {
   if (typeof command !== "string" || !command.trim()) return false;
   const normalized = command.replaceAll("\\", "/");
   const knowledgeRoot = path.resolve(cwd, KNOWLEDGE_RELATIVE_PATH).replaceAll("\\", "/");
@@ -41,15 +41,6 @@ export function classifyKnowledgeMutation(toolName, input, cwd) {
       toolName,
       target: protectedPath,
       preview: typeof input?.content === "string" ? input.content : typeof input?.newText === "string" ? input.newText : "",
-    };
-  }
-
-  if (toolName === "bash" && shellMentionsKnowledge(cwd, input?.command)) {
-    return {
-      kind: "shell-command",
-      toolName,
-      target: "Shell command references AgenticLab project knowledge",
-      preview: typeof input?.command === "string" ? input.command : "",
     };
   }
 

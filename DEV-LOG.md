@@ -168,6 +168,16 @@
 - **Safety:** No project source/database files were touched by this smoke test; no Pi global trust/configuration was changed. The extension path remains workspace-local.
 - **Next:** User chooses whether to save persistent trust or repeat session-only trust. Confirm the date format and approve the bounded Exercise 6 code/test scope before changing Python source.
 
+### V5-20261006-020 — Read-only shell command exposed write-gate false positive
+
+- **Recorded:** 2026-10-06T12:09:17+02:00
+- **Type:** Runtime smoke finding / adapter correction
+- **Status:** Corrected in V5 source; host snapshot needs refresh and live retest
+- **Finding:** In the Python Pi session, a read-only `find AgenticLab/knowledge ...` command triggered the write confirmation and was mislabeled as a persistent knowledge change. The user correctly rejected it. This was an overbroad shell heuristic, not a project-data mutation.
+- **Correction:** V5 policy now blocks shell commands that visibly reference the knowledge tree with a clear instruction to use Pi file-read/list tools; it no longer presents them as confirmable writes. Built-in `write`/`edit` to project knowledge still requests UI approval and fails closed without UI. Expanded Node tests cover the new shell behavior.
+- **Safety/result:** The synthetic knowledge marker did not exist after denial; no project code/database was changed by the erroneous read request. The gate still is not an OS sandbox and cannot reliably detect obfuscated shell access.
+- **Next:** Run V5 Node tests, publish the correction, refresh the Python `AgenticLab/` snapshot, and ask the user to restart Pi/session-only trust before retrying the read-path smoke test.
+
 ### V5-20261006-017 — Date representation selected for Exercise 6
 
 - **Recorded:** 2026-10-06T11:35:24+02:00
