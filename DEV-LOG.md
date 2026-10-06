@@ -157,3 +157,13 @@
 - **Trust/safety:** No Pi session was launched and no project-trust decision was granted. The extension executes with the Pi user's permissions, is not an OS sandbox, and only heuristically notices shell references to the knowledge directory. The user must review the project-trust prompt on first interactive use; if the extension is not trusted/available, durable knowledge writes are unavailable.
 - **Project test status:** Exercise 5 isolation test and environment setup are complete; focused test passed earlier. Full Python suite/app remain unrun; Exercise 6 is not started and its date decision remains open. Real DB metadata remains unchanged. Python code and host snapshot are uncommitted; nothing from Python was pushed to the V5 GitHub repo.
 - **Next:** User reviews the skeleton/snapshot and makes the Pi project-trust decision in an interactive session. Then separately approve Exercise 6's date-format behavior and bounded project-source change scope before editing or running the full suite.
+
+### V5-20261006-016 — Pi session-only trust and denied-write smoke verified
+
+- **Recorded:** 2026-10-06T11:30:40+02:00
+- **Type:** Runtime smoke / safety outcome
+- **Status:** Denied-write path passed; persistent trust and approved write remain untested
+- **Record:** The user selected Pi's `Trust (this session only)` for the Python project. Startup listed `knowledge-write-gate.ts` among loaded extensions. The agent read the root `AGENTS.md` pointer and both V5 brain contracts, then attempted to write a synthetic marker under `AgenticLab/knowledge/`. Pi returned `Project knowledge change was not approved`; a file-read confirmed the marker did not exist.
+- **Interpretation:** This verifies the interactive denied-write path for a built-in Pi write call and the workspace snapshot's policy-loading path. It does not verify the approval/allow path, subsequent-session trust, general shell-write protection, or that the extension is a security sandbox.
+- **Safety:** No project source/database files were touched by this smoke test; no Pi global trust/configuration was changed. The extension path remains workspace-local.
+- **Next:** User chooses whether to save persistent trust or repeat session-only trust. Confirm the date format and approve the bounded Exercise 6 code/test scope before changing Python source.

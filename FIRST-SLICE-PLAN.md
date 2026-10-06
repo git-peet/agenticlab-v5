@@ -1,6 +1,6 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Exercise 5 focused test passes; V5 system payload and Pi gate are implemented; host snapshot is staged. Pi project-trust/runtime interaction and Exercise 6 remain untested/unstarted.
+**Status:** Exercise 5 focused test passes; V5 system payload and Pi gate are implemented and staged. Pi's session-only trust and denied-write path have been verified; Exercise 6 remains unstarted.
 
 **Prepared:** 2026-10-06
 
@@ -70,7 +70,7 @@ The first runnable path may use one host only. Its shared contract should not ba
 
 ## 5. V5 skeleton and Pi workspace integration (implemented scope)
 
-The user approved this bounded skeleton. The system payload is committed in V5 and a reviewed snapshot is staged in the Python host. Runtime interaction in Pi is not yet exercised because project trust remains a user-controlled step.
+The user approved this bounded skeleton. The system payload is committed in V5 and a reviewed snapshot is staged in the Python host. The user granted Pi project trust for one session and the denied-write path was exercised; persistent trust and an approved write remain untested.
 
 ### Canonical source in V5
 
@@ -106,13 +106,13 @@ Python project root/
     knowledge/                # project-specific records; not overwritten on refresh
 ```
 
-The project `.pi/settings.json` lists the extension path relative to `.pi` (`../AgenticLab/adapters/pi/knowledge-write-gate.ts`); a local path check confirms it resolves to the staged extension. No Pi session has yet been launched to exercise the project-trust prompt or runtime load. No symlink is used: the host copy is a versioned instance; canonical edits occur only in V5. Project scope and an empty knowledge index are separate from the copied system payload. No installer exists; this first copy was staged explicitly and source files were diff-checked.
+The project `.pi/settings.json` lists the extension path relative to `.pi` (`../AgenticLab/adapters/pi/knowledge-write-gate.ts`); a local path check confirms it resolves to the staged extension. In the first Pi session, the user chose **Trust (this session only)**; Pi listed `knowledge-write-gate.ts` among loaded extensions. The folder is not persistently trusted, so Pi will ask again in later sessions. No symlink is used: the host copy is a versioned instance; canonical edits occur only in V5. Project scope and an empty knowledge index are separate from the copied system payload. No installer exists; this first copy was staged explicitly and source files were diff-checked.
 
-Pi 1.0.4 behavior relevant to this proposal (read from the installed `configuration.md`, `security.md`, `extensions.md`, `settings.md`, and `cli.md`, plus the `permission-gate.ts`/`protected-paths.ts` examples): project context `AGENTS.md` loads without project trust and is not a security boundary; project `.pi` extensions/settings are trust-gated; `tool_call` handlers can block built-in tool calls; `ctx.hasUI` distinguishes interactive confirmation availability; extensions run with the Pi process's OS permissions. These are documented capabilities, not yet exercised in a V5 workspace. The user must review/trust the project-local adapter. No global Pi settings are changed. If project trust is declined or the extension is unavailable, durable AgenticLab writes are unavailable; instructions alone must not claim enforcement.
+Pi 1.0.4 behavior relevant to this proposal (read from the installed `configuration.md`, `security.md`, `extensions.md`, `settings.md`, and `cli.md`, plus the `permission-gate.ts`/`protected-paths.ts` examples): project context `AGENTS.md` loads without project trust and is not a security boundary; project `.pi` extensions/settings are trust-gated; `tool_call` handlers can block built-in tool calls; `ctx.hasUI` distinguishes interactive confirmation availability; extensions run with the Pi process's OS permissions. These are documented capabilities. The user granted session-only trust in the first V5 workspace session and confirmed the extension loaded; runtime validation so far covers only the denied-write path. The user must review/trust the project-local adapter. No global Pi settings are changed. If project trust is declined or the extension is unavailable, durable AgenticLab writes are unavailable; instructions alone must not claim enforcement.
 
 ### Memory-write approval boundary
 
-The implemented Pi adapter uses `tool_call` to request UI confirmation for built-in `write`/`edit` calls targeting project knowledge and for shell commands that visibly reference that subtree. It blocks if no UI is available, the user rejects, or confirmation fails. Ten Node tests cover path scoping/traversal, unrelated calls, approval/rejection, and fail-closed behavior. The extension has full process permissions and does **not** sandbox the OS or reliably intercept obfuscated/indirect shell writes. This is a human-confirmation aid for the supported Pi tool path, not comprehensive write protection; that limitation must remain visible.
+The implemented Pi adapter uses `tool_call` to request UI confirmation for built-in `write`/`edit` calls targeting project knowledge and for shell commands that visibly reference that subtree. It blocks if no UI is available, the user rejects, or confirmation fails. Ten Node tests cover path scoping/traversal, unrelated calls, approval/rejection, and fail-closed behavior. In Pi TUI, the user rejected a synthetic write; Pi returned `Project knowledge change was not approved`, and a file-read confirmed the marker file was absent. The approved-write path has not been exercised live. The extension has full process permissions and does **not** sandbox the OS or reliably intercept obfuscated/indirect shell writes. This is a human-confirmation aid for the supported Pi tool path, not comprehensive write protection; that limitation must remain visible.
 
 ### First-slice behavior
 
@@ -133,7 +133,7 @@ The implemented Pi adapter uses `tool_call` to request UI confirmation for built
 
 ### Phase 0 — Confirm decisions (no code)
 
-**Complete:** canonical V5 source repo; GitHub remote connection; Python as experimental host; reviewed snapshot distribution; Pi as initial harness; Exercise 5 before Exercise 6. The snapshot files and relative extension path have been staged and checked. Actual Pi project trust/load behavior remains for the user's first interactive launch; no trust was granted automatically.
+**Complete:** canonical V5 source repo; GitHub remote connection; Python as experimental host; reviewed snapshot distribution; Pi as initial harness; Exercise 5 before Exercise 6. The snapshot files and relative extension path have been staged and checked. The user granted project trust for one session, verified the extension was listed at startup, and tested a rejected write. Persistent trust remains a user choice.
 
 ### Phase 1 — Safe project test boundary
 
@@ -141,11 +141,11 @@ The implemented Pi adapter uses `tool_call` to request UI confirmation for built
 
 ### Phase 2 — Minimal V5 skeleton in the canonical repo
 
-**Implemented and published:** a small `system/` payload, Markdown knowledge contract, and Pi-local write confirmation extension. Ten Node policy/handler tests pass. The adapter's limits are explicit; this is not a full security sandbox. The copy is staged in the Python host; actual Pi project trust/runtime behavior remains untested until an interactive session is launched and the user reviews the trust prompt.
+**Implemented and published:** a small `system/` payload, Markdown knowledge contract, and Pi-local write confirmation extension. Ten Node policy/handler tests pass. In Pi TUI, the user rejected a synthetic write and confirmed no file was created. The approved-write path and persistent trust are untested. The adapter's limits are explicit; this is not a full security sandbox. The copy is staged in the Python host.
 
 ### Phase 3 — Run the selected V5 task in the host project
 
-**Not started.** First use the interactive Pi workspace and user-reviewed trust decision; confirm the actual task and date-format choice. If Exercise 6 is selected, create one user-approved decision record during investigation, then test fresh-session retrieval and source verification before the bounded implementation. Keep changes limited to the approved objective and isolated tests; no unrelated cleanup or package changes.
+**Not started.** The trust decision for the first session was session-only. Confirm whether the user wants to trust the project persistently or repeat the prompt. Then confirm the actual task and date-format choice. For Exercise 6, create one user-approved decision record during investigation, then test fresh-session retrieval and source verification before the bounded implementation. Keep changes limited to the approved objective and isolated tests; no unrelated cleanup or package changes.
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
@@ -161,9 +161,9 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 
 ## 8. Remaining gates
 
-1. On first interactive Pi use in the Python project, inspect and explicitly decide whether to trust the workspace-local extension. Do not auto-accept or change global trust/settings.
+1. The user granted session-only project trust and verified the deny path. Decide whether to retain session-only trust (Pi asks again) or explicitly save persistent trust for this project. Do not trust the parent folder or alter global trust/settings.
 2. Confirm the Exercise 6 date-format decision (`YYYY-MM-DD` is the UI's current output and the plan's recommendation) and approve the exact Python source/test change scope before edits.
 3. After the date fix, run the full test suite only through the project `.venv`; verify tests continue using temporary DBs and that the real database metadata remains unchanged.
 4. The Python source changes and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
 
-**Current state:** Exercise 5 test isolation is implemented and its focused test passes in the project-local Python 3.12 `.venv`. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged into the Python workspace. The actual Pi project-trust prompt/resource loading has not been exercised; no Pi session was launched. No app or full test suite was run. Exercise 6 remains unstarted pending user approval of date behavior and bounded edits.
+**Current state:** Exercise 5 test isolation is implemented and its focused test passes in the project-local Python 3.12 `.venv`. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged into the Python workspace. Pi loaded the extension with session-only project trust; the denied-write path passed live. The approved-write path, persistent trust, app launch, and full suite remain untested. Exercise 6 awaits date-format confirmation and its bounded edit go.
