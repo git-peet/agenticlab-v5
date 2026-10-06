@@ -241,3 +241,13 @@
 - **Test:** In the Python project after launching a new Pi process with `pi --continue` and granting session-only project trust, the user asked Pi to run the read-only `find AgenticLab/knowledge ...` check.
 - **Result:** Pi blocked shell access with “Shell access to AgenticLab project knowledge is blocked. Use Pi’s read tool to inspect it and the gated write/edit path to change it.” No Yes/No write-confirmation prompt appeared. The corrected snapshot is active; use Pi’s file tools for knowledge inspection.
 - **Next:** Update `AgenticLab/knowledge/INDEX.md` through the gated edit path to reference the approved date-format record, then evaluate retrieval in a fresh session. The index remains stale; do not edit application code.
+
+### V5-20261006-026 — Index approval and first fresh-session recall
+
+- **Recorded:** 2026-10-06T13:16:26+02:00
+- **Type:** Knowledge lifecycle / retrieval trial result
+- **Status:** Index approval and readback passed; fresh-session index retrieval and source verification returned the expected decision
+- **Index update:** The user reviewed a visible before/after `edit` preview after restarting Pi with the `edits[]`-aware gate, approved the scoped change, and confirmed via Pi `read` that the active record link, project scope, and existing guidance were retained. Only `AgenticLab/knowledge/INDEX.md` changed.
+- **Fresh session:** Without prior conversation history, Pi reported the applicable active `YYYY-MM-DD` decision and record path, then checked `src/gui.py`, `src/controller.py`, and `src/tests/test_expense_tracker.py`. The response was consistent with the current source and reported no edits.
+- **Evidence limit:** The pasted response confirms index-based discovery and current-source verification but does not explicitly establish whether Pi opened `records/expense-date-format.md` itself. Treat this as a successful index-level recall trial, not proof of a direct record-file read. No utility or interruption-cost conclusion is warranted from one run.
+- **Next:** Review the trial qualitatively; if the Pi tool transcript makes it easy to tell, note whether the linked record file was read. Do not change the knowledge gate or add Jev support from this single result.

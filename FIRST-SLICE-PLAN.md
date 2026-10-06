@@ -1,6 +1,6 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Exercises 5 and 6 code changes are implemented; all six controller tests and both root smoke tests pass. V5 Pi gate and host snapshot are staged; fresh-session V5 memory retrieval remains unverified.
+**Status:** Exercises 5 and 6 code changes are implemented; all six controller tests and both root smoke tests pass. The Pi gate is published and staged; an index-based decision retrieval and current-source verification succeeded in a fresh session, with no edits. The response does not make explicit whether the linked record file itself was opened.
 
 **Prepared:** 2026-10-06
 
@@ -22,13 +22,13 @@ The Python workspace is now intended as an experimental host for V5 design, not 
 - **Experimental project host:** `/home/peet/Projects/Practice/Python/Py-Desktop-Expense_Tracker/` (the user confirmed its purpose is now V5 experimentation, not a learning curriculum).
 - AgenticLab code, design decisions, and development history stay in the V5 source repository. Python application changes and project-specific knowledge remain scoped to the Python workspace.
 - **Agreed distribution direction:** generate or stage a versioned snapshot of the V5 runtime under a workspace-local `AgenticLab/` folder at the Python project root. Keep canonical sources in V5; the host copy is an instance/deployment, not a second editable source. Record its source revision. Avoid an absolute-path symlink (machine-specific and silently live-updating) and avoid editing the host copy as canonical. For the first prototype, use a deliberate, reviewed copy; no installer is needed.
-- The initial host snapshot is staged at the Python project root: `AgenticLab/` contains the reviewed V5 system payload plus a project-local scope note and empty knowledge index; root `AGENTS.md` is a thin pointer; `.pi/settings.json` loads the project-local write gate. `AgenticLab/SOURCE-REVISION.txt` records the V5 commit. No application source/config or real DB contents were included.
-- **Git connection:** V5 system payload and shell-gate correction are committed and pushed to `origin/main`; current payload revision is `180bf2334b2631534e6dd96b53db2a5a15834404`. GitHub no-reply identity is configured in this repository only; global Git identity is unchanged. Python application changes remain separate and unpublished.
+- The host snapshot is staged at the Python project root: `AgenticLab/` contains the reviewed V5 system payload plus a project-local scope note and knowledge index. The index now links to the approved date-format record; root `AGENTS.md` is a thin pointer; `.pi/settings.json` loads the project-local write gate. `AgenticLab/SOURCE-REVISION.txt` records the V5 payload commit. No application source/config or real DB contents were included.
+- **Git connection:** V5 system payload, shell gate, and preview-schema fix are committed and pushed to `origin/main`; current payload revision is `e710071e299e2544e76c11e406c98f936020b20f`. GitHub no-reply identity is configured in this repository only; global Git identity is unchanged. Python application changes remain separate and unpublished.
 - **Agreed initial harness:** Pi, using only workspace-local configuration/integration for this experiment; no global Pi configuration. Verify the exact load/invocation method and adapter capability before implementing it. This is not an adapter implementation approval.
 
 ## 3. Proposed real task sequence
 
-The Python workspace is a V5 experiment host, not a learning project. The user approved the sequence: isolate the test database (Exercise 5), then correct the date-format mismatch (Exercise 6) to test V5 context, decision provenance, and continuity. Both bounded code changes are implemented; fresh-session V5 memory retrieval remains untested.
+The Python workspace is a V5 experiment host, not a learning project. The user approved the sequence: isolate the test database (Exercise 5), then correct the date-format mismatch (Exercise 6) to test V5 context, decision provenance, and continuity. Both bounded code changes are implemented; a fresh-session index-based retrieval and source verification returned the approved format without editing files. The pasted response does not confirm whether Pi opened the linked record itself.
 
 ### Prerequisite task — Exercise 5: isolate the test database
 
@@ -121,8 +121,8 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 ### First-slice behavior
 
 - Default-agent work is the exercised path; explicit workflow invocation remains an architectural seam, not a V4 prompt port in this slice.
-- The user selected `YYYY-MM-DD` for the date mismatch; the controller/test change is implemented and the decision record was approved, saved, and read back. The knowledge index still needs updating through the gate before fresh-session retrieval.
-- A scoped candidate record is proposed and shown to the user; promotion/save requires the agreed gate. A fresh Pi session retrieves it only for the Python project and checks current source before use.
+- The user selected `YYYY-MM-DD` for the date mismatch; the controller/test change is implemented and the decision record was approved, saved, and read back. The knowledge index was updated through the gate and read back; a fresh session found the decision and verified it against current code/tests without editing.
+- A scoped candidate record was proposed, reviewed, saved through the gate, indexed, and retrieved in a fresh Pi session for the Python project; the answer checked current source. Explicit evidence that the linked record file itself was opened is not present in the pasted response.
 - Exercise 6 updates controller date validation and focused tests; all six controller tests and both root CI smoke tests pass. Tests use temporary DBs; the real DB metadata is unchanged.
 - Evaluate qualitative outcomes: was the record found when relevant, ignored when unrelated, accurate/current, and helpful without re-explanation? Note corrections and attention/cost; one run is not a statistical claim.
 
@@ -145,11 +145,11 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 
 ### Phase 2 — Minimal V5 skeleton in the canonical repo
 
-**Implemented and published:** a small `system/` payload, Markdown knowledge contract, and Pi-local write confirmation extension. Twelve Node policy/handler tests pass. In Pi TUI, the user rejected a synthetic write and confirmed no file was created; an approved date record was saved. The shell-reference correction was verified live. A later preview defect was fixed for Pi's `edits[]` schema; live confirmation-preview verification awaits process restart. Persistent trust remains untested. The adapter's limits are explicit; this is not a full security sandbox. The copy is staged in the Python host.
+**Implemented and published:** a small `system/` payload, Markdown knowledge contract, and Pi-local write confirmation extension. Twelve Node policy/handler tests pass. In Pi TUI, the user rejected a synthetic write and confirmed no file was created; an approved date record was saved. The shell-reference correction was verified live. A later preview defect was fixed for Pi's `edits[]` schema; the user restarted Pi and verified the live before/after confirmation preview. Persistent trust remains untested. The adapter's limits are explicit; this is not a full security sandbox. The copy is staged in the Python host.
 
 ### Phase 3 — Test V5 continuity in the host project
 
-**Project code and tests complete; fresh-session V5 memory retrieval remains.** The date-format decision has been saved through the Pi gate. First restart Pi to load revision `e710071`, verify the `INDEX.md` edit confirmation shows old and proposed text, then approve the index update if correct—the current index still says there are no approved records. Next use a fresh Pi session to retrieve the decision and verify it against source. The date implementation is complete; no further Python edits are implied.
+**Project code, knowledge indexing, and first fresh-session retrieval complete; qualitative review remains.** The date-format decision has been saved and indexed through the Pi gate. The user restarted Pi with revision `e710071`, reviewed the visible old/proposed-text preview, approved the index change, and confirmed the index by reading it back. A fresh session then found the indexed decision and checked it against GUI/controller/tests without edits. The pasted answer does not explicitly confirm opening the linked record itself. The date implementation is complete; no further Python edits are implied.
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
@@ -166,8 +166,8 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 ## 8. Remaining gates
 
 1. The user granted session-only project trust and verified the deny path, approved write, and corrected shell-reference block. Decide whether to retain session-only trust (Pi asks again in a new process) or explicitly save persistent trust for this project. Do not trust the parent folder or alter global trust/settings.
-2. Restart Pi and confirm an `edits[]` change to project knowledge displays the before/after preview; malformed edits should be blocked without a confirmation. Then add the saved `YYYY-MM-DD` record to `AgenticLab/knowledge/INDEX.md` using the gated edit path and test fresh-session retrieval/source verification.
+2. Live `edits[]` before/after preview was verified; the user approved the scoped index update and confirmed it by readback. A fresh session retrieved the decision from the index and verified current source without edits. The response’s tool trace does not explicitly show whether Pi opened the linked record file.
 3. All six controller tests and the two root smoke tests pass using `.venv`; real database metadata is unchanged. Do not repeat tests with the system Python or touch `data/expenses.db`.
 4. The Python source changes, `.gitignore`, and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
 
-**Current state:** Exercises 5 and 6 are implemented; six controller tests and two root smoke tests pass in the project-local Python 3.12 `.venv`, and the real DB metadata is unchanged. V5 `system/` payload and Pi gate are implemented, tested (12/12), published, and staged in the Python workspace. Pi session-only trust loaded the refreshed extension; denied write, approved date-record write, and corrected shell-reference blocking were verified live. The user rejected a no-preview edit confirmation. The V5 fix handles Pi 1.0.4 `edits[]`, blocks missing previews, passes 12 tests, and is staged at `e710071`; live preview verification is still required. The knowledge index is stale, so fresh-session retrieval remains untested. Persistent trust and app launch also remain untested. Python changes and host snapshot are uncommitted.
+**Current state:** Exercises 5 and 6 are implemented; six controller tests and two root smoke tests pass in the project-local Python 3.12 `.venv`, and the real DB metadata is unchanged. V5 `system/` payload and Pi gate are implemented, tested (12/12), published, and staged in the Python workspace. Pi session-only trust loaded the refreshed extension; denied write, approved date-record write, and corrected shell-reference blocking were verified live. The user rejected a no-preview edit confirmation. The V5 fix handles Pi 1.0.4 `edits[]`, blocks missing previews, passes 12 tests, and is staged at `e710071`; live before/after preview was subsequently verified. The index now points to the saved decision, and a fresh session returned the format and checked current source without edits; the pasted response does not show whether the linked record file itself was opened. Persistent trust and app launch also remain untested. Python changes and host snapshot are uncommitted.
