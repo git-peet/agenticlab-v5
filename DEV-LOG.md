@@ -390,3 +390,12 @@
 - **Retrieval result:** The natural date-format task's tool trace shows reads of source/tests/docs and no `AgenticLab/knowledge/INDEX.md` or decision-record read. It therefore did not demonstrate memory activation/fetch; it is a task-triggered retrieval miss under the current host instructions.
 - **Boundary event:** The same trace shows a SQLite connection to `data/expenses.db` using `mode=ro` and SELECT queries. This confirms the real DB was read, which violated the documented no-read boundary even though the connection was read-only. Post-run file size, mtime, and ctime were unchanged; this establishes no observed modification, not permission to read. Do not repeat or query its contents.
 - **Outcome:** Treat this retrieval run as invalid for normal-use evaluation. Require future Python-host retrieval prompts/tests to explicitly prohibit DB/CSV/data-file access and app/test execution, and inspect the existing tool trace to establish activation, candidate selection, and record fetch. No V5 code or Python files were changed during this incident.
+
+### V5-20261006-041 — Persist host data boundary in Python project entry instructions
+
+- **Recorded:** 2026-10-06T19:48:19+02:00
+- **Type:** Experimental-host safety instruction
+- **Status:** Added with user approval; uncommitted/unpushed
+- **Change:** Added a V5-specific data boundary to the Python root `AGENTS.md`: do not read/query/copy/parse/summarize `data/` or `.env` without specific approval; do not run the app or tests/commands that could use the real DB unless temporary DB isolation is confirmed; stop and ask before data access. It states this is instruction, not an OS sandbox.
+- **Verification:** Read back the updated instruction. No application source/tests or database were changed. DB size/mtime/ctime remain unchanged after the prior read-only query; that query remains a recorded boundary violation.
+- **Next:** For another activation trial, use a fresh Python Pi session with a read-only tool allowlist (no Bash/MCP), explicitly prohibit `data/` and execution in the task, omit any mention of memory/index in the user task, and inspect the tool trace. Do not repeat if it attempts a data-path access.
