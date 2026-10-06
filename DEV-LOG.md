@@ -409,3 +409,13 @@
 - **Trace:** Pi read the project entry instructions, listed the workspace/source/test directories, then explicitly read `AgenticLab/knowledge/INDEX.md`, `records/expense-date-format.md`, and relevant GUI/controller/model/test/README files. No `data/` or `.env` content was read in this guarded run.
 - **Result:** The system activated on a relevant task, fetched the linked record, and checked current source. The answer recommended keeping ISO storage and allowing presentation-only change, consistent with the record, but it did not explicitly cite the prior user decision/rationale. This proves the read path ran in this case, not that memory causally improved the answer or that accuracy holds across queries.
 - **Outcome:** This is the first clean task-triggered retrieval trace. Keep the earlier database-read incident recorded separately; no further DB access is authorized. The next design work should define evidence/utility criteria across more than this single query.
+
+### V5-20261006-043 — Unrelated task did not trigger date-memory lookup
+
+- **Recorded:** 2026-10-06T20:09:07+02:00
+- **Type:** Negative retrieval/selectivity check / source-analysis follow-up
+- **Status:** No unnecessary date-memory lookup observed; one evidence gap in the first answer was corrected by follow-up read
+- **Task:** In a fresh Python Pi session using only read/list/search tools, the user asked how expense descriptions are handled, without mentioning memory or the date decision. The tool trace shows no read of the knowledge index or date record, no access to `data/` or `.env`, no command execution, and no edits.
+- **Result:** This is one positive example of selective non-retrieval for a task unrelated to the stored date decision. The initial answer's claim about test coverage was not adequately supported because it read only the root smoke test; the user then requested a targeted read of `src/tests/test_expense_tracker.py`. That follow-up found no test for blank/missing descriptions; the existing missing-fields test supplies a non-empty description. No tests were run.
+- **Evidence limit:** One task does not estimate false-negative rate or general precision. The source-analysis miss also shows the agent can under-inspect relevant tests even when it avoids unnecessary memory retrieval.
+- **Next:** Compare this negative case with the guarded positive date-format retrieval when refining activation and evidence criteria. No app/code/database change.
