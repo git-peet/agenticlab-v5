@@ -291,3 +291,13 @@
 - **Alternatives compared:** atomic records with a maintained index; a stable index plus record-directory discovery; category directories; atomic records with MOC/topic maps and Markdown links; and a semantic map/graph. Clarified that atomicity, category metadata, MOCs, semantic relations, and wikilink syntax solve different problems.
 - **Initial hypothesis only:** keep atomic source-linked records and existing categories as metadata; defer category-based folders and graph structures until retrieval jobs justify them. Expected growth, category cardinality, and actual cross-record query needs remain to be discussed.
 - **Next:** Review the proposed retrieval jobs and compare structure tradeoffs with the user. Select no architecture until the retrieval workload and growth assumptions are clear. No code or Python changes were made.
+
+### V5-20261006-031 — Model recoverability and DiaWorkspace scale context
+
+- **Recorded:** 2026-10-06T15:17:49+02:00
+- **Type:** Knowledge-value design constraint / read-only inventory
+- **Status:** Design consideration recorded; no corpus selection or migration
+- **User insight:** Current models may make some knowledge that helped older agents unnecessary. Collection size alone does not establish utility; the design must consider what a capable current model can cheaply re-derive from current source versus what is not represented there (decisions/rationale, constraints, rejected alternatives, or costly discoveries).
+- **Read-only inventory:** `DiaWorkspace/AgenticLab/knowledge` contains 129 files in 42 directories (~1,020 KiB), including 60 files under `improvements` (~612 KiB), 28 under `shared` (~95 KiB), and 7 under `notes` (~83 KiB), plus role-oriented memory folders and checkpoints. Migration-check snapshots add ~1.3 MiB of archived material. Only paths, file counts, and sizes were inspected; no knowledge content or `.env` was opened, copied, or changed.
+- **Interpretation:** This confirms a larger/heterogeneous legacy structure, not that the records are useful, current, or worth preserving. The next interface design should include source-recoverability/model-baseline as an evaluation axis and avoid treating the old collection as a migration target.
+- **Outcome:** Added this axis to the proposed C02 knowledge-interface design. No code or Python project changes were made.

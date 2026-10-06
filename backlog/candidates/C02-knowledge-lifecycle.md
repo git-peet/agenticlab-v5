@@ -49,6 +49,10 @@ Treat these as a workload to review, not as validated requirements:
 
 For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval, source correctness, stale/conflicting handling, amount of context inspected, and user effort. Include **approval interactions per task/decision** and redundant metadata/index writes; prompt wording alone is not the friction measure. The first trial is one sample only.
 
+### Model capability and source recoverability
+
+Do not preserve knowledge merely because it once helped a less capable model. Evaluate the marginal value of each knowledge type with the current model and available project context. Current code, tests, and maintained documentation may make ordinary implementation facts cheap to re-derive; the model still may not recover an unrecorded decision, its rationale, a rejected alternative, a hidden constraint, or a costly discovery. Prioritize durable, reusable information that is not cheaply recoverable from current sources; verify source-derived claims rather than treating memory as truth. When practical, compare a current-source/no-memory baseline against scoped-memory assistance on representative tasks, including accuracy and context/review cost.
+
 ### Structure alternatives to compare
 
 | Candidate | What it means | Main advantage | Main cost/risk |
