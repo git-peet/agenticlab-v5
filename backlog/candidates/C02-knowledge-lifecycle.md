@@ -209,7 +209,20 @@ The current first-slice template declares one `Category` field with values `deci
 - **Topic membership:** represented initially by links from curated MOCs, not a separate `Topics` field on each record. Consider canonical concept IDs only if tests show that maps plus corpus search miss useful cross-topic retrieval; if added, avoid maintaining the same membership manually in two places.
 - **Prompt-cost target:** a normal new record should need one persistence approval. Updating a MOC is a separate gated change only when a new concept/relationship merits curated navigation—not for every record. If practice shows frequent multi-file updates, revisit a transaction/batch mechanism separately.
 
-This aims for one approval per new record; map edits remain gated only when navigation concepts/relationships genuinely change. If enumerating the canonical record corpus is too expensive as it grows, compare a safe generated metadata inventory/catalog against local lexical search before adding a custom runtime. The preferred metadata/navigation baseline is now clearer, but record schema details, map completeness checks, and cross-record query workload still need validation before implementation.
+This aims for one approval per new record; map edits remain gated only when navigation concepts/relationships genuinely change. If enumerating the canonical record corpus is too expensive as it grows, compare a safe generated metadata inventory/catalog against local lexical search before adding a custom runtime.
+
+### Minimum knowledge-interface contract v0 (design draft)
+
+- **INDEX:** identifies the project scope, links to topic/domain MOCs, points to the authoritative records corpus, and states how retrieval outcomes are reported. It does not manually enumerate every record.
+- **MOC:** provides concise concept summaries, aliases/trigger language, cross-topic relationships, and curated links to high-value records. It is useful navigation but may be incomplete; it never duplicates record truth.
+- **Record:** one atomic claim/decision with one primary category, stable ID, scope, lifecycle status, source/evidence, and recorded/verified dates. Topic membership is represented by map links initially, not a second `Topics` field.
+- **Discovery:** resolve scope → consult relevant MOC routes → search/inventory the complete eligible record corpus → filter by scope/category/status/freshness → read exact candidates → verify mutable claims against source.
+- **Outcome and proof:** report `applicable`, `no match`, `filtered`, or `unavailable`; “no match” requires a complete successful corpus scan. Trace activation, candidate/filter reasons, file reads, and source verification without persisting raw queries or full record text by default.
+- **Approval target:** one approval per durable record transaction; routine map/index changes are not required per record. Reads/searches are prompt-free.
+
+**Acceptance checks before implementation:** (1) a mapped record is read and source-verified; (2) an in-scope active record omitted from a MOC is found; (3) inactive and wrong-scope candidates are filtered; (4) no-match is reported only after a complete scan; (5) unreadable/truncated/capped scan returns incomplete/unavailable, not no-match; (6) the tool trace proves what was read. The synthetic map-omission exercise covers part of this set; no production retrieval engine exists yet.
+
+**Not selected:** exact physical sharding, a generated catalog/custom reader, ranking beyond native lexical + curated routes, multi-valued topic metadata, semantic/vector search, and multi-file write batching. Revisit only if measured scale, misses, or approval cost justify them.
 
 ### Proposed index-completeness rule (candidate)
 

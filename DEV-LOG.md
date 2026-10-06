@@ -522,3 +522,14 @@
 - **Record metadata proposal:** one primary category (`decision | fact | experience | risk | procedure`), stable ID, workspace/subproject/feature scope, lifecycle state, provenance/evidence, and recorded/verified dates. Categories remain metadata, not folders. Topic membership is represented by map links initially; whether a topic/tag field is worth adding remains open.
 - **Prompt-cost constraint:** target one approval per new record. Update a MOC only when a new concept/relationship merits curation, not for every record. If multiple changes become common, evaluate one approved transaction separately.
 - **Next:** Review this split against monorepo-scale navigation, scope filtering, and the synthetic map-omission evidence. No code, Python, or DiaWorkspace changes.
+
+### V5-20261006-053 — Minimal knowledge-interface contract drafted
+
+- **Recorded:** 2026-10-06T22:00:38+02:00
+- **Type:** Knowledge-interface synthesis / design checkpoint
+- **Status:** V0 contract for user review; no implementation authorized
+- **Model:** `INDEX.md` identifies scope and routes to domain/topic MOCs; MOCs curate concepts/aliases/relationships; atomic records are the authoritative content; a complete scoped inventory/search prevents maps from hiding records.
+- **Record baseline:** stable ID, one primary category, workspace/subproject/feature scope, lifecycle state, provenance/evidence, recorded/verified dates. No separate topic field at this stage; topic relationships are in MOC links. Mixed claims should be split into linked atomic records.
+- **Read path:** scope → MOC route → complete record inventory/search → metadata filters → read a small candidate set → source verification → explicit retrieval outcome and trace. No-match requires a successful complete scan; capped/unavailable search must be reported as incomplete.
+- **Acceptance gate:** mapped record recall; map-omitted in-scope record found; inactive/wrong-scope records filtered; true no-match only after complete inventory; incomplete/capped inventory surfaced; trace shows activation and record fetch.
+- **Boundaries:** maps need not be updated for each new record; one approval per record remains the target. This is a design contract, not approval for a custom catalog, graph, MOC generation, or write transaction.
