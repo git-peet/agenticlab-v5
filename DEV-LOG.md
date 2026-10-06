@@ -118,3 +118,12 @@
 - **Status:** Local main rewritten with repo-local no-reply identity; push pending
 - **Record:** GitHub rejected the first push under its private-email protection. The remote remained empty. Since none of the commits had been published, the local V5 documentation history was recreated with the GitHub no-reply address configured only in this repository; global Git configuration was not changed. The current tree and file contents are preserved. Older commit IDs mentioned in entries #008/#009 refer to the superseded, unpublished local attempt and are not in the rewritten main history. Only V5 documentation will be pushed; the Python project is a separate repository.
 - **Next:** Push the rewritten V5 `main`; if GitHub rejects it again, stop and ask the user rather than disabling privacy protection.
+
+### V5-20261006-012 — V5 documentation published to GitHub
+
+- **Recorded:** 2026-10-06T10:03:48+02:00
+- **Type:** Repository publication
+- **Status:** Complete
+- **Outcome:** Published the privacy-safe V5 `main` history to `origin/main`. The repository contains only the V5 roadmap, backlog, first-slice plan, and development log. GitHub accepted the repo-local no-reply identity; global Git identity remains unchanged. Local and remote V5 worktrees are clean at publication time.
+- **Scope boundary:** No Python project files or database contents were included in or pushed to the V5 repository. Python source changes remain local and uncommitted in the separate project repository.
+- **Next:** Focused Exercise 5 behavioral verification remains blocked until a suitable existing environment provides `pandas` or the user approves a safe dependency setup. Do not run the full Python suite or start Exercise 6 yet.
