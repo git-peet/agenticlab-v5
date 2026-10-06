@@ -37,6 +37,16 @@ Credential-shaped data and sensitive content must be considered at persistence b
 
 The first host trial establishes only a narrow starting point: one active date decision was linked from `INDEX.md`, found in a fresh session, and checked against current source. The pasted response does not prove that the record file itself was opened. The user expects the collection to grow. A decision about the interface is therefore needed before another capture/retrieval mechanism is implemented.
 
+### Comparative data-source boundary
+
+Do not conflate these two DiaWorkspace paths, and do not confuse either with the Python V5 experimental host:
+
+- **Experimental host:** `/home/peet/Projects/Practice/Python/Py-Desktop-Expense_Tracker/`. This remains the only V5 test host; DiaWorkspace is not being promoted to an implementation workspace.
+- **Active DiaWorkspace copy:** `/home/peet/Projects/Practice/DiaWorkspace/AgenticLab/`. It is a Git working tree (`main`, HEAD `bae5ccf`) with modified and untracked files. Its hot-tier role/shared MOCs are largely empty templates, although other knowledge remains. Do not overwrite it.
+- **Populated V3 Neo backup baseline:** `/home/peet/Projects/Full Laptop Backup/Agents/AgenticLab V3 Neo Backup/AgenticLab/`. Its knowledge tree has 113 files, 84 Markdown files, 41 directories, and about 932 KiB; architect, senior, explorer, tester, reviewer, UX, and shared MOCs contain substantial populated content. It lacks the active copy's `.git`, `tools/`, `.gitignore`, and `QUICKSTART.md`, so it is a historical reference, not a drop-in replacement.
+
+Only a selective, read-only review of valuable backup material is in scope. Do not copy or import its knowledge into V5 or Python. Counts and structure are not evidence that any item remains useful or accurate; model recoverability must be assessed separately.
+
 ### Proposed retrieval jobs
 
 Treat these as a workload to review, not as validated requirements:

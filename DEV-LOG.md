@@ -301,3 +301,13 @@
 - **Read-only inventory:** `DiaWorkspace/AgenticLab/knowledge` contains 129 files in 42 directories (~1,020 KiB), including 60 files under `improvements` (~612 KiB), 28 under `shared` (~95 KiB), and 7 under `notes` (~83 KiB), plus role-oriented memory folders and checkpoints. Migration-check snapshots add ~1.3 MiB of archived material. Only paths, file counts, and sizes were inspected; no knowledge content or `.env` was opened, copied, or changed.
 - **Interpretation:** This confirms a larger/heterogeneous legacy structure, not that the records are useful, current, or worth preserving. The next interface design should include source-recoverability/model-baseline as an evaluation axis and avoid treating the old collection as a migration target.
 - **Outcome:** Added this axis to the proposed C02 knowledge-interface design. No code or Python project changes were made.
+
+### V5-20261006-032 — Distinguish DiaWorkspace working tree from populated backup
+
+- **Recorded:** 2026-10-06T15:35:25+02:00
+- **Type:** Baseline provenance / safety checkpoint
+- **Status:** Distinction recorded; no overwrite, copy, or import performed
+- **Correction:** The earlier 129-file/~1,020 KiB inventory described the active `/home/peet/Projects/Practice/DiaWorkspace/AgenticLab/` working tree, not the populated knowledge baseline the user meant. Its hot-tier MOCs are largely empty/template-like, though other knowledge files remain. Do not use those aggregate counts as the size/content of the populated memory corpus.
+- **Populated baseline:** `/home/peet/Projects/Full Laptop Backup/Agents/AgenticLab V3 Neo Backup/AgenticLab/` contains 113 knowledge files (84 Markdown), 41 directories, and about 932 KiB. Its Architect, Senior, Explorer, Tester, Reviewer, UX, and shared hot MOCs contain substantive project content. Selected reads covered README, DIGEST, SEMANTIC_MAP, memory-spec, major MOCs, and representative feature/improvement/notes; this was not an exhaustive read of all 113 files. `.env` was not opened.
+- **Overwrite risk:** The active DiaWorkspace AgenticLab is a Git repository on `main` at `bae5ccf` with modified and untracked work, including knowledge files. The backup has no `.git`, `tools/`, `.gitignore`, or `QUICKSTART.md`; it is not a drop-in replacement. Keep it separate and read-only as a comparison baseline. The Python expense-tracker workspace remains the only V5 experimental host.
+- **Outcome:** Updated C02, the first-slice handoff, and roadmap to record the two-source boundary. No DiaWorkspace, backup, or Python files were modified.
