@@ -1,6 +1,6 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Exercise 5 focused test passes; V5 system payload and Pi gate are implemented and staged. Pi's session-only trust and denied-write path have been verified; Exercise 6 remains unstarted.
+**Status:** Exercises 5 and 6 code changes are implemented; all six controller tests and both root smoke tests pass. V5 Pi gate and host snapshot are staged; fresh-session V5 memory retrieval remains unverified.
 
 **Prepared:** 2026-10-06
 
@@ -28,7 +28,7 @@ The Python workspace is now intended as an experimental host for V5 design, not 
 
 ## 3. Proposed real task sequence
 
-The Python workspace is confirmed as a V5 experiment host, not a learning project. The user approved the proposed sequence: isolate the test database (Exercise 5) first, then use the confirmed date-format mismatch (Exercise 6) as a possible V5 continuity/retrieval task. Project source changes and test execution still require a bounded implementation go.
+The Python workspace is a V5 experiment host, not a learning project. The user approved the sequence: isolate the test database (Exercise 5), then correct the date-format mismatch (Exercise 6) to test V5 context, decision provenance, and continuity. Both bounded code changes are implemented; fresh-session V5 memory retrieval remains untested.
 
 ### Prerequisite task — Exercise 5: isolate the test database
 
@@ -42,9 +42,9 @@ The inspected test setup constructs `ExpenseTrackerController`, which constructs
 - Do not change `src/gui.py`, `src/preferences.py`, `src/main.py`, `data/expenses.db`, `requirements.txt`, or unrelated tests in this task. `Preferences` has its own direct database connection, but these controller tests do not instantiate it; GUI testing is outside this isolation scope.
 - Added project `.gitignore` entries for `.venv/`, `__pycache__/`, and Python bytecode so the test environment/cache are not committed.
 
-**Validation status:** The active system Python 3.14 lacked `pip` and the pinned 2024 packages were not compatible with it. With the user's approval, installed Python 3.12.15 via mise without changing mise configuration, created the project-local `.venv`, decoded the UTF-16 `requirements.txt` to a temporary UTF-8 file (original left unchanged), and installed its pinned packages in the venv using PyPI because the configured package index lacked `ttkthemes`. `pip check` passed. The focused isolation test passed: `python -m unittest tests.test_expense_tracker.TestExpenseTrackerController.test_test_database_is_isolated`. GUI/application modules imported successfully without calling `main()` or launching a window. The full suite was not run because Exercise 6's date mismatch is still present. The real SQLite file was not opened or changed; its size and modification metadata remain unchanged.
+**Validation status:** The active system Python 3.14 lacked `pip` and the pinned 2024 packages were not compatible with it. With the user's approval, installed Python 3.12.15 via mise without changing mise configuration, created the project-local `.venv`, decoded the UTF-16 `requirements.txt` to a temporary UTF-8 file (original left unchanged), and installed its pinned packages in the venv using PyPI because the configured package index lacked `ttkthemes`. `pip check` passed. The focused isolation test passed: `python -m unittest tests.test_expense_tracker.TestExpenseTrackerController.test_test_database_is_isolated`. GUI/application modules imported successfully without calling `main()` or launching a window. All six controller unit tests now pass after the date fix. The two root CI smoke tests also pass. The real SQLite file was not opened or changed; its size and modification metadata remain unchanged.
 
-### Candidate V5 continuity task — Exercise 6: consistent date handling
+### Exercise 6 — consistent date handling (implemented; V5 continuity check pending)
 
 Read-only inspection confirmed the current clone's mismatch:
 
@@ -53,7 +53,7 @@ Read-only inspection confirmed the current clone's mismatch:
 - `src/data.py` stores the resulting string in a SQLite `TEXT` field.
 - The bundled valid-add test uses `2024-06-21`, consistent with the GUI and learning-plan recommendation, but is not an assertion-rich integration test.
 
-Proposed V5 test objective: use this cross-layer issue to test whether the system gathers sufficient context, records a user-approved date-format decision with provenance, retrieves it in a fresh session, checks it against current source, and supports the bounded change. The user selected `YYYY-MM-DD` because it matches the GUI, current test fixture, and learning-plan recommendation; using `DD-MM-YYYY` would require broader GUI/filter/storage/test documentation changes. Test a valid date plus an impossible date such as `2025-02-30` against the isolated test database. The format decision does not itself authorize Exercise 6 source edits; obtain a bounded project-work go before editing.
+The user selected `YYYY-MM-DD` because it matches the GUI, existing test fixture, and learning-plan recommendation; using `DD-MM-YYYY` would require broader GUI/filter/storage/test documentation changes. Exercise 6 was implemented within the approved scope: controller validation now strictly accepts canonical ISO dates, normalizes the empty-date default to ISO, and reports the matching format. Tests verify persistence of a valid date, rejection of an impossible date (`2025-02-30`), and rejection of a noncanonical date (`2024-6-1`). All six controller tests pass against per-test temporary databases. The V5 cross-session decision-capture/retrieval trial has not yet been run.
 
 ## 4. What the V5 slice must exercise
 
@@ -108,7 +108,7 @@ Python project root/
 
 The project `.pi/settings.json` lists the extension path relative to `.pi` (`../AgenticLab/adapters/pi/knowledge-write-gate.ts`); a local path check confirms it resolves to the staged extension. In the first Pi session, the user chose **Trust (this session only)**; Pi listed `knowledge-write-gate.ts` among loaded extensions. The folder is not persistently trusted, so Pi will ask again in later sessions. No symlink is used: the host copy is a versioned instance; canonical edits occur only in V5. Project scope and an empty knowledge index are separate from the copied system payload. No installer exists; this first copy was staged explicitly and source files were diff-checked.
 
-Pi 1.0.4 behavior relevant to this proposal (read from the installed `configuration.md`, `security.md`, `extensions.md`, `settings.md`, and `cli.md`, plus the `permission-gate.ts`/`protected-paths.ts` examples): project context `AGENTS.md` loads without project trust and is not a security boundary; project `.pi` extensions/settings are trust-gated; `tool_call` handlers can block built-in tool calls; `ctx.hasUI` distinguishes interactive confirmation availability; extensions run with the Pi process's OS permissions. These are documented capabilities. The user granted session-only trust in the first V5 workspace session and confirmed the extension loaded; runtime validation so far covers only the denied-write path. The user must review/trust the project-local adapter. No global Pi settings are changed. If project trust is declined or the extension is unavailable, durable AgenticLab writes are unavailable; instructions alone must not claim enforcement.
+Pi 1.0.4 behavior relevant to this proposal (read from the installed `configuration.md`, `security.md`, `extensions.md`, `settings.md`, and `cli.md`, plus the `permission-gate.ts`/`protected-paths.ts` examples): project context `AGENTS.md` loads without project trust and is not a security boundary; project `.pi` extensions/settings are trust-gated; `tool_call` handlers can block built-in tool calls; `ctx.hasUI` distinguishes interactive confirmation availability; extensions run with the Pi process's OS permissions. These are documented capabilities. The user granted session-only trust in the first V5 workspace session and confirmed the extension loaded; the live runtime check confirmed the denied-write path only. The user must review/trust the project-local adapter. No global Pi settings are changed. If project trust is declined or the extension is unavailable, durable AgenticLab writes are unavailable; instructions alone must not claim enforcement.
 
 ### Memory-write approval boundary
 
@@ -117,16 +117,16 @@ The implemented Pi adapter uses `tool_call` to request UI confirmation for built
 ### First-slice behavior
 
 - Default-agent work is the exercised path; explicit workflow invocation remains an architectural seam, not a V4 prompt port in this slice.
-- User first investigates the date mismatch with current code. The intended date format is a decision to confirm during the project task (the UI and plan point to `YYYY-MM-DD`).
+- The user selected `YYYY-MM-DD` for the date mismatch; the controller/test change is implemented. The remaining V5 task is to decide whether/how to capture that decision through the approved knowledge workflow and test retrieval in a fresh session.
 - A scoped candidate record is proposed and shown to the user; promotion/save requires the agreed gate. A fresh Pi session retrieves it only for the Python project and checks current source before use.
-- After safe test isolation, Exercise 6 updates controller date validation and focused tests. Run the full suite only after the date behavior is made consistent and tests remain on the temporary DB.
+- Exercise 6 updates controller date validation and focused tests; all six controller tests and both root CI smoke tests pass. Tests use temporary DBs; the real DB metadata is unchanged.
 - Evaluate qualitative outcomes: was the record found when relevant, ignored when unrelated, accurate/current, and helpful without re-explanation? Note corrections and attention/cost; one run is not a statistical claim.
 
 ### Proposed implementation work units
 
 1. **V5 system payload — complete:** `system/` operating/knowledge contracts and Pi approval gate are in canonical V5; ten policy/gate tests pass.
-2. **Workspace integration — staged, runtime not yet verified:** root `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot are in the Python host. Pi trust and actual resource loading remain for the user's first interactive launch; no global settings changed.
-3. **Project task — pending separate bounded approval:** confirm the date format, edit only relevant controller/tests, run focused then full tests in `.venv`, and verify the real DB metadata did not change.
+2. **Workspace integration — staged; deny path verified live:** root `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot are in the Python host. Pi loaded the extension after session-only trust; a rejected write was blocked and the marker remained absent. No global settings changed. Approved writes and persistent trust remain untested.
+3. **Exercise 6 code task — complete:** `YYYY-MM-DD` date validation and relevant controller tests are implemented; all six controller tests and both root smoke tests pass in `.venv`; the real DB metadata is unchanged. Fresh-session V5 memory retrieval remains to be tested.
 4. **Review:** fresh-session recall check; report limitations and decide whether this slice earns expansion.
 
 ## 6. Phases and gates
@@ -137,15 +137,15 @@ The implemented Pi adapter uses `tool_call` to request UI confirmation for built
 
 ### Phase 1 — Safe project test boundary
 
-**Exercise 5 code change and focused behavioral validation complete.** All controller tests now construct a model pointed at a per-test temporary DB; the focused synthetic persistence test passed in `.venv` using Python 3.12.15. The full suite remains intentionally unrun until Exercise 6 resolves the date mismatch. No dependencies were installed globally, and no production database was accessed.
+**Exercise 5 code change and focused behavioral validation complete.** All controller tests now construct a model pointed at a per-test temporary DB; the focused synthetic persistence test passed in `.venv` using Python 3.12.15. Exercise 6 is also complete; all six controller tests and both root CI smoke tests pass. No dependencies were installed globally, and no production database was accessed.
 
 ### Phase 2 — Minimal V5 skeleton in the canonical repo
 
 **Implemented and published:** a small `system/` payload, Markdown knowledge contract, and Pi-local write confirmation extension. Ten Node policy/handler tests pass. In Pi TUI, the user rejected a synthetic write and confirmed no file was created. The approved-write path and persistent trust are untested. The adapter's limits are explicit; this is not a full security sandbox. The copy is staged in the Python host.
 
-### Phase 3 — Run the selected V5 task in the host project
+### Phase 3 — Test V5 continuity in the host project
 
-**Not started.** The first Pi session used session-only trust. Confirm whether the user wants to trust the project persistently or repeat the prompt. The task sequence is approved and the user selected `YYYY-MM-DD`; still obtain the bounded Exercise 6 code-change go. For Exercise 6, create one approved decision record during investigation, then test fresh-session retrieval and source verification before implementation. Keep changes limited to the approved objective and isolated tests; no unrelated cleanup or package changes.
+**Project code and tests complete; V5 memory continuity not yet tested.** The first Pi session used session-only trust. Decide whether the user wants persistent trust or another prompt. Next, save the approved date-format decision through the Pi gate and use a fresh Pi session to retrieve it and verify it against source. The date implementation is complete; no further Python edits are implied.
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
@@ -162,8 +162,8 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 ## 8. Remaining gates
 
 1. The user granted session-only project trust and verified the deny path. Decide whether to retain session-only trust (Pi asks again) or explicitly save persistent trust for this project. Do not trust the parent folder or alter global trust/settings.
-2. The user selected `YYYY-MM-DD`. Approve the exact Python source/test change scope for Exercise 6 before edits.
-3. After the date fix, run the full test suite only through the project `.venv`; verify tests continue using temporary DBs and that the real database metadata remains unchanged.
-4. The Python source changes and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
+2. Save/retrieve the approved `YYYY-MM-DD` decision through the gate in a fresh session; the approved-write path has only unit-test coverage so far.
+3. All six controller tests and the two root smoke tests pass using `.venv`; real database metadata is unchanged. Do not repeat tests with the system Python or touch `data/expenses.db`.
+4. The Python source changes, `.gitignore`, and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
 
-**Current state:** Exercise 5 test isolation is implemented and its focused test passes in the project-local Python 3.12 `.venv`. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged into the Python workspace. Pi loaded the extension with session-only project trust; the denied-write path passed live. The approved-write path, persistent trust, app launch, and full suite remain untested. Exercise 6 awaits date-format confirmation and its bounded edit go.
+**Current state:** Exercises 5 and 6 are implemented; six controller tests and two root smoke tests pass in the project-local Python 3.12 `.venv`, and the real DB metadata is unchanged. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged in the Python workspace. Pi session-only trust loaded the extension and its denied-write path passed live. The approved-write path, persistent trust, fresh-session V5 memory retrieval, and app launch remain untested. Python changes and host snapshot are uncommitted.

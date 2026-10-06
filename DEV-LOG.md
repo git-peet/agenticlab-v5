@@ -175,3 +175,13 @@
 - **Status:** Format decision confirmed; source-change scope still gated
 - **Decision:** Use `YYYY-MM-DD` for Exercise 6. The user preferred `DD-MM-YYYY` but chose the existing GUI/test convention to avoid broader GUI, filter, storage, test, and documentation changes.
 - **Next:** Await a separate bounded go for the controller/test change. Do not edit Python source merely from this format decision.
+
+### V5-20261006-018 — Exercise 6 ISO date handling implemented and tested
+
+- **Recorded:** 2026-10-06T11:52:42+02:00
+- **Type:** Approved project implementation / test result
+- **Status:** Exercise 6 code and tests complete; V5 memory-continuity trial pending
+- **Changes:** `src/controller.py` now validates canonical `YYYY-MM-DD`, rejects invalid/noncanonical dates, uses ISO for the empty-date default, and reports the matching format. `src/tests/test_expense_tracker.py` verifies valid persistence, impossible-date rejection, noncanonical-date rejection, and isolated per-test DB use. All six controller tests pass.
+- **Additional verification:** Both root CI smoke tests pass (`pytest -q tests/`); project-local `.venv` has no broken requirements. The smoke test may touch tracked bytecode; generated changes were restored. The root test also compiles source files. No GUI/app launch occurred.
+- **Safety:** All tests use temporary DBs; `data/expenses.db` metadata remains unchanged and its contents were not opened. No source outside the approved controller/test isolation scope was changed, except project-local `.gitignore` for generated venv/bytecode. Python changes remain uncommitted/unpushed.
+- **Next:** Exercise the V5 knowledge path: save the approved date-format decision through the Pi gate and retrieve/verify it in a fresh session. The gate's live approval/allow path and persistent trust remain untested.
