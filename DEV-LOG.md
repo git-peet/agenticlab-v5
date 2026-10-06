@@ -223,6 +223,16 @@
 - **Status:** Corrected
 - **Record:** Entry `V5-20261006-022` was assigned the timestamp from an earlier V5 entry by mistake. Its content is unchanged; this entry records the actual later logging time as 2026-10-06T12:19:17+02:00.
 
+### V5-20261006-025 — Pi edit preview schema mismatch fixed
+
+- **Recorded:** 2026-10-06T13:09:19+02:00
+- **Type:** Adapter correctness / approval UX fix
+- **Status:** V5 fix published; host snapshot refreshed; live preview check pending
+- **Finding:** The user correctly rejected an `INDEX.md` edit confirmation because it said “No text preview available.” Pi 1.0.4's built-in `edit` tool supplies replacements in `input.edits[]`; the gate only read legacy top-level `newText`, so the intended review content was absent.
+- **Fix:** V5 now formats each edit with existing and proposed text, and blocks a protected write/edit without a reviewable preview before showing an approval dialog. Twelve Node tests pass, including modern `edits[]` and fail-closed missing-preview cases.
+- **Publication/snapshot:** Published at `e710071`. Refreshed only the Python host adapter runtime files and `AgenticLab/SOURCE-REVISION.txt`; verified runtime copies byte-for-byte. No knowledge or Python application files were changed by the refresh.
+- **Next:** Restart Pi and session-trust the project to load the new adapter; verify the `INDEX.md` edit confirmation visibly contains old and proposed text. Only then may the user approve the index update. Fresh-session memory retrieval remains pending.
+
 ### V5-20261006-024 — Corrected shell-reference block verified in Pi
 
 - **Recorded:** 2026-10-06T13:01:53+02:00
