@@ -1,6 +1,6 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Direction and task sequence approved; Exercise 5 code change made, focused validation blocked by missing dependency; V5 runtime and Exercise 6 remain unstarted
+**Status:** Exercise 5 test-isolation change implemented and focused test passed in the project virtual environment; Exercise 6 and the V5 runtime remain unstarted
 
 **Prepared:** 2026-10-06
 
@@ -23,7 +23,7 @@ The Python workspace is now intended as an experimental host for V5 design, not 
 - AgenticLab code, design decisions, and development history stay in the V5 source repository. Python application changes and project-specific knowledge remain scoped to the Python workspace.
 - **Agreed distribution direction:** generate or stage a versioned snapshot of the V5 runtime under a workspace-local `AgenticLab/` folder at the Python project root. Keep canonical sources in V5; the host copy is an instance/deployment, not a second editable source. Record its source revision. Avoid an absolute-path symlink (machine-specific and silently live-updating) and avoid editing the host copy as canonical. For the first prototype, use a deliberate, reviewed copy; no installer is needed.
 - Before creating that host folder, define which system files, per-project config, memory, and evaluation records belong there and what must not be copied. No Python host integration has been created.
-- **Git connection:** local V5 is on branch `main` with `origin` set to `https://github.com/git-peet/agenticlab-v5.git`. The first push was rejected by GitHub's private-email protection. A GitHub no-reply identity is now configured in this repository only; global Git identity is unchanged. Publish only V5 files from this repository; Python application changes remain separate.
+- **Git connection:** local V5 `main` is connected to `https://github.com/git-peet/agenticlab-v5.git`; current docs are published at `40f18bc`. GitHub no-reply identity is configured only in this repo; global Git identity is unchanged. Python application changes remain in their separate repo and are not published here.
 - **Agreed initial harness:** Pi, using only workspace-local configuration/integration for this experiment; no global Pi configuration. Verify the exact load/invocation method and adapter capability before implementing it. This is not an adapter implementation approval.
 
 ## 3. Proposed real task sequence
@@ -34,14 +34,15 @@ The Python workspace is confirmed as a V5 experiment host, not a learning projec
 
 The inspected test setup constructs `ExpenseTrackerController`, which constructs `ExpenseModel`; `ExpenseModel` connects to the fixed `data/expenses.db` and creates tables. `test_add_expense_valid` invokes a database insert and commit. The current date mismatch may make that test fail before the insert today, but after fixing date parsing it could reach the real DB. **Do not run the bundled tests in the current form.**
 
-**Implemented Exercise 5 boundary (focused validation pending):**
+**Implemented Exercise 5 boundary (focused validation passed):**
 
 - `src/data.py`: `ExpenseModel` accepts an optional database path, defaulting to the existing `DB_FILE`, and connects only to the selected path.
 - `src/controller.py`: `ExpenseTrackerController` accepts an optional model, preserving its existing no-argument/default production behavior.
 - `src/tests/test_expense_tracker.py`: create a fresh `tempfile.TemporaryDirectory()` per test; instantiate `ExpenseModel` with a database file inside it; inject that model into the controller; close the connection and clean up in teardown. Add a focused persistence assertion using synthetic values and the temporary database.
-- Do not change `src/gui.py`, `src/preferences.py`, `src/main.py`, `data/expenses.db`, dependencies, or unrelated tests in this task. `Preferences` has its own direct database connection, but these controller tests do not instantiate it; GUI testing is outside this isolation scope.
+- Do not change `src/gui.py`, `src/preferences.py`, `src/main.py`, `data/expenses.db`, `requirements.txt`, or unrelated tests in this task. `Preferences` has its own direct database connection, but these controller tests do not instantiate it; GUI testing is outside this isolation scope.
+- Added project `.gitignore` entries for `.venv/`, `__pycache__/`, and Python bytecode so the test environment/cache are not committed.
 
-**Validation status:** `ast.parse` accepted all three changed files. The focused command `python -m unittest tests.test_expense_tracker.TestExpenseTrackerController.test_test_database_is_isolated` was attempted from `src/` but failed before loading the test because this interpreter lacks `pandas`. No package installation was attempted. The bundled suite was not run. The failure occurred during module import, before `ExpenseModel` construction, so no database was opened by this attempt; the SQLite file's metadata remained unchanged. The valid-add controller test is still inconsistent until Exercise 6, so do not run the full suite as an isolation check. Retry only the focused test in an approved environment with existing dependencies, or ask before installing dependencies.
+**Validation status:** The active system Python 3.14 lacked `pip` and the pinned 2024 packages were not compatible with it. With the user's approval, installed Python 3.12.15 via mise without changing mise configuration, created the project-local `.venv`, decoded the UTF-16 `requirements.txt` to a temporary UTF-8 file (original left unchanged), and installed its pinned packages in the venv using PyPI because the configured package index lacked `ttkthemes`. `pip check` passed. The focused isolation test passed: `python -m unittest tests.test_expense_tracker.TestExpenseTrackerController.test_test_database_is_isolated`. GUI/application modules imported successfully without calling `main()` or launching a window. The full suite was not run because Exercise 6's date mismatch is still present. The real SQLite file was not opened or changed; its size and modification metadata remain unchanged.
 
 ### Candidate V5 continuity task — Exercise 6: consistent date handling
 
@@ -75,7 +76,7 @@ The first runnable path may use one host only. Its shared contract should not ba
 
 ### Phase 1 — Safe project test boundary
 
-**Exercise 5 code change made within the approved scope; behavioral validation is blocked.** All controller tests now construct a model pointed at a per-test temporary DB. The focused test could not import the module because `pandas` is unavailable in the active interpreter. Do not install dependencies or broaden the change without approval. Do not run the full suite until Exercise 6 resolves the existing date mismatch.
+**Exercise 5 code change and focused behavioral validation complete.** All controller tests now construct a model pointed at a per-test temporary DB; the focused synthetic persistence test passed in `.venv` using Python 3.12.15. The full suite remains intentionally unrun until Exercise 6 resolves the date mismatch. No dependencies were installed globally, and no production database was accessed.
 
 ### Phase 2 — Minimal V5 skeleton in the canonical repo
 
@@ -93,15 +94,15 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 
 - No changes outside the selected files in V5 and the approved Python task scope.
 - No reading/querying/copying the real expense database; no app launch before the test/data safety boundary is reviewed.
-- No installing dependencies or converting `requirements.txt` (the learning plan reports UTF-16 encoding; stop if installation is needed).
+- Do not modify/convert `requirements.txt` or install dependencies globally. The UTF-16 requirements were decoded only to a temporary file and installed in the project-local `.venv`; ask before changing the declared requirements or adding more packages.
 - No global Pi config changes, external API/model calls, vector DB, external service, raw session mining, V4 memory import, automatic memory promotion, or additional harness port.
 - Stop on unexpected database side effects, unclear approval, test isolation failure, a material project-scope change, or a need for infrastructure outside the agreed first slice.
 
 ## 7. Decisions needed before implementation
 
-1. Exercise 5's bounded code scope has been implemented in the three listed files. Its focused test remains unvalidated because `pandas` is unavailable in the active interpreter. Do not install packages or broaden scope without approval; provide an existing compatible environment or approve a safe dependency setup.
+1. Exercise 5's bounded code scope is implemented and its focused test passed in the isolated Python 3.12 `.venv`. The pinned requirements are installed locally; the original requirements file is unchanged. No full suite has run.
 2. GitHub rejected the initial push due to commit email privacy. A repository-local GitHub no-reply identity is configured; do not change global identity. Publish only V5 repository files, never Python application changes to this remote.
 3. Confirm which files/configuration are included in the workspace-local snapshot and how Pi loads it without global configuration.
 4. The task sequence is confirmed. Decide the date-format behavior in Exercise 6 task context; its project changes still need an approved bounded scope.
 
-**Current state:** Exercise 5's three-file test-isolation change is implemented in the Python worktree, but its focused test could not import because `pandas` is missing from the active interpreter. No dependency was installed; the test attempt did not open the DB; no full suite was run. Exercise 6 and V5 runtime/host integration remain unstarted. Python changes are uncommitted. The initial V5 docs commit is pushed to GitHub.
+**Current state:** Exercise 5's test-isolation change is implemented and its focused test passes in the project-local Python 3.12 `.venv`. The real DB was not opened/modified. The full test suite, app, and GUI were not run/launched. Exercise 6 and V5 runtime/host integration remain unstarted. Python source changes and `.gitignore` are uncommitted in the Python repo; V5 docs are published separately to GitHub.

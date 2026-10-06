@@ -127,3 +127,12 @@
 - **Outcome:** Published the privacy-safe V5 `main` history to `origin/main`. The repository contains only the V5 roadmap, backlog, first-slice plan, and development log. GitHub accepted the repo-local no-reply identity; global Git identity remains unchanged. Local and remote V5 worktrees are clean at publication time.
 - **Scope boundary:** No Python project files or database contents were included in or pushed to the V5 repository. Python source changes remain local and uncommitted in the separate project repository.
 - **Next:** Focused Exercise 5 behavioral verification remains blocked until a suitable existing environment provides `pandas` or the user approves a safe dependency setup. Do not run the full Python suite or start Exercise 6 yet.
+
+### V5-20261006-013 — Project-local dependencies configured; Exercise 5 focused test passes
+
+- **Recorded:** 2026-10-06T10:33:06+02:00
+- **Type:** Approved environment setup / validation result
+- **Status:** Project-local setup complete; Exercise 5 focused test passed
+- **Outcome:** Installed Python 3.12.15 via mise without changing mise configuration; created the Python project's ignored `.venv`; decoded the UTF-16 pinned `requirements.txt` to a temporary UTF-8 file without editing the original; installed the pinned packages into `.venv` from PyPI because the configured package index lacked `ttkthemes`. Added a project `.gitignore` for `.venv/`, `__pycache__/`, and bytecode. The focused temporary-database isolation test passed; GUI/application modules imported without launching the app; `pip check` found no broken requirements.
+- **Safety:** No application main/UI was launched; the full test suite was not run; no dependencies were installed globally; the real `data/expenses.db` was not opened or modified (its metadata is unchanged). The Python source and `.gitignore` remain uncommitted in the separate Python repo; nothing from it was pushed to V5 GitHub.
+- **Next:** Exercise 5 isolation is behaviorally verified. Before Exercise 6, confirm the date-format decision and bounded file/test scope; then test only against `.venv` and the isolated temporary database.
