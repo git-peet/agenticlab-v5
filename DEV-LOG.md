@@ -399,3 +399,13 @@
 - **Change:** Added a V5-specific data boundary to the Python root `AGENTS.md`: do not read/query/copy/parse/summarize `data/` or `.env` without specific approval; do not run the app or tests/commands that could use the real DB unless temporary DB isolation is confirmed; stop and ask before data access. It states this is instruction, not an OS sandbox.
 - **Verification:** Read back the updated instruction. No application source/tests or database were changed. DB size/mtime/ctime remain unchanged after the prior read-only query; that query remains a recorded boundary violation.
 - **Next:** For another activation trial, use a fresh Python Pi session with a read-only tool allowlist (no Bash/MCP), explicitly prohibit `data/` and execution in the task, omit any mention of memory/index in the user task, and inspect the tool trace. Do not repeat if it attempts a data-path access.
+
+### V5-20261006-042 — Guarded natural-task retrieval trace observed
+
+- **Recorded:** 2026-10-06T19:57:26+02:00
+- **Type:** Retrieval activation/fetch verification
+- **Status:** Activation, record read, and source inspection observed; utility not yet attributable
+- **Setup:** In a fresh Python Pi session with `--tools read,ls,grep,find --no-mcp`, project session-only trust, and the new root AGENTS data boundary, the user asked a natural date-format-change question without mentioning memory/index. No Bash, Python, SQLite, app, test, or edit tools were available/called.
+- **Trace:** Pi read the project entry instructions, listed the workspace/source/test directories, then explicitly read `AgenticLab/knowledge/INDEX.md`, `records/expense-date-format.md`, and relevant GUI/controller/model/test/README files. No `data/` or `.env` content was read in this guarded run.
+- **Result:** The system activated on a relevant task, fetched the linked record, and checked current source. The answer recommended keeping ISO storage and allowing presentation-only change, consistent with the record, but it did not explicitly cite the prior user decision/rationale. This proves the read path ran in this case, not that memory causally improved the answer or that accuracy holds across queries.
+- **Outcome:** This is the first clean task-triggered retrieval trace. Keep the earlier database-read incident recorded separately; no further DB access is authorized. The next design work should define evidence/utility criteria across more than this single query.
