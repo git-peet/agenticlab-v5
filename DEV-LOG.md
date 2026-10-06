@@ -371,3 +371,13 @@
 - **V4 baseline:** the inspected Pi adapter records aggregate match/cap/zero-match counters; the V4 backlog separately proposed candidate-level retrieval trajectories. The current map does not provide per-query proof of which candidate was selected and why.
 - **Design constraint:** V5 retrieval tests must include relevant tasks without an explicit “check memory” instruction, plus irrelevant/no-match and wrong-scope cases. Do not persist raw prompts or record contents by default; log only the minimum structured evidence needed. Reads remain prompt-free; approvals are for persistence.
 - **Outcome:** Added this requirement to C02 and the handoff/roadmap. No retrieval engine or telemetry code was implemented.
+
+### V5-20261006-039 — Minimum proof artifact for a retrieval pilot
+
+- **Recorded:** 2026-10-06T19:27:40+02:00
+- **Type:** Retrieval-evaluation protocol / privacy boundary
+- **Status:** Proposal recorded; no telemetry or retrieval code implemented
+- **Initial evidence source:** Use Pi's native session tool-call trace to establish which index/map/record paths were actually read. Pair it with a concise session-local receipt: scope, activation mode, candidate IDs/paths and match/filter reasons, read success, source-verification paths, retrieval outcome, and user usefulness/noise assessment.
+- **Privacy/cost:** Do not duplicate raw queries or full retrieved content into a new metrics file. Reads should remain prompt-free; avoid automatic durable telemetry absent a separate data/retention decision.
+- **Evidence boundary:** This proves whether retrieval activated/fetched/verified, not whether memory causally improved an answer. That requires a representative current-source/no-memory comparison or user outcome. The model's post-task claim alone is insufficient.
+- **Next:** Use this minimal trace in the next retrieval experiment. Do not build a search engine or persistent telemetry yet.

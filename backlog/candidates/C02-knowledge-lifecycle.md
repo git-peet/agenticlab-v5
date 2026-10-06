@@ -87,6 +87,23 @@ Treat these as a workload to review, not as validated requirements:
 
 For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval, source correctness, stale/conflicting handling, amount of context inspected, and user effort. Include **approval interactions per task/decision** and redundant metadata/index writes; prompt wording alone is not the friction measure. Read-only retrieval should not create approval prompts; confirmation remains at persistence boundaries. The first trial is one sample only.
 
+### Retrieval activation and proof (required design property)
+
+V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The first Python trial explicitly told Pi to check the index, so it did not test whether an ordinary relevant task activates retrieval on its own.
+
+Use observable evidence levels rather than treating an answer's claim as proof:
+
+1. **Activated:** the task independently triggered a read/search, without the user having to say “check memory.” Test relevant and irrelevant/no-match tasks.
+2. **Candidate:** the mechanism recorded which scoped record IDs/paths were considered and why they matched or were filtered.
+3. **Fetched/delivered:** the record file or bounded excerpt was actually read and made available to the model, not merely named in an index.
+4. **Verified:** mutable claims were checked against current source; status/scope conflicts were handled.
+5. **Cited/used:** the answer identifies the record that informed it. This is useful audit evidence, but model self-report alone does not prove causal influence.
+6. **Useful:** a task-level comparison or user evaluation indicates the retrieved record improved accuracy, reduced rediscovery, or was unnecessary/noisy.
+
+V4's counters show some trigger/match and cost activity, but the inspected implementation does not preserve a full candidate/selection trajectory; the backup's own improvement backlog proposed that as follow-up. V5 should start with the smallest trace sufficient to prove activation, candidate filtering, fetch/delivery, and verification. Do not persist raw prompts or full record contents by default; prefer scoped IDs/paths, reason codes, counts, status, and bounded cost/latency data, with task-level utility evaluated separately. Read-only retrieval should not show approval prompts; human confirmation applies to persistence.
+
+**Minimal proof artifact for an initial pilot (proposal):** use the Pi session's actual tool-call trace as the authority for which index/map/record files were read. Pair that with a small session-local receipt: project scope; activation mode (explicit instruction vs. task-triggered); candidate IDs/paths and match/filter reason; read success; source-verification paths; retrieval outcome (`applicable`, `no match`, `filtered`, `unavailable`); and whether the user judged it useful/noisy. Do not copy the raw query or retrieved text into a new metrics file. This receipt proves the observable path, not causal benefit; assess benefit with representative tasks and a current-source/no-memory comparison or user outcome. A future custom retrieval tool should expose the same evidence structurally rather than ask the model to reconstruct it after the fact.
+
 ### Read/retrieval mechanisms to compare
 
 | Approach | Strength | Main tradeoff / evidence needed |
