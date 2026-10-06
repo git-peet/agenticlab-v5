@@ -1,6 +1,6 @@
 # V5 First Vertical Slice — Proposed Bounded Plan
 
-**Status:** Exercise 5 test-isolation change implemented and focused test passed in the project virtual environment; Exercise 6 and the V5 runtime remain unstarted
+**Status:** Exercise 5 focused test passes; V5 system payload and Pi gate are implemented; host snapshot is staged. Pi project-trust/runtime interaction and Exercise 6 remain untested/unstarted.
 
 **Prepared:** 2026-10-06
 
@@ -22,8 +22,8 @@ The Python workspace is now intended as an experimental host for V5 design, not 
 - **Experimental project host:** `/home/peet/Projects/Practice/Python/Py-Desktop-Expense_Tracker/` (the user confirmed its purpose is now V5 experimentation, not a learning curriculum).
 - AgenticLab code, design decisions, and development history stay in the V5 source repository. Python application changes and project-specific knowledge remain scoped to the Python workspace.
 - **Agreed distribution direction:** generate or stage a versioned snapshot of the V5 runtime under a workspace-local `AgenticLab/` folder at the Python project root. Keep canonical sources in V5; the host copy is an instance/deployment, not a second editable source. Record its source revision. Avoid an absolute-path symlink (machine-specific and silently live-updating) and avoid editing the host copy as canonical. For the first prototype, use a deliberate, reviewed copy; no installer is needed.
-- Before creating that host folder, define which system files, per-project config, memory, and evaluation records belong there and what must not be copied. No Python host integration has been created.
-- **Git connection:** local V5 `main` is connected to `https://github.com/git-peet/agenticlab-v5.git`; current docs are published at `40f18bc`. GitHub no-reply identity is configured only in this repo; global Git identity is unchanged. Python application changes remain in their separate repo and are not published here.
+- The initial host snapshot is staged at the Python project root: `AgenticLab/` contains the reviewed V5 system payload plus a project-local scope note and empty knowledge index; root `AGENTS.md` is a thin pointer; `.pi/settings.json` loads the project-local write gate. `AgenticLab/SOURCE-REVISION.txt` records the V5 commit. No application source/config or real DB contents were included.
+- **Git connection:** V5 system payload is committed and pushed to `origin/main` at `6996224719be65c09624de15a6b95970156ac154`. GitHub no-reply identity is configured in this repository only; global Git identity is unchanged. Python application changes remain separate and unpublished.
 - **Agreed initial harness:** Pi, using only workspace-local configuration/integration for this experiment; no global Pi configuration. Verify the exact load/invocation method and adapter capability before implementing it. This is not an adapter implementation approval.
 
 ## 3. Proposed real task sequence
@@ -68,13 +68,13 @@ Proposed V5 test objective: use this cross-layer issue to test whether the syste
 
 The first runnable path may use one host only. Its shared contract should not bake Pi-specific details into the knowledge model. A user-invoked workflow remains a supported design requirement, but porting all V4 prompts or building a workflow router is outside this first slice.
 
-## 5. Proposed V5 skeleton and Pi workspace integration (for approval)
+## 5. V5 skeleton and Pi workspace integration (implemented scope)
 
-This is the proposed minimum architecture for the first runnable slice. It is **not** an implementation go.
+The user approved this bounded skeleton. The system payload is committed in V5 and a reviewed snapshot is staged in the Python host. Runtime interaction in Pi is not yet exercised because project trust remains a user-controlled step.
 
 ### Canonical source in V5
 
-Keep distributable AgenticLab assets under a dedicated `system/` directory so developer-only files (`backlog/`, roadmap, `DEV-LOG.md`, evaluation notes) are not copied into a project installation. Proposed minimum contents:
+Distributable AgenticLab assets are kept under the dedicated `system/` directory so developer-only files (`backlog/`, roadmap, `DEV-LOG.md`, evaluation notes) are not copied into a project installation. The initial payload is implemented and pushed at V5 commit `6996224719be65c09624de15a6b95970156ac154`:
 
 ```text
 AgenticLab-v5/
@@ -93,7 +93,7 @@ Do not create a generalized plugin framework, database, vector index, or broad p
 
 ### Python workspace snapshot
 
-After a source revision is reviewed, stage a deliberate snapshot into the Python project:
+A reviewed snapshot of that source revision has been staged in the Python project:
 
 ```text
 Python project root/
@@ -106,13 +106,13 @@ Python project root/
     knowledge/                # project-specific records; not overwritten on refresh
 ```
 
-The project `.pi/settings.json` would list the extension path relative to `.pi` (proposed: `../AgenticLab/adapters/pi/knowledge-write-gate.ts`); verify this with a workspace-local Pi run before staging. No symlink: the host copy is a versioned instance; canonical edits occur only in V5. Keep project knowledge/configuration separate from the copied system payload and make refresh logic preserve project data. No packaging/installer script is needed for one prototype; record the source revision and manually verify the copy.
+The project `.pi/settings.json` lists the extension path relative to `.pi` (`../AgenticLab/adapters/pi/knowledge-write-gate.ts`); a local path check confirms it resolves to the staged extension. No Pi session has yet been launched to exercise the project-trust prompt or runtime load. No symlink is used: the host copy is a versioned instance; canonical edits occur only in V5. Project scope and an empty knowledge index are separate from the copied system payload. No installer exists; this first copy was staged explicitly and source files were diff-checked.
 
 Pi 1.0.4 behavior relevant to this proposal (read from the installed `configuration.md`, `security.md`, `extensions.md`, `settings.md`, and `cli.md`, plus the `permission-gate.ts`/`protected-paths.ts` examples): project context `AGENTS.md` loads without project trust and is not a security boundary; project `.pi` extensions/settings are trust-gated; `tool_call` handlers can block built-in tool calls; `ctx.hasUI` distinguishes interactive confirmation availability; extensions run with the Pi process's OS permissions. These are documented capabilities, not yet exercised in a V5 workspace. The user must review/trust the project-local adapter. No global Pi settings are changed. If project trust is declined or the extension is unavailable, durable AgenticLab writes are unavailable; instructions alone must not claim enforcement.
 
 ### Memory-write approval boundary
 
-The candidate adapter would use Pi's `tool_call` hook to gate `write`/`edit` operations under the exact project knowledge directory. In interactive mode it requests an explicit UI confirmation; without UI it blocks. Tests cover permitted non-memory writes, approved/rejected knowledge writes, path normalization/traversal, and no-UI behavior. The extension has full process permissions and the proposed hook does **not** sandbox the OS or reliably intercept arbitrary shell programs. Therefore the prototype must not claim comprehensive write protection against shell bypass; either route durable writes only through the gated file-tool path and keep this limitation explicit, or design a stronger boundary before relying on it.
+The implemented Pi adapter uses `tool_call` to request UI confirmation for built-in `write`/`edit` calls targeting project knowledge and for shell commands that visibly reference that subtree. It blocks if no UI is available, the user rejects, or confirmation fails. Ten Node tests cover path scoping/traversal, unrelated calls, approval/rejection, and fail-closed behavior. The extension has full process permissions and does **not** sandbox the OS or reliably intercept obfuscated/indirect shell writes. This is a human-confirmation aid for the supported Pi tool path, not comprehensive write protection; that limitation must remain visible.
 
 ### First-slice behavior
 
@@ -124,16 +124,16 @@ The candidate adapter would use Pi's `tool_call` hook to gate `write`/`edit` ope
 
 ### Proposed implementation work units
 
-1. **V5 system payload:** add the small `system/` source and unit tests in the V5 repository.
-2. **Workspace integration:** generate/copy `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot into the Python host; verify Pi's project-trust prompt and loaded-resource list. Do not alter global settings.
-3. **Project task:** after the separate bounded Exercise 6 approval, agree the date format, edit only the relevant controller/tests, run focused and then full tests in `.venv`, and confirm the real DB metadata did not change.
+1. **V5 system payload — complete:** `system/` operating/knowledge contracts and Pi approval gate are in canonical V5; ten policy/gate tests pass.
+2. **Workspace integration — staged, runtime not yet verified:** root `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot are in the Python host. Pi trust and actual resource loading remain for the user's first interactive launch; no global settings changed.
+3. **Project task — pending separate bounded approval:** confirm the date format, edit only relevant controller/tests, run focused then full tests in `.venv`, and verify the real DB metadata did not change.
 4. **Review:** fresh-session recall check; report limitations and decide whether this slice earns expansion.
 
-## 6. Proposed phases and gates
+## 6. Phases and gates
 
 ### Phase 0 — Confirm decisions (no code)
 
-**Complete:** canonical V5 source repo; GitHub remote connection; Python as experimental host; reviewed snapshot distribution; Pi as initial harness; Exercise 5 before possible Exercise 6. The exact workspace instance contents/loading path still needs a short design before creating the host copy.
+**Complete:** canonical V5 source repo; GitHub remote connection; Python as experimental host; reviewed snapshot distribution; Pi as initial harness; Exercise 5 before Exercise 6. The snapshot files and relative extension path have been staged and checked. Actual Pi project trust/load behavior remains for the user's first interactive launch; no trust was granted automatically.
 
 ### Phase 1 — Safe project test boundary
 
@@ -141,11 +141,11 @@ The candidate adapter would use Pi's `tool_call` hook to gate `write`/`edit` ope
 
 ### Phase 2 — Minimal V5 skeleton in the canonical repo
 
-Implement only the contracts and runtime behavior needed for the agreed task path: a default-session entry, explicit project scope, an inspectable approved decision record, bounded retrieval/verification, a human review gate for durable promotion, and a thin selected-host integration. Choose the storage and adapter mechanism only after the user approves the design; do not silently assume the old prototype's implementation is the V5 architecture.
+**Implemented and published:** a small `system/` payload, Markdown knowledge contract, and Pi-local write confirmation extension. Ten Node policy/handler tests pass. The adapter's limits are explicit; this is not a full security sandbox. The copy is staged in the Python host; actual Pi project trust/runtime behavior remains untested until an interactive session is launched and the user reviews the trust prompt.
 
 ### Phase 3 — Run the selected V5 task in the host project
 
-If Exercise 6 is selected, create one real, user-approved date-format decision record during investigation, then use a fresh session to retrieve and verify it before the bounded implementation/verification task. Keep changes limited to the selected objective and necessary isolated tests; no unrelated cleanup or dependency installation. If another task is chosen, rewrite this phase to name it and the V5 assumption it tests.
+**Not started.** First use the interactive Pi workspace and user-reviewed trust decision; confirm the actual task and date-format choice. If Exercise 6 is selected, create one user-approved decision record during investigation, then test fresh-session retrieval and source verification before the bounded implementation. Keep changes limited to the approved objective and isolated tests; no unrelated cleanup or package changes.
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
@@ -155,15 +155,15 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 
 - No changes outside the selected files in V5 and the approved Python task scope.
 - No reading/querying/copying the real expense database; no app launch before the test/data safety boundary is reviewed.
-- Do not modify/convert `requirements.txt` or install dependencies globally. The UTF-16 requirements were decoded only to a temporary file and installed in the project-local `.venv`; ask before changing the declared requirements or adding more packages.
+- Do not modify/convert `requirements.txt` or install dependencies globally. The pinned UTF-16 requirements are installed in the project-local `.venv` after temporary decoding; ask before changing declared requirements or adding packages.
 - No global Pi config changes, external API/model calls, vector DB, external service, raw session mining, V4 memory import, automatic memory promotion, or additional harness port.
 - Stop on unexpected database side effects, unclear approval, test isolation failure, a material project-scope change, or a need for infrastructure outside the agreed first slice.
 
-## 8. Decisions needed before implementation
+## 8. Remaining gates
 
-1. Exercise 5's bounded code scope is implemented and its focused test passed in the isolated Python 3.12 `.venv`. The pinned requirements are installed locally; the original requirements file is unchanged. No full suite has run.
-2. GitHub rejected the initial push due to commit email privacy. A repository-local GitHub no-reply identity is configured; do not change global identity. Publish only V5 repository files, never Python application changes to this remote.
-3. Confirm which files/configuration are included in the workspace-local snapshot and how Pi loads it without global configuration.
-4. The task sequence is confirmed. Decide the date-format behavior in Exercise 6 task context; its project changes still need an approved bounded scope.
+1. On first interactive Pi use in the Python project, inspect and explicitly decide whether to trust the workspace-local extension. Do not auto-accept or change global trust/settings.
+2. Confirm the Exercise 6 date-format decision (`YYYY-MM-DD` is the UI's current output and the plan's recommendation) and approve the exact Python source/test change scope before edits.
+3. After the date fix, run the full test suite only through the project `.venv`; verify tests continue using temporary DBs and that the real database metadata remains unchanged.
+4. The Python source changes and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
 
-**Current state:** Exercise 5's test-isolation change is implemented and its focused test passes in the project-local Python 3.12 `.venv`. The real DB was not opened/modified. The full test suite, app, and GUI were not run/launched. Exercise 6 and V5 runtime/host integration remain unstarted. Python source changes and `.gitignore` are uncommitted in the Python repo; V5 docs are published separately to GitHub.
+**Current state:** Exercise 5 test isolation is implemented and its focused test passes in the project-local Python 3.12 `.venv`. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged into the Python workspace. The actual Pi project-trust prompt/resource loading has not been exercised; no Pi session was launched. No app or full test suite was run. Exercise 6 remains unstarted pending user approval of date behavior and bounded edits.
