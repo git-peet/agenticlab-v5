@@ -51,6 +51,32 @@ Do not conflate these two DiaWorkspace paths, and do not confuse either with the
 
 Only a selective, read-only review of valuable backup material is in scope. Do not copy or import its knowledge into V5 or Python. Counts and structure are not evidence that any item remains useful or accurate; model recoverability must be assessed separately.
 
+### Working mental model for the V5 knowledge interface (draft)
+
+Keep the interface understandable as one path, with separate responsibilities:
+
+```text
+TASK
+  → resolve project/subproject scope
+  → INDEX.md routes to relevant domain/topic MOC(s)
+  → complete in-scope record inventory/search guards against map omissions
+  → filter candidates by type/category, lifecycle/status, and freshness
+  → read a small set of atomic records
+  → verify mutable claims against current source
+  → answer with a retrieval receipt (applicable / no match / filtered / unavailable)
+```
+
+The corresponding write path is:
+
+```text
+observation/decision → candidate with evidence and scope → user review
+  → approved durable record → map/inventory stays discoverable
+```
+
+**Concept separation:** scope (which project/subproject), topic/domain (where to navigate), category/type (`decision | fact | experience | risk | procedure`), and lifecycle/status (`candidate | active | inactive`, plus supersession/freshness) are different dimensions. Category is metadata, not the folder hierarchy; a topic map may link records of several types. The atomic record is the source of durable claims, while an MOC is a navigation aid—not duplicate truth. The root index is a router. Whether topic maps are exhaustive inventories or curated routes backed by a complete record scan is still open; so is how to keep this index/map complete without a second approval for each record.
+
+This is a design sketch, not an approved filesystem layout, search engine, or write transaction. It condenses the current alternatives so later choices can be assessed against one shared mental model rather than reconsidering each V4 mechanism in isolation.
+
 ### V5 design stance: preserve capability, redesign mechanisms
 
 V4's retrieval system accumulated layers over time, but that history is evidence of distinct needs and interactions—not proof that every mechanism should be ported unchanged, nor that layered capability should be discarded as patchwork. V5 should preserve demonstrated user value and useful synergies while seeking a more coherent, inspectable interface. Fewer files or mechanisms alone is not a success criterion; neither is reproducing V4's architecture because it exists.

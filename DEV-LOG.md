@@ -439,3 +439,12 @@
 - **Trace:** Pi read AgenticLab instructions, `knowledge/INDEX.md`, the knowledge contract, and `.pi/settings.json`. It reported that the store was available and the index listed only the unrelated active expense-date decision; no applicable record was found. No record file was read, and no protected data path was accessed.
 - **Result:** This demonstrates the `no match` outcome for the current index, distinct from retrieval failure/unavailable. The check did not enumerate `knowledge/records/`, so it assumes the index is complete; index/record consistency remains an open interface requirement.
 - **Next:** Include an index-completeness rule or safe consistency check in the knowledge-interface design. No app/code/database change.
+
+### V5-20261006-045 — Compact mental model added for the knowledge interface
+
+- **Recorded:** 2026-10-06T21:09:04+02:00
+- **Type:** User-requested design simplification / interface synthesis
+- **Status:** Working sketch for discussion; no schema, layout, or retrieval engine selected
+- **User need:** The interface has many interacting dimensions and is becoming hard to hold mentally. User delegated synthesis judgement and authorized continued use of the populated V3 Neo backup as a read-only comparison baseline; Python remains the experimental host.
+- **Sketch added to C02:** one read path (task → scope → index/topic MOC → completeness inventory/search → type/status/freshness filters → atomic record → source verification → explicit outcome) and one write path (observation → evidenced candidate → user review → approved record → discoverability update). Separates scope, topic, category/type, lifecycle/status, record truth, and MOC navigation.
+- **Open design decision:** whether topic MOCs are exhaustive inventories or curated routes backed by a complete corpus scan; how to keep them complete without a separate approval for every record. No implementation or Python changes made.
