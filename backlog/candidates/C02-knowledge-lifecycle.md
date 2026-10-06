@@ -97,7 +97,22 @@ For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval,
 | Curated semantic trigger map (V4-style) | Can route task language to concepts, aliases, and related sources beyond filenames | Trigger authoring, false matches/misses, stale paths, coarse target files, per-turn context cost. Keep the useful capability, but test it against real queries and current source. |
 | Model/embedding-based semantic search | May find paraphrases and concepts not covered by explicit terms | Adds retrieval uncertainty, cost/privacy/infrastructure, ranking evaluation, and possible wrong-scope results. Not selected; require evidence that simpler methods miss valuable records first. |
 
-A **candidate hybrid flow** (not selected) is: resolve workspace/subproject scope → use a curated map for high-value routes and local lexical discovery for coverage → filter by lifecycle/status/freshness → read a small set of exact records → verify mutable claims against current source → report applicable, no-match, filtered, or unavailable explicitly. Semantic/embedding fallback and retrieval-trajectory telemetry remain optional candidates, not baseline requirements.
+### Retrieval activation and proof (required design question)
+
+V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The first Python trial explicitly told Pi to check the index, so it did not test whether an ordinary relevant task activates retrieval on its own.
+
+Use observable evidence levels rather than treating an answer's claim as proof:
+
+1. **Activated:** the task independently triggered a read/search, without the user having to say “check memory.” Test relevant and irrelevant/no-match tasks.
+2. **Candidate:** the mechanism recorded which scoped record IDs/paths were considered and why they matched or were filtered.
+3. **Fetched/delivered:** the record file or bounded excerpt was actually read and made available to the model, not merely named in an index.
+4. **Verified:** mutable claims were checked against current source; status/scope conflicts were handled.
+5. **Cited/used:** the answer identifies the record that informed it. This is useful audit evidence, but model self-report alone does not prove causal influence.
+6. **Useful:** a task-level comparison or user evaluation indicates the retrieved record improved accuracy, reduced rediscovery, or was unnecessary/noisy.
+
+V4's counters show some trigger/match and cost activity, but the inspected implementation does not preserve a full candidate/selection trajectory; the backup's own improvement backlog proposed that as follow-up. V5 should start with the smallest trace sufficient to prove activation, candidate filtering, fetch/delivery, and verification. Do not persist raw prompts or full record contents by default; prefer scoped IDs/paths, reason codes, counts, status, and bounded cost/latency data, with task-level utility evaluated separately. Read-only retrieval should not show approval prompts; human confirmation applies to persistence.
+
+A **candidate hybrid flow** (not selected) is: resolve workspace/subproject scope → use a curated map for high-value routes and local lexical discovery for coverage → filter by lifecycle/status/freshness → read a small set of exact records → verify mutable claims against current source → report applicable, no-match, filtered, or unavailable explicitly. Semantic/embedding fallback and retrieval-trajectory telemetry remain optional candidates until this activation/proof requirement is met.
 
 ### Model capability and source recoverability
 

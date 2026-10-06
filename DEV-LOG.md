@@ -360,3 +360,14 @@
 - **Candidate hybrid flow:** enforce workspace/subproject scope → use curated routes plus lexical discovery → filter lifecycle/status/freshness → read a small set of exact records → verify mutable claims in current source → report applicable/no-match/filtered/unavailable. This is a hypothesis for comparison, not an implementation decision.
 - **Constraints:** Native file reads already work; the current Pi gate deliberately blocks Bash commands referencing project knowledge, so lexical search would require a safe read-only tool/host capability, not a shell bypass. Read-only retrieval should not prompt for approval; write approvals remain at persistence boundaries. Semantic/embedding fallback and retrieval telemetry remain optional.
 - **Next:** Review these options against the proposed retrieval jobs and the V4 capability map; evaluate precision, recall, context size, maintenance, scope safety, and failure observability before selecting any V5 read mechanism.
+
+### V5-20261006-038 — Retrieval must be observable, not just claimed
+
+- **Recorded:** 2026-10-06T19:24:44+02:00
+- **Type:** User-raised retrieval correctness / observability requirement
+- **Status:** Required design property recorded; implementation remains pending
+- **Concern:** The user recalls a V4 failure mode where it was unclear whether memory was actually retrieved. Trigger configuration or an answer naming a record is not sufficient proof.
+- **Evidence ladder:** distinguish task activation, candidate consideration/filter reason, actual record read/delivery, source verification, answer citation, and task-level usefulness. A trace can establish activation/fetch; citation/self-report alone cannot prove that memory caused a better answer, which requires a task comparison or user outcome.
+- **V4 baseline:** the inspected Pi adapter records aggregate match/cap/zero-match counters; the V4 backlog separately proposed candidate-level retrieval trajectories. The current map does not provide per-query proof of which candidate was selected and why.
+- **Design constraint:** V5 retrieval tests must include relevant tasks without an explicit “check memory” instruction, plus irrelevant/no-match and wrong-scope cases. Do not persist raw prompts or record contents by default; log only the minimum structured evidence needed. Reads remain prompt-free; approvals are for persistence.
+- **Outcome:** Added this requirement to C02 and the handoff/roadmap. No retrieval engine or telemetry code was implemented.
