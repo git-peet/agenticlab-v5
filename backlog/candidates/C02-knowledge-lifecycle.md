@@ -35,11 +35,11 @@ Credential-shaped data and sensitive content must be considered at persistence b
 
 ## Knowledge interface design checkpoint — proposal, not selected
 
-The first host trial established only a narrow starting point: one active date decision was found via `INDEX.md` in a fresh session after the user explicitly asked Pi to check project knowledge, then checked against current source. The pasted response does not prove that the linked record file itself was opened, nor that task-driven retrieval would find it without that instruction. A later natural task about changing the accepted date format did not read `INDEX.md` or the decision record; it inspected source/test files instead. That trace is a task-triggered retrieval miss under current instructions, not successful V5 memory retrieval.
+The first lookup found an active date decision via `INDEX.md` only after the user explicitly asked Pi to check project knowledge; the response did not establish that the linked record was opened. A later natural task failed to read the index/record and queried the real database read-only, violating the no-read boundary; treat that run as invalid. After adding a project-level data boundary and starting Pi with read-only tools, a new natural date-format task (no memory/index mention) did read `INDEX.md`, the linked record, and current source, without accessing `data/`, executing commands/tests, or editing files. This demonstrates activation, fetch, and source verification for that bounded case. The answer did not explicitly attribute its recommendation to the stored user decision, so causal usefulness remains unproven.
 
 **Current V5 implementation boundary:** `system/brain/knowledge-contract.md` and `system/AGENTS.md` define the record lifecycle and instruct selective file reads; Pi's native `read`/`ls` tools performed the explicit host trial. `system/adapters/pi/knowledge-write-gate.*` gates supported `write`/`edit` calls and blocks visible shell references—it does not implement read selection, search, index parsing, MOC/graph traversal, ranking, or retrieval telemetry. V5 has no custom retrieval engine yet.
 
-**Data-boundary incident during the later natural-task trial:** the Pi transcript shows a read-only SQLite query against the real `data/expenses.db`, despite the documented no-read boundary. It used `mode=ro`, so it could not write; post-run size/mtime/ctime were unchanged. That does not make the read authorized. Do not repeat it. Treat this run as an invalid retrieval evaluation and safety-boundary failure; any further host trial must explicitly prohibit the database, CSV/data files, and app/test execution.
+**Data-boundary incident and follow-up:** an earlier natural-task Pi transcript showed a read-only SQLite query against the real `data/expenses.db`, despite the no-read boundary. It used `mode=ro` and post-run size/mtime/ctime were unchanged, but the read was still unauthorized; that run is invalid. The host root `AGENTS.md` now explicitly forbids data/ and `.env` access, and the later activation check used a read-only Pi tool allowlist with no Bash/MCP. Treat the boundary instruction as important but not a sandbox; stop if a future tool call approaches protected data.
 
 ### Comparative data-source boundary
 
@@ -91,7 +91,7 @@ For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval,
 
 ### Retrieval activation and proof (required design property)
 
-V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The explicit Python index lookup did not test natural activation. In the later task-driven format review, Pi did not read the index or record; its trace instead showed a read-only query of the real SQLite database, outside the agreed boundary. Treat this as a failed activation check and data-boundary incident, not valid retrieval evidence. Future host tests must explicitly prohibit database, CSV/data-file access, app execution, and tests; use source and knowledge records only.
+V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The first explicit lookup did not test natural activation; the next attempt missed retrieval and crossed the DB boundary. A subsequent guarded task-driven format review did read the index and linked decision record, then checked current source, without data access or edits. This is positive evidence for activation/fetch/verification in one constrained case, not proof of causal benefit or reliable behavior across queries. Future host tests must retain the no-data/app/test boundary and inspect the actual tool trace.
 
 Use observable evidence levels rather than treating an answer's claim as proof:
 
@@ -181,7 +181,7 @@ A bounded prototype should show that it can: propose a supported, scoped candida
 
 ## Timing / next action
 
-The first host trial saved and indexed one user-approved date decision; a fresh session found it via the index and checked current source. The response does not establish whether the record file itself was opened.
+The first explicit index lookup did not prove direct record access; the intervening unprompted attempt missed retrieval and queried the real DB read-only. After the Python root AGENTS boundary was added and Pi tools were restricted to read/list/search, a natural task with no memory cue read the index, linked record, and relevant source without data access. This proves one activation/fetch/verification path, but not that the saved decision materially changed the answer; the user-facing answer did not explicitly cite the record's rationale.
 
 **Checkpoint / order change:** While implementing this knowledge capture/index/retrieval path, we recognized that records are expected to grow and that the interface/structure controls future navigation, retrieval accuracy, maintenance, and approval frequency. Pause additional capture and gate-workflow changes to define the knowledge interface first. This is a design priority, not approval to implement any particular structure (MOC, semantic map, wikilinks, or otherwise).
 
