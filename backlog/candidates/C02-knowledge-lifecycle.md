@@ -35,7 +35,9 @@ Credential-shaped data and sensitive content must be considered at persistence b
 
 ## Knowledge interface design checkpoint — proposal, not selected
 
-The first host trial establishes only a narrow starting point: one active date decision was linked from `INDEX.md`, found in a fresh session, and checked against current source. The pasted response does not prove that the record file itself was opened. The user expects the collection to grow. A decision about the interface is therefore needed before another capture/retrieval mechanism is implemented.
+The first host trial establishes only a narrow starting point: one active date decision was linked from `INDEX.md`, found in a fresh session after the user explicitly asked Pi to check project knowledge, and checked against current source. The pasted response does not prove that the record file itself was opened, nor that task-driven retrieval would find it without that instruction.
+
+**Current V5 implementation boundary:** `system/brain/knowledge-contract.md` and `system/AGENTS.md` define the record lifecycle and instruct selective file reads; Pi's native `read`/`ls` tools performed the host trial. `system/adapters/pi/knowledge-write-gate.*` gates supported `write`/`edit` calls and blocks visible shell references—it does not implement read selection, search, index parsing, MOC/graph traversal, ranking, or retrieval telemetry. V5 has no custom retrieval engine yet. The user expects records to grow. A decision about this interface is therefore needed before another retrieval or capture mechanism is implemented.
 
 ### Comparative data-source boundary
 

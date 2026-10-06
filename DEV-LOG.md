@@ -341,3 +341,12 @@
 - **Interactions noted:** discovery/source analysis → user-reviewed preservation and routing → digest/MOC/map/feature-based retrieval → current-source verification → review/refine/retro and supersession. Removing one surface can shift cost or failure to another.
 - **Evidence/cost caveats:** backup docs and Pi adapter code confirm many mechanisms exist, and the backup contains populated artifacts. They do not prove current-model user benefit. Caps and thresholds exist, but some are explicitly reasoned-not-measured; metrics largely count matches/cost rather than answer improvement or candidate-selection rationale. Specified traversal can differ between harnesses; confirm behavior per mode.
 - **Next:** Review the capability map and classify each capability as preserve/merge/replace/defer/remove only after user need, evidence, interaction, model recoverability, and cost are clear. Do not implement or import the V3 backup.
+
+### V5-20261006-036 — Clarify the V5 read/retrieval implementation boundary
+
+- **Recorded:** 2026-10-06T16:08:10+02:00
+- **Type:** Architecture boundary clarification
+- **Status:** Recorded; retrieval design remains in progress
+- **Clarification:** The Pi files under `system/adapters/pi/` implement knowledge-write confirmation and shell-reference blocking; they do not implement read selection, search, index parsing, graph/MOC traversal, ranking, or retrieval telemetry. `system/AGENTS.md` and the knowledge contract give instructions/record semantics, while the host trial used Pi-native `read`/`ls` tools.
+- **Trial limits:** The fresh-session test explicitly told Pi to check project knowledge/index, so it verifies a narrow host workflow plus source verification, not autonomous/task-triggered retrieval or a custom V5 read mechanism. The pasted response does not confirm the linked record file itself was opened.
+- **Outcome:** C02, `FIRST-SLICE-PLAN.md`, and the roadmap now distinguish the write gate from the read/retrieval interface. Design of retrieval mechanisms remains the next knowledge-interface task.
