@@ -542,3 +542,13 @@
 - **V5 changes:** Updated only `system/AGENTS.md` and `system/brain/knowledge-contract.md` to define the INDEX/MOC/records roles, use maps as navigation rather than exhaustive inventories, require complete scoped record search before `no match`, report incomplete/unavailable scans, and cite actual record paths when they materially inform an answer. The `find`/`grep`/`read`/`ls` instruction is capability-aware and prohibits Bash for knowledge search.
 - **Verification:** All 12 Pi gate Node tests pass. Published source revision is `647043d9008703a4b5a52ec5d2d732f19d879f0e`. Refreshed only the corresponding Python snapshot files and `AgenticLab/SOURCE-REVISION.txt`; `cmp` confirmed byte identity. No project knowledge, application code, tests, or database was touched by the refresh.
 - **Next:** Load this snapshot in a fresh Python Pi session with read-only tools and verify one relevant natural task and one explicit no-match requiring a complete record scan. Keep `data/`/`.env` off-limits; do not run tests/app or use Bash. Confirm the actual tool trace, not only the answer.
+
+### V5-20261006-055 — Updated read contract verified in Pi
+
+- **Recorded:** 2026-10-06T22:18:00+02:00
+- **Type:** Runtime verification / no-match completeness
+- **Status:** Passed for the current flat, one-record corpus
+- **Test:** Fresh Python Pi session with read-only tools; explicit query for an export-retention decision, with no access to `data/`/`.env`, no execution, and no edits.
+- **Trace/result:** Pi read `INDEX.md` and the updated knowledge contract, enumerated `records/` with native `find`, searched it with native `grep`, then read the sole record. It returned `no match` for the requested topic and explicitly distinguished the indexed date-format record as unrelated. No protected paths were accessed.
+- **Conclusion:** The updated instructions drive a complete inventory/search before no-match in the current corpus. This validates only a flat one-record case under the active read-only toolset; result caps, nesting, scale, semantic recall, and causal memory benefit remain open. The earlier DB-read incident remains a separate, invalid trial; no further DB access is authorized.
+- **Next:** Review the v0 interface contract and decide whether to authorize a bounded implementation slice. No custom search engine or catalog is implemented.
