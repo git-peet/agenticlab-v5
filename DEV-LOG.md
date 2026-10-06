@@ -178,6 +178,16 @@
 - **Safety/result:** The synthetic knowledge marker did not exist after denial; no project code/database was changed by the erroneous read request. The gate still is not an OS sandbox and cannot reliably detect obfuscated shell access.
 - **Next:** Run V5 Node tests, publish the correction, refresh the Python `AgenticLab/` snapshot, and ask the user to restart Pi/session-only trust before retrying the read-path smoke test.
 
+### V5-20261006-021 — Shell read false positive fixed and snapshot refreshed
+
+- **Recorded:** 2026-10-06T12:12:28+02:00
+- **Type:** Adapter bug fix / host snapshot refresh
+- **Status:** V5 fix published and staged in Python; live retest awaits a Pi restart
+- **Finding:** A read-only shell `find` of `AgenticLab/knowledge` triggered the old confirmation and labeled the read as a persistent change. The user rejected it; no project knowledge was modified.
+- **Fix:** Shell commands that visibly reference the project knowledge subtree are now blocked outright with a clear instruction to use Pi's `read`/`ls` tools; only built-in `write`/`edit` paths request interactive confirmation. Ten Node tests pass, including no-UI file-write blocking and shell-reference blocking without a confirmation dialog. Limitation remains: shell scanning is lexical and not a complete sandbox.
+- **Publication/snapshot:** V5 fix published at `180bf2334b2631534e6dd96b53db2a5a15834404`. Updated the Python `AgenticLab/adapters/pi/` snapshot and `SOURCE-REVISION.txt`; verified the snapshot matches V5 and the `.pi/settings.json` extension path resolves. A path typo briefly placed only generated integration files in a similar sibling directory; it was identified, removed, and recreated under the Git-controlled project root, with no existing files or data overwritten.
+- **Next:** The other Pi process still has the old extension loaded. Restart it, choose session-only trust again, verify shell `find` is blocked without a prompt, then use file read/list tools. Do not attempt a knowledge write until the new gate behavior is confirmed.
+
 ### V5-20261006-017 — Date representation selected for Exercise 6
 
 - **Recorded:** 2026-10-06T11:35:24+02:00
