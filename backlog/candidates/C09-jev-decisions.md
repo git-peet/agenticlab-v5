@@ -24,9 +24,9 @@ If tested, define one atomic question and permitted outputs, pass only task-rele
 
 ## Deferred revisit: knowledge-review prompt
 
-When a durable-knowledge candidate needs human review, the system could use Jev-style advice to assess whether the candidate is worth presenting, what evidence is missing, or whether several candidates can be summarized into one review batch. This is a later **review-preparation** hypothesis, not the first Jev pilot and not an extension of the existing write gate. It should be reconsidered only after real V5 record proposals show repeated interruption/attention cost or confusing prompts.
+When a durable-knowledge candidate needs human review, the system could use Jev-style advice to assess whether the candidate is worth presenting, what evidence is missing, or whether several candidates can be summarized into one review batch. This is a later **review-preparation** hypothesis, not the first Jev pilot and not an extension of the existing write gate. Reconsider only after real V5 use shows recurring approval interruptions or confusing reviews. The current first-slice trial required two successful approvals (record write plus later index update) for one decision; the user emphasized that prompt *frequency*, not wording alone, determines whether the workflow is less streamlined. This single sample is a signal to measure, not enough to implement a batch mechanism.
 
-Hard boundary: Jev may recommend `present / keep transient / gather evidence` or help structure a batch. It cannot approve the write, choose `active` status, suppress a required confirmation, or authorize deletion. The user remains the decision-maker; deterministic Pi gating remains unchanged. Measure false omission, unnecessary prompts, review time, user corrections, and token/call cost before considering automation.
+Hard boundary: Jev may recommend `present / keep transient / gather evidence` or help structure a batch. It cannot approve the write, choose `active` status, suppress a required confirmation, or authorize deletion. The user remains the decision-maker; deterministic Pi gating remains unchanged. Before considering automation, measure approval interactions per task/decision, false omissions, unnecessary or redundant prompts, review time, user corrections, and token/call cost.
 
 ## Explicit exclusions
 

@@ -261,3 +261,13 @@
 - **Next:** Review relevance, source consistency, re-explanation/attention cost, and whether the record helped. Do not add more gate mechanisms or implement the deferred Jev idea unless further observations support a specific change.
 - **Boundaries:** Python host changes and integration remain uncommitted/unpushed; do not publish them without approval. The real expense DB was not opened or modified. No global Pi settings changed. Pi project trust is session-only.
 - **Log navigation:** Entries `024` and `025` are displayed out of timestamp order and their `Next` lines describe earlier states. Entry `026` records the retrieval outcome; this entry plus `FIRST-SLICE-PLAN.md` hold the current handoff.
+
+### V5-20261006-028 — Prompt frequency identified as primary friction measure
+
+- **Recorded:** 2026-10-06T14:46:22+02:00
+- **Type:** User evaluation feedback / workflow friction
+- **Status:** Recorded; no gate or workflow change approved
+- **Correction:** The user clarified that the main concern is not the wording/content of a confirmation prompt, but how many times the workflow interrupts them compared with the previously streamlined task flow.
+- **Observed sample:** One decision required two successful approvals: one for saving the decision record and a separate one for updating the knowledge index. A no-preview index attempt was canceled while fixing the adapter; an earlier read-only shell false positive was also encountered and then fixed. These are pilot/setup events, not a stable estimate of normal-use prompt frequency.
+- **Implication:** Future evaluation should count approval interruptions per meaningful task/decision and separate necessary durable changes from redundant index/metadata edits and false positives. The user affirmed the fresh-session answer was useful but did not yet state that the observed approval frequency was acceptable.
+- **Outcome:** Updated C02, C09, the first-slice plan, and roadmap to emphasize frequency/attention cost and defer batching or Jev support until recurring friction is observed. No implementation change was made.

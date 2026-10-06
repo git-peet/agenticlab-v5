@@ -4,7 +4,7 @@
 
 **Prepared:** 2026-10-06
 
-**Current handoff:** The bounded implementation and first fresh-session index-retrieval check are complete. Next, review whether the record was useful and whether any interruption or re-explanation occurred; do not expand the gate or implement Jev from this single trial. The response confirms index discovery and source verification but does not show whether the linked record file was opened. The Python application changes and host integration remain uncommitted/unpushed; do not commit or push them without approval. The real expense database was not opened or modified.
+**Current handoff:** The bounded implementation and first fresh-session index-retrieval check are complete. The record write and later index update each required approval—two successful prompts for one decision. The user clarified that friction is primarily about how many times the workflow interrupts them, not prompt wording. Next, review whether the record was useful and whether that interruption rate felt worthwhile; do not expand the gate or implement Jev from this single trial. The response confirms index discovery and source verification but does not show whether the linked record file was opened. The Python application changes and host integration remain uncommitted/unpushed; do not commit or push them without approval. The real expense database was not opened or modified.
 
 **Parent direction:** [`V5.2-roadmap.md`](V5.2-roadmap.md)
 
@@ -126,7 +126,7 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 - The user selected `YYYY-MM-DD` for the date mismatch; the controller/test change is implemented and the decision record was approved, saved, and read back. The knowledge index was updated through the gate and read back; a fresh session found the decision and verified it against current code/tests without editing.
 - A scoped candidate record was proposed, reviewed, saved through the gate, indexed, and retrieved in a fresh Pi session for the Python project; the answer checked current source. Explicit evidence that the linked record file itself was opened is not present in the pasted response.
 - Exercise 6 updates controller date validation and focused tests; all six controller tests and both root CI smoke tests pass. Tests use temporary DBs; the real DB metadata is unchanged.
-- Evaluate qualitative outcomes: was the record found when relevant, ignored when unrelated, accurate/current, and helpful without re-explanation? Note corrections and attention/cost; one run is not a statistical claim.
+- Evaluate qualitative outcomes: was the record found when relevant, accurate/current, and helpful without re-explanation? On later natural use, count approval interruptions per task/decision and distinguish necessary persistence from redundant index/metadata writes or false positives. Note total review effort and user corrections; one run is not a statistical claim.
 
 ### Proposed implementation work units
 
@@ -155,7 +155,7 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
-Report what worked, what was re-explained, whether retrieval was relevant/current/in scope, any corrections, user attention, time/cost if readily available, and maintenance burden. Decide whether to keep, revise, defer, or reject the exercised mechanism. One experience is qualitative evidence, not a statistical memory-benefit claim.
+Report what worked, what was re-explained, whether retrieval was relevant/current/in scope, approval-interruption count per task, any false/redundant prompts, user attention, time/cost if readily available, and maintenance burden. Decide whether to keep, revise, defer, or reject the exercised mechanism. One experience is qualitative evidence, not a statistical memory-benefit claim.
 
 ## 7. Scope exclusions and stop conditions
 
