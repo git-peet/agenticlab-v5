@@ -116,6 +116,8 @@ The Pi adapter uses `tool_call` to request UI confirmation for built-in `write`/
 
 In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowledge change was not approved`, and a file-read confirmed the marker file was absent. The user then found that a read-only `find` via `bash` still triggered a confirmation labeled as a persistent change. That was a policy/UI bug: the first gate treated any shell reference as a write. The corrected gate now blocks shell access with a clear message and no confirmation prompt; read operations should use Pi's `read`/`ls` tools. The V5 source and host snapshot now match at revision `180bf2334b2631534e6dd96b53db2a5a15834404`. The already-running Pi process still has the previous extension code loaded; restart Pi and grant session-only trust again before testing the correction live. The extension has full process permissions, its shell check is lexical, and it does **not** sandbox the OS or reliably intercept obfuscated/indirect shell writes. It is not comprehensive write protection.
 
+**Deferred Jev connection:** The decision to propose/present a memory candidate or combine candidates for user review is a promising bounded Jev-style advisory point. Revisit it in [`backlog/candidates/C09-jev-decisions.md`](backlog/candidates/C09-jev-decisions.md) after real record proposals show whether the current review interaction is repetitive or intrusive. No Jev call or classifier is part of this slice; it cannot authorize or replace the human confirmation gate.
+
 ### First-slice behavior
 
 - Default-agent work is the exercised path; explicit workflow invocation remains an architectural seam, not a V4 prompt port in this slice.

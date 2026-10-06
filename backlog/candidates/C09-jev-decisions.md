@@ -22,6 +22,12 @@ V5's Jev register adopts the conceptual model: bounded state → atomic typed qu
 
 If tested, define one atomic question and permitted outputs, pass only task-relevant evidence with provenance/uncertainty, and allow abstention. Keep results in a bounded evaluation record, separate from semantic memory. First observe or shadow; do not make an automatic branch until the decision's outcomes are measurable and errors understood. Deterministic code applies any permissible policy.
 
+## Deferred revisit: knowledge-review prompt
+
+When a durable-knowledge candidate needs human review, the system could use Jev-style advice to assess whether the candidate is worth presenting, what evidence is missing, or whether several candidates can be summarized into one review batch. This is a later **review-preparation** hypothesis, not the first Jev pilot and not an extension of the existing write gate. It should be reconsidered only after real V5 record proposals show repeated interruption/attention cost or confusing prompts.
+
+Hard boundary: Jev may recommend `present / keep transient / gather evidence` or help structure a batch. It cannot approve the write, choose `active` status, suppress a required confirmation, or authorize deletion. The user remains the decision-maker; deterministic Pi gating remains unchanged. Measure false omission, unnecessary prompts, review time, user corrections, and token/call cost before considering automation.
+
 ## Explicit exclusions
 
 No Jev API/service, universal classifier, per-turn classifier, confidence-based autonomy, model routing, memory promotion authority, or override of tool/approval gates. Do not claim token efficiency: classification may cost extra.

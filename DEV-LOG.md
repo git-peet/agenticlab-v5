@@ -205,3 +205,20 @@
 - **Additional verification:** Both root CI smoke tests pass (`pytest -q tests/`); project-local `.venv` has no broken requirements. The smoke test may touch tracked bytecode; generated changes were restored. The root test also compiles source files. No GUI/app launch occurred.
 - **Safety:** All tests use temporary DBs; `data/expenses.db` metadata remains unchanged and its contents were not opened. No source outside the approved controller/test isolation scope was changed, except project-local `.gitignore` for generated venv/bytecode. Python changes remain uncommitted/unpushed.
 - **Next:** Exercise the V5 knowledge path: save the approved date-format decision through the Pi gate and retrieve/verify it in a fresh session. The gate's live approval/allow path and persistent trust remain untested.
+
+### V5-20261006-022 — Jev review-preparation point retained as a future candidate
+
+- **Recorded:** 2026-10-06T12:12:28+02:00
+- **Type:** User-raised architecture follow-up
+- **Status:** Documented as deferred; no Jev integration approved
+- **Finding:** A human-gated memory proposal/review step may be a useful bounded decision point for Jev-style advisory support, especially if candidate review becomes repetitive or attention-heavy.
+- **Boundary:** Jev could advise whether a candidate is worth presenting, identify missing evidence, or help summarize a batch. It cannot approve persistence, set a record active, replace the Pi confirmation gate, or authorize deletion. Do not add a classifier or call to the current slice.
+- **Outcome:** Added the revisit note to C02, C09, `FIRST-SLICE-PLAN.md`, and the roadmap. Revisit after actual project-memory proposals provide evidence about interruption/review cost.
+- **Next:** Complete the first V5 memory capture/retrieval trial; only then decide whether this Jev point solves a real problem.
+
+### V5-20261006-023 — Timestamp correction for entry 022
+
+- **Recorded:** 2026-10-06T12:19:17+02:00
+- **Type:** Record-integrity correction
+- **Status:** Corrected
+- **Record:** Entry `V5-20261006-022` was assigned the timestamp from an earlier V5 entry by mistake. Its content is unchanged; this entry records the actual later logging time as 2026-10-06T12:19:17+02:00.

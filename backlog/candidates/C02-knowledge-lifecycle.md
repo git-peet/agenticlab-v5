@@ -54,4 +54,6 @@ A bounded prototype should show that it can: propose a supported, scoped candida
 
 ## Timing / next action
 
-This is a plausible part of the first vertical slice, not yet selected. The roadmap suggests a real approved decision in the Python learning workspace, potentially across sessions; first resolve the test-database warning before running its tests. Do not start memory persistence or project-data collection until the user approves the task/data boundary.
+This is a plausible part of the first vertical slice, not a commitment to enable broad automatic memory. The Python workspace is an experimental host; its test-database isolation is implemented and verified. A real project decision record has not yet been saved through the Pi gate. Next, exercise one user-approved record across sessions before expanding capture or retrieval.
+
+**Jev revisit:** The later design of when/how to present a memory candidate for user review is a bounded-decision candidate (e.g. retain as candidate / keep transient / needs more evidence, or summarize a batch). See C09. Revisit only after actual candidate reviews reveal repeated friction; Jev may advise or prepare a review, never approve, persist, promote, or delete knowledge.
