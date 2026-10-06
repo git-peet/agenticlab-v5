@@ -73,7 +73,7 @@ observation/decision → candidate with evidence and scope → user review
   → approved durable record → map/inventory stays discoverable
 ```
 
-**Concept separation:** scope (which project/subproject), topic/domain (where to navigate), category/type (`decision | fact | experience | risk | procedure`), and lifecycle/status (`candidate | active | inactive`, plus supersession/freshness) are different dimensions. Category is metadata, not the folder hierarchy; a topic map may link records of several types. The atomic record is the source of durable claims, while an MOC is a navigation aid—not duplicate truth. The root index is a router. Whether topic maps are exhaustive inventories or curated routes backed by a complete record scan is still open; so is how to keep this index/map complete without a second approval for each record.
+**Concept separation:** scope (which project/subproject), topic/domain (where to navigate), category/type (`decision | fact | experience | risk | procedure`), and lifecycle/status (`candidate | active | inactive`, plus supersession/freshness) are different dimensions. Category is metadata, not the folder hierarchy; a topic map may link records of several types. The atomic record is the source of durable claims, while an MOC is a navigation aid—not duplicate truth. The root index is a router. Topic maps are now intended as curated routes, not exhaustive manifests; the record corpus plus a complete read-only inventory/search provides completeness. The open operational issue is how to guarantee that scan is complete and bounded without a second approval for each record.
 
 This is a design sketch, not an approved filesystem layout, search engine, or write transaction. It condenses the current alternatives so later choices can be assessed against one shared mental model rather than reconsidering each V4 mechanism in isolation.
 
@@ -191,14 +191,14 @@ The backup also demonstrates that storage structure and runtime loading are sepa
 
 ### Working hypothesis for review
 
-The current first-slice template declares one `Category` field with values `decision | fact | experience | risk | procedure`; it does not say whether records may have multiple categories or whether categories should determine paths. Treat these as record metadata, not an established folder taxonomy.
+The current first-slice template declares one `Category` field with values `decision | fact | experience | risk | procedure`. For the baseline, use one primary category per record and keep it as metadata, not a folder path; handle distinct claims of different kinds as separate linked records.
 
 **User-approved direction for continued design (not implementation authorization):**
 
 - Keep `INDEX.md` as the stable project entry point, listing domain/topic MOCs rather than maintaining an exhaustive list of every record.
 - Use curated MOCs to organize concepts, aliases, and useful cross-category relationships; update them when a concept/map relationship changes, not automatically for every record. Avoid duplicating record claims inside maps.
 - Treat scoped atomic records plus their metadata as the authoritative corpus. Retrieval must be able to enumerate/search all eligible in-scope records independently of map membership, so a missing MOC link cannot produce a false no-match.
-- Keep `Category` as record metadata (`decision | fact | experience | risk | procedure`); let domain/topic maps group across categories. Whether category metadata is single- or multi-label remains open.
+- Use one primary `Category` per record (`decision | fact | experience | risk | procedure`) as metadata, not a folder. Split distinct claims of different types into separate linked records rather than multi-labeling by default.
 - Candidate read path: resolve project/subproject scope → use a topic MOC as a route → perform a complete, bounded inventory/search fallback for coverage and no-match → filter status/type/freshness → read a small set of records → verify mutable claims → return an observable outcome.
 
 ### Metadata and navigation responsibilities (proposed baseline)
@@ -206,10 +206,10 @@ The current first-slice template declares one `Category` field with values `deci
 - **Root `INDEX.md`:** workspace scope, pointers to topic/domain MOCs, and the authoritative record-corpus location. It is a stable router, not an exhaustive per-record list.
 - **Topic/domain MOC:** curated concept summaries, aliases/trigger language, cross-topic relations, and useful links to records of any category. It does not duplicate record claims and may be selective because corpus search is the completeness fallback.
 - **Atomic record:** one primary knowledge type (`decision | fact | experience | risk | procedure`), stable ID, applicability scope (workspace plus optional subproject/feature), lifecycle state, provenance/evidence, and recorded/verified dates. Category remains metadata, not a folder. If one observation contains separable decision and risk claims, prefer separate linked records over multi-category ambiguity.
-- **Topic membership:** initially represented by MOC links rather than repeated topic lists in record and map files; whether an explicit multi-valued topic field improves search enough to justify another synchronized field remains open.
+- **Topic membership:** represented initially by links from curated MOCs, not a separate `Topics` field on each record. Consider canonical concept IDs only if tests show that maps plus corpus search miss useful cross-topic retrieval; if added, avoid maintaining the same membership manually in two places.
 - **Prompt-cost target:** a normal new record should need one persistence approval. Updating a MOC is a separate gated change only when a new concept/relationship merits curated navigation—not for every record. If practice shows frequent multi-file updates, revisit a transaction/batch mechanism separately.
 
-This aims for one approval per new record; map edits remain gated only when navigation concepts/relationships genuinely change. If enumerating the canonical record corpus is too expensive as it grows, compare a safe generated metadata inventory/catalog against local lexical search before adding a custom runtime. No final schema, map layout, search tool, or implementation is selected yet; resolve category cardinality and realistic cross-record query needs before coding.
+This aims for one approval per new record; map edits remain gated only when navigation concepts/relationships genuinely change. If enumerating the canonical record corpus is too expensive as it grows, compare a safe generated metadata inventory/catalog against local lexical search before adding a custom runtime. The preferred metadata/navigation baseline is now clearer, but record schema details, map completeness checks, and cross-record query workload still need validation before implementation.
 
 ### Proposed index-completeness rule (candidate)
 
