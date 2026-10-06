@@ -381,3 +381,12 @@
 - **Privacy/cost:** Do not duplicate raw queries or full retrieved content into a new metrics file. Reads should remain prompt-free; avoid automatic durable telemetry absent a separate data/retention decision.
 - **Evidence boundary:** This proves whether retrieval activated/fetched/verified, not whether memory causally improved an answer. That requires a representative current-source/no-memory comparison or user outcome. The model's post-task claim alone is insufficient.
 - **Next:** Use this minimal trace in the next retrieval experiment. Do not build a search engine or persistent telemetry yet.
+
+### V5-20261006-040 — Natural retrieval test missed memory and crossed DB read boundary
+
+- **Recorded:** 2026-10-06T19:40:19+02:00
+- **Type:** Retrieval activation failure / data-boundary incident
+- **Status:** Test invalid; no further DB access
+- **Retrieval result:** The natural date-format task's tool trace shows reads of source/tests/docs and no `AgenticLab/knowledge/INDEX.md` or decision-record read. It therefore did not demonstrate memory activation/fetch; it is a task-triggered retrieval miss under the current host instructions.
+- **Boundary event:** The same trace shows a SQLite connection to `data/expenses.db` using `mode=ro` and SELECT queries. This confirms the real DB was read, which violated the documented no-read boundary even though the connection was read-only. Post-run file size, mtime, and ctime were unchanged; this establishes no observed modification, not permission to read. Do not repeat or query its contents.
+- **Outcome:** Treat this retrieval run as invalid for normal-use evaluation. Require future Python-host retrieval prompts/tests to explicitly prohibit DB/CSV/data-file access and app/test execution, and inspect the existing tool trace to establish activation, candidate selection, and record fetch. No V5 code or Python files were changed during this incident.

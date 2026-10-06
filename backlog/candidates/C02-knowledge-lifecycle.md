@@ -35,9 +35,11 @@ Credential-shaped data and sensitive content must be considered at persistence b
 
 ## Knowledge interface design checkpoint — proposal, not selected
 
-The first host trial establishes only a narrow starting point: one active date decision was linked from `INDEX.md`, found in a fresh session after the user explicitly asked Pi to check project knowledge, and checked against current source. The pasted response does not prove that the record file itself was opened, nor that task-driven retrieval would find it without that instruction.
+The first host trial established only a narrow starting point: one active date decision was found via `INDEX.md` in a fresh session after the user explicitly asked Pi to check project knowledge, then checked against current source. The pasted response does not prove that the linked record file itself was opened, nor that task-driven retrieval would find it without that instruction. A later natural task about changing the accepted date format did not read `INDEX.md` or the decision record; it inspected source/test files instead. That trace is a task-triggered retrieval miss under current instructions, not successful V5 memory retrieval.
 
-**Current V5 implementation boundary:** `system/brain/knowledge-contract.md` and `system/AGENTS.md` define the record lifecycle and instruct selective file reads; Pi's native `read`/`ls` tools performed the host trial. `system/adapters/pi/knowledge-write-gate.*` gates supported `write`/`edit` calls and blocks visible shell references—it does not implement read selection, search, index parsing, MOC/graph traversal, ranking, or retrieval telemetry. V5 has no custom retrieval engine yet. The user expects records to grow. A decision about this interface is therefore needed before another retrieval or capture mechanism is implemented.
+**Current V5 implementation boundary:** `system/brain/knowledge-contract.md` and `system/AGENTS.md` define the record lifecycle and instruct selective file reads; Pi's native `read`/`ls` tools performed the explicit host trial. `system/adapters/pi/knowledge-write-gate.*` gates supported `write`/`edit` calls and blocks visible shell references—it does not implement read selection, search, index parsing, MOC/graph traversal, ranking, or retrieval telemetry. V5 has no custom retrieval engine yet.
+
+**Data-boundary incident during the later natural-task trial:** the Pi transcript shows a read-only SQLite query against the real `data/expenses.db`, despite the documented no-read boundary. It used `mode=ro`, so it could not write; post-run size/mtime/ctime were unchanged. That does not make the read authorized. Do not repeat it. Treat this run as an invalid retrieval evaluation and safety-boundary failure; any further host trial must explicitly prohibit the database, CSV/data files, and app/test execution.
 
 ### Comparative data-source boundary
 
@@ -85,11 +87,11 @@ Treat these as a workload to review, not as validated requirements:
 4. **Correct negative result:** distinguish no match from out-of-scope/inactive/filtered records and from an unavailable store.
 5. **Freshness/source check:** verify mutable claims against current source; surface contradiction or staleness rather than quietly trusting old text.
 
-For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval, source correctness, stale/conflicting handling, amount of context inspected, and user effort. Include **approval interactions per task/decision** and redundant metadata/index writes; prompt wording alone is not the friction measure. Read-only retrieval should not create approval prompts; confirmation remains at persistence boundaries. The first trial is one sample only.
+For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval, source correctness, stale/conflicting handling, amount of context inspected, and user effort. Include **approval interactions per task/decision** and redundant metadata/index writes; prompt wording alone is not the friction measure. Read-only retrieval should not create approval prompts; confirmation remains at persistence boundaries. Current evidence is limited: one explicit index lookup, then one natural-task miss accompanied by an out-of-scope read-only database query. The latter is invalid as a retrieval evaluation; do not repeat it.
 
 ### Retrieval activation and proof (required design property)
 
-V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The first Python trial explicitly told Pi to check the index, so it did not test whether an ordinary relevant task activates retrieval on its own.
+V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The explicit Python index lookup did not test natural activation. In the later task-driven format review, Pi did not read the index or record; its trace instead showed a read-only query of the real SQLite database, outside the agreed boundary. Treat this as a failed activation check and data-boundary incident, not valid retrieval evidence. Future host tests must explicitly prohibit database, CSV/data-file access, app execution, and tests; use source and knowledge records only.
 
 Use observable evidence levels rather than treating an answer's claim as proof:
 
@@ -113,21 +115,6 @@ V4's counters show some trigger/match and cost activity, but the inspected imple
 | Local lexical full-text search | Deterministic, low infrastructure, useful when task terms resemble record wording | Misses paraphrases/implicit relationships; ranking and scope/status filtering need design. Current V5 gate blocks shell commands that mention project knowledge, so this needs a safe read-only host tool/search capability—not a shell bypass. |
 | Curated semantic trigger map (V4-style) | Can route task language to concepts, aliases, and related sources beyond filenames | Trigger authoring, false matches/misses, stale paths, coarse target files, per-turn context cost. Keep the useful capability, but test it against real queries and current source. |
 | Model/embedding-based semantic search | May find paraphrases and concepts not covered by explicit terms | Adds retrieval uncertainty, cost/privacy/infrastructure, ranking evaluation, and possible wrong-scope results. Not selected; require evidence that simpler methods miss valuable records first. |
-
-### Retrieval activation and proof (required design question)
-
-V5 must distinguish **should retrieval start?** from **what did retrieval actually do?** The first Python trial explicitly told Pi to check the index, so it did not test whether an ordinary relevant task activates retrieval on its own.
-
-Use observable evidence levels rather than treating an answer's claim as proof:
-
-1. **Activated:** the task independently triggered a read/search, without the user having to say “check memory.” Test relevant and irrelevant/no-match tasks.
-2. **Candidate:** the mechanism recorded which scoped record IDs/paths were considered and why they matched or were filtered.
-3. **Fetched/delivered:** the record file or bounded excerpt was actually read and made available to the model, not merely named in an index.
-4. **Verified:** mutable claims were checked against current source; status/scope conflicts were handled.
-5. **Cited/used:** the answer identifies the record that informed it. This is useful audit evidence, but model self-report alone does not prove causal influence.
-6. **Useful:** a task-level comparison or user evaluation indicates the retrieved record improved accuracy, reduced rediscovery, or was unnecessary/noisy.
-
-V4's counters show some trigger/match and cost activity, but the inspected implementation does not preserve a full candidate/selection trajectory; the backup's own improvement backlog proposed that as follow-up. V5 should start with the smallest trace sufficient to prove activation, candidate filtering, fetch/delivery, and verification. Do not persist raw prompts or full record contents by default; prefer scoped IDs/paths, reason codes, counts, status, and bounded cost/latency data, with task-level utility evaluated separately. Read-only retrieval should not show approval prompts; human confirmation applies to persistence.
 
 A **candidate hybrid flow** (not selected) is: resolve workspace/subproject scope → use a curated map for high-value routes and local lexical discovery for coverage → filter by lifecycle/status/freshness → read a small set of exact records → verify mutable claims against current source → report applicable, no-match, filtered, or unavailable explicitly. Semantic/embedding fallback and retrieval-trajectory telemetry remain optional candidates until this activation/proof requirement is met.
 
