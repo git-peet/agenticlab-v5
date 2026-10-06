@@ -511,3 +511,14 @@
 - **Result:** In a read-only Pi session, native `grep` found all three retention candidates in the records corpus. Pi read their metadata and selected the active in-scope record, excluding the inactive and wrong-scope entries. It did not use Bash, access `data/`/`.env`, run tests/app, or edit application/knowledge files.
 - **Cleanup/limit:** The temporary fixture was removed and the Python workspace status returned to its pre-fixture state. This proves native lexical fallback can recover an unlinked record and apply metadata filters in a tiny controlled case; it does not establish behavior on real heterogeneous records, semantic paraphrases, large corpora, or result caps.
 - **Next:** Use this as an acceptance scenario when comparing the preferred index/MOC + authoritative-record-corpus design with a generated catalog. No Python/Dia/V5 runtime code was changed.
+
+### V5-20261006-052 — Record metadata and MOC responsibilities drafted
+
+- **Recorded:** 2026-10-06T21:53:57+02:00
+- **Type:** Knowledge-interface schema/navigation design
+- **Status:** Proposed baseline for user review; no schema or implementation selected
+- **Direction approved for design:** User accepted continuing with a hierarchical index/MOC interface and asked to proceed with a clear metadata/map responsibility split.
+- **Draft split:** Root `INDEX.md` routes to domain/topic MOCs; MOCs curate concepts, aliases, relationships, and useful links without duplicating claims or acting as an exhaustive manifest; scoped atomic records remain authoritative and searchable independently of map membership.
+- **Record metadata proposal:** one primary category (`decision | fact | experience | risk | procedure`), stable ID, workspace/subproject/feature scope, lifecycle state, provenance/evidence, and recorded/verified dates. Categories remain metadata, not folders. Topic membership is represented by map links initially; whether a topic/tag field is worth adding remains open.
+- **Prompt-cost constraint:** target one approval per new record. Update a MOC only when a new concept/relationship merits curation, not for every record. If multiple changes become common, evaluate one approved transaction separately.
+- **Next:** Review this split against monorepo-scale navigation, scope filtering, and the synthetic map-omission evidence. No code, Python, or DiaWorkspace changes.
