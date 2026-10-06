@@ -193,7 +193,15 @@ The backup also demonstrates that storage structure and runtime loading are sepa
 
 The current first-slice template declares one `Category` field with values `decision | fact | experience | risk | procedure`; it does not say whether records may have multiple categories or whether categories should determine paths. Treat these as record metadata, not an established folder taxonomy.
 
-Keep records atomic and source-linked, with the existing category and lifecycle metadata. Do not assume category values imply category folders. Use a small, stable scope entry point; add curated maps or explicit typed relations only if the proposed retrieval jobs show that simple index/link navigation misses relevant records or produces too much irrelevant context. Do not select this as the final structure yet: first resolve growth assumptions, category cardinality (single vs multi-label), and which cross-record queries are genuinely expected. Any chosen design must account for approval frequency; avoiding a redundant index edit is not worth making retrieval unreliable.
+**User-approved direction for continued design (not implementation authorization):**
+
+- Keep `INDEX.md` as the stable project entry point, listing domain/topic MOCs rather than maintaining an exhaustive list of every record.
+- Use curated MOCs to organize concepts, aliases, and useful cross-category relationships; update them when a concept/map relationship changes, not automatically for every record. Avoid duplicating record claims inside maps.
+- Treat scoped atomic records plus their metadata as the authoritative corpus. Retrieval must be able to enumerate/search all eligible in-scope records independently of map membership, so a missing MOC link cannot produce a false no-match.
+- Keep `Category` as record metadata (`decision | fact | experience | risk | procedure`); let domain/topic maps group across categories. Whether category metadata is single- or multi-label remains open.
+- Candidate read path: resolve project/subproject scope → use a topic MOC as a route → perform a complete, bounded inventory/search fallback for coverage and no-match → filter status/type/freshness → read a small set of records → verify mutable claims → return an observable outcome.
+
+This aims for one approval per new record; map edits remain gated only when navigation concepts/relationships genuinely change. If enumerating the canonical record corpus is too expensive as it grows, compare a safe generated metadata inventory/catalog against local lexical search before adding a custom runtime. The next acceptance test should find an in-scope record even when it is deliberately absent from the curated map, and only report no-match after a successful complete scan. No final schema, map layout, search tool, or implementation is selected yet; resolve category cardinality and realistic cross-record query needs before coding.
 
 ### Retrieval flow to evaluate
 

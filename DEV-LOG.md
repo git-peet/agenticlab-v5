@@ -448,3 +448,22 @@
 - **User need:** The interface has many interacting dimensions and is becoming hard to hold mentally. User delegated synthesis judgement and authorized continued use of the populated V3 Neo backup as a read-only comparison baseline; Python remains the experimental host.
 - **Sketch added to C02:** one read path (task → scope → index/topic MOC → completeness inventory/search → type/status/freshness filters → atomic record → source verification → explicit outcome) and one write path (observation → evidenced candidate → user review → approved record → discoverability update). Separates scope, topic, category/type, lifecycle/status, record truth, and MOC navigation.
 - **Open design decision:** whether topic MOCs are exhaustive inventories or curated routes backed by a complete corpus scan; how to keep them complete without a separate approval for every record. No implementation or Python changes made.
+
+### V5-20261006-046 — Hierarchical index/MOC direction approved for further design
+
+- **Recorded:** 2026-10-06T21:17:29+02:00
+- **Type:** User-approved architecture direction / design checkpoint
+- **Status:** Preferred direction approved for design validation; no implementation authorized
+- **Direction:** Keep `INDEX.md` as the central route to domain/topic MOCs; use curated maps to organize concepts and cross-category links; keep atomic records and metadata as the authoritative corpus. Category remains a record-type attribute, not the folder hierarchy.
+- **Completeness constraint:** A MOC may aid navigation but must not be the only way to discover a valid record. The candidate design needs a complete, safe corpus inventory/search fallback for reliable no-match results.
+- **Cost constraint:** Avoid a separate manual index approval for every record. Maps should change when concepts/routes change, not just because a record was added; a read-only inventory or generated view is a candidate, not yet selected.
+- **Next:** Define how the corpus is enumerated, filtered, and proven complete without extra per-record approval prompts; then test an in-scope record omitted from the map and a true no-match. No code, Python, or DiaWorkspace changes.
+
+### V5-20261006-046 — User approves hierarchical index/MOC direction for continued design
+
+- **Recorded:** 2026-10-06T21:16:23+02:00
+- **Type:** Knowledge-interface direction / user approval
+- **Status:** Approved as the preferred direction to design and validate; not implementation authorization
+- **Direction:** Keep a central `INDEX.md` routing to domain/topic MOCs, with MOCs grouping concepts and linking across record types. Treat atomic records and their metadata as authoritative; categories remain metadata rather than folders. A complete read-only inventory/search fallback must prevent an omitted MOC link from producing a false no-match.
+- **Reason:** Supports organized, growing knowledge while preserving curated navigation and making record discovery complete. Avoid a separate manual index write/approval for every record where possible.
+- **Next:** Specify how the authoritative record corpus is enumerated, how MOCs stay useful without being exhaustive per-record manifests, and how no-match is proven without a second approval per record. No code or host changes are authorized by this design direction alone.
