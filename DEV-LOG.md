@@ -422,6 +422,16 @@
 
 ### V5-20261006-044 — Explicit no-match status observed
 
+- **Recorded:** 2026-10-06T20:58:20+02:00
+- **Type:** Retrieval negative-outcome check
+- **Status:** Index-level no-match reporting passed; corpus completeness remains unresolved
+- **Task:** In a fresh Python Pi session, the user explicitly asked whether project knowledge contained a prior data-retention decision for expense exports. The task prohibited edits, execution, and access to `data/` or `.env`.
+- **Trace:** Pi read AgenticLab instructions, `knowledge/INDEX.md`, the knowledge contract, and `.pi/settings.json`. It reported the store available and the index listing only an unrelated active date-format decision; no applicable record was found. No record file was read; no protected data path was accessed.
+- **Result:** This demonstrates the `no match` outcome when the available index is read, distinct from retrieval failure/unavailable. The check did not enumerate `knowledge/records/`, so it assumes the index is complete. Index completeness versus authoritative corpus discovery is an open knowledge-interface decision.
+- **Next:** Compare an exhaustive manifest, stable index plus directory discovery, and a generated read-only inventory, balancing completeness, growth, retrieval cost, and approval frequency. No code, app, database, or Python changes.
+
+### V5-20261006-044 — Explicit no-match status observed
+
 - **Recorded:** 2026-10-06T20:54:49+02:00
 - **Type:** Retrieval negative-outcome check
 - **Status:** Index-level no-match reporting passed; completeness across unindexed files untested
