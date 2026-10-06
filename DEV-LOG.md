@@ -419,3 +419,13 @@
 - **Result:** This is one positive example of selective non-retrieval for a task unrelated to the stored date decision. The initial answer's claim about test coverage was not adequately supported because it read only the root smoke test; the user then requested a targeted read of `src/tests/test_expense_tracker.py`. That follow-up found no test for blank/missing descriptions; the existing missing-fields test supplies a non-empty description. No tests were run.
 - **Evidence limit:** One task does not estimate false-negative rate or general precision. The source-analysis miss also shows the agent can under-inspect relevant tests even when it avoids unnecessary memory retrieval.
 - **Next:** Compare this negative case with the guarded positive date-format retrieval when refining activation and evidence criteria. No app/code/database change.
+
+### V5-20261006-044 — Explicit no-match status observed
+
+- **Recorded:** 2026-10-06T20:54:49+02:00
+- **Type:** Retrieval negative-outcome check
+- **Status:** Index-level no-match reporting passed; completeness across unindexed files untested
+- **Task:** In a fresh Python Pi session, the user explicitly asked whether project knowledge contained a prior data-retention decision for expense exports. The task prohibited edits, execution, and access to `data/` or `.env`.
+- **Trace:** Pi read AgenticLab instructions, `knowledge/INDEX.md`, the knowledge contract, and `.pi/settings.json`. It reported that the store was available and the index listed only the unrelated active expense-date decision; no applicable record was found. No record file was read, and no protected data path was accessed.
+- **Result:** This demonstrates the `no match` outcome for the current index, distinct from retrieval failure/unavailable. The check did not enumerate `knowledge/records/`, so it assumes the index is complete; index/record consistency remains an open interface requirement.
+- **Next:** Include an index-completeness rule or safe consistency check in the knowledge-interface design. No app/code/database change.
