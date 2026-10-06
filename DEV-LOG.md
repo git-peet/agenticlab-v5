@@ -501,3 +501,13 @@
 - **Trace:** In a fresh Python Pi session with the read-only tool allowlist, the user asked the built-in `grep` tool (not Bash) to search only `AgenticLab/knowledge/records/` for `data-retention`. Pi reported no match and confined the search to that directory. No `data/` or `.env` access, execution, or edits occurred.
 - **Result:** Confirms the current Pi host exposes native `grep` and it can search the scoped record directory without shell access. Combined with `find`, the minimal native-tool baseline can inventory and lexically search the present one-record corpus. A literal-term no-match does not prove semantic no-match; nested trees, large result sets, and paraphrase recall remain untested.
 - **Next:** Evaluate native `find`/`grep` plus MOC routing as the first low-infrastructure candidate; compare against generated metadata inventory only if scale/cost evidence warrants it. Keep no-match claims scoped to the search method and corpus scanned.
+
+### V5-20261006-051 — Synthetic map-omission fallback check
+
+- **Recorded:** 2026-10-06T21:47:40+02:00
+- **Type:** Retrieval capability fixture / scope-status filtering
+- **Status:** Passed on synthetic fixture only; no implementation selected
+- **Setup:** Created a temporary fixture under the Python workspace's test-fixture path: a root index and date-topic MOC, one active in-scope export-retention record deliberately omitted from the MOC, plus inactive and wrong-project decoys.
+- **Result:** In a read-only Pi session, native `grep` found all three retention candidates in the records corpus. Pi read their metadata and selected the active in-scope record, excluding the inactive and wrong-scope entries. It did not use Bash, access `data/`/`.env`, run tests/app, or edit application/knowledge files.
+- **Cleanup/limit:** The temporary fixture was removed and the Python workspace status returned to its pre-fixture state. This proves native lexical fallback can recover an unlinked record and apply metadata filters in a tiny controlled case; it does not establish behavior on real heterogeneous records, semantic paraphrases, large corpora, or result caps.
+- **Next:** Use this as an acceptance scenario when comparing the preferred index/MOC + authoritative-record-corpus design with a generated catalog. No Python/Dia/V5 runtime code was changed.
