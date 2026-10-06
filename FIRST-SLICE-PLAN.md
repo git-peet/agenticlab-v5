@@ -23,7 +23,7 @@ The Python workspace is now intended as an experimental host for V5 design, not 
 - AgenticLab code, design decisions, and development history stay in the V5 source repository. Python application changes and project-specific knowledge remain scoped to the Python workspace.
 - **Agreed distribution direction:** generate or stage a versioned snapshot of the V5 runtime under a workspace-local `AgenticLab/` folder at the Python project root. Keep canonical sources in V5; the host copy is an instance/deployment, not a second editable source. Record its source revision. Avoid an absolute-path symlink (machine-specific and silently live-updating) and avoid editing the host copy as canonical. For the first prototype, use a deliberate, reviewed copy; no installer is needed.
 - Before creating that host folder, define which system files, per-project config, memory, and evaluation records belong there and what must not be copied. No Python host integration has been created.
-- **Git connection:** local V5 is on branch `main` with `origin` set to `https://github.com/git-peet/agenticlab-v5.git`. Initial documentation baseline commit `bbe260c` exists locally. It has not been pushed. Future commits/pushes remain subject to explicit approval.
+- **Git connection:** local V5 is on branch `main` with `origin` set to `https://github.com/git-peet/agenticlab-v5.git`. The first push was rejected by GitHub's private-email protection. A GitHub no-reply identity is now configured in this repository only; global Git identity is unchanged. Publish only V5 files from this repository; Python application changes remain separate.
 - **Agreed initial harness:** Pi, using only workspace-local configuration/integration for this experiment; no global Pi configuration. Verify the exact load/invocation method and adapter capability before implementing it. This is not an adapter implementation approval.
 
 ## 3. Proposed real task sequence
@@ -100,7 +100,7 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 ## 7. Decisions needed before implementation
 
 1. Exercise 5's bounded code scope has been implemented in the three listed files. Its focused test remains unvalidated because `pandas` is unavailable in the active interpreter. Do not install packages or broaden scope without approval; provide an existing compatible environment or approve a safe dependency setup.
-2. The V5 documentation baseline is committed locally as `bbe260c`; it has been pushed to the authorized GitHub remote. The Python project changes are separate and remain uncommitted.
+2. GitHub rejected the initial push due to commit email privacy. A repository-local GitHub no-reply identity is configured; do not change global identity. Publish only V5 repository files, never Python application changes to this remote.
 3. Confirm which files/configuration are included in the workspace-local snapshot and how Pi loads it without global configuration.
 4. The task sequence is confirmed. Decide the date-format behavior in Exercise 6 task context; its project changes still need an approved bounded scope.
 
