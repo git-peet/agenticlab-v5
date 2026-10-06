@@ -114,14 +114,14 @@ Pi 1.0.4 behavior relevant to this proposal (read from the installed `configurat
 
 The Pi adapter uses `tool_call` to request UI confirmation for built-in `write`/`edit` calls targeting project knowledge; it blocks if no UI is available, the user rejects, or confirmation fails. Bash commands that visibly reference the knowledge subtree are now blocked outright with a message to use Pi's file tools; they no longer produce a misleading write-approval prompt for a read. Ten Node tests cover path scoping/traversal, unrelated calls, file-write approval/rejection, shell-reference blocking, and fail-closed behavior.
 
-In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowledge change was not approved`, and a file-read confirmed the marker file was absent. The user then found that a read-only `find` via `bash` still triggered a confirmation labeled as a persistent change. That was a policy/UI bug: the first gate treated any shell reference as a write. The corrected gate now blocks shell access with a clear message and no confirmation prompt; read operations should use Pi's `read`/`ls` tools. The V5 source and host snapshot now match at revision `180bf2334b2631534e6dd96b53db2a5a15834404`. The already-running Pi process still has the previous extension code loaded; restart Pi and grant session-only trust again before testing the correction live. The extension has full process permissions, its shell check is lexical, and it does **not** sandbox the OS or reliably intercept obfuscated/indirect shell writes. It is not comprehensive write protection.
+In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowledge change was not approved`, and a file-read confirmed the marker file was absent. A later read-only `find` via `bash` exposed a false-positive prompt. The V5 source and Python snapshot were corrected: shell commands visibly referencing project knowledge are now blocked with a clear instruction to use Pi's file tools, without a misleading confirmation dialog. After relaunching Pi with `pi --continue` and session-only project trust, the user reran the command and confirmed the corrected block message appeared with no confirmation prompt. The shell check is lexical and does **not** sandbox the OS or reliably intercept obfuscated/indirect shell writes. It is not comprehensive write protection. The date decision record is saved, but `AgenticLab/knowledge/INDEX.md` still needs an entry.
 
 **Deferred Jev connection:** The decision to propose/present a memory candidate or combine candidates for user review is a promising bounded Jev-style advisory point. Revisit it in [`backlog/candidates/C09-jev-decisions.md`](backlog/candidates/C09-jev-decisions.md) after real record proposals show whether the current review interaction is repetitive or intrusive. No Jev call or classifier is part of this slice; it cannot authorize or replace the human confirmation gate.
 
 ### First-slice behavior
 
 - Default-agent work is the exercised path; explicit workflow invocation remains an architectural seam, not a V4 prompt port in this slice.
-- The user selected `YYYY-MM-DD` for the date mismatch; the controller/test change is implemented. The remaining V5 task is to decide whether/how to capture that decision through the approved knowledge workflow and test retrieval in a fresh session.
+- The user selected `YYYY-MM-DD` for the date mismatch; the controller/test change is implemented and the decision record was approved, saved, and read back. The knowledge index still needs updating through the gate before fresh-session retrieval.
 - A scoped candidate record is proposed and shown to the user; promotion/save requires the agreed gate. A fresh Pi session retrieves it only for the Python project and checks current source before use.
 - Exercise 6 updates controller date validation and focused tests; all six controller tests and both root CI smoke tests pass. Tests use temporary DBs; the real DB metadata is unchanged.
 - Evaluate qualitative outcomes: was the record found when relevant, ignored when unrelated, accurate/current, and helpful without re-explanation? Note corrections and attention/cost; one run is not a statistical claim.
@@ -129,7 +129,7 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 ### Proposed implementation work units
 
 1. **V5 system payload — complete:** `system/` operating/knowledge contracts and Pi approval gate are in canonical V5; ten policy/gate tests pass.
-2. **Workspace integration — staged; deny path verified live:** root `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot are in the Python host. Pi loaded the extension after session-only trust; a rejected write was blocked and the marker remained absent. No global settings changed. Approved writes and persistent trust remain untested.
+2. **Workspace integration — staged; gate behavior verified live:** root `AGENTS.md`, `.pi/settings.json`, and the reviewed `AgenticLab/` snapshot are in the Python host. Pi loaded the extension after session-only trust; a rejected write was blocked and the marker remained absent, an approved date decision was saved, and the corrected shell-reference block was verified without a confirmation dialog. No global settings changed. Persistent trust remains untested.
 3. **Exercise 6 code task — complete:** `YYYY-MM-DD` date validation and relevant controller tests are implemented; all six controller tests and both root smoke tests pass in `.venv`; the real DB metadata is unchanged. Fresh-session V5 memory retrieval remains to be tested.
 4. **Review:** fresh-session recall check; report limitations and decide whether this slice earns expansion.
 
@@ -149,7 +149,7 @@ In Pi TUI, the user rejected a synthetic file write; Pi returned `Project knowle
 
 ### Phase 3 — Test V5 continuity in the host project
 
-**Project code and tests complete; V5 memory continuity not yet tested.** The first Pi session used session-only trust. Decide whether the user wants persistent trust or another prompt. Next, save the approved date-format decision through the Pi gate and use a fresh Pi session to retrieve it and verify it against source. The date implementation is complete; no further Python edits are implied.
+**Project code and tests complete; fresh-session V5 memory retrieval remains.** The date-format decision has been saved through the Pi gate. First add its record to `AgenticLab/knowledge/INDEX.md` using Pi's gated edit path—the current index still says there are no approved records—then use a fresh Pi session to retrieve the decision and verify it against source. The date implementation is complete; no further Python edits are implied.
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
@@ -165,9 +165,9 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 
 ## 8. Remaining gates
 
-1. The user granted session-only project trust and verified the deny path. Decide whether to retain session-only trust (Pi asks again) or explicitly save persistent trust for this project. Do not trust the parent folder or alter global trust/settings.
-2. Save/retrieve the approved `YYYY-MM-DD` decision through the gate in a fresh session; the approved-write path has only unit-test coverage so far.
+1. The user granted session-only project trust and verified the deny path, approved write, and corrected shell-reference block. Decide whether to retain session-only trust (Pi asks again in a new process) or explicitly save persistent trust for this project. Do not trust the parent folder or alter global trust/settings.
+2. Add the saved `YYYY-MM-DD` record to `AgenticLab/knowledge/INDEX.md` using Pi's gated edit path; then test fresh-session retrieval and source verification.
 3. All six controller tests and the two root smoke tests pass using `.venv`; real database metadata is unchanged. Do not repeat tests with the system Python or touch `data/expenses.db`.
 4. The Python source changes, `.gitignore`, and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
 
-**Current state:** Exercises 5 and 6 are implemented; six controller tests and two root smoke tests pass in the project-local Python 3.12 `.venv`, and the real DB metadata is unchanged. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged in the Python workspace. Pi session-only trust loaded the extension and its denied-write path passed live. The approved-write path, persistent trust, fresh-session V5 memory retrieval, and app launch remain untested. Python changes and host snapshot are uncommitted.
+**Current state:** Exercises 5 and 6 are implemented; six controller tests and two root smoke tests pass in the project-local Python 3.12 `.venv`, and the real DB metadata is unchanged. V5 `system/` payload and Pi gate are implemented, tested (10/10), published, and staged in the Python workspace. Pi session-only trust loaded the refreshed extension; denied write, approved date-record write, and corrected shell-reference blocking were verified live. The knowledge index is stale, so fresh-session retrieval remains untested. Persistent trust and app launch also remain untested. Python changes and host snapshot are uncommitted.

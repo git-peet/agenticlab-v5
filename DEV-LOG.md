@@ -222,3 +222,12 @@
 - **Type:** Record-integrity correction
 - **Status:** Corrected
 - **Record:** Entry `V5-20261006-022` was assigned the timestamp from an earlier V5 entry by mistake. Its content is unchanged; this entry records the actual later logging time as 2026-10-06T12:19:17+02:00.
+
+### V5-20261006-024 — Corrected shell-reference block verified in Pi
+
+- **Recorded:** 2026-10-06T13:01:53+02:00
+- **Type:** Runtime verification
+- **Status:** Passed
+- **Test:** In the Python project after launching a new Pi process with `pi --continue` and granting session-only project trust, the user asked Pi to run the read-only `find AgenticLab/knowledge ...` check.
+- **Result:** Pi blocked shell access with “Shell access to AgenticLab project knowledge is blocked. Use Pi’s read tool to inspect it and the gated write/edit path to change it.” No Yes/No write-confirmation prompt appeared. The corrected snapshot is active; use Pi’s file tools for knowledge inspection.
+- **Next:** Update `AgenticLab/knowledge/INDEX.md` through the gated edit path to reference the approved date-format record, then evaluate retrieval in a fresh session. The index remains stale; do not edit application code.
