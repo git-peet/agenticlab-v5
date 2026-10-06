@@ -492,3 +492,12 @@
 - **Trace:** In a new Python Pi session with the read-only tool selection, the user asked Pi to use its native `find` tool (not Bash) to list `AgenticLab/knowledge/records/`. The tool enumerated one Markdown record with a result limit of 1,000. No record contents, data files, database, `.env`, app, or tests were accessed; no files were edited.
 - **Result:** Native `find` works in this session and confirms the current flat, one-record directory. Together with the prior `ls`/INDEX comparison, the current inventory matches the index. This is not evidence for larger/nested collections; grep/lexical search has not been tested.
 - **Next:** Compare native `find`/`grep` against a generated read-only inventory as record count and hierarchy grow. No custom catalog, code, or Python change selected.
+
+### V5-20261006-050 — Native Pi `grep` tested on records corpus
+
+- **Recorded:** 2026-10-06T21:40:30+02:00
+- **Type:** Read-only search capability / no-match check
+- **Status:** Native lexical search works for the current corpus; semantic completeness and scale untested
+- **Trace:** In a fresh Python Pi session with the read-only tool allowlist, the user asked the built-in `grep` tool (not Bash) to search only `AgenticLab/knowledge/records/` for `data-retention`. Pi reported no match and confined the search to that directory. No `data/` or `.env` access, execution, or edits occurred.
+- **Result:** Confirms the current Pi host exposes native `grep` and it can search the scoped record directory without shell access. Combined with `find`, the minimal native-tool baseline can inventory and lexically search the present one-record corpus. A literal-term no-match does not prove semantic no-match; nested trees, large result sets, and paraphrase recall remain untested.
+- **Next:** Evaluate native `find`/`grep` plus MOC routing as the first low-infrastructure candidate; compare against generated metadata inventory only if scale/cost evidence warrants it. Keep no-match claims scoped to the search method and corpus scanned.
