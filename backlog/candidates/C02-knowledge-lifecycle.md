@@ -85,7 +85,19 @@ Treat these as a workload to review, not as validated requirements:
 4. **Correct negative result:** distinguish no match from out-of-scope/inactive/filtered records and from an unavailable store.
 5. **Freshness/source check:** verify mutable claims against current source; surface contradiction or staleness rather than quietly trusting old text.
 
-For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval, source correctness, stale/conflicting handling, amount of context inspected, and user effort. Include **approval interactions per task/decision** and redundant metadata/index writes; prompt wording alone is not the friction measure. The first trial is one sample only.
+For each job, evaluate relevant-record recall, irrelevant/wrong-scope retrieval, source correctness, stale/conflicting handling, amount of context inspected, and user effort. Include **approval interactions per task/decision** and redundant metadata/index writes; prompt wording alone is not the friction measure. Read-only retrieval should not create approval prompts; confirmation remains at persistence boundaries. The first trial is one sample only.
+
+### Read/retrieval mechanisms to compare
+
+| Approach | Strength | Main tradeoff / evidence needed |
+|---|---|---|
+| Native file listing/reading from an index | No new runtime or index; inspectable and appropriate for a tiny collection | Agent must find the correct path manually; recall and context cost may degrade as candidate count grows. This is what the first Python-host trial used, after an explicit instruction. |
+| Curated MOC/topic map with relative links | Human-readable, supports cross-category navigation and preserves known conceptual routes | Requires ongoing curation and approvals; omissions can hide valid records; maps may duplicate navigation already recoverable from source. |
+| Local lexical full-text search | Deterministic, low infrastructure, useful when task terms resemble record wording | Misses paraphrases/implicit relationships; ranking and scope/status filtering need design. Current V5 gate blocks shell commands that mention project knowledge, so this needs a safe read-only host tool/search capability—not a shell bypass. |
+| Curated semantic trigger map (V4-style) | Can route task language to concepts, aliases, and related sources beyond filenames | Trigger authoring, false matches/misses, stale paths, coarse target files, per-turn context cost. Keep the useful capability, but test it against real queries and current source. |
+| Model/embedding-based semantic search | May find paraphrases and concepts not covered by explicit terms | Adds retrieval uncertainty, cost/privacy/infrastructure, ranking evaluation, and possible wrong-scope results. Not selected; require evidence that simpler methods miss valuable records first. |
+
+A **candidate hybrid flow** (not selected) is: resolve workspace/subproject scope → use a curated map for high-value routes and local lexical discovery for coverage → filter by lifecycle/status/freshness → read a small set of exact records → verify mutable claims against current source → report applicable, no-match, filtered, or unavailable explicitly. Semantic/embedding fallback and retrieval-trajectory telemetry remain optional candidates, not baseline requirements.
 
 ### Model capability and source recoverability
 

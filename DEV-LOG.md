@@ -350,3 +350,13 @@
 - **Clarification:** The Pi files under `system/adapters/pi/` implement knowledge-write confirmation and shell-reference blocking; they do not implement read selection, search, index parsing, graph/MOC traversal, ranking, or retrieval telemetry. `system/AGENTS.md` and the knowledge contract give instructions/record semantics, while the host trial used Pi-native `read`/`ls` tools.
 - **Trial limits:** The fresh-session test explicitly told Pi to check project knowledge/index, so it verifies a narrow host workflow plus source verification, not autonomous/task-triggered retrieval or a custom V5 read mechanism. The pasted response does not confirm the linked record file itself was opened.
 - **Outcome:** C02, `FIRST-SLICE-PLAN.md`, and the roadmap now distinguish the write gate from the read/retrieval interface. Design of retrieval mechanisms remains the next knowledge-interface task.
+
+### V5-20261006-037 — Read-side retrieval options drafted
+
+- **Recorded:** 2026-10-06T16:10:30+02:00
+- **Type:** Knowledge-interface design / retrieval mechanism comparison
+- **Status:** Options and candidate flow drafted; no retrieval mechanism selected
+- **Options compared:** native `ls`/`read`; curated MOC/topic maps; local lexical search; V4-style trigger maps; model/embedding search.
+- **Candidate hybrid flow:** enforce workspace/subproject scope → use curated routes plus lexical discovery → filter lifecycle/status/freshness → read a small set of exact records → verify mutable claims in current source → report applicable/no-match/filtered/unavailable. This is a hypothesis for comparison, not an implementation decision.
+- **Constraints:** Native file reads already work; the current Pi gate deliberately blocks Bash commands referencing project knowledge, so lexical search would require a safe read-only tool/host capability, not a shell bypass. Read-only retrieval should not prompt for approval; write approvals remain at persistence boundaries. Semantic/embedding fallback and retrieval telemetry remain optional.
+- **Next:** Review these options against the proposed retrieval jobs and the V4 capability map; evaluate precision, recall, context size, maintenance, scope safety, and failure observability before selecting any V5 read mechanism.
