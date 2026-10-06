@@ -110,3 +110,11 @@
 - **Finding:** GitHub rejected publication because the local commits would expose a private commit email. The remote still has no published refs.
 - **Action:** Configured a GitHub no-reply author email in this repository's local Git config only; global Git identity was not changed. Because the two local commits were never published, the publication history will be recreated from the current V5 documentation tree with the privacy-safe identity; the working files remain the source of truth. No Python project changes will be included in the V5 remote.
 - **Next:** Verify the publication-safe history, push only the V5 repository to `origin/main`, and record the result. If GitHub rejects the no-reply identity, stop and ask rather than weaken privacy protection.
+
+### V5-20261006-011 — Unpublished history rewritten for privacy-safe publication
+
+- **Recorded:** 2026-10-06T10:01:14+02:00
+- **Type:** Repository privacy correction
+- **Status:** Local main rewritten with repo-local no-reply identity; push pending
+- **Record:** GitHub rejected the first push under its private-email protection. The remote remained empty. Since none of the commits had been published, the local V5 documentation history was recreated with the GitHub no-reply address configured only in this repository; global Git configuration was not changed. The current tree and file contents are preserved. Older commit IDs mentioned in entries #008/#009 refer to the superseded, unpublished local attempt and are not in the rewritten main history. Only V5 documentation will be pushed; the Python project is a separate repository.
+- **Next:** Push the rewritten V5 `main`; if GitHub rejects it again, stop and ask the user rather than disabling privacy protection.
