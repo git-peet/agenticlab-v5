@@ -167,3 +167,11 @@
 - **Interpretation:** This verifies the interactive denied-write path for a built-in Pi write call and the workspace snapshot's policy-loading path. It does not verify the approval/allow path, subsequent-session trust, general shell-write protection, or that the extension is a security sandbox.
 - **Safety:** No project source/database files were touched by this smoke test; no Pi global trust/configuration was changed. The extension path remains workspace-local.
 - **Next:** User chooses whether to save persistent trust or repeat session-only trust. Confirm the date format and approve the bounded Exercise 6 code/test scope before changing Python source.
+
+### V5-20261006-017 — Date representation selected for Exercise 6
+
+- **Recorded:** 2026-10-06T11:35:24+02:00
+- **Type:** User decision / project-task scope
+- **Status:** Format decision confirmed; source-change scope still gated
+- **Decision:** Use `YYYY-MM-DD` for Exercise 6. The user preferred `DD-MM-YYYY` but chose the existing GUI/test convention to avoid broader GUI, filter, storage, test, and documentation changes.
+- **Next:** Await a separate bounded go for the controller/test change. Do not edit Python source merely from this format decision.

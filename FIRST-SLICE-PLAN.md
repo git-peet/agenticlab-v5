@@ -53,7 +53,7 @@ Read-only inspection confirmed the current clone's mismatch:
 - `src/data.py` stores the resulting string in a SQLite `TEXT` field.
 - The bundled valid-add test uses `2024-06-21`, consistent with the GUI and learning-plan recommendation, but is not an assertion-rich integration test.
 
-Proposed V5 test objective: use this cross-layer issue to test whether the system gathers sufficient context, records a user-approved date-format decision with provenance, retrieves it in a fresh session, checks it against current source, and supports the bounded change. The learning plan recommends `YYYY-MM-DD`, but the actual decision remains for the user/task. Test a valid date plus an impossible date such as `2025-02-30` against an isolated test database. The source inspection does not authorize this project change; obtain a bounded project-work go before editing.
+Proposed V5 test objective: use this cross-layer issue to test whether the system gathers sufficient context, records a user-approved date-format decision with provenance, retrieves it in a fresh session, checks it against current source, and supports the bounded change. The user selected `YYYY-MM-DD` because it matches the GUI, current test fixture, and learning-plan recommendation; using `DD-MM-YYYY` would require broader GUI/filter/storage/test documentation changes. Test a valid date plus an impossible date such as `2025-02-30` against the isolated test database. The format decision does not itself authorize Exercise 6 source edits; obtain a bounded project-work go before editing.
 
 ## 4. What the V5 slice must exercise
 
@@ -145,7 +145,7 @@ The implemented Pi adapter uses `tool_call` to request UI confirmation for built
 
 ### Phase 3 — Run the selected V5 task in the host project
 
-**Not started.** The trust decision for the first session was session-only. Confirm whether the user wants to trust the project persistently or repeat the prompt. Then confirm the actual task and date-format choice. For Exercise 6, create one user-approved decision record during investigation, then test fresh-session retrieval and source verification before the bounded implementation. Keep changes limited to the approved objective and isolated tests; no unrelated cleanup or package changes.
+**Not started.** The first Pi session used session-only trust. Confirm whether the user wants to trust the project persistently or repeat the prompt. The task sequence is approved and the user selected `YYYY-MM-DD`; still obtain the bounded Exercise 6 code-change go. For Exercise 6, create one approved decision record during investigation, then test fresh-session retrieval and source verification before implementation. Keep changes limited to the approved objective and isolated tests; no unrelated cleanup or package changes.
 
 ### Phase 4 — Review and decide (no automatic expansion)
 
@@ -162,7 +162,7 @@ Report what worked, what was re-explained, whether retrieval was relevant/curren
 ## 8. Remaining gates
 
 1. The user granted session-only project trust and verified the deny path. Decide whether to retain session-only trust (Pi asks again) or explicitly save persistent trust for this project. Do not trust the parent folder or alter global trust/settings.
-2. Confirm the Exercise 6 date-format decision (`YYYY-MM-DD` is the UI's current output and the plan's recommendation) and approve the exact Python source/test change scope before edits.
+2. The user selected `YYYY-MM-DD`. Approve the exact Python source/test change scope for Exercise 6 before edits.
 3. After the date fix, run the full test suite only through the project `.venv`; verify tests continue using temporary DBs and that the real database metadata remains unchanged.
 4. The Python source changes and host snapshot/config are uncommitted in the Python project. Any commit/push to that repository is a separate decision; nothing from it is pushed to the V5 remote.
 
