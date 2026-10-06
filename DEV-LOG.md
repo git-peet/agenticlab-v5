@@ -322,3 +322,12 @@
 - **Granularity observation:** The backup's SEMANTIC_MAP has 30 usable nodes targeting 16 files. Three concepts target the ~27.8 KiB Architect MOC and nine target the ~3.9 KiB shared symbol index; semantic navigation can therefore return coarser payloads than one concept. Runtime caps exist, but effective context granularity remains a design consideration. Documented runtime loading differs by tier/harness; do not infer token cost from file size alone.
 - **Value hypothesis:** Current-source facts and conventions may often be re-derived; cross-system navigation can reduce search cost; explicit decisions/rationale/external contracts are less recoverable from code; active feature/checkpoint state is time-sensitive; user notes and framework-development backlog need separate purposes and retrieval policies. These are qualitative hypotheses from selected samples, not corpus-wide classifications or proof of benefit on today's models.
 - **Outcome:** Added a preliminary value/recoverability matrix to C02. The Python workspace remains the only V5 experimental host; Dia's populated backup remains a read-only comparison baseline. No DiaWorkspace, backup, or Python files were modified.
+
+### V5-20261006-034 — Preserve demonstrated capability while redesigning V4 mechanisms
+
+- **Recorded:** 2026-10-06T15:47:04+02:00
+- **Type:** User-approved design principle / knowledge-interface scope
+- **Status:** Design constraint recorded; no architecture or implementation selected
+- **Principle:** V4's layered retrieval system grew through accumulated mechanisms, but those layers may encode real value and useful synergy. V5 should improve the architecture without blindly porting the patchwork or indiscriminately removing mechanisms because current models are stronger or fewer components seem simpler.
+- **Decision method:** Before preserving, merging, replacing, deferring, or removing a capability, map the user problem, V4 mechanisms/interactions, benefit/failure evidence, context/latency/maintenance/approval costs, and what current models/source can recover. Simplify only when the demonstrated outcome is preserved or no longer valuable.
+- **Outcome:** Added a capability-preservation method to C02 and updated the first-slice handoff and roadmap. The next design step is to map V4 retrieval capabilities/interactions and costs before selecting a V5 knowledge interface. No V5 code, Python files, or DiaWorkspace files were changed.

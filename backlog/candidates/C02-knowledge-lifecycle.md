@@ -47,6 +47,12 @@ Do not conflate these two DiaWorkspace paths, and do not confuse either with the
 
 Only a selective, read-only review of valuable backup material is in scope. Do not copy or import its knowledge into V5 or Python. Counts and structure are not evidence that any item remains useful or accurate; model recoverability must be assessed separately.
 
+### V5 design stance: preserve capability, redesign mechanisms
+
+V4's retrieval system accumulated layers over time, but that history is evidence of distinct needs and interactions—not proof that every mechanism should be ported unchanged, nor that layered capability should be discarded as patchwork. V5 should preserve demonstrated user value and useful synergies while seeking a more coherent, inspectable interface. Fewer files or mechanisms alone is not a success criterion; neither is reproducing V4's architecture because it exists.
+
+Before selecting or removing a capability, map: the user problem it addresses; the V4 mechanism(s) involved and their interactions; evidence of benefit/failure; context, latency, maintenance, and approval costs; what a current model/source can re-derive; and a reasoned V5 disposition (`preserve`, `merge`, `replace`, `defer`, or `remove`). Remove or simplify only when the capability is redundant, no longer valuable, or can be supplied more reliably and cheaply another way without losing a demonstrated outcome.
+
 ### Proposed retrieval jobs
 
 Treat these as a workload to review, not as validated requirements:
@@ -128,6 +134,6 @@ The first host trial saved and indexed one user-approved date decision; a fresh 
 
 **Observed approval frequency:** the record write and later index update each required a separate successful user confirmation—two prompts for one decision. A no-preview index attempt was canceled during gate debugging; an earlier read-only shell false-positive and synthetic denied-write prompt were setup/test events, not representative steady-state samples. The user clarified that friction is the *number of interruptions*, not prompt wording. One decision is insufficient to establish a sustainable prompt rate.
 
-Next design the smallest knowledge structure and retrieval interface that can grow while balancing precision/recall, scope/status/freshness filtering, source verification, navigation/maintenance effort, and approval interruptions. Compare alternatives before selecting an implementation. Keep the prompt-count result as a constraint; do not assume a static directory index is suitable as the record set grows, and do not implement batching or loosen confirmation without a separate decision.
+Next map the valuable V4 retrieval capabilities and interactions, then design the smallest coherent knowledge structure/interface that can grow while balancing precision/recall, scope/status/freshness filtering, source verification, navigation/maintenance effort, and approval interruptions. Compare alternatives before selecting an implementation; preserve outcomes, not mechanisms by default. Keep the prompt-count result as a constraint; do not assume a static directory index is suitable as the record set grows, and do not implement batching or loosen confirmation without a separate decision.
 
 **Jev revisit:** The later design of when/how to present a memory candidate for user review is a bounded-decision candidate (e.g. retain as candidate / keep transient / needs more evidence, or summarize a batch). See C09. Revisit only after actual candidate reviews reveal repeated friction—especially repeated approval interruptions, not merely unclear prompt wording. Jev may advise or prepare a review, never approve, persist, promote, suppress required confirmation, or delete knowledge.
