@@ -552,3 +552,12 @@
 - **Trace/result:** Pi read `INDEX.md` and the updated knowledge contract, enumerated `records/` with native `find`, searched it with native `grep`, then read the sole record. It returned `no match` for the requested topic and explicitly distinguished the indexed date-format record as unrelated. No protected paths were accessed.
 - **Conclusion:** The updated instructions drive a complete inventory/search before no-match in the current corpus. This validates only a flat one-record case under the active read-only toolset; result caps, nesting, scale, semantic recall, and causal memory benefit remain open. The earlier DB-read incident remains a separate, invalid trial; no further DB access is authorized.
 - **Next:** Review the v0 interface contract and decide whether to authorize a bounded implementation slice. No custom search engine or catalog is implemented.
+
+### V5-20261007-056 — First-slice review outcome and next-scope recommendation
+
+- **Recorded:** 2026-10-07T06:44:46+02:00
+- **Type:** Phase 4 review / development order
+- **Status:** First slice retained as a narrow prototype; implementation expansion not yet authorized
+- **Evidence:** A relevant natural task triggered index/record read and current-source verification; an unrelated description task did not load the date record; an explicit no-match query was followed by complete enumeration/search of the current one-record corpus; a synthetic fixture demonstrated map-omission recovery and scope/status filtering. The user reported the relevant answer useful. The answer's causal reliance on the record and benefit beyond one task remain unproven.
+- **Costs/limits:** One decision required two approvals for record plus index; the user's main concern is interruption frequency. A prior unguarded task queried the real DB read-only and violated scope, though it did not modify the DB; later tests used explicit data boundary plus read-only tools. Current native tool tests cover only a tiny flat corpus; nested/large-scale and semantic recall remain open.
+- **Disposition:** Preserve the basic knowledge capability and continue with the user-approved INDEX → topic MOCs → authoritative records direction. Do not add auto-capture, custom semantic/embedding search, or Jev now. Next prepare one bounded implementation proposal for MOC/record responsibilities and completeness/fallback behavior, including approval-count impact; get explicit scope approval before changing runtime or Python files.
