@@ -561,3 +561,12 @@
 - **Evidence:** A relevant natural task triggered index/record read and current-source verification; an unrelated description task did not load the date record; an explicit no-match query was followed by complete enumeration/search of the current one-record corpus; a synthetic fixture demonstrated map-omission recovery and scope/status filtering. The user reported the relevant answer useful. The answer's causal reliance on the record and benefit beyond one task remain unproven.
 - **Costs/limits:** One decision required two approvals for record plus index; the user's main concern is interruption frequency. A prior unguarded task queried the real DB read-only and violated scope, though it did not modify the DB; later tests used explicit data boundary plus read-only tools. Current native tool tests cover only a tiny flat corpus; nested/large-scale and semantic recall remain open.
 - **Disposition:** Preserve the basic knowledge capability and continue with the user-approved INDEX → topic MOCs → authoritative records direction. Do not add auto-capture, custom semantic/embedding search, or Jev now. Next prepare one bounded implementation proposal for MOC/record responsibilities and completeness/fallback behavior, including approval-count impact; get explicit scope approval before changing runtime or Python files.
+
+### V5-20261007-057 — Collection extensibility added to the read contract
+
+- **Recorded:** 2026-10-07T06:59:53+02:00
+- **Type:** Knowledge-interface extensibility / user direction
+- **Status:** Contract updated; no new collection or MOC implemented
+- **User requirement:** Keep the small baseline flexible enough for knowledge to grow, support wider MOC/index structures, and link to other information products such as backlog candidates without flattening them into one undifferentiated memory store.
+- **Contract change:** `INDEX.md` may route to multiple nested maps/collections; each collection retains its own scope, purpose, owner, and lifecycle. Categories have one primary value per record but can be extended through a reviewed contract update. MOCs remain navigation projections, and backlog/user-note collections are linkable but not implicitly merged, loaded, or promoted.
+- **Boundary:** No record, MOC, or backlog data was copied. No Python, DiaWorkspace, or retrieval-code changes were made in this documentation step.
