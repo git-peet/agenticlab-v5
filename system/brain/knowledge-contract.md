@@ -31,14 +31,33 @@ Use only fields necessary to make this record reviewable and safe. Category is t
 
 ## Indexes, maps, and collections
 
-`INDEX.md` is the workspace router. It may link to more than one map or collection while keeping their scopes and purposes explicit. A map/MOC is a small navigation projection, not a second content store. A minimal map may declare:
+`INDEX.md` is the stable workspace router. It identifies the project scope, points to topic/domain maps, and names the authoritative record collection(s). For a tiny workspace it may link directly to a high-value record, but do not make a per-record exhaustive list its only retrieval path. Multiple maps/collections may be nested or added over time; keep each collection's owner, scope, purpose, and lifecycle explicit.
 
-- stable map ID/title and applicable workspace/subproject scope;
-- collection it routes within (e.g. project records versus a separate user/system collection);
-- coverage class: `curated` (selective routes) or `exhaustive`/`generated` (may support completeness only if the defined corpus was successfully scanned);
-- optional aliases/trigger terms, concept summaries, related maps, and links to stable record IDs/paths.
+A **topic MOC/map** is a curated navigation projection, never a second content store or the authority for a claim. Maps may be nested, cover cross-category concepts, link to other maps, and omit records. They do not need one entry per record. A new map does not imply that all prior records must be moved or duplicated.
 
-A curated map is allowed to omit records. Retrieval must therefore use the authoritative in-scope project-record corpus for completeness and no-match claims. Do not require a per-record map edit when an existing route plus corpus search can find it. Other collections, including future backlog candidates, need their own explicit status/scope and retrieval policy; their presence in a map does not make them active project knowledge.
+Minimal topic-map template:
+
+```markdown
+# [Domain or topic]
+
+- **Map ID:** `map-[stable-slug]`
+- **Collection:** [collection key, e.g. `project-records`]
+- **Scope:** [workspace/subproject scope]
+- **Purpose:** [what tasks this map helps navigate]
+- **Aliases / trigger terms:** [optional synonyms and task phrasing]
+
+## Concepts and routes
+
+### [Concept]
+[One-line navigation summary; not a duplicate of record evidence.]
+
+- **Records:** [record title](relative/path/to/record.md) — `[stable-ID]`
+- **Related maps:** [map title](relative/path/to/map.md)
+```
+
+Use only the fields/sections that help navigation; avoid empty template sections. The initial map is curated by default. A future exhaustive/generated catalog is a distinct read-only projection that must identify the corpus/version it covered and whether the scan completed; it is not a MOC and cannot silently become another source of truth.
+
+The authoritative project-record collection remains searchable independently of map membership. For a complete/no-match result, search all eligible records in the requested scope, not only records linked from a MOC. Do not require a per-record map edit when the existing routes plus corpus search can find the record. Other collections—such as user notes or AgenticLab-system backlog candidates—may be linked from the root index, but must retain separate scope, status, ownership, and load policy; a link does not merge, activate, or authorize them.
 
 ## Lifecycle
 
