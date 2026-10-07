@@ -45,7 +45,7 @@ Status, priority, dependencies, and authorization are separate. A high-interest 
 | V52-C06 | Reusable skills, procedures, and process routines | candidate | Candidate; don't preload a speculative library | [C06](candidates/C06-procedures-routines.md) |
 | V52-C07 | Specialist forms and independent coordination | candidate | Candidate; isolate only when independence/value warrants | [C07](candidates/C07-specialists-coordination.md) |
 | V52-C08 | Runtime, adapters, and current AI landscape | candidate | Candidate; portable contracts, thin capability-aware adapters | [C08](candidates/C08-runtime-adapters.md) |
-| V52-C09 | Jev-inspired bounded decision support | candidate | Advisory, atomic, evaluated per decision; no universal classifier | [C09](candidates/C09-jev-decisions.md) |
+| V52-C09 | Jev-inspired bounded decision support | parked | User direction: no Jev for now. Revisit only for recurring bounded decisions or demonstrable review/interruption friction; no universal classifier | [C09](candidates/C09-jev-decisions.md) |
 | V52-C10 | Bounded semantic reuse / decision caching | parked | Revisit only after repeated bounded decisions are observed | [C10](candidates/C10-bounded-reuse.md) |
 | V52-C11 | Project bootstrap, greenfield setup, and workspace isolation | candidate | Candidate; setup/import/reset boundaries need design | [C11](candidates/C11-bootstrap-and-scope.md) |
 
@@ -90,6 +90,32 @@ The old pipeline paths below identify provenance only. The V5 destination record
 | `v5/pipeline/research/v4-adapter-review.md` | C08, plus C04/C05: thin adapters, capability matrices, behavioral tests and per-boundary fallback are candidate principles. |
 | `v5/pipeline/research/memory-architecture-design.md`, `memory-architecture-coverage-audit.md`, `complete/memory-architecture-final-review.md` | C02/C03 supporting rationale and coverage evidence; not standalone features. |
 | `v5/pipeline/INDEX.md`, `README.md` | Process/status conventions reviewed; the index's Stage 6 authorization/current-state statements belong to the first attempt and are not carried as V5.2 execution status. |
+
+## Current prompt-review priority and deferred set (design only)
+
+**Core delivery-prompt review status:** The initial capability assessment and one synthetic prompt prototype for `/plan`, `/implement`, and `/premortem` are complete. All three prompt files are available as Pi prompt commands in a process launched with explicit `--prompt-template` flags; this is session-scoped registration, not persistent `.pi/settings.json` configuration or a custom loader. The small prototype passed its focused fixture tests and showed no redundant `/implement` kickoff/phase prompts, but cross-phase learning candidates duplicated and were not consolidated; multi-phase work and persistent-write approval remain untested. Fine-tune only against real task evidence. V4 prompt text remains historical input, not a V5 specification.
+
+**Parked secondary delivery prompts — revisit on a real use case:**
+
+| Prompt | Revisit trigger |
+|---|---|
+| `/implementation-report` | First V5 implementation that needs a stakeholder-facing handoff/report. |
+| `/debug` | First bounded, real root-cause investigation whose evidence/stop conditions need a dedicated flow. |
+| `/test` | First implementation where coverage planning/execution is a distinct workflow need; clarify whether this means planning, writing, running, or all three. |
+| `/review-pr` | First V5 PR review where independent review or multi-domain routing adds material value. |
+
+These are parked, not rejected. Reopen sooner if a selected V5 workflow depends on one of them.
+
+**Deferred, explicitly not forgotten — V4 system prompts:**
+
+| Prompt | Likely V5 concerns to revisit | Status / trigger |
+|---|---|---|
+| `agents-startup` | C11 bootstrap/scope; C03 context assembly; C04 safety | Revisit when a V5 workspace onboarding/bootstrap slice is selected. |
+| `review-memory` | C02 knowledge lifecycle; C04 memory safety/governance | Revisit when C02 persistence/curation behavior is selected for implementation or real corpus maintenance needs arise. |
+| `system-health` | C05 observability/continuity; C02 knowledge health; C04 control status | Revisit when a concrete V5 runtime-health/observability need is selected. |
+| `warmup` | C03 task context; C05 continuity/session orientation | Revisit when a new-workspace initialization or initial knowledge-seeding slice is selected. |
+
+The deferral is a sequencing choice, not a finding that these prompts lack value; the user reports that several system prompts were valuable in V4. Reopen earlier if a delivery prompt depends on one of these system behaviors. No prompt is selected for porting or implementation.
 
 ## Candidate entry template
 

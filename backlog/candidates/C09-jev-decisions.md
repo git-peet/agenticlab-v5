@@ -1,6 +1,6 @@
 # V52-C09 — Jev-inspired bounded decision support
 
-**Status:** `candidate`; advisory methodology only, no API/runtime selected
+**Status:** `parked`; user direction is no Jev for now. Advisory methodology and revisit triggers are preserved; no API/runtime selected.
 
 **Implementation readiness:** **Not ready for automation.** First identify a recurring bounded decision and define outcomes.
 
@@ -28,6 +28,12 @@ When a durable-knowledge candidate needs human review, the system could use Jev-
 
 Hard boundary: Jev may recommend `present / keep transient / gather evidence` or help structure a batch. It cannot approve the write, choose `active` status, suppress a required confirmation, or authorize deletion. The user remains the decision-maker; deterministic Pi gating remains unchanged. Before considering automation, measure approval interactions per task/decision, false omissions, unnecessary or redundant prompts, review time, user corrections, and token/call cost.
 
+### Deferred revisit: default-session workflow recommendation
+
+A second possible bounded decision is whether a default-session implementation request merits recommending an explicit workflow (e.g. `/plan`) or should be handled directly/clarified first. This is distinct from memory-candidate review and must be evaluated separately, not pooled into one Jev label set. Candidate outputs could be `direct`, `recommend_named_workflow`, `clarify_intent`, or `abstain`; an explicit workflow invocation bypasses this decision and starts the requested flow. Jev could advise only—it must never invoke a workflow, expand scope, or authorize implementation.
+
+**Revisit trigger:** first complete the C01 synthetic/default-entry cases using the simplest V5 rule. Consider Jev only if actual use shows recurring ambiguity or costly misroutes that a transparent deterministic/manual rule does not handle. Any pilot should begin in shadow/advisory mode and measure adopted vs rejected recommendations, false-positive interruptions, missed workflow opportunities, latency/token cost, and user corrections. No API, classifier, or routing mechanism is selected now.
+
 ## Explicit exclusions
 
 No Jev API/service, universal classifier, per-turn classifier, confidence-based autonomy, model routing, memory promotion authority, or override of tool/approval gates. Do not claim token efficiency: classification may cost extra.
@@ -38,4 +44,4 @@ Before a pilot, define: the repeated problem; exactly when support is invoked; l
 
 ## Timing / next action
 
-Preserve the candidate; do not place it in the first vertical slice unless real work reveals a recurring decision problem. If selected, begin with one manual/local advisory question. Actual Jev runtime access/API evaluation requires a separate approval and comparison.
+Keep this candidate parked under the user's current direction: no Jev in the present V5 work. Revisit only when real tasks show recurring bounded decisions that a transparent rule does not handle, or when knowledge-review interruptions become measurably repetitive. If later selected, begin with one manual/local advisory question in shadow mode. Actual Jev runtime access/API evaluation requires a separate bounded scope and approval.

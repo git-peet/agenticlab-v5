@@ -14,7 +14,7 @@ Start AgenticLab in an existing project or a greenfield assignment without confu
 
 V4's startup combines project questionnaire, adapter/hook installation, topology, Graphify setup, and warmup. The audit recommends separating project profile, host integration, and bootstrap/context production; Graphify and warmup outputs are not universal runtime prerequisites. The V4 backlog proposes a greenfield startup path because code-analysis warmup has little to analyze in an empty project. It also identifies a possible workspace reset/seeded-state hazard, but its own correction notes that some alleged contamination was not verified in the audited copy. Thus reset safety is a valid boundary to design, not evidence that every V4 copy is contaminated.
 
-V5's memory contract distinguishes session, feature, project, workspace, system, and external-reference scopes and forbids silent cross-project transfer. The clean V5 repository is the proposed system home; the Python expense tracker is a possible separate host/playground, not yet selected.
+V5's memory contract distinguishes session, feature, project, workspace, system, and external-reference scopes and forbids silent cross-project transfer. The clean V5 repository is the canonical development/source home; the Python expense tracker has been used as an experimental host/playground, not selected as a production or reference host.
 
 **Historical sources (optional):** V4 `agents-empty-startup-greenfield-variant.md`, `project-memory-reset-check-gap.md`, `MANUAL.md` §§3 and 11, Neo audit Finding 9; V5 roadmap Priority 5 Q22, memory spec §5. Relevant evidence and uncertainty are summarized above.
 

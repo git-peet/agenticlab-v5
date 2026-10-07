@@ -598,3 +598,322 @@
 - **Acceptance proposed:** fresh-session read-only Pi checks for mapped retrieval, map-omitted in-scope retrieval, inactive/wrong-scope filtering, and complete no-match vs. incomplete/unavailable scan. No Bash/MCP/data/app/tests; use tool traces as evidence.
 - **Rationale:** codify the approved hierarchical direction without per-record manual index prompts, custom catalog, auto-capture, semantic/vector engine, or Jev. Native search remains the initial baseline until measured costs/misses justify more.
 - **Next:** Await explicit approval for this exact bounded file set and validation plan; do not edit Python or V5 system files beyond it before approval.
+
+### V5-20261007-061 — Map-omission retrieval passed; candidate snippets surfaced before filtering
+
+- **Recorded:** 2026-10-07T08:12:34+02:00
+- **Type:** Synthetic host retrieval test / design finding
+- **Status:** Map-omission discovery passed; candidate-content exposure remains unresolved
+- **Test:** Fresh Python Pi session, using only the temporary synthetic knowledge fixture for retrieval and built-in read-only tools. Started at the fixture index/map, enumerated the records directory, and searched for export-retention matches. No app/tests/commands or protected data were accessed. Pi also read the workspace `AgenticLab/AGENTS.md` as operating instructions; knowledge retrieval itself stayed in the fixture.
+- **Result:** Found `risk-export-retention` at `.tmp-v5-moc-fixture/AgenticLab/knowledge/records/risk-export-retention.md`, omitted from the MOC; its scope was `project:synthetic-expense`, status `active`. Excluded the inactive decoy and the active `project:other-expense-app` decoy. The unrelated date record was listed but not read. Pi read metadata for the three matching files and full content only for the selected active/in-scope file.
+- **Finding:** Native `grep` output itself included matching body lines from the inactive and wrong-scope decoys before Pi read their metadata and filtered them. The fixture contained synthetic content only; no real knowledge/data was exposed. Therefore, “full body read only after filtering” is insufficient if search snippets already enter model context. C02 now records non-exposure of rejected candidate text as an acceptance requirement and marks native grep as unresolved for mixed-scope/status corpora.
+- **Cleanup:** Removed the temporary fixture after the test. The Python host snapshot remains at V5 revision `aef687a072cacc5e7b772065ac21950e6352afb9`; no application/runtime search code changed. V5 documentation changes remain uncommitted.
+- **Next:** Determine whether native Pi search supports path-only/metadata-only results or can operate on a pre-filtered path set; otherwise compare the smallest read-only candidate-search capability. Do not implement a catalog/search engine until a separate bounded scope is approved.
+
+### V5-20261007-062 — Pi grep has no paths-only output; prefiltered-file search is viable to test
+
+- **Recorded:** 2026-10-07T08:16:09+02:00
+- **Type:** Native tool capability inspection / design proposal
+- **Status:** Candidate safe retrieval sequence identified; synthetic validation pending
+- **Inspection:** Read the installed Pi 1.0.4 CLI reference and examined its bundled `grep` tool schema/implementation. `grep` accepts one file or directory path, a pattern, optional glob/case/literal/context/limit settings, and returns matching lines with paths/line numbers. It exposes no filename-only output mode; `context=0` still returns the matched line.
+- **Candidate sequence:** `find` the complete records inventory → read metadata headers → filter by collection/scope/status → invoke native `grep` separately on eligible files → read full content only for plausible matches. This prevents grep snippets from ineligible records entering model context; completeness requires searching every eligible record, and the call/context overhead may grow with the number of files.
+- **Boundary:** No application/runtime changes or new search/catalog tool. C02 records this as a proposed native approach, not a selected production mechanism. No Python project data or protected paths were accessed.
+- **Next:** Validate the two-phase sequence on a fresh temporary fixture and compare trace/call cost to the previous run. Consider custom read-only search only if this safe native approach is incomplete or too costly at representative scale; seek separate approval before implementation.
+
+### V5-20261007-063 — Two-phase native-search validation blocked by unavailable tools
+
+- **Recorded:** 2026-10-07T08:20:56+02:00
+- **Type:** Synthetic test attempt / environment limitation
+- **Status:** Inconclusive; no record search performed
+- **Trace:** In a fresh Pi session, Pi read the workspace `AGENTS.md`, fixture `INDEX.md` (after an initial lowercase `index.md` path typo returned ENOENT), and the export MOC. It then reported that only `read` and a Bash tool were available; standalone `ls`, `find`, and `grep` were absent. Pi did not use Bash, list/read records, or perform content search.
+- **Outcome:** The prefiltered-file search method was not tested. No real knowledge/data was accessed. Removed the temporary synthetic fixture after the attempt. C02 now requires verifying the read-only tool allowlist before recreating the fixture and explicitly forbids substituting Bash.
+- **Next:** Retry only when a fresh Pi process actually exposes `read`, `ls`, `find`, and `grep`; otherwise leave the safe native-flow test blocked. No runtime/search implementation is authorized.
+
+### V5-20261007-064 — Prefiltered native grep avoids excluded-candidate snippets
+
+- **Recorded:** 2026-10-07T08:28:04+02:00
+- **Type:** Synthetic host retrieval test / method validation
+- **Status:** Passed on a four-record fixture; larger-corpus cost remains untested
+- **Test:** Fresh Python Pi process launched with only `read`, `ls`, `find`, and `grep` (no MCP). Started from the synthetic fixture INDEX/MOC, enumerated records, read lines 1–12 from all four records, filtered metadata, then searched each eligible record individually. No Bash, app/tests, real knowledge, `data/`, or `.env` access.
+- **Result:** Two eligible files were searched: active in-scope `decision-expense-date-format.md` (no match) and active in-scope `risk-export-retention.md` (match). The latter was read in full and selected. The inactive in-scope and active other-scope records were excluded before body search; their paths were not passed to grep and no snippets from them reached model context. The selected record says to check whether a 30-day retention policy applies; it does not establish that one does.
+- **Cost/evidence:** Four metadata-header reads and two per-file grep calls, in addition to index/map/inventory and the selected full read. No token/context measurement or larger-scale claim. Pi also read `AgenticLab/AGENTS.md` as workspace instructions. The temporary fixture was removed after the test.
+- **Conclusion/next:** The native two-phase procedure meets the non-exposure requirement on this small synthetic corpus. C02 now records the method and its evidence limits. Next, assess call/context cost and scan completeness on a larger, nested synthetic corpus; do not build a custom catalog/search engine without a separate bounded scope.
+
+### V5-20261007-065 — Progressive disclosure retained as a distinct read-side candidate
+
+- **Recorded:** 2026-10-07T08:35:28+02:00
+- **Type:** Architecture clarification / design direction
+- **Status:** Added to C02 as a candidate; no runtime or contract change
+- **Decision:** Keep progressive disclosure separate from search/candidate discovery. After scope/status filtering and locating a relevant section, a reader may begin with a bounded section/range and expand as needed; this can reduce model-context tokens for long documents. It does not replace complete corpus search or support no-match claims after early stopping.
+- **Constraint:** Prefer document headings and targeted line ranges over a universal 100–150-line rule; ordinary atomic records should remain concise. Validate only when a long synthetic or explicitly approved document makes token/context savings measurable. No new backlog item, search implementation, or fixed chunk policy is warranted now.
+- **Next:** Continue the two-phase native-search baseline and its planned larger-corpus completeness/call-cost assessment. Defer progressive-read experimentation until a representative long document is in scope.
+
+### V5-20261007-066 — Nested ten-record scan confirms filtered native-search flow
+
+- **Recorded:** 2026-10-07T08:41:37+02:00
+- **Type:** Synthetic host retrieval test / bounded call-count assessment
+- **Status:** Passed for nested inventory and candidate filtering; not a scale benchmark
+- **Test:** Fresh Python Pi session with `read`, `ls`, `find`, and `grep`, no MCP/Bash. Used only the synthetic `.tmp-v5-moc-scale-fixture/AgenticLab/knowledge/` corpus. `find` enumerated all 10 records across nested category folders; Pi read the first 12 metadata lines from each before filtering.
+- **Result:** Eight active `project:synthetic-expense` records were searched individually; the inactive same-scope decoy and active `project:other-expense-app` decoy were not grepped. The omitted active retention risk was found. Broad `export|retention` matching returned four unrelated export snippets from eligible active records, but Pi did not read those files in full; only the plausible retention record was fully read. No cap/truncation was reported.
+- **Cost/limits:** 10 metadata reads + 8 per-file grep calls, plus index/map/inventory and the selected full read. This illustrates the native flow's linear call profile, not latency/token cost or practical limits at larger corpora. The fixture was removed after the test; no real knowledge/data was accessed.
+- **Next:** Retain the two-phase native method for the current tiny corpus; defer further scale tests and custom search until real corpus growth or measured cost justifies them. Progressive disclosure remains a separate, untested option for long documents.
+
+### V5-20261007-067 — Natural-query test exposed instruction-following gaps
+
+- **Recorded:** 2026-10-07T08:59:07+02:00
+- **Type:** Instruction-driven retrieval test / limitation
+- **Status:** Partial safety success; body-search/completeness path not validated
+- **Test:** Fresh Python Pi process loaded the updated `AgenticLab/AGENTS.md`. The synthetic target's filename, title, and metadata did not contain the query terms. Pi enumerated the four record paths and read lines 1–12 of each before body reads; it did not call `grep`.
+- **Trace/result:** The metadata reads were split into 32 small `read` calls (one-line/short-range reads), then Pi read the full selected body and also the unrelated active date record body. It did not read bodies for the inactive or wrong-scope decoys. It returned the correct synthetic caveat: the record says to check whether a 30-day retention policy applies, not that the policy is established.
+- **Finding:** Metadata-before-body ordering prevented excluded-body exposure, but the sequence was inefficient and did not perform complete body search. The explicit two-phase tests therefore do not establish that current instructions reliably cause the default agent to search every eligible file. In the approved scope, clarified both system instructions: one header read per file (V0 lines 1–10) and mandatory per-eligible-file search when the MOC calls for corpus search or the query may be body-only. A fresh re-test is pending.
+- **Snapshot/boundary:** Refreshed only Python `AgenticLab/AGENTS.md` and `AgenticLab/brain/knowledge-contract.md`; byte comparison passed. `SOURCE-REVISION.txt` remains the prior committed base `aef687a...` because the new canonical docs are uncommitted and commit/push were not authorized. No app/code/data paths were touched. The temporary fixture remains for the approved re-test.
+- **Next:** Restart Pi to load the refined instructions and rerun the same natural query. Confirm one bounded metadata read per file, grep on every eligible path (including a body-only match), no excluded-body reads, and no irrelevant full-body read. Clean the fixture afterward.
+
+### V5-20261007-068 — Refined instructions bounded header reads but did not trigger grep
+
+- **Recorded:** 2026-10-07T09:03:13+02:00
+- **Type:** Instruction-driven retrieval re-test / limitation
+- **Status:** Metadata-read boundary passed; complete body search not demonstrated
+- **Test:** Fresh Python Pi process loaded the further-refined `AgenticLab/AGENTS.md` and knowledge contract. The body-only synthetic target had a generic filename/title/metadata; the query asked for a CSV-export retention rule.
+- **Trace/result:** Pi enumerated four records and made exactly one bounded `read` of lines 1–10 per record, filtered status/scope, and read only `risk-policy-check.md` in full. It did not read the excluded inactive/wrong-scope bodies and did not read the unrelated active date body. It did not invoke `grep` or otherwise search every eligible record, despite the map's corpus-search route. The answer accurately said the record asks to check whether a 30-day policy applies, rather than asserting one exists.
+- **Finding:** The instruction refinement fixed header-read granularity and preserved excluded-body non-exposure, but did not make the model perform complete per-file content search. This is a default orchestration/adherence gap; the explicitly prompted two-phase native procedure still works, but these instructions alone do not prove complete search. C02 now distinguishes those evidence levels and requires tool-trace proof before any no-match/completeness claim.
+- **Cleanup/boundary:** Removed the synthetic fixture after the test. No protected paths, application code, or runtime search code were touched. The Python instruction snapshot matches V5 working-tree files; `SOURCE-REVISION.txt` remains the base commit marker `aef687a...` because commit/push were not authorized.
+- **Next:** Keep native two-phase search as the explicit completeness procedure for the tiny current corpus. Do not continue prompt wording iterations or add a custom catalog absent real corpus growth/missed retrieval evidence; revisit deterministic orchestration only through a separate bounded scope if this gap becomes material.
+
+### V5-20261007-069 — C01 default-first/workflow boundary refined
+
+- **Recorded:** 2026-10-07T09:08:51+02:00
+- **Type:** Product operating-model design / documentation
+- **Status:** Candidate contract clarified; no router or workflow implementation selected
+- **Direction:** After the user accepted the minimal knowledge foundation and asked to continue, refined C01 to distinguish direct default work, a reusable capability/skill, a recommendation for a named workflow, and explicit user invocation of that workflow. A recommendation does not invoke a workflow; both modes share scope, authorization, safety, knowledge, and verification rules. The default agent remains accountable; specialist isolation/delegation remains a separate C07 decision.
+- **Boundary:** C01 stays `framed` and not implementation-ready. No automatic routing, workflow port, agent roster, runtime change, or app modification. No commit/push.
+- **Next:** Select one representative user journey and evaluate whether a workflow recommendation materially helps without unnecessary interruptions before promoting any concrete behavior to `selected`.
+
+### V5-20261007-070 — User identified implementation and research PBI journeys
+
+- **Recorded:** 2026-10-07T09:26:11+02:00
+- **Type:** User-provided product scenario / C01 design refinement
+- **Status:** Scenarios added to C01; no workflow/router implementation selected
+- **Journeys:** (1) Implementation-ready PBI: user deliberately invokes `/plan` with description/acceptance criteria; an approved plan may then be passed to `/implement`. Do not add a redundant workflow recommendation prompt after explicit invocation. (2) Research PBI: acceptance criteria define investigation/findings, not code; remain in default/free work, gather scoped knowledge/evidence, and do not infer `/plan` or implementation from PBI shape alone. A possible implementation follow-up is offered separately for user choice. Added a default-session implementation-PBI variant with no workflow command to isolate when recommendation/clarification might earn its interruption.
+- **Sources reviewed read-only:** V4 `prompts/delivery/plan.md`, `implement.md`, `MANUAL.md` §4.1, and `brain/protocol.md` Domain Lens Adoption; selective Kafka-related notes in the populated V3 Neo backup. V4 `/plan` is a multi-stage, gated plan flow; `/implement` runs an approved plan through phase checkpoints. Domain Lens is a contextual reasoning stance, not full persona/output-format/phase-gate invocation. The inspected backup contains a post-merge audit note related to PBI 156142 explicitly describing direct inspection with no project code change; the original research PBI/acceptance text was not located in the files inspected. No knowledge was copied/imported.
+- **Outcome:** Updated C01 to distinguish explicit workflow invocation, research-oriented default work, and the narrower ambiguous-mode recommendation case. PBI plus acceptance criteria alone are not workflow-selection evidence. No implementation or tests; no commit/push.
+- **Next:** Review these three cases as qualitative operating-model tests, focusing on unnecessary prompts and the need for any clarifying question. Keep domain-lens selection/loading in C03/C08; do not port V4 injection mechanics by implication.
+
+### V5-20261007-071 — DiaWorkspace documentation lineage reviewed selectively
+
+- **Recorded:** 2026-10-07T09:40:38+02:00
+- **Type:** Read-only source review / C01 context clarification
+- **Status:** Completed; no DiaWorkspace files changed or imported
+- **Finding:** The active DiaWorkspace has a phased research artifact `docs/features/155600-kafka-integration/research-v2.md` labelled PBI 156138, while the same feature folder's implementation report describes the Kafka replacement implementation (PBI 155600 lineage). `DOCS-Pedro/Kafka/156142-architect-design.md` preserves PBI 156142's original description/acceptance criteria and a `/plan` design paused at Phase 4; related notes include PBI drafts, backend Q&A, and handoffs. `docs/features/157432` separates execution plan, implementation status/handoff, final documentation, and local-dev runbook. `docs/workflow.md` and `AGENTS.md` describe the intended plan → validate → implement → document lifecycle. V4 Domain Lens (MANUAL §4.1 / protocol §3) is reasoning priorities and blind-spot context in default work, not full persona/workflow invocation.
+- **Caveat:** Folder names are not reliable PBI provenance: use each document's own PBI/status fields. The inspected research-v2 artifact has a research goal and phased study but not the original research ticket/acceptance text verbatim. The populated V3 Neo backup's PBI 156142 note is a separate post-merge code audit explicitly produced without code changes. This refines, rather than erases, entry 070's earlier note that the original research PBI text had not yet been found.
+- **Outcome:** Updated C01's representative-journey note with the observed lineage and an evaluation set for (1) explicit `/plan`, (2) research PBI in default mode, and (3) an implementation PBI presented in default mode with no workflow command. No V4 prompts/knowledge were copied into V5. No implementation, tests, commit, or push.
+- **Next:** Use those three cases for a qualitative C01 design walkthrough; keep this a V5.2 design/prototyping activity and keep DiaWorkspace/DOCS-Pedro as read-only comparison sources.
+
+### V5-20261007-072 — C01 workflow-recommendation tabletop completed
+
+- **Recorded:** 2026-10-07T09:43:30+02:00
+- **Type:** Design-only qualitative assessment
+- **Status:** Provisional transition rule recorded; not validated in a live V5 runtime
+- **Tabletop outcome:** (1) Explicit `/plan` invocation starts the workflow without a redundant recommendation prompt; its own required inputs/approval gates still apply. (2) Research intent with acceptance criteria stays in default/free work, gathers scoped evidence, and does not silently turn into implementation. (3) For an implementation PBI in default chat, recommend `/plan` at most once when its multi-phase/cross-domain/gated nature materially benefits from structure; for bounded single-domain work, stay direct; clarify intent once if research-vs-implementation is genuinely ambiguous.
+- **Evaluation lens:** compare the extra interruption against avoided mismatch/rework, user corrections, and whether the delivered result matches the stated PBI outcome. This is reasoned design guidance from the user's V4 journeys, not observed V5 runtime performance or a numeric threshold.
+- **Boundary/next:** C01 remains `framed`; no router, classifier, V4 prompt port, or code change. Next validate the provisional rule against one redacted/synthetic journey before selecting runtime behavior.
+
+### V5-20261007-073 — Priority checkpoint: pause C01 test for V4 delivery-prompt review
+
+- **Recorded:** 2026-10-07T10:05:58+02:00
+- **Type:** Phase-order / priority checkpoint
+- **Status:** Active design focus changed; no prompt or runtime implementation authorized
+- **Paused work:** After the C02 knowledge-interface urgency was addressed, C01 had reached a provisional three-case workflow-recommendation tabletop (explicit `/plan`, research PBI in default mode, implementation PBI in default mode without a workflow command). No live V5 runtime test had been run.
+- **Priority shift and reason:** The user identified that some V4 delivery prompts are valuable in daily work and wants their capabilities understood before V5 workflow boundaries/handoffs are finalized. The review will prioritize `/plan`, `/implement`, and `/premortem`; `/implementation-report`, `/debug`, `/test`, and `/review-pr` remain lower-priority candidates. This is a capability/value review, not a verbatim port.
+- **System-prompt deferral:** `agents-startup`, `review-memory`, `system-health`, and `warmup` are explicitly preserved as a deferred review set in `backlog/README.md`, mapped to likely V5 candidates. They are not rejected or lost.
+- **Resume trigger:** Once the delivery-prompt review has recorded a V5 disposition for the prioritized prompts, resume the C01 three-case qualitative check before selecting runtime behavior or implementation. Reopen the system-prompt set sooner only if a delivery-prompt dependency requires it.
+- **Outcome/boundary:** Updated `FIRST-SLICE-PLAN.md`, `V5.2-roadmap.md`, C01, and `backlog/README.md` to expose the current priority and return trigger. No DiaWorkspace/V4 files changed, no prompts copied, no runtime/code changes, no commit or push.
+
+### V5-20261007-074 — Persona-phase knowledge provenance added to delivery-prompt audit
+
+- **Recorded:** 2026-10-07T10:14:41+02:00
+- **Type:** User-provided design constraint / audit refinement
+- **Status:** Added to C02 and prompt-review queue; mechanism unresolved
+- **User input:** The user estimates that persona invocations were responsible for roughly 40% of V4 knowledge provenance because each invoked persona recorded relevant knowledge. Treat this as a significant user estimate, not a measured percentage.
+- **Audit implication:** V5 prompt simplification must assess knowledge-capture coverage and provenance separately from persona ownership, prompt count, and durable writes. Identify what unique findings each planning/implementation/premortem stage captured; consider a task-local, source-linked candidate-learning handoff with consolidation, while preserving user approval for durable writes. Do not assume per-phase forced writes or persona-owned memory are necessary, and do not remove capture opportunities without a substitute.
+- **Outcome/boundary:** Added a design note to C02 and capture/provenance as an evaluation dimension in the delivery-prompt review queue. No V4 prompt or knowledge was copied, and no runtime/prompt implementation was changed.
+- **Next:** Include provenance capture and missed-learning risk in the `/plan`, `/implement`, and `/premortem` capability audit before proposing V5 drafts.
+
+### V5-20261007-075 — Separate `/warmup` seed from ongoing delivery capture
+
+- **Recorded:** 2026-10-07T10:25:51+02:00
+- **Type:** V4 knowledge-lifecycle clarification / prompt-audit refinement
+- **Status:** Capture stages distinguished; `/warmup` remains deferred for full review
+- **User clarification:** V4 `/warmup` is run after system initialization to seed initial knowledge in one cold-start pass. Later, delivery workflows invoke domain personas that record relevant findings from their work. The user's rough estimate that delivery prompts supplied about 40% of knowledge provenance refers to the latter ongoing capture, not the one-time warmup.
+- **Audit implication:** Assess initial bootstrap and ongoing delivery-phase capture as separate mechanisms. The delivery-prompt review must trace what each persona phase discovers, where it records evidence, and whether removing the phase write loses a reusable finding. Do not attribute warmup's baseline coverage to delivery prompts or treat either process's raw write count as value.
+- **Outcome/boundary:** Clarified the C02 provenance note and prompt-review queue. `/warmup` remains on the deferred system-prompt list for later, after delivery-prompt dispositions. No V4 files changed/imported and no runtime prompt changes made.
+- **Next:** Continue the provenance-aware audit of `/plan`, `/implement`, and `/premortem`; preserve source, scope, uncertainty, and candidate status without assuming persona-owned V5 memory.
+
+### V5-20261007-076 — Synthetic delivery-prompt pilot prepared; plan approved
+
+- **Recorded:** 2026-10-07T11:02:17+02:00
+- **Type:** Synthetic prompt-prototype test / progress checkpoint
+- **Status:** Research and plan cases exercised; approved fixture implementation test pending
+- **Fixture:** Created `.tmp-v5-delivery-prompt-pilot/` in the Python host with a synthetic CSV exporter/importer, explicit contract, research/implementation PBI scenarios, and non-installed V5 prompt drafts. This does not modify the real application or install runtime prompts. Two baseline fixture unit tests pass using temporary files and standard-library Python only.
+- **Research case:** A fresh read-only Pi session stayed in default/research mode, traced exporter/importer behavior, cited the contract/source/tests, distinguished verified fixture facts from external-consumer uncertainty, and returned a task-local candidate without persisting knowledge.
+- **Plan case:** First plan output deferred relevant source inspection; after correction, Pi inspected fixture sources and separated verified facts from a PBI-derived proposal. User approved the plan. No fixture files were changed and no commands/tests ran in Pi.
+- **Safety/approval boundary:** No real app, `data/`, `.env`, database, V4 prompt, or persistent knowledge record was accessed or changed. The remaining implementation test is explicitly limited to synthetic fixture paths; Pi should not run commands, and focused fixture tests can be run separately.
+- **Next:** Test the approved `/implement` draft against the fixture, verify scoped edits and task-local learning provenance, run only the synthetic fixture's focused tests, then run the read-only premortem draft. Remove the temporary fixture and log the final outcome. No commit/push.
+
+### V5-20261007-077 — Synthetic `/implement` run completed without extra gates
+
+- **Recorded:** 2026-10-07T11:07:05+02:00
+- **Type:** Synthetic delivery-prompt prototype / approval-count observation
+- **Status:** Implementation prompt behavior and focused fixture tests passed; premortem test pending
+- **Trace summary:** After the approved plan, the user explicitly invoked the implementation draft. Pi made the scoped fixture edits in one go and did not ask for a redundant kickoff confirmation, per-phase `continue`, or write approval. No durable knowledge write was requested or performed; edits were confined to `.tmp-v5-delivery-prompt-pilot/`.
+- **Changes/verification:** The fixture exporter gained a keyword-only `include_header=False`; tests cover opt-in header order, default headerless round-trip, and comma/quote handling. The importer and model were unchanged. I ran only the synthetic fixture unit suite outside Pi: 3/3 passed; no app/database tests or data access.
+- **Capture finding:** The implementation report returned two overlapping compatibility candidates that repeat the approved plan's candidate. This shows discovery/provenance was retained, but cross-phase deduplication was not demonstrated. C02 now calls for a consolidation step that carries plan candidates forward and merges new findings before final review.
+- **Next:** Run the read-only premortem draft against the changed fixture, then evaluate the capture handoff across plan → implement → premortem. Remove the temporary fixture afterward. No V4/V5 runtime prompt files, real app files, or permanent knowledge were changed; no commit/push.
+
+### V5-20261007-078 — Synthetic premortem stays read-only; provenance filter needs refinement
+
+- **Recorded:** 2026-10-07T11:09:19+02:00
+- **Type:** Synthetic prompt-prototype test / premortem result
+- **Status:** Read-only behavior passed; cross-stage capture design finding recorded
+- **Trace/result:** On a fresh read-only Pi session, the V5 premortem draft inspected only the synthetic fixture's prompt, source, contract, and tests. It made no edits, ran no commands, and persisted no knowledge. It distinguished the opt-in-header/legacy-importer incompatibility as an expected limitation and surfaced a conditional partial-destination risk if writing fails after the destination is opened. The latter is not a PBI requirement and remains an unverified, out-of-scope risk unless a caller contract requires atomic export.
+- **Capture/provenance finding:** The premortem again proposed the already documented header-compatibility point as a reusable candidate. Together with overlapping plan/implementation candidates, this shows that source citations alone do not prevent redundant candidates; V5 needs an end-of-task comparison against both prior task-local candidates and authoritative source/contract knowledge. Preserve newly discovered risks with their evidence, but don't promote a restatement of an existing fixture contract.
+- **Verification/cleanup:** The synthetic fixture suite passes 3/3 via isolated `python3 -m unittest discover -s tests -v`; no application/database tests ran. Removed `.tmp-v5-delivery-prompt-pilot/`. No real app, `data/`, `.env`, V4 files, or persistent knowledge were changed.
+- **Next:** Conclude the first synthetic prompt pilot as partial success: correct mode selection, plan approval, scoped implementation, no redundant implement gates, and read-only premortem; capture deduplication needs refinement. No prompt files are installed; assess the single consolidation rule in the design report before any second prototype. No commit/push.
+
+### V5-20261007-079 — Core delivery-prompt prototype closed with explicit limits
+
+- **Recorded:** 2026-10-07T11:11:32+02:00
+- **Type:** Design/prototype checkpoint
+- **Status:** `/plan`, `/implement`, `/premortem` draft loop exercised once on a synthetic feature; not a runtime installation
+- **Result:** Research-only default mode, explicit plan, approved implementation, and read-only premortem all behaved within the synthetic fixture boundary. One plan approval was requested; explicit `/implement` added no kickoff/per-phase prompts; no write approval was triggered because no durable knowledge was written. Three focused synthetic tests passed.
+- **Limits:** One small, effectively single-phase task; no live V5 workflow commands, multi-phase checkpoint test, default-entry implementation recommendation case, or persistent-write approval test. The prompt flow preserved candidate learning but duplicated the plan's compatibility insight in implementation/premortem output; end-of-task consolidation against prior candidates and canonical sources is required before considering a durable capture design.
+- **Next priority:** Review lower-priority delivery candidates (`/implementation-report`, `/debug`, `/test`, `/review-pr`) with the same value/gates/provenance lens, then revisit C01's default-entry recommendation case. System-prompt candidates remain deferred until the delivery review is dispositioned. No V4 prompt edits/imports, real app/data access, commits, or pushes.
+
+### V5-20261007-080 — Lower-priority delivery prompts parked; resume default-first V5 work
+
+- **Recorded:** 2026-10-07T11:17:09+02:00
+- **Type:** User priority decision / roadmap sequencing
+- **Status:** Secondary prompt review parked with triggers; current work returns to V5 design
+- **User direction:** Skip `/implementation-report`, `/debug`, `/test`, and `/review-pr` for now, while keeping them visible for revisit when a real use case arises. Continue V5 work rather than expanding the V4 prompt audit.
+- **Outcome:** Updated `backlog/README.md` with specific revisit triggers for the secondary delivery prompts and system prompt set. Updated C01 and the first-slice/roadmap handoff to reflect that the core three-prompt synthetic prototype is complete, its multi-phase/provenance-dedup limitations, and the next C01 default-entry implementation-PBI recommendation case.
+- **Next:** Test that remaining C01 case with a bounded synthetic scenario; then decide whether a small V5 operating-model/runtime slice is warranted. No additional V4 prompts reviewed, no runtime or app code changed, no commit/push.
+
+### V5-20261007-081 — Workflow recommendation noted as a distinct Jev candidate
+
+- **Recorded:** 2026-10-07T11:23:35+02:00
+- **Type:** Bounded-decision candidate / C09 follow-up
+- **Status:** Documented as deferred; no Jev/API/runtime selected
+- **Question:** Whether a default-session implementation PBI should be handled directly, receive one workflow recommendation (e.g. `/plan`), or prompt a clarification is a plausible atomic decision-support point. It is distinct from Jev-style knowledge-candidate review and should not be combined into one decision model.
+- **Boundary:** Complete the C01 default-entry synthetic comparison under the simplest transparent rule first. Consider Jev only if actual use reveals repeated ambiguity or costly misroutes. Any later support must be advisory/shadow first, permit abstention, never invoke a workflow or authorize actions, and measure false interruptions, missed recommendations, user corrections, cost/latency.
+- **Outcome:** Added the bounded possibility and revisit trigger to C09. No classifier, service, prompt change, or runtime routing was implemented.
+
+### V5-20261007-082 — Jev explicitly deferred; continue with transparent C01 rule
+
+- **Recorded:** 2026-10-07T11:27:20+02:00
+- **Type:** User decision / priority clarification
+- **Status:** Jev parked; C01 default-entry question remains active design work
+- **User direction:** No Jev for now. Continue V5 without a Jev layer in workflow selection or memory review.
+- **Outcome:** Marked C09 `parked` in the portfolio and clarified its revisit trigger. The C01 recommendation case should first be handled with a simple transparent rule and evaluated for interruption value; no classifier or advisory call is part of the current work.
+- **Next:** Use a bounded synthetic multi-phase implementation scenario to examine whether a single `/plan` recommendation is worthwhile in default chat. Keep user invocation/approval authoritative; any system prompt/runtime update needs its own bounded scope.
+
+### V5-20261007-083 — Default/workflow recommendation tabletop followed the rule
+
+- **Recorded:** 2026-10-07T11:35:30+02:00
+- **Type:** Operating-model scenario test / instruction check
+- **Status:** Scenario classification matched the provisional C01 rule; no runtime workflow invoked
+- **Test:** Fresh Python Pi session evaluated five synthetic situations: explicit `/plan`; research PBI with acceptance criteria; bounded single-file change; cross-domain async integration PBI in default chat; ambiguous research-vs-implementation intent. The V5 operating instructions were updated beforehand to permit a concise recommendation only when mode was not chosen and a workflow materially helped.
+- **Result:** No extra recommendation for explicit `/plan`, research, or the bounded task; one `/plan` recommendation for the cross-domain case; one outcome clarification for ambiguous intent. No tools, files, workflows, or Jev were used in the tabletop.
+- **Limit:** This shows the current instructions can classify a prompt that explicitly asks for a tabletop. It does not demonstrate recommendation behavior on a natural task, value to the user, or actual workflow availability. No interruption or accuracy claims beyond the described response count.
+- **Next:** The remaining useful V5 prototype is a bounded `/plan` workflow capability that the default agent can recommend/invoke explicitly; define its exact system files, activation, plan approval, and no-implementation boundary before runtime changes. Jev remains parked.
+
+### V5-20261007-084 — Canonical V5 `/plan` prompt manually exercised
+
+- **Recorded:** 2026-10-07T11:45:35+02:00
+- **Type:** Opt-in workflow prompt prototype / synthetic test
+- **Status:** Plan prompt behavior passed the bounded fixture check; no implementation approved
+- **Scope:** Added `system/prompts/delivery/plan.md` as an opt-in, non-runtime-registered prototype; updated system README/AGENTS to describe the prompt and invocation boundary; copied the prompt and matching operating instructions into the Python host. Created `.tmp-v5-plan-prompt-pilot/` with a synthetic PBI, contract, source, tests, and a copy of the prompt. No `.pi/settings.json` registration, app code, data, `.env`, or V4 files touched.
+- **Trace/result:** Fresh Python Pi session manually invoked the plan draft, read the PBI and relevant fixture source/docs/tests, distinguished verified fixture facts from PBI-derived design requirements, proposed a bounded file/test plan, and ended with one consolidated approval question. It returned `no new candidate` because the compatibility rule was already explicit in the fixture contract. No edits, execution, or durable writes occurred.
+- **Limit:** This verifies prompt text via manual loading, not a registered `/plan` command or end-to-end workflow. No actual implementation or tests were performed; the synthetic PBI plan remains unapproved. `SOURCE-REVISION.txt` remains the committed base marker `aef687a...` because current system/snapshot changes are uncommitted and no commit/push was authorized.
+- **Next:** Review the proposed plan with the user. If approved, run the synthetic `/implement` stage only within the fixture, then assess handoff/candidate reconciliation. Keep Jev parked and do not install slash-command registration without separate scope.
+
+### V5-20261007-085 — Manual `/plan` → `/implement` prototype validated in fixture
+
+- **Recorded:** 2026-10-07T11:52:21+02:00
+- **Type:** Synthetic prompt-prototype test / plan-to-implementation sequence
+- **Status:** Passed for scoped fixture edits and tests; not a registered workflow command
+- **Trace/result:** User approved the plan in Pi, then invoked the V5 implementation draft separately. Pi edited only `.tmp-v5-plan-prompt-pilot/src/exporter.py` and `tests/test_exporter.py`, added the optional header while preserving the default, and left importer/models unchanged. It requested no extra kickoff, per-phase confirmation, or knowledge-write approval. Candidate handoff was `none` because the plan had already established no new learning beyond the fixture contract.
+- **Verification:** I inspected the changed fixture files and ran only its isolated standard-library unit suite: 4/4 passed. No application, database, `data/`, `.env`, or real knowledge was accessed. Removed the temporary fixture after validation.
+- **Finding/limit:** The prompt flow works for this one small, essentially single-phase change and keeps plan approval separate from implementation invocation. Multi-phase stop behavior and persistent-write approval were not tested. This prompt file was manually loaded; Pi slash-command registration is not implemented. No Jev, app changes, commit, or push.
+- **Next:** Use the result as the current bounded prompt foundation; do not add lower-priority prompts or a Jev layer. Resume the C01 default-entry recommendation question only if it will decide whether a V5 runtime/workflow change is worthwhile; otherwise move to the next selected V5 capability.
+
+### V5-20261007-086 — Default-entry implementation PBI probe proposed bounded discovery
+
+- **Recorded:** 2026-10-07T12:01:40+02:00
+- **Type:** C01 default-mode routing test / limitation
+- **Status:** First-response probe complete; workflow recommendation after discovery remains untested
+- **Scenario/result:** In a fresh Python Pi session, a synthetic cross-domain implementation PBI was presented in default mode with a request for what to do first and no permission to inspect, edit, or execute. Pi proposed a read-only surface map and validation review; it did not recommend `/plan`, ask a question, inspect code, or edit anything.
+- **Interpretation/limit:** This supports a bounded, reversible discovery step as a low-interruption first response, but does not show whether a later workflow suggestion after source discovery would prevent rework. No workflow was invoked, no Jev was used, and no real project/protected data changed.
+- **Outcome/next:** C01 records bounded discovery followed by reassessment as a candidate sequence, not a proven routing rule. Post-discovery workflow recommendation remains open; do not add runtime routing without real evidence and a separate bounded scope.
+
+### V5-20261007-087 — Native `/plan` template loaded, but fixture-only scope was breached
+
+- **Recorded:** 2026-10-07T12:39:38+02:00
+- **Type:** Prompt-prototype test / scope-compliance limitation
+- **Status:** Prompt output not approved; do not treat the fixture-only test as a clean pass
+- **Trace:** Pi 1.0.4 loaded `/plan` via the one-process `--prompt-template` option. It read the synthetic PBI, prompt, and source files, but also listed the real `AgenticLab/knowledge` directory after the user restricted the task to the fixture. It did not read any record contents, access `data/`/`.env`, edit files, or execute commands. It skipped the fixture `docs/csv-contract.md` and proposed the compatibility fact from source, duplicating the documented contract.
+- **Finding:** Native prompt-template registration is confirmed for one process, and the scope section correctly distinguishes planning from future implementation. However, source selection and knowledge-candidate dedup were not reliable under the explicit fixture boundary; the generated plan is not approval-ready. No implementation should proceed from it.
+- **Cleanup/boundary:** Removed `.tmp-v5-plan-prompt-pilot/` after the test. No real record contents or protected data were accessed; no project/V4 files were changed.
+- **Next:** Stop iterating on prompt wording. Treat the file as an unregistered prompt prototype; consider stronger isolation for future synthetic tests rather than broadening access or weakening the fixture-only boundary. No Jev, code, commit, or push.
+
+### V5-20261007-088 — Prompt registry checkpoint confirmed; move design focus to C03
+
+- **Recorded:** 2026-10-07T13:15:52+02:00
+- **Type:** User priority clarification / design-phase handoff
+- **Status:** Core prompt assets available per Pi process; no persistent registration or further prompt tuning selected
+- **User clarification:** The plan, implement, and premortem prompts are all available in Pi's prompt registry when launched with the one-shot CLI `--prompt-template` flags. This satisfies the current prompt-availability checkpoint. The user does not want more repeated prompt testing/fine-tuning now; secondary delivery prompts remain parked, and Jev is explicitly deferred.
+- **Outcome:** Updated README, C01, FIRST-SLICE-PLAN, and V5.2-roadmap to distinguish session-scoped prompt availability from persistent `.pi/settings.json` registration and to mark delivery-prompt review paused. C03's next-design statement now scopes context engineering as staged selection for default and explicit workflows, retaining scope/provenance and avoiding unconditional context, fixed budgets, or a custom retrieval service.
+- **Next:** Continue with a C03 design pass. Treat the fixture-only `/plan` boundary miss as a limitation; do not restart prompt wording loops or add a loader/config change without new need and a separate bounded scope. No V4 changes/imports, app/data changes, commit, or push.
+
+### V5-20261007-089 — C03 context assembly framed as next design pass
+
+- **Recorded:** 2026-10-07T13:28:00+02:00
+- **Type:** Context-engineering design / handoff
+- **Status:** Minimal context-assembly model drafted in C03; not selected for runtime implementation
+- **Design scope:** Define how default work and explicitly invoked workflows stage user task/scope, shared operating rules, current source, relevant scoped knowledge, optional domain perspective/procedure, approved plan/checkpoint state, and task-local learning provenance. Keep retrieval, workflow state, and domain lens as separate context sources.
+- **Non-goals:** No unconditional digest/memory floor, general context planner, fixed token budget, automatic domain classifier, semantic/vector search, or custom retrieval service. Progressive disclosure remains an optional payload technique for genuinely long sources, not a completeness substitute.
+- **Boundary/next:** C03 remains a design candidate. Review the context-source order and outcome/cost evaluation before selecting a synthetic or real task test. The prompt set stays at its per-process Pi prototype; no further prompt refinement or Jev work is active. No code, app, data, prompt registration, commit, or push.
+
+### V5-20261007-090 — C03 workload coverage and V5-root context caveat recorded
+
+- **Recorded:** 2026-10-07T14:53:47+02:00
+- **Type:** Context-engineering design clarification
+- **Status:** Workload families broadened; no implementation selected
+- **User concern:** The initial three C01 examples are not the full C03 context workload. More task families include direct work, research, diagnosis, explicit planning, approved implementation/resume, test/review/premortem, and workspace bootstrap.
+- **Outcome:** Added a non-exhaustive workload/context table to C03, keeping each family a test dimension rather than a mandatory workflow. Distinguished `/warmup` bootstrap from ordinary context. Also noted the canonical V5 source root has no root `AGENTS.md`; `system/AGENTS.md` assumes a deployed `AgenticLab/` directory and should not be loaded unchanged as developer-root instructions. A suitable V5-root Pi context entrypoint/launch method needs design before root-based behavioral tests.
+- **Next:** Continue C03 design review using these task families and clarify V5 source-root context delivery before any Pi test from that root. No prompt files or code were changed in this C03 pass.
+
+### V5-20261007-091 — Clarify global Pi installation versus project context discovery
+
+- **Recorded:** 2026-10-07T15:04:06+02:00
+- **Type:** Context clarification / correction
+- **Status:** C03 caveat corrected; no startup mechanism selected
+- **User clarification:** Pi is installed globally and can be run from any workspace; it is not installed separately in V4/V5 project folders.
+- **Correction:** A root `AGENTS.md` is not required to launch Pi. The working directory selects session grouping and project resources/context. V4 lacks root `AGENTS.md` because its adapter supplies context through `session-guard` and prompt registration through `prompt-loader`. V5 `system/AGENTS.md` is target-payload guidance, not automatically discovered from the canonical V5 root and not suitable to inject unchanged there. A source-repo root instruction or explicit per-process context is an optional onboarding choice, not a Pi installation prerequisite.
+- **Outcome/next:** Clarified C03 to separate Pi availability from context loading. Continue C03 without treating root `AGENTS.md` as a blocker; define context delivery only if a concrete workflow needs it. No V4/Pi config or V5 runtime changes.
+
+### V5-20261007-092 — Separate source scaffolding, installed host, and global Pi
+
+- **Recorded:** 2026-10-07T15:14:48+02:00
+- **Type:** Setup-boundary clarification / correction
+- **Status:** V5 host setup is a manual experiment; generalized bootstrap remains open
+- **User clarification:** V4 is the system's source/scaffolding workspace, opened in Zed; Pi is the globally installed binary launched from that workspace's terminal. A delivery workspace is separately initialized with AgenticLab.
+- **Correction:** V4 adapter source files do not activate merely because Pi is launched at the V4 root. The V4 `/agents-startup` flow installs a wrapper under the delivery workspace's `.pi/extensions/`, where session-guard and prompt-loader can run. The Python expense-tracker host has a workspace-root `AGENTS.md`, copied `AgenticLab/` payload, project-local Pi extension setting, scope/source-revision files, and minimal project knowledge; this is an experimental manual installation, not a setup wizard.
+- **V5 boundary:** The intended distributable is the runtime payload under V5 `system/`, copied/exported as workspace-local `AgenticLab/`; do not copy the whole V5 development repository/backlog into a delivery workspace. Setup, update/refresh, host selection, and initialization tooling remain open in C11. Updated C11 to identify Python as an experimental host, not a production/reference host.
+- **Next:** Decide whether V5 should retain this manual payload-copy initialization as the first host path and what minimum initialization steps must be documented before designing automation. No data/.env accessed; no Pi or host configuration changed.
+
+### V5-20261007-093 — C03 context sufficiency and retrieval boundary
+
+- **Recorded:** 2026-10-07T15:31:09+02:00
+- **Type:** Context-engineering design clarification
+- **Outcome:** Added a concise sufficiency/stop rule to C03 and referenced C02's existing complete-scan/outcome contract rather than duplicating its procedure. The existing workload families remain coverage examples, not mandatory workflows or fixed file bundles.
+- **Boundary:** Documentation-only; no runtime, Pi configuration, delivery-prompt, Jev, or host/data changes. No commit or push.

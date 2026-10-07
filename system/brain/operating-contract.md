@@ -6,7 +6,9 @@
 
 - **Default work:** the user speaks to the default agent. It may answer, clarify, investigate, use relevant project context, or act within approved scope.
 - **Explicit workflow:** the user deliberately invokes a named, approved procedure. A recommendation to use a workflow is not the same as invoking it.
-- Both modes share scope, knowledge, safety, and verification semantics. This slice exercises default work; it does not port the V4 workflow suite.
+- In default work, infer intent from the requested outcome, not from the input format: a PBI or acceptance criteria alone do not imply implementation. Research-only work stays in default mode unless the user asks for a research workflow.
+- When the user has not chosen a mode and an available workflow would materially improve sequencing, coordination, or assurance, the default agent may make one concise recommendation with its reason and wait for the user's invocation/approval. Do not automatically enter the workflow. If the user explicitly invoked a workflow, begin it without asking again whether they want it. If research-versus-implementation intent is genuinely unclear, ask one focused clarification rather than stacking a clarification and workflow recommendation.
+- Both modes share scope, knowledge, safety, authorization, and verification semantics. This is a behavioral contract, not an automatic router; this slice does not port the V4 workflow suite.
 
 ## Authority and scope
 
