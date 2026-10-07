@@ -570,3 +570,21 @@
 - **User requirement:** Keep the small baseline flexible enough for knowledge to grow, support wider MOC/index structures, and link to other information products such as backlog candidates without flattening them into one undifferentiated memory store.
 - **Contract change:** `INDEX.md` may route to multiple nested maps/collections; each collection retains its own scope, purpose, owner, and lifecycle. Categories have one primary value per record but can be extended through a reviewed contract update. MOCs remain navigation projections, and backlog/user-note collections are linkable but not implicitly merged, loaded, or promoted.
 - **Boundary:** No record, MOC, or backlog data was copied. No Python, DiaWorkspace, or retrieval-code changes were made in this documentation step.
+
+### V5-20261007-058 — Flexible collection/map contract published and staged
+
+- **Recorded:** 2026-10-07T07:03:05+02:00
+- **Type:** Knowledge-interface contract update / host snapshot refresh
+- **Status:** Published and staged; runtime behavior verification remains
+- **Contract changes:** The index may route to multiple nested maps and explicitly separate collections by scope, owner, purpose, and lifecycle. The initial record category is one primary type and extensible through a reviewed contract change; categories do not imply folders. MOCs are navigation projections, not duplicate truth. No automatic merging/loading/promotion of user notes or AgenticLab backlog is implied.
+- **Verification:** Published system revision `61286fa56326d4891f12a062ebff77740647c351`; 12 Node gate tests pass. Refreshed only `AgenticLab/AGENTS.md`, `AgenticLab/brain/knowledge-contract.md`, and `SOURCE-REVISION.txt` in the Python host; verified byte-identical runtime copies. No project knowledge records, application source/tests, or database were changed by this refresh.
+- **Next:** Validate the updated collection wording in a fresh Python Pi session with read-only tools; no implementation beyond the contract is authorized.
+
+### V5-20261007-059 — Updated collection/no-match contract verified in fresh Pi
+
+- **Recorded:** 2026-10-07T07:05:07+02:00
+- **Type:** Host-runtime contract verification
+- **Status:** Passed for the current flat project-record corpus
+- **Trace:** In a fresh Python Pi session, Pi read `AgenticLab/AGENTS.md`, `INDEX.md`, and the updated `knowledge-contract.md`; used native `find` and `grep` on `AgenticLab/knowledge/records/`; and read the sole record's metadata/content. It returned no match for export retention, distinguishing the unrelated active date decision.
+- **Safety:** No Bash/MCP, app, test, edit, `data/`, or `.env` access occurred. The scan was under the 1,000-result limit and the current records directory is flat with one record.
+- **Conclusion:** The new instructions correctly ask for record-corpus verification before no-match on this small host. Multi-collection routing, nested/large-corpus behavior, and semantic recall remain untested. No custom catalog/engine has been implemented.
