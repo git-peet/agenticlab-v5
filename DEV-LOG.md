@@ -588,3 +588,13 @@
 - **Trace:** In a fresh Python Pi session, Pi read `AgenticLab/AGENTS.md`, `INDEX.md`, and the updated `knowledge-contract.md`; used native `find` and `grep` on `AgenticLab/knowledge/records/`; and read the sole record's metadata/content. It returned no match for export retention, distinguishing the unrelated active date decision.
 - **Safety:** No Bash/MCP, app, test, edit, `data/`, or `.env` access occurred. The scan was under the 1,000-result limit and the current records directory is flat with one record.
 - **Conclusion:** The new instructions correctly ask for record-corpus verification before no-match on this small host. Multi-collection routing, nested/large-corpus behavior, and semantic recall remain untested. No custom catalog/engine has been implemented.
+
+### V5-20261007-060 — Bounded MOC/record implementation proposal prepared
+
+- **Recorded:** 2026-10-07T07:07:54+02:00
+- **Type:** Proposed implementation scope / design handoff
+- **Status:** Proposal drafted; awaiting explicit implementation approval
+- **Files proposed:** canonical V5 `system/brain/knowledge-contract.md` (MOC template/coverage semantics) and `system/AGENTS.md` (retrieval workflow); refresh those two reviewed files plus `SOURCE-REVISION.txt` in the Python host. No app source, tests, Python knowledge records/index, Pi settings, or adapter code in scope.
+- **Acceptance proposed:** fresh-session read-only Pi checks for mapped retrieval, map-omitted in-scope retrieval, inactive/wrong-scope filtering, and complete no-match vs. incomplete/unavailable scan. No Bash/MCP/data/app/tests; use tool traces as evidence.
+- **Rationale:** codify the approved hierarchical direction without per-record manual index prompts, custom catalog, auto-capture, semantic/vector engine, or Jev. Native search remains the initial baseline until measured costs/misses justify more.
+- **Next:** Await explicit approval for this exact bounded file set and validation plan; do not edit Python or V5 system files beyond it before approval.

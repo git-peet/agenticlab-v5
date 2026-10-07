@@ -265,4 +265,14 @@ A bounded prototype should show that it can: propose a supported, scoped candida
 
 **Next:** Prepare a bounded implementation proposal for the minimum topic-MOC/record interface and its completeness check, using native Pi file search as the baseline and deferring a generated catalog until measured cost or misses justify it. Specify exact files and tests, then obtain explicit approval before implementation. Keep the real DB off limits; do not add Jev or batching from these small samples.
 
+### Proposed next implementation slice (pending explicit approval)
+
+**Canonical V5 files:** update `system/brain/knowledge-contract.md` with the MOC/index template and coverage semantics; update `system/AGENTS.md` with the task-triggered route/search/read/verify sequence and incomplete-search behavior. Add no custom runtime/search code.
+
+**Python host:** refresh only the corresponding reviewed `AgenticLab/` system snapshot and revision marker. Do not change the app, tests, `.pi/settings.json`, real knowledge index, date record, or database. Use temporary synthetic fixtures for additional checks; do not commit/push Python changes.
+
+**Acceptance:** in a fresh Pi session, (1) a relevant task reads the appropriate MOC/record and verifies current source; (2) an active in-scope record omitted from a MOC is found by native record-corpus search; (3) inactive/wrong-scope records are filtered; (4) `no match` follows only a complete inventory, while capped/unavailable search is surfaced as such; (5) the tool trace establishes which files were read. No user approval is required for reads; persistent writes remain behind the existing gate. No per-record map/index update is required by the contract.
+
+This is a proposal for approval, not authorization to make those changes. If native tools prove insufficient, stop and present that evidence before adding a custom catalog.
+
 **Jev revisit:** The later design of when/how to present a memory candidate for user review is a bounded-decision candidate (e.g. retain as candidate / keep transient / needs more evidence, or summarize a batch). See C09. Revisit only after actual candidate reviews reveal repeated friction—especially repeated approval interruptions, not merely unclear prompt wording. Jev may advise or prepare a review, never approve, persist, promote, suppress required confirmation, or delete knowledge.
