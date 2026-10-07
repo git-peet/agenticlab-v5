@@ -57,14 +57,16 @@ Minimal topic-map template:
 
 Use only the fields/sections that help navigation; avoid empty template sections. The initial map is curated by default. A future exhaustive/generated catalog is a distinct read-only projection that must identify the corpus/version it covered and whether the scan completed; it is not a MOC and cannot silently become another source of truth.
 
-The authoritative project-record collection remains searchable independently of map membership. For a complete/no-match result, search all eligible records in the requested scope, not only records linked from a MOC. Do not require a per-record map edit when the existing routes plus corpus search can find the record. Other collections—such as user notes or AgenticLab-system backlog candidates—may be linked from the root index, but must retain separate scope, status, ownership, and load policy; a link does not merge, activate, or authorize them.
+Collection identity comes from the collection root and the INDEX/MOC route; a record need not repeat a `Collection` field when its path unambiguously locates it. `Scope` describes where the claim applies, not which collection stores it. If one directory ever contains multiple collection types, make that distinction explicit in record metadata or separate the storage roots.
+
+The authoritative project-record collection remains searchable independently of map membership. For a complete/no-match result, search all eligible records in the requested scope, not only records linked from a MOC. Searching the corpus does not require loading every full record into model context: use match paths to inspect only the candidate metadata needed for filters, then read full content for plausible in-scope active candidates. Do not require a per-record map edit when the existing routes plus corpus search can find the record. Other collections—such as user notes or AgenticLab-system backlog candidates—may be linked from the root index, but must retain separate scope, status, ownership, and load policy; a link does not merge, activate, or authorize them.
 
 ## Lifecycle
 
 1. The agent proposes a candidate in conversation with source, project scope, claim, uncertainty, and future value.
 2. The user reviews and explicitly approves or rejects persistence. A proposal is not itself approval.
 3. A saved record may be `active` only after explicit approval. Update/supersede records visibly; do not silently overwrite or delete them.
-4. On retrieval, scope and status must match; verify mutable/current-code claims against current source. Use MOCs as routes, then search the relevant record corpus when completeness is required. A no-match claim requires a complete search of the eligible scope; if the scan is capped, unavailable, or incomplete, report that limitation instead.
+4. On retrieval, scope and status must match; verify mutable/current-code claims against current source. Use MOCs as routes, then search the relevant record corpus when completeness is required. Inspect candidate metadata before loading full record bodies. A no-match claim requires a complete search of the eligible scope; if the scan is capped, unavailable, or incomplete, report that limitation instead.
 5. If a store/read/write fails, report unavailable; do not pretend there was no match.
 
 ## Authority and safety
