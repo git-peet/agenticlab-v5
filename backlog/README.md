@@ -51,7 +51,7 @@ Status, priority, dependencies, and authorization are separate. A high-interest 
 
 ### Working design-review guide (not implementation priority)
 
-- **C11 design pass complete:** the manual `system/` → workspace-local `AgenticLab/` setup path and ownership/refresh rules are documented; recommend a manual runbook for first use, not an installer. Fixture validation is gated on the runbook being in an approved clean V5 commit, then separately bounded synthetic empty/populated tests; a failure should trigger a targeted correction, not automatic installer scope.
+- **C11 design pass complete:** the manual `system/` → workspace-local `AgenticLab/` setup path and ownership/refresh rules are documented; recommend a manual runbook for first use, not an installer. Synthetic empty/populated/divergent fixtures passed file-operation/preservation checks against commit `ccc56e4`; live Pi loading, trust/approval behavior, and clean-instance refresh remain untested. No installer scope follows from the fixture pass.
 - **Conditional follow-on — C08:** review only if a concrete Pi/host capability question remains from C11; do not start a general adapter framework.
 - **Foundational baselines — C01/C02:** core to the product vision and already developed into usable operating/knowledge-interface baselines. Reopen only for a concrete routing, lifecycle, or retrieval gap.
 - **Recently reviewed — C03/C04/C05:** the current context, governance, and continuity design passes found no implementation slice to select. Reopen only on new evidence or a specific task need.

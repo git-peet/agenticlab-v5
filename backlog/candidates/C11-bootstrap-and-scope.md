@@ -62,7 +62,17 @@ For a recognized, unmodified base, compute and show additions, replacements, and
 | Existing `AgenticLab/` with a missing marker or any divergence from the recorded base | Do not refresh. Inventory managed paths and show differences for user-directed reconciliation. | Unknown/mixed snapshots are not guessed into a clean state. |
 | Pi project trust or approval extension unavailable | Report that the extension-backed write gate is unavailable; do not persist knowledge by another route. | The system does not claim a hard guarantee it cannot enforce. |
 
-These tabletop outcomes support a manual runbook with a conservative stop-and-review path for conflicts. They do not demonstrate actual Pi loading, extension enforcement, installer behavior, or preservation under file operations; those require a separately approved synthetic fixture test. Reset/deletion remains outside the initial setup path.
+These tabletop outcomes supported a manual runbook with a conservative stop-and-review path for conflicts.
+
+### Bounded synthetic fixture validation (2026-10-08)
+
+Using a `git archive` of committed payload `ccc56e48ae34f84d7c559b559b02a027ceaefd18`, disposable fixtures were created under `/tmp`; all were removed after the test. No application or project data was used.
+
+- **Empty workspace:** copied the documented non-test payload file set; initialized a synthetic scope, empty index, root `AGENTS.md` pointer, project-local Pi extension setting, and full source marker. Byte comparisons and JSON parsing passed.
+- **Existing host instructions/settings, no `AgenticLab/`:** added the documented pointer/extension while retaining sentinel rules, an unrelated existing extension, and other settings. Preservation and valid JSON checks passed.
+- **Divergent existing `AgenticLab/`:** a synthetic managed-file divergence and knowledge sentinel were present. Preflight stopped; a before/after tree fingerprint matched, so no files changed.
+
+**Limit:** This validates the file-operation interpretation for these fixtures only. Pi was not launched, extension trust/approval UI was not tested, and no refresh of a recognized clean prior instance was exercised. It does not validate an installer or general update behavior. Reset/deletion remains outside the initial setup path.
 
 ## Explicit exclusions
 
@@ -70,10 +80,10 @@ No V4 monolithic setup prompt, mandatory warmup, mandatory Graphify, automatic k
 
 ## Preconditions / acceptance
 
-The prototype has identified the canonical source (`AgenticLab-v5/system/`), target instance (`<workspace>/AgenticLab/`), workspace-local Pi/configuration and knowledge locations, and scope/source-revision files. The v0 payload inclusion list, ownership classes, and conflict stop-rules are now proposed above, but have not been exercised as a file-operation flow. Before offering repeatable setup/update behavior, validate exact previews and preservation in synthetic empty/populated workspaces; decide then whether a generated checksum manifest adds value beyond a full commit plus deterministic file set. Do not overwrite an existing `AgenticLab/`, root `AGENTS.md`, `.pi/settings.json`, or project knowledge without an explicit preview and approval.
+The prototype has identified the canonical source (`AgenticLab-v5/system/`), target instance (`<workspace>/AgenticLab/`), workspace-local Pi/configuration and knowledge locations, and scope/source-revision files. The v0 inclusion list, ownership classes, and conflict stop-rules passed the bounded synthetic file-operation checks described above. Still unvalidated: actual Pi load/trust/extension behavior and refresh of a recognized clean prior instance. Decide whether a generated checksum manifest adds value beyond a full commit plus deterministic file set only if repeated refresh needs justify it. Do not overwrite an existing `AgenticLab/`, root `AGENTS.md`, `.pi/settings.json`, or project knowledge without an explicit preview and approval.
 
 Before automating setup or reset, test the documented manual flow against an empty workspace and a synthetic workspace with existing user-owned files. Enumerate every created/replaced file; confirm refresh preserves project scope and knowledge; verify the Pi integration in a fresh project session and report limitations if trust/hooks are unavailable. A reset preview must enumerate every affected file and category before any deletion proposal; never infer seeded knowledge from line count alone.
 
 ## Timing / next action
 
-**Current recommendation:** A documented manual setup path is sufficient for the first V5 delivery use; the operator-facing first-install and refresh boundaries are now documented in `system/README.md`. Do not build an installer/reset tool now. The tabletop scenarios define conservative preview/stop behavior but are not runtime validation. Before fixture validation, the runbook must be present in an approved clean V5 commit; do not treat the current dirty working tree as a distributable snapshot. Then, with a separately approved test scope, validate exact file operations and preservation against synthetic empty and populated workspaces. A passing test supports keeping the manual path; a failure should drive a targeted correction, not automatic scope expansion. Any future refresh must start from a clean named source commit and verify the selected payload files before updating provenance. Consult C08 only if a concrete host capability issue remains.
+**Current recommendation:** A documented manual setup path is sufficient for first V5 delivery use; its bounded synthetic install/preservation checks passed. Do not build an installer/reset tool now. The test used committed source `ccc56e4` and did not exercise live Pi, trust/approval UI, or refreshing a clean prior instance; do not claim those behaviors are validated. Any future refresh must start from a clean named source commit and verify the selected payload files before updating provenance. Consult C08 only if a concrete host capability issue remains.

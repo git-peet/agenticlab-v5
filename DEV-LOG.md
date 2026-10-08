@@ -1041,3 +1041,13 @@
 - **Finding:** `FIRST-SLICE-PLAN.md` still described the older `61286fa` payload as current, despite the approved `4855118` refresh. This could make the proposed documentation commit ambiguous about which payload was tested and which one is installed.
 - **Outcome:** Reworded the handoff to label `61286fa` as the earlier Pi read-path test baseline and `4855118` as the current byte-verified host snapshot, explicitly noting that the latter has not had a post-refresh behavioral test. Updated the roadmap's host revision reference consistently.
 - **Boundary:** Documentation-only. No host/data changes, tests, commit, or push.
+
+### V5-20261008-109 — Validate C11 manual setup with synthetic fixtures
+
+- **Recorded:** 2026-10-08T08:50:39+02:00
+- **Type:** C11 bounded synthetic file-operation validation
+- **Source:** `git archive` of committed payload `ccc56e48ae34f84d7c559b559b02a027ceaefd18`; fixtures were created from scratch under `/tmp` and removed after the pass.
+- **Cases/results:** (1) Empty workspace: copied the documented non-test payload, initialized synthetic scope/index, root pointer, local Pi extension setting, and source marker; payload byte checks and JSON parsing passed. (2) Existing root instructions/settings without `AgenticLab/`: additive pointer/extension preserved synthetic sentinels and existing settings. (3) Divergent `AgenticLab/`: preflight stopped and the before/after tree fingerprint was identical; synthetic knowledge sentinel remained intact.
+- **Limit:** No Pi process was launched; trust/approval UI, extension loading, and refresh of a clean prior instance remain untested. This is not evidence for an installer or general update support.
+- **Outcome:** The manual first-install file path passed these bounded preservation/stop checks. Keep the manual path; no installer/reset tool selected. Updated C11, candidate guide, and handoffs with the result.
+- **Boundary:** No Python host or app files changed; no `data/`, `.env`, or real knowledge contents accessed; no commit or push.
