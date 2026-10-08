@@ -1087,3 +1087,30 @@
 - **Change:** Moved the prior untracked AgenticLab folder intact to `/home/peet/Projects/Practice/AgenticLab-v5.1-Backup/`. Installed a fresh non-test V5 system payload in Evershop `AgenticLab/` from committed source `7e4be9c91b5df5b1cad1dca4729d268db5e61e1e`; initialized an Evershop-scoped boundary and empty knowledge index, recorded source revision, and added workspace-root instruction pointer plus project-local Pi extension setting. No V5.1 records/prototypes were imported.
 - **Next:** User must start Pi from the Evershop root and decide whether to trust this project-local extension. Begin with read-only scope/context verification; no app/tests, `.env`, or `data/`. Revisit C08 only if a concrete host-capability gap appears.
 - **Boundary:** No Evershop tracked source or `.gitignore` changes, no GitHub commit/push to Evershop, no `.env`/`data`/knowledge record contents accessed, and no Pi process/trust initiated.
+
+### V5-20261008-114 — Clarify evaluation evidence versus a runtime metrics database
+
+- **Recorded:** 2026-10-08T10:02:27+02:00
+- **Type:** C05 evaluation/observability design clarification
+- **User concern:** Prior V5 evaluation work collected layered metrics that supported decisions and could calibrate future mechanisms; avoid losing this capability while simplifying runtime observability.
+- **Finding:** V5.1 has a file-based evaluation lifecycle (plans/preregistration, baselines/candidates, fixtures, metrics, analyzed results, decisions/revisit triggers) plus workspace-local privacy-minimized run summaries. V5.2 currently summarizes selected results in its roadmap but has no canonical evaluation directory, run registry, collector, or metrics database. `DEV-LOG.md` records design history; it is not a benchmark store.
+- **Recommendation:** Preserve evaluation/calibration as a development-plane capability distinct from runtime telemetry, task checkpoints, and project knowledge. Start with versioned file-based plans/results and scoped per-run summaries only for approved, decision-driven experiments; no always-on collection or database until file-based cross-run analysis proves insufficient. Keep raw/project-specific traces local and privacy-minimized.
+- **Outcome:** Added this distinction and a proposed next Evershop evaluation-record flow to C05. No database, collector, or migration of V5.1 evaluation data selected.
+- **Boundary:** Documentation-only. No evaluation/run data read in this pass beyond the already-reviewed V5.1 evaluation README and plan; no protected project data, commit, or push.
+
+### V5-20261008-115 — Defer Jev calibration data until an explicit pilot trigger
+
+- **Recorded:** 2026-10-08T10:09:12+02:00
+- **Type:** Evaluation/calibration boundary
+- **User clarification:** Prior evaluation metrics are valuable for decisions and future calibration (Jev is an example), but broad collection is not the current task.
+- **Decision:** Do not collect general or continuous metrics now. Preserve the evaluation-record capability separately from runtime telemetry. For Jev, collect only after real use meets C09's recurring bounded-decision trigger and the user explicitly selects a pilot; preregister its question, baseline, outcome labels, stopping/sample criteria, costs/attention, and privacy/retention before the first run.
+- **Outcome:** Made the calibration trigger explicit in C05 and C09. No database, collector, or runtime behavior selected.
+- **Boundary:** Documentation-only; no evaluation data or project data accessed, no commit or push.
+
+### V5-20261008-116 — Complete Evershop first-session context smoke
+
+- **Recorded:** 2026-10-08T10:17:43+02:00
+- **Type:** C11 target-workspace Pi startup/context validation
+- **Observed:** In Evershop Pi 1.1.0, startup listed the workspace-root `AGENTS.md` and the project-local `knowledge-write-gate.ts` extension. The read-only task then followed the root pointer and read only `AgenticLab/AGENTS.md`, `AgenticLab/PROJECT-SCOPE.md`, and `AgenticLab/knowledge/INDEX.md`; the agent summarized Evershop scope and the empty index. No Bash, writes, app/tests, or backup/data access were reported.
+- **Conclusion:** The Evershop V5.2 instance passes the startup/context orientation check. Extension discovery is confirmed, but write-gate/approval behavior is not. This does not itself trigger broad C08 work.
+- **Boundary:** Read-only synthetic/project-scope files only; no `data/`, `.env`, project knowledge records, Evershop source, or backup contents accessed; no writes or commit/push.

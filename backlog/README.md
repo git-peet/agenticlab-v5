@@ -51,7 +51,7 @@ Status, priority, dependencies, and authorization are separate. A high-interest 
 
 ### Working design-review guide (not implementation priority)
 
-- **C11 design pass / experiment staging:** the manual `system/` → workspace-local `AgenticLab/` setup path and ownership/refresh rules are documented; no installer is selected. Synthetic file-operation fixtures and a read-only Pi 1.1.0 smoke passed. Evershop is now prepared as the next experimental workspace with its prior V5.1 folder preserved outside the Git checkout and a fresh V5 payload staged; first Pi trust/startup there is pending. Gate behavior/approval UI and clean-instance refresh remain untested.
+- **C11 design pass / experiment staging:** the manual `system/` → workspace-local `AgenticLab/` setup path and ownership/refresh rules are documented; no installer is selected. Synthetic file-operation fixtures passed, and Pi 1.1.0 in Evershop discovered the root instructions/extension and followed the pointer in a read-only scope check. The prior V5.1 folder is preserved outside Git; the fresh Evershop payload starts with empty knowledge. Gate behavior/approval UI and clean-instance refresh remain untested.
 - **Conditional follow-on — C08:** review only if a concrete Pi/host capability question remains from C11; do not start a general adapter framework.
 - **Foundational baselines — C01/C02:** core to the product vision and already developed into usable operating/knowledge-interface baselines. Reopen only for a concrete routing, lifecycle, or retrieval gap.
 - **Recently reviewed — C03/C04/C05:** the current context, governance, and continuity design passes found no implementation slice to select. Reopen only on new evidence or a specific task need.

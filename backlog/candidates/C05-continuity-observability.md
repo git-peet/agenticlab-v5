@@ -20,6 +20,16 @@ The V5 `logging-and-recovery` candidate separates logical records: working/sessi
 
 **Historical sources (optional):** V4 `MANUAL.md` §§5.4, 6.12, 8–9; Neo audit Findings 4–5, 8, 15; V5 `pipeline/logging-and-recovery.md`, `cross-cutting-research-angles.md`, evaluation plan. The relevant distinctions and lessons are summarized here.
 
+### Evaluation/calibration versus runtime telemetry (design clarification)
+
+V5.1 already has a file-based evaluation process in `AgenticLab-V4/v5/evaluation/`: preregistered plans, baseline/candidate conditions, task fixtures, metrics, results, interpretation, decisions, and revisit triggers. The user reports that this evidence supported architecture decisions and future mechanism calibration. Evershop-specific per-run summaries were kept workspace-local; the V5.2 roadmap synthesizes selected results. The current V5.2 repository has no canonical `evaluation/` directory, run registry, or metrics database. The Evershop `AgenticLab-v5.1-Backup` preserves the old workspace artifacts; their contents are not imported into the new V5.2 knowledge store.
+
+Preserve evaluation as a **development/evidence capability**, distinct from runtime telemetry, task checkpoints, project knowledge, and the append-only development log. A future V5.2 evaluation record should identify the question/mechanism, baseline and candidate, task/fixture and scope, exact source and harness/model versions, enabled conditions, named metrics, failures/deviations, interpretation, decision, and recalibration/revisit trigger. Keep project-specific raw traces/run outputs in the target workspace and minimize them; place only approved, reusable plans and interpreted summaries in canonical V5 evaluation records. Do not automatically collect every session or let metrics change policies/defaults.
+
+**Disposition:** The evaluation capability is worth preserving; a database is not yet justified. Start with versioned, reviewable files and structured per-run summaries for an approved experiment. Consider a database only if repeated cross-run queries or calibration become materially difficult with files. This does not select a collector, schema, or implementation.
+
+**Metrics collection trigger:** Do not gather a general calibration dataset now. For Jev, begin collecting decision metrics only after C09's real-use revisit trigger is met and the user explicitly selects a bounded pilot. Before its first run, preregister the atomic decision, comparison/baseline, outcome labels (including abstention/error), minimum evidence or stopping rule, cost/attention measures, and data-retention boundary. Collect only fields needed for that calibration question.
+
 ## V5 direction
 
 - Keep the AgenticLab development log concise and append-only for material decisions/findings, not every pass.
@@ -38,4 +48,4 @@ Before adding a record type, state who uses it, what decision/recovery it enable
 
 ## Timing / next action
 
-Use `DEV-LOG.md` for material V5 design/build history now. Add a project-work checkpoint only when a real task needs interruption/restart resilience. Defer general telemetry and raw-session recall until actual use identifies a bounded need.
+Use `DEV-LOG.md` for material V5 design/build history now. Before a future Evershop mechanism comparison, preregister a small evaluation plan only if it answers a named decision; keep per-run project artifacts local and record the interpreted, privacy-minimized result in canonical V5 evaluation records. For Jev specifically, wait for C09's real-use trigger and explicit pilot selection before collecting calibration metrics. First define that file-based record flow; do not build a metrics database or always-on collector. Add a project-work checkpoint only when a real task needs interruption/restart resilience; defer raw-session recall.
