@@ -1051,3 +1051,29 @@
 - **Limit:** No Pi process was launched; trust/approval UI, extension loading, and refresh of a clean prior instance remain untested. This is not evidence for an installer or general update support.
 - **Outcome:** The manual first-install file path passed these bounded preservation/stop checks. Keep the manual path; no installer/reset tool selected. Updated C11, candidate guide, and handoffs with the result.
 - **Boundary:** No Python host or app files changed; no `data/`, `.env`, or real knowledge contents accessed; no commit or push.
+
+### V5-20261008-110 — Prepare disposable workspace for fresh Pi smoke check
+
+- **Recorded:** 2026-10-08T09:08:28+02:00
+- **Type:** C11 Pi-load verification setup
+- **Fixture:** `/tmp/agenticlab-v5-pi-smoke-IQR1sJ/workspace`, staged from committed payload `417a030ea0f6cbabf195c9007828280a12253b39`. Contains only the V5 non-test payload and synthetic project scope/index, root `AGENTS.md` pointer, and project-local `.pi/settings.json` extension path.
+- **Preflight:** Payload bytes, source marker, JSON, and extension-path target were checked. No tests or application files were staged.
+- **Pending:** Pi has not been launched and the project extension has not been trusted. User confirmation in the Pi UI is required before executing the local extension; no global trust/settings were changed.
+- **Boundary:** No Python host/data or external workspace accessed. The temporary fixture is retained for the user's smoke check; remove it after verification.
+
+### V5-20261008-111 — Synthetic Pi startup discovers root context and extension
+
+- **Recorded:** 2026-10-08T09:16:04+02:00
+- **Type:** C11 runtime smoke observation
+- **Observed:** User launched Pi 1.1.0 from the trusted synthetic workspace. Startup listed `~/.pi/agent/AGENTS.md` and the workspace-root `AGENTS.md` under Context, and `knowledge-write-gate.ts` under Extensions.
+- **Interpretation:** Confirms project-root context discovery and extension registration/loading in this trusted Pi 1.1.0 workspace. It does not confirm that the model follows the root pointer to `AgenticLab/AGENTS.md`, nor gate/write behavior or approval UI.
+- **Next:** Perform a read-only turn asking Pi to follow the pointer and read only the synthetic AgenticLab instructions, project scope, and index. No writes or outside-workspace reads.
+- **Boundary:** No files changed by Pi; no write-gate action performed; no host, `data/`, `.env`, or real knowledge accessed.
+
+### V5-20261008-112 — Verify root pointer and synthetic scope in Pi
+
+- **Recorded:** 2026-10-08T09:17:12+02:00
+- **Type:** C11 read-only Pi context smoke
+- **Observed:** In the trusted synthetic workspace, Pi followed the root `AGENTS.md` pointer and read exactly `AgenticLab/AGENTS.md`, `AgenticLab/PROJECT-SCOPE.md`, and `AgenticLab/knowledge/INDEX.md`. It reported the synthetic-only scope and no seeded project records; no Bash, extra reads, or edits occurred.
+- **Conclusion:** Root pointer-following and synthetic scope/index orientation passed on Pi 1.1.0. Extension registration is visible at startup, but gate behavior, approval UI, and refresh remain untested.
+- **Boundary:** No host/application files, protected data, or real project knowledge accessed; no writes, commit, or push.
