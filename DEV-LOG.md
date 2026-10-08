@@ -1077,3 +1077,13 @@
 - **Observed:** In the trusted synthetic workspace, Pi followed the root `AGENTS.md` pointer and read exactly `AgenticLab/AGENTS.md`, `AgenticLab/PROJECT-SCOPE.md`, and `AgenticLab/knowledge/INDEX.md`. It reported the synthetic-only scope and no seeded project records; no Bash, extra reads, or edits occurred.
 - **Conclusion:** Root pointer-following and synthetic scope/index orientation passed on Pi 1.1.0. Extension registration is visible at startup, but gate behavior, approval UI, and refresh remain untested.
 - **Boundary:** No host/application files, protected data, or real project knowledge accessed; no writes, commit, or push.
+
+### V5-20261008-113 — Stage Evershop as next V5.2 experiment host
+
+- **Recorded:** 2026-10-08T09:52:12+02:00
+- **Type:** C11 host selection and manual workspace setup
+- **User direction:** Use `/home/peet/Projects/Practice/evershop-dev/` for the next V5.2 experimentation phase; retain its existing V5.1 AgenticLab only as a named backup.
+- **Git audit:** Evershop `main` at `9e9387b` had no tracked changes. Existing `AgenticLab/` was untracked and not covered by `.gitignore`; tracked Evershop `.gitignore` and remote configuration were left unchanged. Added local `.git/info/exclude` entries for new `AgenticLab/`, root `AGENTS.md`, and `.pi/` to prevent accidental Evershop publication.
+- **Change:** Moved the prior untracked AgenticLab folder intact to `/home/peet/Projects/Practice/AgenticLab-v5.1-Backup/`. Installed a fresh non-test V5 system payload in Evershop `AgenticLab/` from committed source `7e4be9c91b5df5b1cad1dca4729d268db5e61e1e`; initialized an Evershop-scoped boundary and empty knowledge index, recorded source revision, and added workspace-root instruction pointer plus project-local Pi extension setting. No V5.1 records/prototypes were imported.
+- **Next:** User must start Pi from the Evershop root and decide whether to trust this project-local extension. Begin with read-only scope/context verification; no app/tests, `.env`, or `data/`. Revisit C08 only if a concrete host-capability gap appears.
+- **Boundary:** No Evershop tracked source or `.gitignore` changes, no GitHub commit/push to Evershop, no `.env`/`data`/knowledge record contents accessed, and no Pi process/trust initiated.
