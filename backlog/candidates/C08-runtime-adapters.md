@@ -30,6 +30,10 @@ V4 improvements separately identify: unassessed Pi-only mechanisms, setup that a
 - Prefer a small replaceable adapter and pure testable rules; test observable behavior on the supported host/version.
 - Keep the clean V5 repository the proposed system source. Decide separately how a project receives a versioned instance/configuration.
 
+### Read-only source-discovery fallback (design recommendation, not a tool selection)
+
+For a bounded code task, use known source paths or available native read-only listing/search tools first. If the required paths are unknown and the host has no native discovery tool, stop and ask for the paths or explicit permission for one scoped listing command. Any authorized shell listing must name the source subtree and exclude `.env`, `data/` (including nested data/seed directories), tests, backups, and other out-of-scope paths; list paths only, then read selected files through the host's read tool. That permission is task-specific, not a standing Bash grant. It does not relax C02's separate restriction on using shell to search the knowledge corpus. A custom listing tool is reconsidered only if repeated representative tasks show this fallback blocks useful work.
+
 ## Explicit exclusions
 
 No assumption of immediate cross-harness parity, all-host support, global Pi configuration, install-time auto-mutators, a universal runtime framework, or external meta-harness. An AGENTS.md pointer may be considered later as a low-cost fallback, not a replacement for actual adapters.
@@ -40,4 +44,4 @@ Choose one host and one user journey. Specify workspace discovery, session/new-s
 
 ## Timing / next action
 
-Do not build all adapters before the first journey. For the current Evershop/Pi path, the route trace completed only after the user authorized a scoped listing; the command exposed a nested `data/` path name, so future search scope must explicitly exclude that subtree unless approved. If more source discovery is needed, prefer known paths or a native read-only listing tool; use shell discovery only with a task-specific path allowlist and explicit permission. Do not add a general adapter/search framework from this single task. Select implementation only after a repeated concrete capability need and explicit bounded scope.
+Do not build all adapters before the first journey. For the current Evershop/Pi path, the route trace completed only after a user-authorized scoped listing; the observation informs the read-only fallback above, not a selected implementation. No general adapter/search framework is warranted by this single task. Revisit only if repeated representative work is blocked by missing safe discovery capability; any implementation then needs a narrow tool contract and separate explicit scope.

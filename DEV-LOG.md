@@ -1133,3 +1133,12 @@
 - **Boundary note:** The file listing exposed at least one path under `packages/evershop/src/bin/seed/data/`; the matching file was not opened. The search stayed within the user-authorized `src` subtree, but this reveals ambiguity between the source-tree search allowance and the broad `data/` prohibition. Future discovery commands must explicitly prune any `*/data/*` subtree unless the user authorizes it. No `.env`, project-root `data/`, file contents from the nested seed path, or V5.1 backup was read.
 - **C08 disposition:** The trace succeeded with one explicitly scoped listing command, so there is no basis for a general adapter/indexer. The unresolved C08 question is how to handle path discovery when Bash is disallowed and no native list tool is exposed; use known paths or a safe native capability unless a repeated real need justifies a narrower tool.
 - **Outcome:** Recorded the successful-but-bounded source trace and data-path caveat in C08 and the candidate index. No ongoing metrics collected; no commit or push.
+
+### V5-20261008-119 — Define a task-scoped source-discovery fallback
+
+- **Recorded:** 2026-10-08T10:53:12+02:00
+- **Type:** C08 design clarification
+- **Decision:** For code-source discovery, use known paths or native read-only listing/search when available. If unavailable and the user prohibits Bash, stop and ask for paths or permission. If shell listing is explicitly allowed, scope it to named source paths, list names only, exclude `.env`, all `data/` trees (including nested seed data), tests, backups, and switch to native `read` for file contents. Permission expires with that task. Knowledge-corpus search remains governed separately by C02.
+- **Rationale:** The Evershop read-only route trace succeeded after a bounded find, but the path listing surfaced a nested data-named file path. Do not turn the single success into a general Bash/search grant or custom adapter; revisit only if safe path discovery repeatedly blocks representative work.
+- **Outcome:** Added the fallback boundary to C08 and the candidate index. No implementation selected.
+- **Boundary:** Documentation-only. No further Evershop reads, no `.env`/`data`/backup access, no commit or push.
