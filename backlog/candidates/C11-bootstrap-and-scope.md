@@ -1,8 +1,8 @@
 # V52-C11 — Project bootstrap, greenfield setup, and workspace isolation
 
-**Status:** `candidate`; setup and distribution boundary open
+**Status:** `candidate`; prototype payload boundary confirmed, reusable setup/update contract open
 
-**Implementation readiness:** **Not ready for setup/reset tooling.** Decide the first host and data boundary first.
+**Implementation readiness:** **Not ready for setup/reset tooling.** Python is an experimental host; general install, refresh, and collision behavior remain open.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 knowledge](C02-knowledge-lifecycle.md), [C08 runtime](C08-runtime-adapters.md)
 
@@ -10,6 +10,9 @@
 
 Start AgenticLab in an existing project or a greenfield assignment without confusing system configuration, target-project knowledge, work history, and external/user-owned material. Prevent one workspace's memory/history from silently becoming another project's context.
 
+**Confirmed prototype distribution shape:** `/home/peet/Projects/AgenticLab-v5/system/` is the source payload; export/copy its runtime files into a delivery workspace as `AgenticLab/`. Do not drop the whole V5 development repository/backlog into the host. Initialize the target workspace's root `AGENTS.md` pointer, project-local Pi registration, `PROJECT-SCOPE.md`, `SOURCE-REVISION.txt`, and initial local knowledge/index there. This shape has been manually prototyped in the Python experimental host, not automated.
+
+**Snapshot comparison and reconciliation:** The Python host initially declared `aef687a`, but a read-only comparison found a mixed snapshot: against that exact revision, the adapter files and README matched while `AGENTS.md` and both brain contracts differed, and delivery prompts were present despite not existing at that revision. Against the then-current V5 working tree, other runtime-file differences were also found. The V5 worktree had uncommitted design changes, so those were not used as a release source. With user approval, the target runtime files were refreshed from clean committed source `4855118a5473e20612a48b2b047ab69a72387ff2`, `SOURCE-REVISION.txt` was updated, and every copied non-test runtime file was verified byte-identical to that commit's `system/` payload. Workspace-root `AGENTS.md`, `.pi/settings.json`, `PROJECT-SCOPE.md`, and `knowledge/` were preserved; no development tests were staged and no host-only files were deleted. The host now matches that committed payload, but future refreshes still need a file-set/diff preview and ownership policy; the revision marker is not a substitute for those checks. No project knowledge or protected application data was inspected.
 ## Context and evidence
 
 V4's startup combines project questionnaire, adapter/hook installation, topology, Graphify setup, and warmup. The audit recommends separating project profile, host integration, and bootstrap/context production; Graphify and warmup outputs are not universal runtime prerequisites. The V4 backlog proposes a greenfield startup path because code-analysis warmup has little to analyze in an empty project. It also identifies a possible workspace reset/seeded-state hazard, but its own correction notes that some alleged contamination was not verified in the audited copy. Thus reset safety is a valid boundary to design, not evidence that every V4 copy is contaminated.
@@ -23,7 +26,43 @@ V5's memory contract distinguishes session, feature, project, workspace, system,
 - Treat bootstrap as an explicit setup/knowledge-production process, not always-on work.
 - Separate AgenticLab system design history from a target project's code, decisions, and learning.
 - A greenfield workspace has no code facts to infer; begin from the user-provided objective and accumulate verified knowledge as work occurs.
+- Keep the initial setup path as a reviewed, documented workspace-local copy/initialization flow; do not build an installer/reset tool until clean-workspace and existing-state behavior are specified.
+- Keep Pi wiring project-local; do not alter global Pi configuration as part of workspace initialization.
 - Any deployment/import/reset operation must show exactly what data is affected and require appropriate human approval. Recovery/reset never silently expands scope or deletes governed knowledge.
+
+### Minimum manual bootstrap flow (design proposal)
+
+1. **Preflight:** confirm target workspace/project identity and scope; inspect only setup paths to determine whether `AgenticLab/`, root `AGENTS.md`, and `.pi/settings.json` already exist. Report conflicts and proposed file operations before writing; never inspect protected project data as part of setup.
+2. **Stage payload:** for the current prototype, copy the reviewed files under `system/` (`AGENTS.md`, `README.md`, `brain/`, `adapters/pi/` excluding `tests/`, and `prompts/delivery/`) into `<workspace>/AgenticLab/`. Record the full clean source commit. Re-review this inclusion list if the payload tree changes; exclude the V5 backlog and development logs, and do not use a live symlink.
+3. **Initialize local state:** create the confirmed `PROJECT-SCOPE.md` and an empty knowledge index/required directories. Do not import V4, another workspace's knowledge, or V5 design history.
+4. **Wire the host locally:** add or merge a workspace-root `AGENTS.md` entry for `AgenticLab/AGENTS.md` and the required project-local Pi extension setting. Preserve existing project instructions/settings; never alter global Pi configuration.
+5. **Verify:** start a fresh Pi process from the target workspace root; confirm which instructions and extension loaded. If trust or the approval extension is unavailable, report the limitation and do not persist knowledge. Use synthetic test files for any write-gate check.
+
+Treat refresh as a separate reviewed operation: compare source revisions and changed runtime paths, preview every replacement, preserve project scope/knowledge and host-owned instruction/configuration, and stop on conflicts. This is a manual runbook proposal, not an installer or authorization to overwrite/reset.
+
+### File ownership and refresh policy (design proposal)
+
+| File class | Examples | Proposed default |
+|---|---|---|
+| V5-managed payload | `AgenticLab/AGENTS.md`, `README.md`, `brain/`, `adapters/pi/`, `prompts/delivery/` | Owned by the named V5 source commit. Refresh only after comparing the installed copy with its recorded base and previewing the changed paths. Local divergence is a conflict, not permission to overwrite. |
+| Workspace integration | Workspace-root `AGENTS.md`, `.pi/settings.json` | Host-owned. Preserve existing rules/settings; propose a narrow addition/merge with a preview. Stop on conflicting configuration. Never alter global Pi settings. |
+| Project-owned state | `AgenticLab/PROJECT-SCOPE.md`, `AgenticLab/knowledge/` | Preserve across installs/refreshes. Initialize only when absent and after confirming project identity/scope. Never import from V4 or another workspace. |
+| Provenance metadata | `AgenticLab/SOURCE-REVISION.txt` | Store the full clean source commit. Update only after the staged payload is verified against that commit. It identifies intended provenance but does not replace comparison/preview. |
+| Unknown or obsolete paths | Host files not in the current payload set | Preserve and report; do not delete during refresh. Removal/reset is a separate explicitly approved operation. |
+
+For a recognized, unmodified base, compute and show additions, replacements, and obsolete paths before a refresh; apply only the approved V5-managed changes and update provenance after verification. If the marker is absent/ambiguous or any managed file differs from its recorded base, stop for a file-level reconciliation rather than guessing whether it is a local edit or stale payload. Same revision plus exact files is a no-op. A failed or unavailable Pi trust/approval extension means no durable knowledge writes.
+
+### Tabletop setup scenarios (design check, not runtime validation)
+
+| Starting state | Expected safe behavior | What this checks |
+|---|---|---|
+| Empty delivery workspace | Confirm project identity/scope, show the complete creation list, then stage the payload and local metadata only after approval. | The basic drop-in path does not require V4/other-project knowledge or code-derived facts in a greenfield project. |
+| Existing project with root `AGENTS.md` and `.pi/settings.json`, but no `AgenticLab/` | Preserve both files; present the exact pointer/extension additions as a reviewable patch. If a safe merge is unclear, stop and let the user integrate manually. | Existing host instructions/settings are not clobbered; Pi integration remains project-local. |
+| Existing `AgenticLab/` whose runtime matches its recorded clean source commit | Preview added/replaced/obsolete runtime paths, preserve scope/knowledge, and update source provenance only after verified staging. | Safe refresh is tied to a known base and does not silently delete obsolete/unknown paths. |
+| Existing `AgenticLab/` with a missing marker or any divergence from the recorded base | Do not refresh. Inventory managed paths and show differences for user-directed reconciliation. | Unknown/mixed snapshots are not guessed into a clean state. |
+| Pi project trust or approval extension unavailable | Report that the extension-backed write gate is unavailable; do not persist knowledge by another route. | The system does not claim a hard guarantee it cannot enforce. |
+
+These tabletop outcomes support a manual runbook with a conservative stop-and-review path for conflicts. They do not demonstrate actual Pi loading, extension enforcement, installer behavior, or preservation under file operations; those require a separately approved synthetic fixture test. Reset/deletion remains outside the initial setup path.
 
 ## Explicit exclusions
 
@@ -31,8 +70,10 @@ No V4 monolithic setup prompt, mandatory warmup, mandatory Graphify, automatic k
 
 ## Preconditions / acceptance
 
-Before placing AgenticLab in a host workspace, determine canonical system source, instance/config/knowledge location, project identity and scope, version/update mechanism, and whether any existing state is present. Test both an empty/greenfield workspace and a workspace with existing files. A reset preview should enumerate every affected file and category before any deletion proposal; never rely on line count alone to infer seeded knowledge.
+The prototype has identified the canonical source (`AgenticLab-v5/system/`), target instance (`<workspace>/AgenticLab/`), workspace-local Pi/configuration and knowledge locations, and scope/source-revision files. The v0 payload inclusion list, ownership classes, and conflict stop-rules are now proposed above, but have not been exercised as a file-operation flow. Before offering repeatable setup/update behavior, validate exact previews and preservation in synthetic empty/populated workspaces; decide then whether a generated checksum manifest adds value beyond a full commit plus deterministic file set. Do not overwrite an existing `AgenticLab/`, root `AGENTS.md`, `.pi/settings.json`, or project knowledge without an explicit preview and approval.
+
+Before automating setup or reset, test the documented manual flow against an empty workspace and a synthetic workspace with existing user-owned files. Enumerate every created/replaced file; confirm refresh preserves project scope and knowledge; verify the Pi integration in a fresh project session and report limitations if trust/hooks are unavailable. A reset preview must enumerate every affected file and category before any deletion proposal; never infer seeded knowledge from line count alone.
 
 ## Timing / next action
 
-Decide the system-to-host boundary before integrating with the Python playground. Greenfield setup and reset tooling can follow a concrete setup use case; neither blocks a read-only first task in a prepared workspace.
+**Current recommendation:** A documented manual setup path is sufficient for the first V5 delivery use; the operator-facing first-install and refresh boundaries are now documented in `system/README.md`. Do not build an installer/reset tool now. The tabletop scenarios define conservative preview/stop behavior but are not runtime validation. Before fixture validation, the runbook must be present in an approved clean V5 commit; do not treat the current dirty working tree as a distributable snapshot. Then, with a separately approved test scope, validate exact file operations and preservation against synthetic empty and populated workspaces. A passing test supports keeping the manual path; a failure should drive a targeted correction, not automatic scope expansion. Any future refresh must start from a clean named source commit and verify the selected payload files before updating provenance. Consult C08 only if a concrete host capability issue remains.

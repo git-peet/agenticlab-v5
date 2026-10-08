@@ -18,6 +18,8 @@ V4's manual and audit show many procedures embedded in personas/prompts. Their v
 
 **Historical sources (optional):** V4 `MANUAL.md` §§6.11 and 8–9; `pre-built-global-skills-starter-pack.md`, `process-routine-tier-gap.md`, `senior-minimalism-ladder-gap.md`, `repo-wide-overengineering-audit-gap.md`, and `pre-heavy-implementation-loose-ends-pass-gap.md`; V5 specialist/context pipeline. Concepts and limits are summarized here.
 
+**External concept check (README-level, not implementation validation):** TencentDB Agent Memory describes Skills as versioned assets with resource files, trigger boundaries, execution steps, and validation rules. This reinforces C06's distinction between a reusable procedure and a prompt snippet. If a real V5 procedure later needs companion files or explicit validation, consider those as properties of that procedure; no universal schema/catalog is selected. Agent/team loadouts and sharing ACLs are not requirements for the current V5 scope, and the project's benchmark/architecture claims were not independently evaluated here.
+
 ## V5 direction
 
 - A skill/procedure teaches a repeatable method; it is not proof the method is current, nor permission to perform restricted steps.

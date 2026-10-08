@@ -14,6 +14,8 @@ Allow substantial work to be recovered and important outcomes to be evaluated, w
 
 V4 used session logs, phase logs, checkpoints, resume prompts, recovery from Pi session JSONL, maintenance runs, and counters/ledgers for recurring mechanisms. These helped preserve work and reveal implementation/measurement failures. The V4 audit also found unevenly populated logs and underused mechanisms. The lesson is to preserve the function and measure use/cost—not inherit every record class, cadence, hook, or metric.
 
+**Current V5 continuity check:** The roadmap, first-slice handoff, candidate records, and append-only `DEV-LOG.md` are sufficient to resume the current design work. This does not demonstrate recovery of an interrupted target-project task; no checkpoint/restart test for such work has been performed. Do not add a project checkpoint until a real substantial task needs interruption/restart resilience; when tested, verify source state and authorization afresh.
+
 The V5 `logging-and-recovery` candidate separates logical records: working/session, workflow, approval, checkpoint, audit/evaluation, and memory. It says checkpoints are snapshots requiring current-state/authorization revalidation; logs reconstruct past activity but do not establish current truth. Cross-cutting research additionally asks about attention cost, traceability, and failure-cause attribution. Those angles overlap existing contracts and should only be pulled forward if a concrete gap remains.
 
 **Historical sources (optional):** V4 `MANUAL.md` §§5.4, 6.12, 8–9; Neo audit Findings 4–5, 8, 15; V5 `pipeline/logging-and-recovery.md`, `cross-cutting-research-angles.md`, evaluation plan. The relevant distinctions and lessons are summarized here.

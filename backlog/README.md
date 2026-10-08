@@ -47,9 +47,18 @@ Status, priority, dependencies, and authorization are separate. A high-interest 
 | V52-C08 | Runtime, adapters, and current AI landscape | candidate | Candidate; portable contracts, thin capability-aware adapters | [C08](candidates/C08-runtime-adapters.md) |
 | V52-C09 | Jev-inspired bounded decision support | parked | User direction: no Jev for now. Revisit only for recurring bounded decisions or demonstrable review/interruption friction; no universal classifier | [C09](candidates/C09-jev-decisions.md) |
 | V52-C10 | Bounded semantic reuse / decision caching | parked | Revisit only after repeated bounded decisions are observed | [C10](candidates/C10-bounded-reuse.md) |
-| V52-C11 | Project bootstrap, greenfield setup, and workspace isolation | candidate | Candidate; setup/import/reset boundaries need design | [C11](candidates/C11-bootstrap-and-scope.md) |
+| V52-C11 | Project bootstrap, greenfield setup, and workspace isolation | candidate | Prototype payload-to-host shape confirmed; reusable setup/update boundaries need design | [C11](candidates/C11-bootstrap-and-scope.md) |
 
-No record is currently `selected` or `in-progress`. The roadmap's first-slice description is a recommendation awaiting the user's decision.
+### Working design-review guide (not implementation priority)
+
+- **C11 design pass complete:** the manual `system/` → workspace-local `AgenticLab/` setup path and ownership/refresh rules are documented; recommend a manual runbook for first use, not an installer. Fixture validation is gated on the runbook being in an approved clean V5 commit, then separately bounded synthetic empty/populated tests; a failure should trigger a targeted correction, not automatic installer scope.
+- **Conditional follow-on — C08:** review only if a concrete Pi/host capability question remains from C11; do not start a general adapter framework.
+- **Foundational baselines — C01/C02:** core to the product vision and already developed into usable operating/knowledge-interface baselines. Reopen only for a concrete routing, lifecycle, or retrieval gap.
+- **Recently reviewed — C03/C04/C05:** the current context, governance, and continuity design passes found no implementation slice to select. Reopen only on new evidence or a specific task need.
+- **Later, need-triggered — C06/C07:** revisit procedures when real work repeats a method; revisit specialist isolation/coordination when independent judgment or parallelism has a concrete benefit.
+- **Parked — C10/C09:** C10 needs evidence of repeated equivalent decisions; C09 remains parked by the user's explicit direction and trigger.
+
+This is a navigation aid, not automatic sequencing, implementation authorization, or a priority commitment. At the end of each review, record the outcome and stop for the user's choice of the next focus. No implementation candidate is currently selected or `in-progress`.
 
 ## Source crosswalk: V4 improvements backlog
 

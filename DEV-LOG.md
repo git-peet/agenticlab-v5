@@ -917,3 +917,127 @@
 - **Type:** Context-engineering design clarification
 - **Outcome:** Added a concise sufficiency/stop rule to C03 and referenced C02's existing complete-scan/outcome contract rather than duplicating its procedure. The existing workload families remain coverage examples, not mandatory workflows or fixed file bundles.
 - **Boundary:** Documentation-only; no runtime, Pi configuration, delivery-prompt, Jev, or host/data changes. No commit or push.
+
+### V5-20261007-094 — C04 governance boundaries clarified
+
+- **Recorded:** 2026-10-07T18:22:11+02:00
+- **Type:** Governance design review / documentation clarification
+- **Decision:** An explicit request authorizes bounded, reversible work within stated scope without redundant confirmation; reconfirm on material scope/risk changes. Separate confirmation applies to destructive, security-sensitive, irreversible, external-impact, explicitly hard-gated actions, and durable knowledge writes. C04 remains framed; no implementation slice was selected.
+- **Finding:** The operating contract already denies authority to records/project content and model confidence, but did not explicitly cover external content and tool output. Added that boundary to the operating contract. C04 retains fail-stop/reduce-scope behavior when hard enforcement is unavailable; no V4 thresholds or secret-detection mechanism was imported.
+- **Boundary:** Documentation-only. No runtime, Pi configuration, host/data access, commit, or push.
+
+### V5-20261007-095 — Make design-session documentation practice visible at roadmap entry
+
+- **Recorded:** 2026-10-07T18:26:01+02:00
+- **Type:** V5 development-process clarification
+- **Outcome:** Added a compact V5 design-session documentation convention near the top of `V5.2-roadmap.md`: update the relevant design doc and append a concise DEV-LOG entry for durable outcomes; update roadmap/plan only for material status or next-step changes; keep logs append-only and avoid routine/duplicate narration.
+- **Boundary:** Documentation-only. No runtime or Pi configuration changes, commit, or push.
+
+### V5-20261007-096 — C05 continuity review finds no checkpoint gap for design work
+
+- **Recorded:** 2026-10-07T18:29:53+02:00
+- **Type:** Continuity/observability design review
+- **Finding:** The roadmap, first-slice handoff, candidate records, and append-only DEV-LOG suffice to resume V5 design work. This does not demonstrate recovery of interrupted target-project work; no checkpoint/restart test has been performed. Keep checkpoints task-triggered, distinct from approvals and durable knowledge; defer general telemetry.
+- **Outcome:** C05 remains a candidate; no implementation slice or next portfolio priority was selected. Updated C05 and the current roadmap/plan handoff to reflect the C03→C04→C05 review progress and leave the next priority open.
+- **Boundary:** Documentation-only. No runtime, Pi configuration, Python host/data access, commit, or push.
+
+### V5-20261007-097 — C11 selected for bounded bootstrap design review
+
+- **Recorded:** 2026-10-07T18:44:39+02:00
+- **Type:** Bootstrap/distribution design review and candidate sequencing
+- **User direction:** Keep the relative candidate-relevance/review guide for phase transitions and proceed with C11; this selects a design review, not setup tooling or implementation.
+- **C11 clarification:** Confirmed the prototype boundary as canonical V5 `system/` payload exported/copied into a delivery workspace as `AgenticLab/`, with workspace-local entrypoint, Pi registration, scope, source revision, and initial knowledge. The Python host demonstrates a manual prototype, not an automated initializer. C11 now focuses on the smallest documented manual bootstrap path and leaves payload versioning, collisions/pre-existing state, refresh preservation, and trust/unavailable-hook behavior open.
+- **Outcome:** Added the non-authorizing review guide to `backlog/README.md`; updated C11, `FIRST-SLICE-PLAN.md`, and `V5.2-roadmap.md` to record the current design-review focus while leaving implementation priority open.
+- **Boundary:** Documentation-only. No runtime, Pi configuration, Python host/data access, commit, or push.
+
+### V5-20261007-098 — C11 minimum manual bootstrap flow outlined
+
+- **Recorded:** 2026-10-07T18:45:29+02:00
+- **Type:** Bootstrap design review
+- **Finding:** The V5 drop-in use case is supported by a manual prototype: export/copy the runtime payload from `system/` as target-local `AgenticLab/`, then initialize target-owned scope, revision, knowledge, and host wiring. This is distinct from copying the V5 development repository or installing Pi globally.
+- **Outcome:** C11 now records a minimal manual bootstrap design—preflight, reviewed payload staging, local-state initialization, project-local Pi wiring, fresh-session verification, and separately reviewed refresh. Collision/version/update handling and clean/existing workspace validation remain open. No installer/reset tool was selected.
+- **Boundary:** Documentation-only. No runtime, Pi or host configuration, protected project data, commit, or push.
+
+### V5-20261007-099 — Experimental host snapshot needs file-level provenance
+
+- **Recorded:** 2026-10-07T18:49:14+02:00
+- **Type:** C11 distribution/refresh boundary evidence
+- **Finding:** A read-only comparison found the Python host marker at `aef687a` while V5 `HEAD` is `4855118`; runtime files in the host are a mix of matching and differing copies. The differing files include `AgenticLab/AGENTS.md`, both brain contracts, `README.md`, and `prompts/delivery/plan.md`. The cause/ownership was not inspected or resolved. The V5 worktree also has uncommitted design changes.
+- **Decision/next:** A commit marker alone does not establish an exact payload snapshot. Classify divergence and define a reproducible clean payload identity plus file manifest before refresh; never blanket-overwrite the host copy. Any later comparison/test must continue to exclude project knowledge and protected application data.
+- **Boundary:** Read-only inventory/content comparison of runtime files only; no project knowledge or `data/`/`.env` inspected, no host changes, no commit or push.
+
+### V5-20261007-100 — Classify observed host/runtime file differences
+
+- **Recorded:** 2026-10-07T18:50:18+02:00
+- **Type:** C11 snapshot-provenance design clarification
+- **Finding:** Read-only diffs show the host `AGENTS.md` has a merged line; its knowledge contract has older/duplicated completeness wording; its README lacks the prompt-files entry; and `plan.md` differs only by the final newline. The operating-contract delta is the external-content/tool-output rule currently uncommitted in V5. These are consistent with mixed/stale snapshot versions, not evidence that the paths are project-owned; provenance remains unconfirmed.
+- **Outcome:** C11 now records the specific comparison and requires a clean, reproducible source snapshot plus file-level preview/ownership handling before refresh. Do not overwrite the existing host copy based on its marker alone.
+- **Boundary:** Read-only comparison of listed runtime docs/prompts; no project knowledge, `data/`, `.env`, or host files changed. No commit or push.
+
+### V5-20261007-101 — Confirm host marker does not identify complete installed payload
+
+- **Recorded:** 2026-10-07T18:51:17+02:00
+- **Type:** C11 version-provenance clarification
+- **Finding:** Compared host runtime files directly against the recorded `aef687a` source payload. The adapter files and README match that revision, while `AGENTS.md` and both brain contracts differ; delivery prompts exist in the host although absent at that revision. Against current source, other runtime paths differ as summarized in C11. This demonstrates that `SOURCE-REVISION.txt` alone does not identify a single coherent payload snapshot.
+- **Outcome:** C11 now treats the Python copy as an unreconciled experiment, not a safe refresh target. Resolve file provenance/ownership and define a clean revision plus manifest before refresh; preserve all host state until then.
+- **Boundary:** Read-only comparison of system runtime files only; no knowledge contents, `data/`, `.env`, or host files changed. No commit or push.
+
+### V5-20261007-102 — Refresh experimental host to approved committed payload
+
+- **Recorded:** 2026-10-07T18:54:51+02:00
+- **Type:** User-approved experimental-host snapshot cleanup
+- **Source:** Clean committed V5 revision `4855118a5473e20612a48b2b047ab69a72387ff2`; uncommitted V5 design changes were excluded.
+- **Change:** Refreshed only files under host `AgenticLab/` that are present in the committed `system/` payload, excluding development tests; set `AgenticLab/SOURCE-REVISION.txt` to the full revision. Verified every copied runtime file byte-identical to that revision. Preserved root `AGENTS.md`, `.pi/settings.json`, `AgenticLab/PROJECT-SCOPE.md`, and the entire project `knowledge/` tree. Did not delete host-only files.
+- **Rollback:** A temporary copy of the replaced runtime files and old marker is at `/tmp/agenticlab-v5-host-backup-yjA9lo`.
+- **Boundary:** No Python application files changed; no `data/`, `.env`, or knowledge contents read. No tests run, no commit or push.
+
+### V5-20261007-103 — C11 workspace ownership and refresh policy proposed
+
+- **Recorded:** 2026-10-07T20:12:13+02:00
+- **Type:** Bootstrap/update design review
+- **Outcome:** Added a proposed ownership matrix to C11 separating V5-managed runtime files, workspace integration, project-owned scope/knowledge, revision metadata, and unknown/obsolete paths. Refresh now has conservative cases: exact same revision is a no-op; clean managed files allow a previewed update; missing/ambiguous provenance or local divergence stops for reconciliation; no obsolete/unknown paths are deleted automatically.
+- **Open:** Validate the current file inclusion set, pre-existing workspace conflict behavior, and whether a generated checksum manifest adds value over a clean commit plus deterministic file set. No automated bootstrap or reset tooling selected.
+- **Boundary:** Documentation-only; no host files changed in this design pass, no protected data read, no commit or push.
+
+### V5-20261007-104 — C11 tabletop checks manual bootstrap boundaries
+
+- **Recorded:** 2026-10-07T21:05:58+02:00
+- **Type:** Bootstrap design review
+- **Scenarios:** Empty workspace; existing project root instructions and Pi settings; recognized clean prior AgenticLab snapshot; missing marker/divergent runtime file; unavailable project trust/approval extension.
+- **Finding:** A conservative manual flow can handle these design cases by previewing proposed additions, preserving host/project state, stopping on unknown divergence, and refusing durable writes if the gate is unavailable. This is a tabletop design check only; it does not validate actual file operations or Pi loading.
+- **Recommendation:** A documented manual setup path is sufficient for initial V5 delivery use; no installer/reset tool now. Repeatable setup/update claims require a separately approved synthetic empty/populated workspace test. C11 design pass is complete pending the user's next priority choice.
+- **Boundary:** Documentation-only; no fixture created, no Python-host files changed, no `data/`/`.env`/knowledge contents accessed, no commit or push.
+
+### V5-20261007-105 — Add operator-facing manual first-install guidance
+
+- **Recorded:** 2026-10-07T21:11:05+02:00
+- **Type:** C11 documentation deliverable
+- **Change:** Expanded `system/README.md` with an experimental first-install checklist: choose a clean committed source snapshot; preflight a new target workspace; copy only the runtime payload; initialize target-local scope and empty knowledge; preserve/merge root instructions and project Pi settings; verify trust/extension capability honestly; separate refresh from install and stop on divergence.
+- **C11:** Linked the operator-facing steps from the candidate. Installer/reset tooling and repeatable file-operation support remain unselected; synthetic fixture validation is still required before making broader setup/update claims.
+- **Boundary:** Documentation-only in the V5 source tree. The Python host remains at committed payload `4855118`; it was not refreshed with these uncommitted README changes. No runtime behavior, protected data, commit, or push.
+
+### V5-20261007-106 — Gate C11 fixture validation on a clean approved source
+
+- **Recorded:** 2026-10-07T21:18:45+02:00
+- **Type:** C11 validation sequencing / decision trace
+- **Decision:** Do not use the current dirty V5 working tree as a distributable/test baseline. First require an approved clean V5 commit containing the runbook; then conduct a separately scoped synthetic empty- and populated-workspace fixture test.
+- **Rationale/revisit rule:** The test should identify setup-operation and preservation failures before claiming the runbook is repeatable. A pass supports the manual first-use path without an installer. A failure triggers a targeted documentation/design correction; it does not automatically authorize an installer or reset tool. C08 is revisited only if the fixture exposes a concrete host capability gap.
+- **Outcome:** Recorded this sequence in C11, the candidate review guide, and the roadmap/first-slice handoff. Extended the session documentation convention to capture rationale, assumptions/revisit triggers, and next safe action.
+- **Boundary:** Documentation-only. No fixture or host changes, no protected data access, no commit or push.
+
+### V5-20261008-107 — TencentDB Agent Memory concept comparison
+
+- **Recorded:** 2026-10-08T06:36:29+02:00
+- **Type:** External prior-art review
+- **Source/boundary:** User-provided TencentCloud/TencentDB-Agent-Memory README excerpt; no independent implementation or benchmark audit.
+- **Finding:** The only modestly useful concept is a reusable Skill as a versioned, scope-triggered package with companion resources, execution steps, and validation—not just prompt text. This reinforces existing C06 distinctions and does not justify a new schema/catalog. Asset owner/version/status and staged retrieval overlap C02/C03; multi-agent loadouts/ACLs and the service/proxy/vector/graph stack do not meet current V5 scope/evidence needs.
+- **Outcome:** Added a bounded prior-art note to C06. No changes to the knowledge interface or V5 architecture; no code/infrastructure adoption.
+- **Boundary:** Documentation-only. No external project code installed, no protected data accessed, no commit or push.
+
+### V5-20261008-108 — Reconcile handoff revision references before commit review
+
+- **Recorded:** 2026-10-08T08:42:50+02:00
+- **Type:** Documentation review correction
+- **Finding:** `FIRST-SLICE-PLAN.md` still described the older `61286fa` payload as current, despite the approved `4855118` refresh. This could make the proposed documentation commit ambiguous about which payload was tested and which one is installed.
+- **Outcome:** Reworded the handoff to label `61286fa` as the earlier Pi read-path test baseline and `4855118` as the current byte-verified host snapshot, explicitly noting that the latter has not had a post-refresh behavioral test. Updated the roadmap's host revision reference consistently.
+- **Boundary:** Documentation-only. No host/data changes, tests, commit, or push.
