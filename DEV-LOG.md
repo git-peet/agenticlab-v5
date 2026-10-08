@@ -1114,3 +1114,22 @@
 - **Observed:** In Evershop Pi 1.1.0, startup listed the workspace-root `AGENTS.md` and the project-local `knowledge-write-gate.ts` extension. The read-only task then followed the root pointer and read only `AgenticLab/AGENTS.md`, `AgenticLab/PROJECT-SCOPE.md`, and `AgenticLab/knowledge/INDEX.md`; the agent summarized Evershop scope and the empty index. No Bash, writes, app/tests, or backup/data access were reported.
 - **Conclusion:** The Evershop V5.2 instance passes the startup/context orientation check. Extension discovery is confirmed, but write-gate/approval behavior is not. This does not itself trigger broad C08 work.
 - **Boundary:** Read-only synthetic/project-scope files only; no `data/`, `.env`, project knowledge records, Evershop source, or backup contents accessed; no writes or commit/push.
+
+### V5-20261008-117 — Evershop source-discovery pilot stops at tool boundary
+
+- **Recorded:** 2026-10-08T10:28:56+02:00
+- **Type:** C08 host-capability observation
+- **Task:** Read-only trace of the storefront category/product-listing route through data loading; Bash, app/tests, writes, `.env`, `data/`, and the V5.1 backup were prohibited.
+- **Observed:** The Pi agent read package metadata/README, tried several guessed category-page paths that returned `ENOENT`, then reported only path-based `read` and Bash tools, with no native `ls`/`find`. Because Bash was disallowed, it stopped without a source trace or invented facts. No source implementation was read.
+- **Assessment:** Correct fail-safe stop; one configured-session signal that read-only source discovery is unavailable under a no-Bash constraint. It does not prove a global Pi limitation or justify a search adapter. Verify the actual tool inventory and choose known paths, a narrowly approved read-only listing command, or a small capability-specific tool only if a real task still requires discovery.
+- **Outcome:** Recorded the narrow C08 signal in C08 and the backlog index. No C08 implementation or broader adapter work selected.
+- **Boundary:** No Bash, writes, app/tests, `.env`, `data/`, V5.1 backup, or project knowledge accessed; no commit or push.
+
+### V5-20261008-118 — Complete scoped Evershop route trace with authorized listing
+
+- **Recorded:** 2026-10-08T10:47:32+02:00
+- **Type:** Evershop V5.2 source-trace pilot / C08 capability follow-up
+- **Finding:** A single user-authorized `find` over `packages/evershop/src` located the category route, resolver, product query/collection, GraphQL schema, and rendering components. Pi then read those source files and produced a qualified route-to-data-to-render trace, explicitly marking generic GraphQL dispatch and pagination as unverified. No code/app/test action occurred.
+- **Boundary note:** The file listing exposed at least one path under `packages/evershop/src/bin/seed/data/`; the matching file was not opened. The search stayed within the user-authorized `src` subtree, but this reveals ambiguity between the source-tree search allowance and the broad `data/` prohibition. Future discovery commands must explicitly prune any `*/data/*` subtree unless the user authorizes it. No `.env`, project-root `data/`, file contents from the nested seed path, or V5.1 backup was read.
+- **C08 disposition:** The trace succeeded with one explicitly scoped listing command, so there is no basis for a general adapter/indexer. The unresolved C08 question is how to handle path discovery when Bash is disallowed and no native list tool is exposed; use known paths or a safe native capability unless a repeated real need justifies a narrower tool.
+- **Outcome:** Recorded the successful-but-bounded source trace and data-path caveat in C08 and the candidate index. No ongoing metrics collected; no commit or push.

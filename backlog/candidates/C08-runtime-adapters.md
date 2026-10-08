@@ -18,6 +18,10 @@ V4 improvements separately identify: unassessed Pi-only mechanisms, setup that a
 
 **Historical sources (optional):** V4 `MANUAL.md` §§3 and 10; V4 Neo audit Findings 6, 9–12; V4 adapter review and the three adapter-related backlog items; V5 `pipeline/implementation-boundary.md` and V5 roadmap Priority 5. Historical references are not portable requirements.
 
+**Evershop Pi 1.1 source-discovery observation (2026-10-08; one task):** A read-only category-listing trace first tried guessed paths and got `ENOENT`. The agent reported only path-based `read` and Bash, with no native `ls`/`find`; because the user prohibited Bash, it stopped without a source trace. This was a safe stop and a session-specific capability signal, not evidence the source path was absent.
+
+**Follow-up (same task, user-authorized one-command listing):** A scoped `find` under `packages/evershop/src` located route/resolver/query/rendering files; Pi then read those paths and produced a qualified category-to-product-list trace. No app/tests, writes, or file contents from `.env`/project-root `data/` were accessed. However, the listing also surfaced `packages/evershop/src/bin/seed/data/products.json` by pathname; it was not opened. Because the broad `data/` boundary may include nested source paths, count this as a scope ambiguity and exclude `*/data/*` from any future inventory/search command unless the user explicitly includes such fixtures. This result shows a bounded listing can support the task when explicitly permitted, not that generic Bash search should become default or that a custom adapter is warranted. Startup separately listed the project extension, and the root instruction pointer/scope read succeeded.
+
 ## V5 direction
 
 - State behavior in host-neutral contracts; keep event wiring, command/UI surfaces, persistence and tool interception in adapters.
@@ -36,4 +40,4 @@ Choose one host and one user journey. Specify workspace discovery, session/new-s
 
 ## Timing / next action
 
-Do not build all adapters before the first journey. During first-slice planning, decide initial host and distribution boundary; implement only the minimum adapter needed and retain other host questions in this record.
+Do not build all adapters before the first journey. For the current Evershop/Pi path, the route trace completed only after the user authorized a scoped listing; the command exposed a nested `data/` path name, so future search scope must explicitly exclude that subtree unless approved. If more source discovery is needed, prefer known paths or a native read-only listing tool; use shell discovery only with a task-specific path allowlist and explicit permission. Do not add a general adapter/search framework from this single task. Select implementation only after a repeated concrete capability need and explicit bounded scope.
