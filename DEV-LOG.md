@@ -1177,3 +1177,11 @@
 - **Decision:** The exact prior Evershop command was meant to prune those directories for that task because the scope said not to access `data/`; this does not establish a universal V5 ban on every source subdirectory named `data`. Future tasks must define protected paths relative to the workspace. If the wording is ambiguous, ask before listing. For this task, the path was listed but the file was not opened; do not repeat or widen the search.
 - **Outcome:** Narrowed C08/backlog guidance to task-specific exclusions and exact command review; no general path filter or search adapter selected.
 - **Boundary:** Documentation-only; no Evershop or protected files accessed, no commit or push.
+
+### V5-20261009-124 — Clarify Evershop event chronology in the append-only log
+
+- **Recorded:** 2026-10-09T11:17:54+02:00
+- **Type:** Documentation navigation correction
+- **Finding:** Evershop entries `#118`–`#120` were backfilled after `#121`–`#122`, so their physical position is not event-time order. The records carry local `Recorded` timestamps; readers should use those timestamps for chronology and not infer temporal order from the entry number/file position for this backfilled cluster.
+- **Outcome:** Kept prior entries append-only and recorded the chronology caveat rather than reordering history. Evershop event details remain in `#113`–`#123`.
+- **Boundary:** Documentation-only; no Evershop files/data accessed, no commit or push.
