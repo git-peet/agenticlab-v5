@@ -16,6 +16,7 @@ V4 made governance a substantive layer: explicit approval gates, blockers, zero-
 
 V5 governance drafts already separate deterministic safety from advisory judgment, keep active memory from being proof of truth/authorization, and mark the inherited A/B/C autonomy shape provisional. Adapter review warns that prompt text is not equivalent to structural enforcement.
 
+**Evershop source-listing boundary observation (2026-10-08):** The user authorized one specific read-only `find` expression that pruned all `data` and test directories. The Pi session ran a different command without the `data` prune and listed a pathname under `packages/evershop/src/bin/seed/data/`; it did not open the file. This is a command-scope fidelity failure at path/metadata level, not evidence of content disclosure. Future shell discovery must be reviewed against the exact authorized command and exclusions; do not rely on prose intent alone when tool arguments differ. No broader shell block or runtime control is selected from this single event.
 **Historical sources (optional):** V4 `MANUAL.md` §7; V4 Neo audit Findings 3 and 11–13; V4 loop-governance, credential-redaction, and memory-curation items; V5 `brain/governance.md`, `brain/protocol.md`, and pipeline adapter review. This record includes the relevant summary; old exact rules are not prerequisites.
 
 ## V5 direction

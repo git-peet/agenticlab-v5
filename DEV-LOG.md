@@ -1125,6 +1125,23 @@
 - **Outcome:** Recorded the narrow C08 signal in C08 and the backlog index. No C08 implementation or broader adapter work selected.
 - **Boundary:** No Bash, writes, app/tests, `.env`, `data/`, V5.1 backup, or project knowledge accessed; no commit or push.
 
+### V5-20261009-121 — Approve quantity-selector PBI boundaries; hold implementation
+
+- **Recorded:** 2026-10-09T10:27:38+02:00
+- **Type:** Evershop V5.2 PBI scoping preflight
+- **User-approved scope:** Reusable selector in product detail and cart row; product cards and mini-cart excluded. Integer quantities, step 1, minimum 1; maximum supplied by caller, retaining current cart cap 99 while product detail has no cap until a business rule exists. Permit transient blank editing; on commit reject blank, malformed, fractional, or out-of-range values with an accessible error and no add/update; no silent truncation or clamp. Require an accessible input label, named increment/decrement buttons, and keyboard behavior.
+- **Source facts:** Cart uses `ItemQuantity` with a cart-update callback; product detail uses `NumberField` before `AddToCart`. The current cart buttons are icon-only without accessible names. Mini-cart is display-only and product cards add quantity 1.
+- **Open before implementation:** No component-level interaction tests were found in the path inventory. Relevant unit/integration test safety is not fully established; Jest is Node-based and `productView.test.js` uses Cypress. Inspect the relevant harness/config without running tests, then define a safe test plan. No code changes are authorized by this preflight.
+- **Boundary:** Read-only source/config inspection only; no Evershop changes, test/app execution, `.env`/`data` access, or V5.1 backup use.
+
+### V5-20261009-122 — Quantity-selector PBI test path remains open
+
+- **Recorded:** 2026-10-09T10:30:55+02:00
+- **Type:** Evershop PBI test-safety review
+- **Finding:** No quantity/component interaction tests were found. Existing checkout quantity unit coverage uses `basicSetup` and in-memory product fixtures, but no test was executed and full import/resolver isolation was not certified. The ProductView Cypress test uses a running app; the E2E setup provisions temporary users and connects to Postgres. Jest is configured for Node and compiled unit tests; no React component test dependencies were found in the package manifests.
+- **Next:** Before implementation, choose a safe way to test clicks, bounds, typed input, and accessibility. Do not run Evershop tests/app or access `.env`/`data` until the specific test path is shown isolated. Pure quantity logic tests would not alone satisfy the PBI's UI acceptance criteria.
+- **Boundary:** Read-only test/config inspection; no tests run, no Evershop files changed, no protected data accessed, no commit or push.
+
 ### V5-20261008-118 — Complete scoped Evershop route trace with authorized listing
 
 - **Recorded:** 2026-10-08T10:47:32+02:00
@@ -1142,3 +1159,21 @@
 - **Rationale:** The Evershop read-only route trace succeeded after a bounded find, but the path listing surfaced a nested data-named file path. Do not turn the single success into a general Bash/search grant or custom adapter; revisit only if safe path discovery repeatedly blocks representative work.
 - **Outcome:** Added the fallback boundary to C08 and the candidate index. No implementation selected.
 - **Boundary:** Documentation-only. No further Evershop reads, no `.env`/`data`/backup access, no commit or push.
+
+### V5-20261008-120 — Correct the Evershop find-command boundary record
+
+- **Recorded:** 2026-10-08T11:28:43+02:00
+- **Type:** Safety/evaluation record correction
+- **Correction:** The user-approved command had `-prune` rules for `data`, `test`, `tests`, and `__tests__`; the Pi transcript shows it executed a different `find` command with test-path filters but no `data` prune. Its output listed `packages/evershop/src/bin/seed/data/products.json`; the file contents were not opened. The previous #118/#119 summaries called this an ambiguous data-path exposure but did not clearly record that the agent changed the command.
+- **Assessment:** Treat as a command-scope fidelity deviation and path-metadata exposure, not content access. The route source files read afterward remain within the authorized source investigation, but no further source search should repeat this command pattern. Require exact command review/identity and prune all `data/` directories in future listings.
+- **Outcome:** Corrected C08 and C04 with the precise distinction; no code or host behavior change selected.
+- **Boundary:** Documentation-only. No further Evershop file access, no content from `data/` or `.env`, no host changes, no commit or push.
+
+### V5-20261009-123 — Keep Evershop data-path pruning task-scoped
+
+- **Recorded:** 2026-10-09T11:07:47+02:00
+- **Type:** C08 scope clarification
+- **User concern:** Pruning every directory named `data` could overrestrict source discovery and hide legitimate source fixtures.
+- **Decision:** The exact prior Evershop command was meant to prune those directories for that task because the scope said not to access `data/`; this does not establish a universal V5 ban on every source subdirectory named `data`. Future tasks must define protected paths relative to the workspace. If the wording is ambiguous, ask before listing. For this task, the path was listed but the file was not opened; do not repeat or widen the search.
+- **Outcome:** Narrowed C08/backlog guidance to task-specific exclusions and exact command review; no general path filter or search adapter selected.
+- **Boundary:** Documentation-only; no Evershop or protected files accessed, no commit or push.
