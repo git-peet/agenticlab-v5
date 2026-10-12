@@ -1532,3 +1532,12 @@
 - **Profile boundary proposal:** Updated the draft's leading profile location to `AgenticLab/PROJECT-OVERVIEW.md`, alongside but distinct from `PROJECT-SCOPE.md` and outside the knowledge-record corpus. The draft proposes one explicit initialization approval for scope/profile/`.pi` setup artifacts; persistent decision/experience records continue through the separate V5 knowledge contract and gate. This is a draft direction for review, not a settled policy.
 - **Artifact:** `backlog/INITIALIZATION-FLOW-DRAFT.md` now reflects first-run direct file invocation, `.pi` creation during the approved flow, fresh-session activation, and the proposed profile/write boundary.
 - **Boundary:** Documentation-only. No Alpha workspace, Pi settings, runtime prompt, adapter, V4 source, application/data, tests, commit, or push changed.
+
+### V5-20261012-163 — Commit and publish the initialization-flow preparation
+
+- **Recorded:** 2026-10-12T22:27:00+02:00
+- **Type:** Canonical V5 source publication and package staging
+- **Commit/push:** Committed the reviewed canonical changes as `8280a9a` (`feat: add first-use workspace initialization prompt`) and pushed `main` to `origin/main`.
+- **Package:** Rebuilt `/home/peet/Projects/AgenticLab/` from committed source `8280a9a0035aca185c9e9d50b729d5da85e9be9b`, excluding development-only adapter tests. Recursive comparison against canonical `system/` shows byte-identical runtime files; only `SOURCE-REVISION.txt` is additional package metadata. This supersedes the temporary dirty-bundle marker recorded in #161/#162.
+- **Verification/status:** Pi knowledge-write-gate tests pass 12/12; `git diff --check` passes. The V5 repository is synchronized with `origin/main`; user-supplied `PBIs.md` remains untracked and was deliberately excluded. The initializer has not yet been run in a delivery workspace; this package is prepared for the user's first end-to-end smoke, not evidence of successful initialization.
+- **Boundary:** No delivery workspace was modified or initialized, and no Evershop paths, `.env`, `data/`, app/tests, or global Pi configuration were touched. The staged `/home/peet/Projects/AgenticLab/` folder is generated distribution output, not a second canonical source.
