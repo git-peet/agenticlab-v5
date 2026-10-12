@@ -4,9 +4,10 @@ This directory contains the small, distributable V5 system surface. It is separa
 
 ## Contents
 
-- `AGENTS.md` — shared operating entry instructions; in a host workspace, the workspace-root `AGENTS.md` points here.
+- `AGENTS.md` — shared operating instructions; the host workspace's trusted `.pi/APPEND_SYSTEM.md` points here and to the project scope/profile, keeping AgenticLab integration under `.pi/` rather than adding a root instruction file.
 - `brain/` — portable operating and knowledge contracts.
-- `prompts/delivery/` — opt-in, user-invoked workflow prompt prototypes (`plan.md`, `implement.md`, `premortem.md`). They are not auto-loaded in default work. Pi can test selected prompts explicitly with `--prompt-template AgenticLab/prompts/delivery/<name>.md`; this does not require a custom loader or a persistent `.pi/settings.json` change.
+- `prompts/system/initialize-workspace.md` — first-use initialization/orientation prompt. It is invoked directly by the user from a fresh payload before `.pi/` wiring exists; it is never auto-run.
+- `prompts/delivery/` — opt-in, user-invoked workflow prompt prototypes (`plan.md`, `implement.md`, `premortem.md`). They are not auto-loaded in default work. Pi can test selected prompts explicitly with `--prompt-template AgenticLab/prompts/delivery/<name>.md`; this does not require a custom loader or persistent `.pi/settings.json` registration.
 - `adapters/pi/` — the optional Pi workspace integration. `adapters/pi/tests/` contains development-only policy tests and is not copied into the host snapshot.
 
 ## Manual first installation (experimental)
@@ -14,33 +15,19 @@ This directory contains the small, distributable V5 system surface. It is separa
 This is a documented manual path for a **new delivery workspace**. It is not an installer or update procedure.
 
 1. **Choose a source snapshot.** Use a named, clean V5 source commit and confirm that the `system/` payload files match it. Record the full commit hash. Do not package the whole `AgenticLab-v5/` development repository.
-2. **Preflight the target workspace.** Confirm the target project identity and scope. If `<workspace>/AgenticLab/` already exists, stop; do not rerun first-install steps or overwrite it. Check only setup paths (`AgenticLab/`, workspace-root `AGENTS.md`, and `.pi/settings.json`). Before writing, show the exact proposed creates/merges and obtain approval. Preserve existing host instructions/settings; stop if a safe merge is unclear.
+2. **Preflight the target workspace.** Confirm the intended workspace root. If `<workspace>/AgenticLab/` already exists, stop; do not overwrite or reset it. Inspect only `AgenticLab/` and the setup paths `.pi/settings.json` and `.pi/APPEND_SYSTEM.md` for collision checking. `.pi/` may be absent on first use. Preserve any existing `.pi` content and stop if a safe merge is unclear. The initialization prompt will confirm project identity/scope before reading project sources. Do not create, replace, move, or scaffold application files/directories at the workspace root (for example `src/`, `tests/`, project manifests, or root `AGENTS.md`); those belong to the host.
 3. **Copy the runtime payload** from the selected `system/` snapshot into `<workspace>/AgenticLab/`:
    - `AGENTS.md`, `README.md`, and `brain/`
    - runtime files under `adapters/pi/`, excluding development-only `adapters/pi/tests/`
+   - `prompts/system/initialize-workspace.md` (loaded only because the user directly asks Pi to read/follow it; it does not run automatically)
    - `prompts/delivery/` (these prompts remain opt-in; they are not auto-loaded)
    - exclude the V5 backlog, development logs, and other development-only material
 
    Write the full source commit hash to `AgenticLab/SOURCE-REVISION.txt` only after verifying the staged payload against that source commit. Do not use a live symlink.
-4. **Initialize target-owned state.** Confirm the project/subproject scope with the user, create `AgenticLab/PROJECT-SCOPE.md`, and initialize an empty `AgenticLab/knowledge/INDEX.md` and required directories. Do not import V4 knowledge, another workspace's records, or V5 design history. If scope or knowledge files already exist, preserve them and stop for review rather than reseeding.
-5. **Wire Pi locally.** If the workspace has no root `AGENTS.md`, create one with a pointer such as:
+4. **Run first-use initialization from Pi.** Start Pi from the delivery workspace root. Directly ask it to read/follow `AgenticLab/prompts/system/initialize-workspace.md`; this first invocation does not depend on `.pi/` or a pre-registered slash command. The prompt confirms scope and safe read paths, performs a bounded read-only orientation, and previews the proposed `AgenticLab/PROJECT-SCOPE.md`, `AgenticLab/PROJECT-OVERVIEW.md`, and local `.pi/` wiring together. It writes none of these until you approve the exact preview. It does not seed V5 knowledge records or change the host application.
+5. **Activate and verify Pi locally.** After approved local setup, restart Pi from the workspace root and grant project trust. Confirm that `AGENTS.md` instructions, the project-local knowledge-write extension, and `/initialize-workspace` are available. The command is available for later explicit use but does not auto-run. If trust is declined or the extension is unavailable, report the limitation and do not persist V5 knowledge by another route. This procedure does not require launching the target app or running its tests.
 
-   ```markdown
-   For AgenticLab V5 operating instructions, read and follow `AgenticLab/AGENTS.md`.
-   ```
-
-   If a root `AGENTS.md` already exists, preserve its instructions and propose a narrow addition. Project-local `.pi/settings.json` may register the extension with this path, relative to `.pi/settings.json`:
-
-   ```json
-   {
-     "extensions": ["../AgenticLab/adapters/pi/knowledge-write-gate.ts"]
-   }
-   ```
-
-   Merge this entry with existing settings rather than replacing them. Never alter global Pi configuration. Pi itself is globally installed; start it from the delivery workspace root.
-6. **Verify capability honestly.** In a fresh Pi process, confirm the workspace instructions and—if project trust is granted—the extension load. If trust is declined or the approval extension is unavailable, do not persist AgenticLab knowledge by another route. Use only synthetic files for any write-gate check; this setup procedure does not require launching the target app or running its tests.
-
-A workspace-root `AGENTS.md` is instruction context, not a security boundary. Pi extensions are executable code and run with the permissions of the Pi process. Do not claim a hard guarantee beyond the host adapter's verified behavior.
+Pi's project `.pi/APPEND_SYSTEM.md` is trusted instruction context, not a security boundary; project resources load only when trust is granted. Pi extensions are executable code and run with the permissions of the Pi process. Do not claim a hard guarantee beyond the host adapter's verified behavior.
 
 ## Refresh boundary
 

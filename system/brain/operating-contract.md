@@ -29,7 +29,8 @@
 ## Durable knowledge boundary
 
 - Project experience starts as a candidate, not durable truth.
-- A user must explicitly approve persistence/status changes. The Pi project adapter supplies a confirmation for supported file-tool writes under the project knowledge directory; if that control is unavailable, do not persist through an alternate route.
+- A user must explicitly approve persistence/status changes to knowledge records. The Pi project adapter supplies confirmation for supported file-tool writes under `AgenticLab/knowledge/`; if that control is unavailable, do not persist records through an alternate route.
+- The explicitly invoked first-use initializer may create/update only the reviewed setup/profile files (`AgenticLab/PROJECT-SCOPE.md`, `AgenticLab/PROJECT-OVERVIEW.md`, `.pi/settings.json`, `.pi/APPEND_SYSTEM.md`) after showing a complete preview and receiving approval. These are workspace setup artifacts, not memory records; this narrow setup path does not bypass the knowledge gate or authorize ordinary-task edits to them.
 - Project records remain in the target workspace. AgenticLab design/development history stays in the canonical V5 repository.
 
 ## First-slice limitation

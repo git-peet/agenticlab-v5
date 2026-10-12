@@ -75,9 +75,19 @@ Do not load session logs or all role/persona memories as a generic default conte
 | Explicit planning | User-invoked workflow prompt, PBI/ACs, code surface, relevant scoped decisions/contracts | Produce plan and provenance handoff; do not implement. |
 | Approved implementation/resume | Approved plan, current phase/checkpoint, changed source and validation results, carried candidate-learning list | Preserve scope; load only the state needed to continue; stop on material deviation. |
 | Test/review/premortem | Relevant diff/current source, acceptance criteria, integration contract, prior plan/capture handoff | Independent review context when needed; distinguish findings from permission to fix. |
-| Workspace bootstrap | Project identity/topology and setup sources in a deliberate one-time initialization pass | Separate from everyday context assembly; `/warmup` remains deferred for later system-prompt review. |
+| Workspace bootstrap | Project identity/scope, harness setup, and a deliberate one-time technical orientation | Separate first-use initialization from recurring task context; a V5 orientation flow is an open Alpha design item, not an automatic `/warmup`. |
 
 These are workload families to check for coverage, not a list of mandatory workflows or files to load. Other recurring work families may be added from actual use.
+
+### First-use orientation versus recurring context (Alpha design direction, not implementation approval)
+
+Keep three concerns distinct:
+
+1. **Project identity, scope, and data boundaries** — workspace-owned and confirmed with the user, represented by `PROJECT-SCOPE.md`.
+2. **AgenticLab and harness operation** — shared V5 contracts plus project-local adapter/configuration (for Pi, root pointer, `.pi/settings.json`, and trust); loaded as operating instructions, not as project facts.
+3. **Technical project orientation** — a compact, source-cited starting model of stack, module boundaries, entry points/important flows, test approach, and known unknowns, produced once for the initialized workspace and available in fresh sessions to reduce avoidable re-derivation.
+
+The earlier Alpha manual setup covered the first two layers and created an empty knowledge index; it did **not** build layer 3. A user-approved first-use prompt prototype now exists at [`../../system/prompts/system/initialize-workspace.md`](../../system/prompts/system/initialize-workspace.md), with the flow design in [`../INITIALIZATION-FLOW-DRAFT.md`](../INITIALIZATION-FLOW-DRAFT.md). It is directly invoked by file reference before `.pi/` exists, then previews/creates the project-local Pi wiring and a distinct `AgenticLab/PROJECT-OVERVIEW.md` setup profile. The profile is separate from `PROJECT-SCOPE.md` and atomic decision/experience records; source-derived facts are not automatically promoted to memory. Later fresh sessions are directed to read the compact profile and verify mutable facts against source. The prompt has not yet been exercised in a delivery workspace; safe path handling, explicit approval, `.pi` activation/restart, and fresh-session profile loading remain to be validated. The V4 `SYSTEM_CORE.md`/`/warmup` example is useful evidence for the need, not a structure to import wholesale. Do not auto-scan the whole repo, read `.env`/data, run app/tests by default, or auto-promote findings.
 
 **V5 source-root context caveat:** Pi is installed globally and can be launched from any workspace; its working directory determines project grouping, context discovery, and project-resource lookup. The V5 repository currently has no root `AGENTS.md`, so Pi can run there but will not automatically receive V5-specific source-repo instructions from this checkout. `system/AGENTS.md` is a distributable target-project payload whose paths assume an installed `AgenticLab/` directory; do not inject it unchanged as developer-root guidance. A separate V5 root instruction file or an explicit per-process context is optional context wiring to decide later, not a prerequisite to run Pi. Python-host sessions continue to use their own root/context boundary.
 

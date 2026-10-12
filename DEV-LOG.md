@@ -1185,3 +1185,350 @@
 - **Finding:** Evershop entries `#118`–`#120` were backfilled after `#121`–`#122`, so their physical position is not event-time order. The records carry local `Recorded` timestamps; readers should use those timestamps for chronology and not infer temporal order from the entry number/file position for this backfilled cluster.
 - **Outcome:** Kept prior entries append-only and recorded the chronology caveat rather than reordering history. Evershop event details remain in `#113`–`#123`.
 - **Boundary:** Documentation-only; no Evershop files/data accessed, no commit or push.
+
+### V5-20261009-125 — Exercise Evershop-installed knowledge gate with synthetic inputs
+
+- **Recorded:** 2026-10-09T12:32:28+02:00
+- **Type:** Alpha readiness / synthetic host-adapter check
+- **Setup check:** Read only the Evershop root pointer, local AgenticLab instructions/scope/empty index, Pi settings, source-revision marker, and installed gate files. The host points to source revision `7e4be9c91b5df5b1cad1dca4729d268db5e61e1e`; the three installed Pi adapter runtime files match that revision, and canonical `system/` has no diff from that revision.
+- **Test:** Imported the Evershop-installed gate handler and invoked its registered callback with synthetic events under the Evershop workspace `cwd`. No-UI and rejected-confirmation writes blocked; the preview exposed only the synthetic target/content; a mocked approval passed the handler; malformed edit previews blocked without prompting; knowledge-path shell access blocked without a confirmation prompt; unrelated payload writes passed without a prompt.
+- **Assessment:** The installed handler logic passed these synthetic cases without writing Evershop files. This is not a live Pi 1.1.0 tool-call/approval-dialog test: the Pi API and confirmation UI were mocked. It does not establish a security sandbox or test clean-instance refresh. Treat actual host/UI integration and refresh as open Alpha-readiness items.
+- **Outcome:** Updated C11 and the backlog review guide with this narrow evidence and limitation. No Evershop runtime, configuration, source, tests, or project knowledge changed; no app/tests ran.
+- **Boundary:** Did not access `.env`, any `data/` path, or the V5.1 backup. No Evershop files were written. No commit or push.
+
+### V5-20261009-126 — Verify headless Pi interception with Evershop gate extension
+
+- **Recorded:** 2026-10-09T12:57:46+02:00
+- **Type:** Alpha readiness / Pi runtime smoke
+- **Test:** Ran Pi 1.1.0 non-interactively with only the `write` tool enabled and explicitly loaded the Evershop-installed gate extension. The model attempted one write to a synthetic knowledge path in an isolated `/tmp` workspace. The real Pi tool-call path was blocked because no interactive confirmation UI was available; the fixture file did not exist afterward. The temporary workspace was removed.
+- **Assessment:** This closes the narrow question of whether the installed extension's `tool_call` handler blocks an actual Pi 1.1.0 tool call in the no-UI path. It does not exercise Evershop's project-root auto-discovery/trust path, the interactive approval/rejection dialog, or a real approved write. The earlier mocked tests cover those handler decisions only. No Evershop files were written or changed.
+- **Outcome:** Updated C11 and the backlog review guide to distinguish actual headless Pi interception from mocked UI paths. Interactive approval/rejection remains an open validation gap; clean-instance refresh remains untested.
+- **Boundary:** Test was isolated under `/tmp`; no `.env`, `data/`, V5.1 backup, app, or Evershop tests accessed. No Evershop project configuration/source/knowledge was changed. No commit or push.
+
+### V5-20261009-127 — Verify Evershop Pi 1.1.0 interactive gate paths
+
+- **Recorded:** 2026-10-09T13:11:03+02:00
+- **Type:** Alpha readiness / user-driven host validation
+- **Setup:** The user started Pi from the Evershop workspace and confirmed the project extension appeared at startup.
+- **Rejection path:** Pi showed a confirmation for the exact synthetic target `AgenticLab/knowledge/alpha-gate-reject-fixture.md` and proposed content. The user selected `No`; a subsequent read confirmed the file was absent.
+- **Approval path:** Pi showed a confirmation for the exact synthetic target `AgenticLab/knowledge/alpha-gate-approve-fixture.md` and proposed content. The user selected `Yes`; the write succeeded and Pi read back the expected content. The disposable fixture was then removed and verified absent.
+- **Assessment:** Actual Evershop project-local extension discovery, Pi 1.1.0 confirmation UI, rejected-write block, approved-write pass-through, and readback worked for these synthetic cases. This closes the narrow live UI/approval gate check; it does not establish a security sandbox or broad persistence reliability. Clean-instance refresh remains untested and is not required for a first-install-only Alpha.
+- **Interaction note:** After approval, the Evershop Pi assistant narrated that no decision/preview had been needed, contradicting the visible confirmation and successful readback. Record this as a post-tool reporting discrepancy, not as a gate failure.
+- **Outcome:** Updated C11 and the backlog review guide with the live result and remaining limits. No Evershop application source/configuration changed; no app/tests ran.
+- **Boundary:** Only the two named synthetic fixture paths were involved. Did not access `.env`, any `data/` path, or the V5.1 backup. The approved fixture was cleaned up. No commit or push.
+
+### V5-20261009-128 — Identify a safe UI-test path for the quantity-selector PBI
+
+- **Recorded:** 2026-10-09T13:18:21+02:00
+- **Type:** Evershop read-only test-harness review
+- **Observed:** Root Jest config uses `testEnvironment: node`, matches compiled `dist/**/tests/**/unit` tests, and ignores package source tests. The checkout quantity service tests use `basicSetup.js` with in-memory product/tax/coupon fixtures, but test service behavior rather than component interaction. `productView.test.js` is a Cypress `cy.request` check for server responses, not a UI interaction test. The Playwright E2E config loads `tests/e2e/.env`, provisions/deletes test users through global setup/teardown, and assumes a running server; do not use it for this PBI or run it under current data restrictions. Root manifests include React/ReactDOM, `@playwright/test`, webpack, and SWC, but no declared React Testing Library/JSDOM component-test setup.
+- **Recommendation:** For the PBI's clicks, typed input, bounds, keyboard, and accessibility acceptance, use a small isolated browser component harness around the actual reusable selector with cart/add callbacks mocked. Give it a dedicated Playwright config with no dotenv, global setup/teardown, Evershop server, or database. Reuse existing browser/build dependencies if a minimal bundle is feasible; otherwise stop before adding dependencies and present that scope/cost for approval. Pure quantity-logic tests can supplement but cannot replace UI interaction coverage.
+- **Status:** Read-only review only. No app/tests/scripts run, no files changed in Evershop, and no UI harness or implementation selected. The quantity-selector PBI remains scoped but not approved for implementation.
+- **Boundary:** Read package/config and relevant source/test files only. Excluded `.env` and `data/` paths from path discovery; did not access protected content or the V5.1 backup. No commit or push.
+
+### V5-20261009-129 — Check local feasibility for isolated UI harness
+
+- **Recorded:** 2026-10-09T13:22:52+02:00
+- **Type:** Test-harness setup preflight
+- **Finding:** Evershop manifests and lockfile declare React 19.2.7, Playwright Test 1.59.1, webpack, and SWC, but the workspace has no root/package/E2E `node_modules`; those packages are not resolvable locally. A global Playwright 1.64.0 CLI exists, but is version-mismatched and does not provide the workspace's missing React/build dependencies. System Chromium 152 is present, but compatibility with the locked Playwright version is unverified. Do not use the existing E2E config: it loads `tests/e2e/.env`, provisions/cleans database users, and expects a running app. No dependencies were installed.
+- **Next safe setup choice:** Before harness implementation, choose between installing the existing lockfile dependency set locally with lifecycle scripts disabled (larger download/workspace `node_modules` footprint) or a minimal disposable `/tmp` harness using pinned test/runtime/build packages (smaller project footprint, still requires package downloads and a standalone component bundle). Neither approach has been executed; dependency installation and any Evershop source/test changes remain unauthorized.
+- **Boundary:** Read-only package/lock/config/source inspection and package-resolution checks only; no install, app/test/script execution, `.env`/`data` access, or Evershop changes. No V5.1 backup access; no commit or push.
+
+### V5-20261009-130 — Prove isolated React/Playwright harness feasibility
+
+- **Recorded:** 2026-10-09T13:28:31+02:00
+- **Type:** Disposable component-test harness spike
+- **Setup:** In `/tmp` only, installed lock-pinned `@playwright/test` 1.59.1, React/ReactDOM 19.2.7, webpack 5.104.1, and SWC 1.15.10 with lifecycle scripts disabled. Bundled a synthetic TSX component using a small SWC loader and served only its static fixture from a local Node server. Playwright launched system Chromium 152 successfully using an explicit executable path.
+- **Result:** One real-browser test passed: named spinbutton/buttons, lower/upper bounds, clicks, fractional-value rejection with accessible error/no callback, and valid Enter commit/callback. This demonstrates the isolated toolchain is feasible without Evershop's app, server, `.env`, or database. The component was synthetic—not an Evershop quantity selector—so this does not validate PBI behavior or implementation.
+- **Cleanup:** Removed the entire temporary harness, installed packages, bundle, and Playwright outputs. No packages were installed in Evershop and no project manifests/lockfiles changed.
+- **Next:** After a separately approved PBI implementation scope, extract/build the actual reusable selector and add the isolated component test against it. Do not use the existing E2E config. No Evershop implementation or tests are authorized by this spike.
+- **Boundary:** Package downloads occurred only under the user-approved `/tmp` scope. No Evershop files were written; no app/tests run; no `.env`, `data/`, or V5.1 backup accessed. No commit or push.
+
+### V5-20261009-131 — Implement quantity selector and isolated UI suite
+
+- **Recorded:** 2026-10-09T14:15:44+02:00
+- **Type:** Approved Evershop PBI implementation / isolated component validation
+- **Implementation:** Added shared `QuantitySelector.tsx`; wired it into product detail and cart rows only. Product detail has minimum 1 and no maximum; cart rows use 1–99. Draft input permits blank editing; commit rejects blank, malformed/fractional, below-minimum, and above-maximum values with an accessible error and no commit callback. Added accessible labels, item-specific cart names, named step buttons, keyboard commit/escape behavior, and a validity guard on product add-to-cart. Added a dedicated `test:quantity-selector` Playwright harness with its own static fixture server and SWC/webpack bundle; it does not load `.env`, start Evershop, run E2E setup, or connect to a database.
+- **Validation:** The exact project test command passed **5/5** in Chromium 152 using lock-pinned Playwright 1.59.1 and temporary dependencies. Tests cover labels/buttons, min/max and stepping, transient blank and invalid commit/error/no callback, valid Enter/ArrowUp commit, valid blur before add callback, and an unbounded caller. Dependencies were linked from a disposable `/tmp` install only for the run; the temporary Evershop-root symlink was removed. No full Evershop build, Jest suite, E2E suite, or application run was performed, so parent-page integration remains unverified.
+- **Outcome:** Quantity-selector source and isolated UI tests are implemented within the approved PBI scope. No package dependencies or lockfile entries were added; only a test script was added to root `package.json`. The PBI is not claimed fully integrated until the full project build or safe parent-level validation is approved.
+- **Boundary:** No `.env`, `data/`, backup, or application were accessed/run. No existing Jest or E2E suite was run; only the isolated quantity-selector UI suite ran. Source edits were limited to the selector, product-detail/cart wiring, isolated UI harness, and root test script. No commit or push.
+
+### V5-20261009-132 — Separate the Evershop PBI from V5.2 Alpha evidence
+
+- **Recorded:** 2026-10-09T14:20:59+02:00
+- **Type:** Alpha scope/evidence clarification
+- **Finding:** The quantity-selector work modified Evershop directly through this coding session and its isolated Playwright tests validated Evershop UI behavior. It did not run AgenticLab as the task-performing system, compare AgenticLab-assisted work to a baseline, or evaluate V5.2 retrieval, governance, continuity, or delivery benefit. Therefore it is not an Alpha system trial and provides no evidence that V5.2 Alpha improves engineering work.
+- **Limited V5 value:** The test-safety review and harness spike provide reusable process/safety evidence (avoid the E2E config that loads `.env` and mutates test users; isolated browser testing is feasible). The quantity component's five passing tests are Evershop feature evidence only.
+- **Next:** Do not treat the PBI as the Alpha pilot by default. Keep the Evershop implementation uncommitted and pause further PBI changes pending the user's direction. Alpha evidence should come from a bounded task actually performed through the staged V5 system, with an explicit question and success criteria.
+- **Boundary:** No further Evershop edits, app/tests, `.env`/`data`/backup access, commit, or push in this clarification.
+
+### V5-20261009-133 — Prioritize a usable system before empirical tuning
+
+- **Recorded:** 2026-10-09T14:27:15+02:00
+- **Type:** V5.2 phase-direction clarification
+- **Decision:** The development goal is a minimally working V5.2 AgenticLab in a delivery workspace. Real task data/metrics collection and mechanism tuning come only after that usable system exists and is doing real engineering work. Actual use should reveal gaps, holes, and critical errors; use those findings to tune mechanisms individually.
+- **Documentation distinction:** Continue logging material decisions, edge cases, safety incidents, and implementation/test outcomes now. That development log is continuity/evidence, not a broad runtime metrics dataset. Do not claim synthetic or unrelated host-feature tests prove V5.2 delivery benefit.
+- **Outcome:** Updated the roadmap's current phase direction and corrected stale Evershop write-gate status. No implementation or test was run for this clarification.
+- **Boundary:** No Evershop edits or data access; no app/tests, metrics collection, commit, or push.
+
+### V5-20261009-134 — Run first bounded task through staged Evershop AgenticLab
+
+- **Recorded:** 2026-10-09T14:33:40+02:00
+- **Type:** Alpha trial / read-only default-agent task
+- **Task:** Fresh Pi 1.1.0 print-mode session from the Evershop workspace, with only the read tool enabled, reviewed the current quantity-selector implementation against the approved scope and its isolated UI tests. The request specified the only files to read and prohibited tests, app execution, writes, `.env`, `data/`, and backup access.
+- **Outcome:** Pi returned concrete, source-linked coverage gaps: cart max 99 is configured but the fixture tests max 3; invalid-input recovery and actual product/cart callbacks are not tested; keyboard coverage omits Escape/ArrowDown/blur; malformed nonnumeric and unsafe-integer cases are not covered. It marked parent-page integration as unknown and did not recommend changes. No tests or application code ran.
+- **Assessment:** This is the first bounded Evershop code-review task performed through the staged V5 default-agent context. It demonstrates a narrow read-only task path and useful gap identification, not implementation benefit, memory benefit, or comparative performance. The Pi text-mode run did not preserve a tool trace, so do not claim exact read-path completeness from this result.
+- **Next:** Treat this as one initial Alpha use datapoint. Continue toward the minimal usable system; gather no broad metrics and tune no mechanism from this single review. The earlier quantity-selector implementation remains separate host work, not AgenticLab-produced work.
+- **Boundary:** No Evershop files changed; only read tools were enabled. No `.env`, `data/`, backup, app, or test execution. No commit or push.
+
+### V5-20261009-135 — Correct a false-negative coverage claim in Alpha review
+
+- **Recorded:** 2026-10-09T15:48:47+02:00
+- **Type:** Alpha trial / result verification
+- **Correction:** The Pi review said the isolated UI suite lacked blur-based commit coverage. Manual inspection of `tests/quantity-selector-ui/quantity-selector.spec.mjs` shows the `commits a valid edit before the external add action` case fills a valid quantity, clicks the external add button (blurring the input), and asserts the commit and add callbacks. Blur-before-add is therefore covered in the fixture. The review missed existing evidence; this is a false-negative coverage assertion, not an implementation failure.
+- **Assessment:** Other reported gaps (actual cart/product parent integration, invalid-draft correction recovery, Escape/ArrowDown, malformed nonnumeric/unsafe values, actual cart cap 99) remain valid coverage gaps. The one review result illustrates that task findings need source/test verification; it is a single signal, not a basis for systemic agent tuning.
+- **Outcome:** Corrected the roadmap's Alpha-task summary. No code/tests run and no Evershop files changed.
+- **Boundary:** Read only the isolated test spec and canonical roadmap/log; no `.env`, `data/`, backup, app, or Evershop test execution. No commit or push.
+
+### V5-20261009-136 — Clarify Alpha 0.1 working acceptance and historical plan
+
+- **Recorded:** 2026-10-09T15:49:59+02:00
+- **Type:** Alpha phase definition / documentation alignment
+- **Decision:** Use a small internal working bar: fresh delivery-workspace Pi discovery; one bounded, user-authorized default-agent task with relevant source context and verification; human-gated durable writes; explicit workflows remain opt-in; no broad telemetry or mechanism tuning from synthetic/one-task results; first-install-only scope, no refresh or cross-harness claim.
+- **Status:** Evershop bootstrap and synthetic gate UI paths are validated; one bounded read-only code review ran through staged AgenticLab but its task output included one false-negative test-coverage claim and no tool trace was retained. This is only an initial use datapoint. No code-changing Alpha task has yet been performed through AgenticLab.
+- **Outcome:** Added the working acceptance bar to roadmap §9 and marked `FIRST-SLICE-PLAN.md` as the historical completed Python-host plan, not the current Evershop Alpha execution plan. No system or Evershop source changes.
+- **Boundary:** Documentation-only. No `.env`, `data/`, backup, app/tests, broad metrics, commit, or push.
+
+### V5-20261009-137 — Execute bounded test-only task through Evershop AgenticLab
+
+- **Recorded:** 2026-10-09T17:45:27+02:00
+- **Type:** Alpha trial / scoped implementation and verification
+- **Task:** In fresh Pi 1.1.0 print-mode sessions from Evershop, AgenticLab inspected the declared scope, empty knowledge index, selector, fixture, and test spec. With tools limited to `read`/`edit`, it edited only `tests/quantity-selector-ui/fixture.tsx` and `quantity-selector.spec.mjs`. It added invalid-draft recovery, Escape, ArrowDown/minimum, caller max-99, and direct-blur cases; no application component, package, or configuration was edited.
+- **Verification:** The first isolated suite run found one test assumption failure: the test expected ArrowDown to commit immediately, while the component commits on Enter/blur. AgenticLab adjusted only the test to assert draft change then Enter commit. The dedicated `npm run test:quantity-selector` suite then passed **10/10** in Chromium 152 using temporary lock-pinned dependencies; the Evershop root dependency symlink and all temporary packages/results were removed. No app, Jest, or E2E suite ran.
+- **Assessment:** This is the first bounded code/test change carried out through the staged V5 system, followed by isolated verification. It demonstrates the limited read/edit/test path and one recoverable task misunderstanding; it is not evidence of broad delivery benefit, retrieval utility, or parent-page integration. No broad metrics or mechanism tuning is warranted from one task.
+- **Outcome:** Alpha has advanced from read-only review to a scoped test-only change through AgenticLab. The existing quantity-selector product implementation remains separately direct-authored; only the test-harness improvements in this task were V5-assisted.
+- **Boundary:** Pi had no Bash tool during the code-edit task. Only the dedicated isolated test command was run outside Pi. No `.env`, `data/`, backup, app, or full Evershop test suite access/execution. No commit or push.
+
+### V5-20261009-138 — PBI 2 harness preflight blocked by unexpected dependency link
+
+- **Recorded:** 2026-10-09T18:19:07+02:00
+- **Type:** Alpha trial / test-safety incident and implementation status
+- **Work:** AgenticLab implemented PBI 2 in `Media.tsx` and added a separate isolated Media UI harness/test script. It did not run tests. Read-only review found unverified harness issues: `serve.mjs` references `ignore-loader`, which is not declared in the Evershop manifests/lockfile; the Playwright `webServer.command` is rooted relative to its `testDir` and appears to duplicate the test path; and the spec expects the dialog visible after Escape closes it. PBI 2 remains unverified/incomplete.
+- **Incident:** A temporary test setup refused to proceed because Evershop `node_modules` unexpectedly existed. Its cleanup removed that path if it was a symlink; it is now absent. I did not record the prior symlink target, so I cannot establish whether it was my residue or user-managed. Stop dependency/test setup and ask the user before recreating or changing this path.
+- **Assessment:** This is a useful Alpha failure signal: code was reported implemented without executing the isolated tests, and the proposed harness had detectable setup/assertion defects. Do not count PBI 2 as passed or tune the V5 system from this one event until the harness is safely corrected and rerun.
+- **Boundary:** No `.env`, `data/`, backup, Evershop app, or full E2E/Jest suite was accessed/run. No persistent dependency install or commit/push. The PBI 2 source/test changes are uncommitted.
+
+### V5-20261009-139 — Complete PBI 2 through staged AgenticLab and isolated UI tests
+
+- **Recorded:** 2026-10-09T23:21:47+02:00
+- **Type:** Alpha trial / bounded Evershop UI implementation
+- **Task:** Fresh Evershop AgenticLab Pi sessions implemented the image-viewer accessibility scope and repaired the isolated browser harness. Tool traces show project instructions/scope and targeted source/test reads; edits stayed within `Media.tsx`, the new media UI harness, and the dedicated root test script.
+- **Changes:** Keyboard-operable image opener; dialog role/name; focus moves into the dialog, traps within it, and returns to the opener; Escape and arrow navigation; exact prior body overflow restoration; document keydown and timer cleanup on close/unmount. The harness uses real `react-slick`, deterministic Evershop component/context stubs, and a local static server; it does not load `.env`, start the app, or use a database. A slider default-import interop failure in the first isolated bundle was corrected; a delayed initial `slickGoTo` that could reset quick navigation was removed.
+- **Verification:** Initial harness defects were fixed (local CSS/SCSS ignore loader, correct test-server working directory, Escape assertion, listener-removal assertion). The dedicated `npm run test:media-accessibility-ui` suite passed **3/3** in Chromium 152 using lock-pinned temporary dependencies and system Chromium. Temporary dependency link, bundle, and test outputs were removed. No full Evershop build, Jest/E2E suite, app launch, or production-page integration test was run.
+- **Assessment:** This is a second bounded code-changing task performed through staged AgenticLab, now including production component and isolated UI tests. It demonstrates a more substantial task path than PBI 1’s test-only task, but does not establish full app integration, general delivery benefit, or memory/retrieval value. No broad metrics or mechanism tuning follows from these small trials.
+- **Outcome:** PBI 2 implementation and isolated acceptance suite are complete within the stated component scope; app-level integration and the full Evershop build remain unverified. Evershop changes remain uncommitted.
+- **Boundary:** No `.env`, `data/`, backup, app, or existing Jest/E2E suite accessed/run. Temporary test dependencies were used only under `/tmp`; the Evershop `node_modules` path was absent afterward. No commit or push.
+
+### V5-20261010-145 — Confirm explicit Evershop PostgreSQL connection variables
+
+- **Recorded:** 2026-10-10T12:33:55+02:00
+- **Type:** PBI 3 isolated-database feasibility review
+- **Finding:** Read-only inspection of `packages/evershop/src/lib/postgres/connection.ts` shows its pool reads `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, and `DB_SSLMODE` directly from process environment; SSL options are also env-controlled. This supports a test process using explicit test-only connection variables rather than reading `.env` for that connection module.
+- **Limit:** The application/bootstrap and migration path have not been fully verified to avoid `.env` loading. The existing E2E Playwright config does load `tests/e2e/.env`; it remains unsafe. No DB connection, server, or app was started. Docker access is still denied and local PostgreSQL is inactive.
+- **Outcome:** A dedicated DB-backed PBI 3 test may be feasible with an explicit disposable DB environment, but needs a further read-only bootstrap/migration safety review and an isolated database supplied/authorized before implementation. The mock Alpha slice remains UI/API-contract evidence only.
+- **Boundary:** Read only the Evershop connection source; no `.env`, `data/`, backup, app/test execution, database connection, commit, or push.
+
+### V5-20261009-140 — Confirm isolated PBI 2 rerun cleanup after setup incident
+
+- **Recorded:** 2026-10-09T23:23:32+02:00
+- **Type:** Test-environment cleanup clarification
+- **Finding:** After the earlier unexpected `node_modules` symlink incident, a later isolated PBI 2 test run began only after verifying the Evershop root `node_modules` path was absent. That run created a fresh symlink to the approved `/tmp` dependency install, ran the dedicated suite (3/3), then removed only that exact symlink and temporary dependencies/results. The path is currently absent.
+- **Limit:** The target of the earlier symlink was not captured, so its ownership cannot be determined or restored from evidence. No persistent dependencies remain.
+- **Next:** Ask the user to confirm whether they had intentionally provided the earlier symlink before any future dependency setup. Do not recreate or alter a pre-existing `node_modules` path without checking it first.
+- **Boundary:** No `.env`, `data/`, backup, app, full E2E/Jest suite, commit, or push.
+
+### V5-20261009-141 — Complete read-only PBI 3 database/test-safety preflight
+
+- **Recorded:** 2026-10-09T23:38:03+02:00
+- **Type:** Alpha trial / read-only PBI architecture preflight
+- **Result:** A fresh Evershop AgenticLab Pi run reviewed customer ownership/auth patterns, catalog lifecycle, module APIs/services, Jest/E2E configuration, and database setup. It recommends a small customer-owned wishlist API/service slice with ownership from the authenticated customer, then a genuinely isolated PostgreSQL integration test for persistence and cross-customer authorization. Synthetic mocks are appropriate for UI/service logic, but cannot prove persistence, transaction/schema behavior, or customer isolation. The existing Playwright E2E setup loads `tests/e2e/.env` and connects to the dev server's database; it must not be reused without a separate verified disposable DB configuration.
+- **Assessment:** This is a preflight recommendation, not PBI 3 implementation approval or a test result. PBI 3 remains unstarted. If DB isolation is too costly, a mock-backed slice must be labeled non-persistent and not claim the PBI's persistence/security acceptance.
+- **Trace limit:** No `read` call targeted `.env`, a `data/` path, or backup; no app/tests ran. The summarized JSON trace included native `find` calls with path `.` but did not retain their patterns/results, so I cannot certify exactly which path names those inventories enumerated. No file contents were read through those calls in the available trace.
+- **Boundary:** Read-only tools only; no files changed, no `.env`/data contents accessed, no app/tests, no commit or push.
+
+### V5-20261009-142 — Check local options for disposable PostgreSQL validation
+
+- **Recorded:** 2026-10-09T23:39:55+02:00
+- **Type:** PBI 3 test-safety environment preflight
+- **Finding:** Docker CLI, `psql`, `pg_isready`, and `createdb` are installed; `podman` and `initdb` are not found. The system PostgreSQL service reports inactive. This suggests a disposable Docker-backed PostgreSQL test database may be practical, but Docker daemon availability, image availability, database creation/teardown, and application test configuration have not been tested.
+- **Outcome:** No database connection or creation attempted. Continue with mocks for isolated UI/service logic; before claiming PBI 3 persistence/ownership acceptance, design and verify a dedicated disposable DB configuration that does not load `.env` or use shared project data.
+- **Boundary:** No Docker daemon command, DB connection, `.env`/`data` access, app/tests, or file changes. No commit or push.
+
+### V5-20261009-143 — Confirm local Docker daemon is not available to this session
+
+- **Recorded:** 2026-10-09T23:41:12+02:00
+- **Type:** PBI 3 disposable-DB feasibility check
+- **Finding:** A read-only `docker info --format` probe returned permission denied for `/var/run/docker.sock`. No container was started and no database connection or data access occurred. PostgreSQL client utilities exist, but the system PostgreSQL service is inactive and `initdb` is unavailable to this session.
+- **Outcome:** A disposable PostgreSQL test environment is not currently available from this agent session. For now, use mocks only for an explicitly mock-scoped Alpha slice, and do not claim PBI 3 persistence/customer-isolation acceptance. A real DB-backed PBI needs a user-approved, isolated test-DB setup (or the user can enable/provide one).
+- **Boundary:** No `.env`, `data/`, backup, app, or tests accessed/run. No service or container changed. No commit or push.
+
+### V5-20261009-144 — Complete mock-backed PBI 3 Alpha UI slice
+
+- **Recorded:** 2026-10-09T23:56:57+02:00
+- **Type:** Alpha trial / mock-backed wishlist UI prototype
+- **Scope:** With the user's mock-first approval, staged AgenticLab added a standalone `WishlistPanel` with an injected, customer-scoped `WishlistClient` interface and an isolated in-memory mock fixture. It covers loading/empty/populated states, add/remove, duplicate handling, backend error display, unavailable/deleted products, and switching mock clients with a delayed stale-response race. No customer ID is passed from the UI; the client is assumed to be bound to the authenticated customer.
+- **Verification:** The dedicated `npm run test:wishlist-alpha` Playwright suite passed **5/5** in Chromium 152 with temporary lock-pinned dependencies. Tests use synthetic mock data and a local static harness only; no Evershop app or database is involved. A first run exposed an immediate-response timing assumption; the fixture was updated to delay both clients for a deterministic race test, then the suite passed.
+- **Assessment:** This demonstrates a bounded AgenticLab code/test task and UI/mock-client contract only. It does **not** implement or prove PBI 3's durable persistence, actual authenticated API ownership, database transactions, or cross-customer security. Those remain deferred until a safe disposable PostgreSQL environment is available.
+- **Outcome:** Mock-backed PBI 3 Alpha slice implemented; full PBI 3 remains incomplete. No new dependencies or lockfile changes; the root test script and new component/test harness are uncommitted Evershop work.
+- **Boundary:** No `.env`, `data/`, backup, app, existing Jest/E2E suite, or database access. Dependencies and node_modules link existed only under the approved temporary test setup and were removed; no persistent Evershop `node_modules` remains. No commit or push.
+
+### V5-20261010-146 — Note backfilled PBI 3 connection-source chronology
+
+- **Recorded:** 2026-10-10T12:43:43+02:00
+- **Type:** Append-only log navigation correction
+- **Finding:** Entry #145 was inserted physically before #140–#144 while its `Recorded` timestamp is later. The log remains append-only; use `Recorded` timestamps, not physical file position, for this PBI 3 preflight cluster.
+- **Boundary:** Navigation note only; no project files, Evershop data, or test setup changed. No commit or push.
+
+### V5-20261010-147 — Confirm no PostgreSQL server is available to this session
+
+- **Recorded:** 2026-10-10T12:48:45+02:00
+- **Type:** PBI 3 disposable-DB setup preflight
+- **Finding:** `pg_config` resolves to `/usr/bin`, but `initdb`, `postgres`, and `pg_ctl` are unavailable there; the system PostgreSQL service is inactive. Docker has only the default `/var/run/docker.sock` context, which denied access, and no rootless socket was present.
+- **Conclusion:** This session cannot provision the isolated PostgreSQL environment required to validate PBI 3 persistence/auth. The mock-backed Alpha slice is sufficient for UI/API-contract experimentation only. Full PBI 3 remains deferred until the user provides/authorizes a disposable DB endpoint or Docker access.
+- **Boundary:** Read-only executable/service availability checks only; no Docker container, DB connection, `.env`/`data`/backup access, app/tests, or project changes. No commit or push.
+
+### V5-20261010-148 — Harden mock wishlist client-switch isolation
+
+- **Recorded:** 2026-10-10T12:53:53+02:00
+- **Type:** Alpha trial / mock-backed PBI 3 regression check
+- **Finding:** AgenticLab review noticed the first fixture forced a component remount when switching mock clients, which could conceal stale-client state in a mounted component. It changed `WishlistPanel` to hide prior-client state immediately, refetch for the new client, and ignore late responses; the fixture now switches clients without a key remount and delays both responses to test the race.
+- **Verification:** The first run failed because Client B's mock answered immediately while the test expected it to remain loading. The fixture was corrected to delay both clients. The dedicated wishlist UI suite then passed **5/5** with system Chromium and temporary dependencies. A webServer relative-path issue was also fixed by setting the test-server working directory explicitly. No app or database was run.
+- **Assessment:** This is mock-client state-isolation evidence only; the fake clients are not authorization or persistence evidence. The PBI remains non-persistent pending safe PostgreSQL access.
+- **Outcome:** Updated the mock UI slice and tests through staged AgenticLab; no package dependencies/lockfile changes.
+- **Boundary:** Only WishlistPanel and wishlist Alpha fixture/spec/harness paths changed. No `.env`, `data/`, backup, app, or existing E2E/Jest suite touched. Temporary dependencies/link/results removed. No commit or push.
+
+### V5-20261010-149 — Run first-install synthetic delivery-host smoke
+
+- **Recorded:** 2026-10-10T13:37:01+02:00
+- **Type:** C11 fresh-host Alpha smoke
+- **Setup:** Used the generated `/home/peet/Projects/AgenticLab/` payload from revision `7e4be9c91b5df5b1cad1dca4729d268db5e61e1e` to create a fresh synthetic host at `/home/peet/Projects/AgenticLab-Alpha-Workspace/`, with a local root pointer, Pi extension setting, synthetic scope, and empty knowledge index. No Evershop app or data was copied.
+- **Task/result:** A fresh Pi 1.1.0 print-mode session edited only `src/wishlist.mjs` to make an in-memory wishlist helper idempotent; `node --test tests/wishlist.test.mjs` passed 4/4. This is a synthetic install/task-loop smoke, not a real PBI or delivery-benefit datapoint.
+- **Scope caveat:** Tool trace shows the task session read AgenticLab instructions and task/source/tests but did not explicitly read `AgenticLab/PROJECT-SCOPE.md`. It also ran `pwd; rg --files ...` despite the task requesting only the test command. Both occurred inside the synthetic host and exposed no protected project data, but the initialization/scope behavior did not fully meet the intended Alpha bar.
+- **Next:** Improve the fresh-host root pointer so it explicitly directs Pi to both operating instructions and `PROJECT-SCOPE.md`; repeat a read-only scope smoke. Do not infer full Alpha readiness from this synthetic run.
+- **Boundary:** Only the new synthetic host and its source/test fixture were involved. No `.env`, `data/`, backup, Evershop application, DB, global Pi config, commit, or push.
+
+### V5-20261010-150 — Require both system and project-scope pointers in fresh hosts
+
+- **Recorded:** 2026-10-10T13:40:03+02:00
+- **Type:** C11 Alpha bootstrap correction
+- **Finding:** The synthetic first-use task's trace showed Pi read `AgenticLab/AGENTS.md` but not `AgenticLab/PROJECT-SCOPE.md`; the host root pointer named only the operating instructions. The scoped task prompt limited its work, so no protected access occurred, but the Alpha setup bar calls for project scope to be loaded explicitly.
+- **Change:** Updated the synthetic host's root `AGENTS.md` and the canonical `system/README.md`/C11 bootstrap guidance to point to both the AgenticLab operating instructions and project scope before consequential work.
+- **Verification:** A fresh Pi 1.1.0 read-only smoke in the synthetic host followed the root pointer and explicitly read `AgenticLab/PROJECT-SCOPE.md` and the empty knowledge index before summarizing scope. The trace shows only those expected files plus the pointed operating instructions and synthetic task file.
+- **Boundary:** Documentation/root-instruction change only; no app, tests, `.env`, `data/`, backup, global Pi settings, commit, or push.
+
+### V5-20261010-151 — Complete fresh-host scope and extension smoke
+
+- **Recorded:** 2026-10-10T13:44:38+02:00
+- **Type:** C11 fresh-host Alpha validation
+- **Verification:** On the synthetic `AgenticLab-Alpha-Workspace`, a fresh Pi 1.1.0 read-only turn followed the root pointer and read `AgenticLab/AGENTS.md`, `PROJECT-SCOPE.md`, and the empty knowledge index. A separate print-mode write attempt to a disposable knowledge path was blocked because no UI was present, and the fixture remained absent; this confirms local extension activation/fail-closed behavior in the clean host.
+- **Assessment:** Combined with the 4/4 Node smoke task, this completes a synthetic fresh-install/context/extension/code-task loop. It is packaging/tool-path evidence only, not a real application task or product-benefit result. The earlier extra `pwd; rg --files` command was confined to the synthetic workspace and is recorded as scope-fidelity evidence in #149.
+- **Boundary:** Only synthetic host instructions/index and a synthetic gate path were involved. No `.env`, `data/`, backup, app, existing Evershop test suite, global Pi config, commit, or push.
+
+### V5-20261010-152 — Classify the user-supplied PBIs/host shortlist
+
+- **Recorded:** 2026-10-10T13:48:19+02:00
+- **Type:** Alpha task/host portfolio clarification
+- **Finding:** `PBIs.md` is a user-supplied AI scan proposing Twenty, Cal.diy, and Jitsi/LiveKit as possible practice/host candidates. It is candidate input, not an approved V5 roadmap, host selection, or implementation authorization. The user clarified that real PBIs are intended to be executed through AgenticLab to assess the Alpha system; the product goal remains AgenticLab delivery capability, not user-skills practice alone.
+- **Current status:** Evershop remains the current experiment host. PBI 1's production implementation was direct-authored (its test-only follow-up was AgenticLab-driven); PBI 2 was implemented through staged AgenticLab with isolated tests; PBI 3 has only a mock-backed UI/API-contract Alpha slice, while persistence/security remains deferred. No external host from `PBIs.md` is selected.
+- **Boundary:** `PBIs.md` remains untracked and unchanged; no candidate repo was accessed/cloned, no PBI started, and no network or protected Evershop path accessed in this classification.
+
+### V5-20261010-153 — Identify missing V5 one-time project-orientation flow
+
+- **Recorded:** 2026-10-10T20:17:50+02:00
+- **Type:** Alpha product-orientation gap
+- **Finding:** V5 has no `/agents-startup` or `/warmup` equivalent. Current manual setup creates a workspace-local `PROJECT-SCOPE.md` and an empty knowledge index; the default agent then gathers source context just in time and knowledge is retrieved selectively. The fresh synthetic host smoke tested pointer/scope loading, not project-structure exploration or initial knowledge production.
+- **Design direction to consider:** If Alpha needs a minimum project model before the first delivery task, prefer an explicit user-invoked, one-time orientation pass: confirm scope/allowed paths, inspect only safe relevant structure/entrypoints/test conventions, produce a concise sourced draft, and ask the user before persisting any useful project knowledge. Do not port mandatory V4 warmup, auto-scan the repository, or auto-promote findings.
+- **Outcome:** Reopened the `agents-startup`/`warmup` deferral trigger for Alpha design; no prompt or implementation selected. This is an explicit remaining product decision, not a claim that current V5 already seeds project knowledge.
+- **Boundary:** Documentation-only; no Evershop file/data access, app/tests, system prompt edits, knowledge writes, commit, or push.
+
+### V5-20261010-154 — Keep first-install integration out of host-root application paths
+
+- **Recorded:** 2026-10-10T20:35:49+02:00
+- **Type:** C11 bootstrap collision correction
+- **Finding:** The synthetic Alpha host's root `src/`, `tests/`, and `TASK.md` are synthetic host-project fixtures created for the task-loop smoke, not AgenticLab install outputs. Their ownership was easy to misread. More importantly, the prior V5 first-install guide unnecessarily created a workspace-root `AGENTS.md` pointer, which could conflict with host-owned instructions and departed from the desired drop-in shape.
+- **Pi basis:** Pi 1.1.0 documents `.pi/APPEND_SYSTEM.md` as trusted project-specific system instructions (subject to project trust). This supports the existing integration intent without creating a generic root file.
+- **Correction:** Updated canonical `system/README.md`, `system/AGENTS.md`, C11, and the roadmap to use `.pi/APPEND_SYSTEM.md` plus `.pi/settings.json`. The standard first-install footprint is now limited to `AgenticLab/` and `.pi/`; do not create, overwrite, move, or scaffold host application paths such as `src/`, `tests/`, or manifests. Preserve existing root `AGENTS.md`; merge project `.pi` files only with preview and stop on conflicts.
+- **Alpha validation:** Replaced the synthetic host's installer-created root `AGENTS.md` with `.pi/APPEND_SYSTEM.md`. A fresh Pi 1.1.0 `--print --approve --no-tools --no-session` check reported the exact AgenticLab instruction/scope pointers and explicitly said not to create/edit root `AGENTS.md`. The synthetic project files remained untouched.
+- **Boundary:** Only canonical V5 documentation/instructions and the synthetic Alpha host's `.pi/APPEND_SYSTEM.md` plus the root `AGENTS.md` previously created by this setup were changed. No Evershop paths, host application fixture, `.env`, `data/`, tests, global Pi configuration, commit, or push were touched. The packaged Alpha payload remains pinned to its older recorded source revision and must be compared/refreshed before reuse.
+
+### V5-20261010-155 — Review all V4 prompts against the V5 direction
+
+- **Recorded:** 2026-10-10T20:46:30+02:00
+- **Type:** Prompt portfolio review
+- **Scope:** Read all 25 Markdown prompts in `/home/peet/Projects/AgenticLab-V4/prompts/` (9 delivery, 12 system, 4 utility) and compare their functions/dependencies with V5's default-first operating contract, project knowledge lifecycle, context/adapter boundaries, and current prompt prototypes. V4 files were not modified.
+- **Recommendation:** Design a single, user-invoked, one-time first-use workspace initialization/orientation using the valuable purposes of `/agents-startup` and `/warmup`. Preserve project scope confirmation, local harness wiring, bounded source-derived technical orientation, user review, and availability of a compact approved overview to later sessions. Do not port the eight-persona warmup, V4 memory layout/DIGEST/SEMANTIC_MAP, Graphify/hook installation, global Pi changes, or repeat scans at every startup.
+- **Other dispositions:** Existing V5 `/plan`, `/implement`, and `/premortem` prototypes remain the adapted versions. Consider `/debug` on a real root-cause task, then `/test` and `/review-pr` on their respective real use cases. Checkpoint/recovery and memory maintenance prompts remain evidence-triggered; the V4 `/fix` composite, V4 `/system-health` form, and raw-transcript `/recover-session` are not recommended for direct porting.
+- **Artifact:** Added `backlog/V4-PROMPT-REVIEW.md` with per-prompt dispositions; updated the backlog trigger index, C03 orientation recommendation, and roadmap to make one-time initialization the next design focus. No runtime prompt or adapter was implemented.
+- **Boundary:** No V4 prompt edits, Evershop file access, `.env`/`data/` access, task implementation, or code/test execution. No commit or push.
+
+### V5-20261010-156 — Draft the combined first-use initialization flow
+
+- **Recorded:** 2026-10-10T20:51:51+02:00
+- **Type:** C03/C11 design draft
+- **Request/outcome:** Following the user's agreement on the V4 prompt review, drafted a V5 first-use workspace initialization/orientation flow using the purposes of `/agents-startup` and `/warmup`. The draft separates project scope, Pi/harness setup, and source-derived technical overview; proposes a bounded one-time user-invoked process and later fresh-session reuse; and explicitly excludes V4's mandatory all-agent scan, Graphify/hooks, full memory topology, and repeated warmups.
+- **Artifact:** `backlog/INITIALIZATION-FLOW-DRAFT.md` is open for joint review. It proposes `AgenticLab/knowledge/PROJECT-OVERVIEW.md` subject to confirming the existing gate/path and lists review questions for invocation shape, artifact location/loading, scope, and inspection boundaries.
+- **Documentation:** Linked the draft from C03, C11, and the backlog review guide. No runtime prompt or adapter changes were made.
+- **Boundary:** Draft/documentation only. No V4 files, project app/data, Evershop paths, global Pi config, code/tests, commit, or push were touched.
+
+### V5-20261010-157 — Distinguish the project profile from durable knowledge records
+
+- **Recorded:** 2026-10-10T21:00:16+02:00
+- **Type:** C02/C03 initialization design clarification
+- **Clarification:** The project overview is persisted but has a distinct role from V5's durable knowledge records. It is a compact, source-derived session-start navigation profile; records preserve scoped, reviewed, non-cheaply-derivable decisions, rationale, experience, risks, and procedures, and are retrieved selectively. The overview may point to records but should not duplicate their claims/rationale. Project authority and boundaries remain in `PROJECT-SCOPE.md`.
+- **Draft update:** Added a comparison table and examples to `backlog/INITIALIZATION-FLOW-DRAFT.md`; the proposed `AgenticLab/knowledge/PROJECT-OVERVIEW.md` is described as a separate profile artifact outside the atomic record corpus, with user review and the existing knowledge-write gate. Fresh-session loading and explicit refresh remain separate from record lifecycle.
+- **Boundary:** Documentation-only. No runtime change or persistence into a delivery workspace; no tests, V4 edits, Evershop access, commit, or push.
+
+### V5-20261012-158 — Propose a native Pi invocation for first-use initialization
+
+- **Recorded:** 2026-10-12T21:44:25+02:00
+- **Type:** C08/C11 initialization UX design
+- **Proposal:** Implement `/initialize-workspace` as a Pi prompt template at `AgenticLab/prompts/system/initialize-workspace.md`, registered through a project-local `.pi/settings.json` `prompts` entry. The user invokes it once after granting project trust; registration makes it available but does not auto-run it. Keep manual `--prompt-template` loading as a fallback and do not use `.pi/APPEND_SYSTEM.md` or an extension to auto-execute initialization.
+- **Draft update:** Added the invocation and prompt-registration proposal to `backlog/INITIALIZATION-FLOW-DRAFT.md`. It remains for review; the current Alpha host has no system prompt template/registration and no such command exists.
+- **Boundary:** Documentation-only. No Pi settings, runtime prompt, adapter, Alpha host, code, tests, V4 files, commit, or push changed.
+
+### V5-20261012-159 — Resolve first-run prompt-registration ordering
+
+- **Recorded:** 2026-10-12T21:47:50+02:00
+- **Type:** C08/C11 initialization bootstrap clarification
+- **Finding:** The user identified a sequencing loop: if `/initialize-workspace` is registered in `.pi/settings.json`, that settings file must exist before Pi can offer the command. A bare `AgenticLab/` copy alone is not enough to expose the slash command.
+- **Resolution in draft:** Make local `.pi/` wiring—including extension and prompt-template registration—a separate reviewed first-install step, completed before invoking `/initialize-workspace`. The initialization prompt verifies wiring and stops if it is missing; it does not create the settings required to load itself. Explicit `--prompt-template` remains a one-session fallback only when the reviewed project extension/trust needed for persistence is already active.
+- **Artifact:** Updated `backlog/INITIALIZATION-FLOW-DRAFT.md` to make the prerequisite and sequence explicit. The current Alpha host has not been reconfigured for the prompt; no command or settings were installed.
+- **Boundary:** Documentation-only. No delivery workspace, Pi config, runtime prompt, adapter, V4 file, code/test, commit, or push changed.
+
+### V5-20261012-162 — Clarify post-initialization restart behavior
+
+- **Recorded:** 2026-10-12T22:16:27+02:00
+- **Type:** C08 initialization UX clarification
+- **Finding:** The user correctly asked whether the post-setup Pi restart implies invoking the initialization prompt a second time. It does not: the first direct file-reference invocation completes initialization; restart only activates the new project-local resources.
+- **Correction:** Updated prompt Step 7 to explicitly say not to rerun the initialization prompt after restart. The fresh session reads scope/profile through normal startup instructions; any verification is a read-only profile check, not another orientation scan. `/initialize-workspace` is merely registered for a future explicit refresh.
+- **Staging:** Resynchronized the local draft bundle at `/home/peet/Projects/AgenticLab/` with the updated prompt and refreshed its explicit dirty-snapshot marker.
+- **Boundary:** Documentation/prompt and generated test package only. No delivery workspace was initialized; no Evershop, `.env`/`data`, application code/tests, commit, or push touched.
+
+### V5-20261012-161 — Prepare first-use initialization prompt and local test bundle
+
+- **Recorded:** 2026-10-12T22:10:10+02:00
+- **Type:** C03/C08/C11 approved setup preparation
+- **Implementation:** Added `system/prompts/system/initialize-workspace.md`. The first use is a direct user request to read/follow the prompt from a dropped `AgenticLab/` payload, before `.pi/` exists. It confirms scope, performs bounded read-only orientation, previews `PROJECT-SCOPE.md`, `PROJECT-OVERVIEW.md`, and local `.pi/` changes together, and waits for approval. It seeds no knowledge records and changes no host application paths. It instructs the user to restart Pi/trust project resources before claiming the extension or registered command active.
+- **Contract/docs:** `system/AGENTS.md` now directs fresh sessions to read the profile if present and treats it as distinct from memory records; `system/brain/operating-contract.md` defines the narrowly approved setup/profile write exception; `system/README.md`, C11, C03, README, roadmap, and the initialization draft describe the new direct-file sequence and ownership rules.
+- **Staging:** Regenerated `/home/peet/Projects/AgenticLab/` from the current `system/` working tree, excluding `adapters/pi/tests/`. A recursive diff confirms its runtime files match `system/`; only `SOURCE-REVISION.txt` is staging metadata. The marker identifies this as a dirty local test bundle based on `b50ae766685a5c409506f61a54182c7cf86f1331`, not a clean/reproducible release.
+- **Verification:** `node --test system/adapters/pi/tests/knowledge-write-gate.test.mjs` passed 12/12; `git diff --check` passed. No first-use orientation was run in Alpha or any delivery workspace; no Evershop access, `.env`/`data` access, app/test run, commit, or push occurred.
+- **Boundary/next:** The Alpha workspace remains on the older payload and task-specific scope; do not run initialization there without refreshing/reconciling the payload and explicitly changing the scope. User will choose/provide the delivery workspace for the first end-to-end initialization smoke.
+
+### V5-20261012-160 — Make the direct-file first invocation explicit
+
+- **Recorded:** 2026-10-12T21:52:44+02:00
+- **Type:** C08/C11 initialization flow correction
+- **Finding:** The user clarified the bootstrap sequence: only the `AgenticLab/` payload must be dropped initially; the first Pi session can be explicitly asked to read/follow the initialization prompt by path. Therefore `.pi/` settings cannot be a precondition to invoke that prompt. The initializer can preview and create/merge local `.pi/` wiring, including extension and prompt registration, then a fresh trusted Pi session activates those resources and exposes `/initialize-workspace` for future explicit use.
+- **Profile boundary proposal:** Updated the draft's leading profile location to `AgenticLab/PROJECT-OVERVIEW.md`, alongside but distinct from `PROJECT-SCOPE.md` and outside the knowledge-record corpus. The draft proposes one explicit initialization approval for scope/profile/`.pi` setup artifacts; persistent decision/experience records continue through the separate V5 knowledge contract and gate. This is a draft direction for review, not a settled policy.
+- **Artifact:** `backlog/INITIALIZATION-FLOW-DRAFT.md` now reflects first-run direct file invocation, `.pi` creation during the approved flow, fresh-session activation, and the proposed profile/write boundary.
+- **Boundary:** Documentation-only. No Alpha workspace, Pi settings, runtime prompt, adapter, V4 source, application/data, tests, commit, or push changed.

@@ -1,6 +1,6 @@
 # AgenticLab V5 — Workspace Operating Instructions
 
-These instructions apply when this AgenticLab system payload is installed in a target project. The workspace-root `AGENTS.md` should point here; the target project's root and scope remain authoritative.
+These instructions apply when this AgenticLab system payload is installed in a target project. Pi's trusted project-local `.pi/APPEND_SYSTEM.md` should point here and to `AgenticLab/PROJECT-SCOPE.md`; after initialization, it should also direct fresh sessions to `AgenticLab/PROJECT-OVERVIEW.md` when present. The target project's root and scope remain authoritative. Do not require creating or replacing a workspace-root `AGENTS.md`.
 
 ## 1. Start with the user's task
 
@@ -10,6 +10,7 @@ These instructions apply when this AgenticLab system payload is installed in a t
 - If the user has not chosen a mode and an available workflow would materially improve sequencing, coordination, or assurance, you may recommend one briefly with the reason and wait for explicit invocation/approval. Never switch modes automatically. If the user already invoked a workflow, begin it without a redundant workflow-selection question. If research-vs-implementation intent is unclear, ask one focused clarification rather than stacking it with a workflow pitch.
 - User-invoked V5 delivery prompt prototypes live in `AgenticLab/prompts/delivery/`. Read and follow only the named prompt the user explicitly invokes or approves; do not load workflows into ordinary default tasks or infer invocation from PBI format. `/plan` creates a plan only; `/implement` requires an approved plan and separate invocation; `/premortem` is a read-only review of specified existing code.
 - Both paths use the same project scope, knowledge, authorization, and verification contract.
+- At the start of a fresh workspace session, read `AgenticLab/PROJECT-SCOPE.md` and, if present, `AgenticLab/PROJECT-OVERVIEW.md`. The overview is a compact source-derived navigation profile, not authority or current truth; verify relevant mutable facts against current source. If the overview is absent, do not perform a broad orientation scan automatically—suggest the user-invoked initialization prompt when useful.
 - Before consequential work, identify the actual project/workspace scope, current source state, and what authorization is needed.
 - Answering a question or proposing a plan is not permission to edit files, run a mutating command, or widen scope.
 
@@ -30,6 +31,7 @@ These instructions apply when this AgenticLab system payload is installed in a t
 - Do not silently activate, overwrite, or delete a durable record. The Pi adapter requests explicit UI confirmation for supported writes.
 - Persist knowledge only through the reviewed, project-local Pi approval gate. If the extension is not loaded, project trust was declined, or the current mode has no UI, do not use another route (including shell commands) to persist it. Report that persistence is unavailable instead.
 - Do not store secrets, credentials, or unnecessary personal data.
+- `AgenticLab/PROJECT-OVERVIEW.md`, when present, is a project-initialization profile, not a knowledge record. It may be created or refreshed only through the explicit, previewed initialization/refresh flow; do not update it as an ordinary memory write or duplicate its source-derived facts into records by default.
 
 ## 4. Verify and report proportionately
 
