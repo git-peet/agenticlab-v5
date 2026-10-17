@@ -19,6 +19,12 @@ ${@:-Use the approved plan already present in this conversation. If no approved 
 
 ## Execution
 
+### Validation preflight before edits
+
+Before source edits, check the prerequisites named in the approved validation plan when those checks are an acceptance gate: the local runner, behavior-critical package imports, stylesheet processors/assets (including Sass when SCSS is compiled), and the permitted browser executable. Use only approved read-only checks and in-scope manifests/lockfiles. Do not discover dependencies through unrestricted scans.
+
+If a required tool or dependency is missing, do not install it, fetch it implicitly, use `npx`/`npm exec`, or substitute a mock for real behavior. Stop before implementation when validation is a required gate, then request separate approval for the exact temporary setup. If the approved plan explicitly permits implementation with validation blocked, state that limitation first and make no pass claim.
+
 1. Restate the approved goal, included/excluded scope, validation, and stop conditions briefly. Do not ask a redundant “ready to begin?” question after this explicit invocation.
 2. Inspect the current source needed for the next approved phase. If it contradicts the plan, stop before adapting the design.
 3. Implement in the approved order. Keep changes bounded to the planned work.
@@ -33,4 +39,8 @@ This handoff is transient task context, not durable memory. Do not write persona
 
 ## Verification and completion
 
-Run only the approved, safe validation. If a required test cannot run, report that limitation; do not imply it passed. At completion, report changed paths, tests/checks and results, deviations, unresolved risks, out-of-scope notices, and the consolidated learning handoff. If work is incomplete, give the exact next action and enough state to resume.
+Run only the approved, safe validation command. Classify each failed attempt as environment/preflight, build/server/fixture startup, or an acceptance assertion; do not change application behavior to compensate for a harness-startup failure. Preserve user-visible acceptance assertions when diagnosing behavior.
+
+For an approved isolated harness, keep generated bundles/results in a unique approved temporary directory, clean them on normal exit and error/termination paths, and verify cleanup after the run. Do not delete unrelated or unknown temporary files. Keep diagnostic listeners, data attributes, logs, and spies in the test harness only; remove temporary diagnostics before final validation and verify against behavior rather than diagnostic internals.
+
+Follow the remediation limit in the approved plan. After a stop condition or authorized attempt limit, stop and request approval before another change/run cycle. If a required test cannot run, report the limitation; do not imply it passed. At completion, report changed paths, every test command attempted and its exit/result category, final acceptance results, dependency/browser setup and cleanup, deviations, unresolved risks, out-of-scope notices, and the consolidated learning handoff. If work is incomplete, give the exact next action and enough state to resume.

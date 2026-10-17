@@ -37,6 +37,12 @@ Inspect the smallest relevant current-source surface and any scoped knowledge ne
 
 Create a concise surface map: relevant modules/files, current behavior, dependencies, and important external contracts. Use a domain perspective or procedure where it helps. Do not invoke a fixed persona chain; use an independent reviewer only if independent judgment materially improves the plan. Request UX/design input only when an actual UI decision is unresolved.
 
+### Validation readiness for custom/browser harnesses
+
+When the proposed acceptance checks need a custom or browser harness, map its test-critical dependencies before finalizing the plan. Include actual source imports, behavior-critical third-party libraries that must remain real, mocked application services, CSS/SCSS assets and their processors (for example Sass), the local test runner, and the available browser/executable path. Use only manifests/lockfiles and read-only checks within the approved scope; mark unknown or unavailable items instead of guessing.
+
+Also state where bundles/results will be generated, how the harness removes them on success and failure/termination, and the exact validation command. A static fixture must not be described as full application integration. Do not install dependencies, download a browser, or use `npx`/`npm exec` as part of planning. If a required validation prerequisite is missing, identify it as a blocker and request separate approval for any exact temporary setup before implementation.
+
 ## 3. Form the plan
 
 Provide:
@@ -46,7 +52,7 @@ Provide:
 4. Phases only where there are real dependencies or distinct validation boundaries.
 5. Material design choices, alternatives, assumptions, and unresolved questions.
 6. Risks, mitigations, and stop conditions.
-7. Acceptance/validation plan, including relevant tests and manual checks.
+7. Acceptance/validation plan, including relevant tests and manual checks, environment prerequisites, expected failure classification, generated-output location/cleanup, and exact command.
 8. A compact handoff sufficient for `/implement` without requiring rediscovery.
 
 For risks in the proposed plan, perform a proportionate assumption check. For high-impact or silent integration-contract risks, include specific verification actions. A full code premortem is a separate review of code that exists; do not force it into every plan.

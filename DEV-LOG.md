@@ -1982,3 +1982,11 @@
 - **Definition:** v0.1 freezes the first observed initialization plus PBI1/PBI2 data as a descriptive reference. It is explicitly not a control, comparative-performance baseline, or causal claim. Setup worker, fresh activation check, delivery Pi, and coordinator windows are separated; mixed PBI2 coordinator/Herdr activity is not attributed to AgenticLab.
 - **Versioning:** Preserve v0.1 unchanged. Future run data can be appended to structured metrics; new baseline snapshots require review and a new version.
 - **Validation:** Metrics CSVs parse (8 session-metric rows, 26 tool-roundtrip rows); `git diff --check` passes. No source or prompt behavior was changed.
+
+### V5-20261017-207 — Implement ALPHA-TUNE-001 test-readiness/evidence-capture guidance
+
+- **Recorded:** 2026-10-17T15:53:29+02:00
+- **Type:** Approved prompt/template tuning
+- **Approval/scope:** User approved the bounded batch based on Alpha PBI evidence. Changed only canonical delivery prompt guidance, evaluation result template/index, and the new `ALPHA-TUNE-001` plan/result records. No EverShop payload, sandbox source, package, global settings, or runtime was changed.
+- **Changes:** `/plan` now requires a scoped test readiness map for custom/browser harnesses, including real imports, style tooling, browser/runner, exact command, mocks, and temp-output cleanup. `/implement` now preflights required validation, distinguishes environment/build/bootstrap failures from acceptance failures, requires temporary diagnostic cleanup and output cleanup, and follows the plan's bounded retry/approval limit. The result template records session roles/windows, test command attempts separately from test cases, dependency setup, cleanup, usage and time caveats; README evidence conventions now reinforce these distinctions.
+- **Validation/limits:** Static review and `git diff --check` pass. No runtime task was run; impact on retries, cost, or user friction remains unverified pending a later approved delivery task. Baseline v0.1 remains unchanged.
