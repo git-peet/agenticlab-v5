@@ -4,7 +4,7 @@
 
 **Implementation readiness:** **Not ready for a general adapter framework.** Choose a narrow initial host journey first.
 
-**Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C04 governance](C04-governance-safety.md), [C07 specialists](C07-specialists-coordination.md), [C11 project boundary](C11-bootstrap-and-scope.md)
+**Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C03 context engineering](C03-context-engineering.md), [C04 governance](C04-governance-safety.md), [C07 specialists](C07-specialists-coordination.md), [C11 project boundary](C11-bootstrap-and-scope.md), [C12 Codemode](C12-codemode-orchestration.md)
 
 ## Purpose
 
@@ -31,6 +31,10 @@ V4 improvements separately identify: unassessed Pi-only mechanisms, setup that a
 - Use native runtime features when useful, but don't make correctness/authority depend on unverified model or harness behavior.
 - Prefer a small replaceable adapter and pure testable rules; test observable behavior on the supported host/version.
 - Keep the clean V5 repository the proposed system source. Decide separately how a project receives a versioned instance/configuration.
+
+### Pi-native Codemode capability (candidate only)
+
+The [C12 Codemode candidate](C12-codemode-orchestration.md) records Pi's built-in, opt-in tool-orchestration and result-filtering API as a possible adapter capability. This does not alter C08's host-neutral core/adapter boundary or select Codemode for use. Confirm availability in the target Pi version and test nested calls through the actual V5 approval gate before any bounded evaluation; preserve direct-tool fallback and do not infer that scripts are a security boundary.
 
 ### Read-only source-discovery fallback (design recommendation, not a tool selection)
 

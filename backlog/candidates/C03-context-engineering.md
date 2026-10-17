@@ -4,7 +4,7 @@
 
 **Implementation readiness:** **Not ready for a general context subsystem.** A bounded retrieval path may be designed with the first memory slice.
 
-**Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 memory lifecycle](C02-knowledge-lifecycle.md), [C08 adapters](C08-runtime-adapters.md)
+**Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 memory lifecycle](C02-knowledge-lifecycle.md), [C08 adapters](C08-runtime-adapters.md), [C12 Codemode](C12-codemode-orchestration.md)
 
 ## Purpose
 
@@ -79,6 +79,10 @@ Do not load session logs or all role/persona memories as a generic default conte
 
 These are workload families to check for coverage, not a list of mandatory workflows or files to load. Other recurring work families may be added from actual use.
 
+### Pi tool orchestration as an optional context-shaping mechanism
+
+The user-approved [C12 Codemode candidate](C12-codemode-orchestration.md) records a possible Pi-specific way to batch tool calls and filter large results before they enter model context. It is an evaluation candidate, not a selected retrieval/context architecture. Consider it only if a real task shows repeated tool-call/context overhead or a completeness/filtering problem that direct native tools do not handle well. C03 remains responsible for the context need and evaluation question; C08 owns Pi capability/adapter behavior. No Codemode setting or runtime change is authorized by this cross-reference.
+
 ### First-use orientation versus recurring context (Alpha design direction, not implementation approval)
 
 Keep three concerns distinct:
@@ -87,7 +91,7 @@ Keep three concerns distinct:
 2. **AgenticLab and harness operation** — shared V5 contracts plus project-local adapter/configuration (for Pi, root pointer, `.pi/settings.json`, and trust); loaded as operating instructions, not as project facts.
 3. **Technical project orientation** — a compact, source-cited starting model of stack, module boundaries, entry points/important flows, test approach, and known unknowns, produced once for the initialized workspace and available in fresh sessions to reduce avoidable re-derivation.
 
-The earlier Alpha manual setup covered the first two layers and created an empty knowledge index; it did **not** build layer 3. A user-approved first-use prompt prototype now exists at [`../../system/prompts/system/initialize-workspace.md`](../../system/prompts/system/initialize-workspace.md), with the flow design in [`../INITIALIZATION-FLOW-DRAFT.md`](../INITIALIZATION-FLOW-DRAFT.md). It is directly invoked by file reference before `.pi/` exists, then previews/creates the project-local Pi wiring and a distinct `AgenticLab/PROJECT-OVERVIEW.md` setup profile. The profile is separate from `PROJECT-SCOPE.md` and atomic decision/experience records; source-derived facts are not automatically promoted to memory. Later fresh sessions are directed to read the compact profile and verify mutable facts against source. The prompt has not yet been exercised in a delivery workspace; safe path handling, explicit approval, `.pi` activation/restart, and fresh-session profile loading remain to be validated. The V4 `SYSTEM_CORE.md`/`/warmup` example is useful evidence for the need, not a structure to import wholesale. Do not auto-scan the whole repo, read `.env`/data, run app/tests by default, or auto-promote findings.
+The earlier Alpha manual setup covered the first two layers and created an empty knowledge index; it did **not** build layer 3. The user-approved first-use prompt is at [`../../system/prompts/system/initialize-workspace.md`](../../system/prompts/system/initialize-workspace.md), with the flow design in [`../INITIALIZATION-FLOW-DRAFT.md`](../INITIALIZATION-FLOW-DRAFT.md). It is directly invoked by file reference before `.pi/` exists, previews project scope/profile plus local Pi wiring, and requires approval before setup writes. In one fresh Evershop workspace, it produced a deliberately partial, source-cited overview and the setup files were read back. A fresh Pi 1.2.0 startup discovered the APPEND_SYSTEM and write-gate extension; after the YAML correction it registered `/initialize-workspace`. The user then approved registering `/plan`, `/implement`, and `/premortem` as opt-in commands in local settings; the copies are updated, and the user confirmed fresh-session availability. This verifies setup/profile availability for one run, not orientation quality or delivery benefit. The profile remains distinct from `PROJECT-SCOPE.md` and atomic records. Do not auto-scan the whole repo, read protected `.env`/data, run app/tests by default, or auto-promote findings.
 
 **V5 source-root context caveat:** Pi is installed globally and can be launched from any workspace; its working directory determines project grouping, context discovery, and project-resource lookup. The V5 repository currently has no root `AGENTS.md`, so Pi can run there but will not automatically receive V5-specific source-repo instructions from this checkout. `system/AGENTS.md` is a distributable target-project payload whose paths assume an installed `AgenticLab/` directory; do not inject it unchanged as developer-root guidance. A separate V5 root instruction file or an explicit per-process context is optional context wiring to decide later, not a prerequisite to run Pi. Python-host sessions continue to use their own root/context boundary.
 

@@ -5,7 +5,7 @@ argument-hint: "[approved plan or task context]"
 
 # V5 `/implement` Workflow — First Prototype
 
-**Status:** Prompt prototype for design/testing; not auto-loaded and not a registered command unless explicitly loaded by the host.
+**Status:** Prompt prototype for design/testing; an initialized Pi workspace registers this template as opt-in `/implement`. Registration does not auto-run it; a separate user invocation with an approved plan is required.
 
 ## Purpose and authority
 

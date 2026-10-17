@@ -1,5 +1,5 @@
 ---
-description: Initialize AgenticLab in this workspace once: confirm scope, orient the codebase, and prepare local Pi wiring.
+description: "Initialize AgenticLab in this workspace once: confirm scope, orient the codebase, and prepare local Pi wiring."
 argument-hint: "[optional project or subproject focus]"
 ---
 
@@ -7,7 +7,7 @@ argument-hint: "[optional project or subproject focus]"
 
 This is a one-time, user-invoked setup and orientation flow for the current workspace. It is not a normal session-start action and must never run automatically on later Pi starts.
 
-The user may invoke this file before project `.pi/` settings exist by asking Pi to read and follow `AgenticLab/prompts/system/initialize-workspace.md`. The initial invocation does not depend on a registered slash command. After setup, the local Pi settings may register this template as `/initialize-workspace` for explicit future refreshes.
+The user may invoke this file before project `.pi/` settings exist by asking Pi to read and follow `AgenticLab/prompts/system/initialize-workspace.md`. The initial invocation does not depend on a registered slash command. During approved setup, project-local Pi settings register this template as `/initialize-workspace` for explicit future refreshes and the payload's delivery prompts as `/plan`, `/implement`, and `/premortem`. Registration makes those workflows available; it does not run them.
 
 ## Purpose and boundaries
 
@@ -123,7 +123,12 @@ Prepare `.pi/settings.json` by preserving all existing keys and adding only miss
 ```json
 {
   "extensions": ["../AgenticLab/adapters/pi/knowledge-write-gate.ts"],
-  "prompts": ["../AgenticLab/prompts/system/initialize-workspace.md"]
+  "prompts": [
+    "../AgenticLab/prompts/system/initialize-workspace.md",
+    "../AgenticLab/prompts/delivery/plan.md",
+    "../AgenticLab/prompts/delivery/implement.md",
+    "../AgenticLab/prompts/delivery/premortem.md"
+  ]
 }
 ```
 
@@ -161,7 +166,7 @@ In the fresh trusted process, the project instructions should load normally. If 
 
 - `.pi/APPEND_SYSTEM.md` instructions are active;
 - the local knowledge-write extension is listed;
-- `/initialize-workspace` is available for a future explicit refresh, but was **not** run automatically;
+- `/initialize-workspace`, `/plan`, `/implement`, and `/premortem` are registered and available for explicit invocation; none was run automatically;
 - `PROJECT-SCOPE.md` and the overview are directed to be read at fresh-session start;
 - no host application paths were created or changed.
 

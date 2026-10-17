@@ -5,7 +5,7 @@ argument-hint: "[PBI or task context]"
 
 # V5 `/plan` Workflow — First Prototype
 
-**Status:** Prompt prototype for design/testing; this file does not register a Pi slash command.
+**Status:** Prompt prototype for design/testing; an initialized Pi workspace registers this template as opt-in `/plan`. Registration does not auto-run it.
 
 ## Purpose and boundary
 

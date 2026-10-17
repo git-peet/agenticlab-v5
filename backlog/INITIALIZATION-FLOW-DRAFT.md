@@ -1,6 +1,6 @@
 # First-Use Workspace Initialization and Project Orientation — Draft
 
-**Status:** Design draft with a first-use prompt prototype in `system/prompts/system/initialize-workspace.md`; not yet tested in a delivery workspace.
+**Status:** The first-use prompt prototype completed one fresh Evershop initialization/readiness smoke with partial orientation. The user approved persistent project-local registration of the three available delivery prompts as opt-in commands; canonical setup instructions, both local package copies, and target settings are updated. The user later confirmed `/initialize-workspace`, `/plan`, `/implement`, and `/premortem` are registered and ready in the Evershop Pi session; no workflow auto-ran.
 **Purpose:** Propose a V5 first-use flow using the valuable functions of V4 `/agents-startup` and `/warmup`, while preserving V5's default-first, scoped, human-reviewed design.
 **Prompt name:** `/initialize-workspace` is provisional.
 
@@ -15,9 +15,9 @@ This flow is **explicitly invoked once per workspace** after a reviewed AgenticL
 Implement the workflow as a **Pi prompt template**, not executable extension code:
 
 - Store it in the payload as `AgenticLab/prompts/system/initialize-workspace.md`.
-- The **first-run prompt itself** can create or carefully merge `.pi/settings.json` with that exact prompt path in its `prompts` list (relative path: `../AgenticLab/prompts/system/initialize-workspace.md`), plus the extension registration. It can also create/merge `.pi/APPEND_SYSTEM.md`. It first shows the exact changes and waits for approval; preserve existing settings and never replace them.
-- For the **initial invocation**, the user starts Pi from the workspace root and explicitly asks it to read/follow `AgenticLab/prompts/system/initialize-workspace.md`. This direct file reference works before `.pi/` exists. After the prompt creates the local wiring, a fresh Pi process and project-trust approval activate the extension and registered slash command.
-- Once registered, the filename exposes `/initialize-workspace` for a later explicit re-orientation/refresh; registering it never runs it automatically. `pi --prompt-template AgenticLab/prompts/system/initialize-workspace.md` remains a one-session alternative.
+- The **first-run prompt itself** can create or carefully merge `.pi/settings.json` with the project-local knowledge-write extension and prompt paths for `initialize-workspace.md`, `delivery/plan.md`, `delivery/implement.md`, and `delivery/premortem.md`. These become `/initialize-workspace`, `/plan`, `/implement`, and `/premortem`; registering a prompt makes it available but never runs it. Preserve unrelated settings and never replace them.
+- For the **initial invocation**, the user starts Pi from the workspace root and explicitly asks it to read/follow `AgenticLab/prompts/system/initialize-workspace.md`. This direct file reference works before `.pi/` exists. After the prompt creates the local wiring, a fresh Pi process and project-trust approval activate the extension and all registered prompt commands.
+- `/initialize-workspace` is available for later explicit re-orientation/refresh; `/plan`, `/implement`, and `/premortem` remain opt-in workflows. `pi --prompt-template AgenticLab/prompts/delivery/<name>.md` remains a one-session fallback.
 
 Do not put the flow in `.pi/APPEND_SYSTEM.md` as an always-running instruction or implement it as an extension just to create a command. The first invocation is the user's direct request to follow the prompt file; the flow may then create `.pi/` after showing a preview. It should detect an existing profile and stop rather than re-running orientation unless the user explicitly asks for refresh.
 
@@ -90,11 +90,11 @@ Do not infer scope from code discovery or replace an existing `PROJECT-SCOPE.md`
 
 The user invoked this prompt directly by path, so the prompt can run before project `.pi/` settings exist. Prepare—but do not silently apply—a local Pi integration plan:
 
-- `.pi/settings.json` registers the project-local knowledge-write extension and the exact `initialize-workspace.md` prompt path;
+- `.pi/settings.json` registers the project-local knowledge-write extension and prompt paths for `initialize-workspace.md`, `delivery/plan.md`, `delivery/implement.md`, and `delivery/premortem.md`; Pi exposes them as `/initialize-workspace`, `/plan`, `/implement`, and `/premortem` after restart/trust, without auto-running any prompt;
 - `.pi/APPEND_SYSTEM.md` points to `AgenticLab/AGENTS.md`, `AgenticLab/PROJECT-SCOPE.md`, and the overview if present;
 - there is no workspace-root `AGENTS.md` creation/edit.
 
-Include `.pi/` changes, scope creation/update, and the proposed overview in one exact initialization preview. After explicit user approval, write only these setup/profile files. Preserve existing `.pi` settings/instructions; stop if a safe merge is unclear. Do not create, move, or modify host application paths such as `src/`, `tests/`, project manifests, or build configuration as part of initialization. Tell the user to start a fresh Pi process and grant project trust; only then can the extension and registered slash command be claimed as active.
+Include `.pi/` changes, scope creation/update, and the proposed overview in one exact initialization preview. After explicit user approval, write only these setup/profile files. Preserve existing `.pi` settings/instructions; stop if a safe merge is unclear. Do not create, move, or modify host application paths such as `src/`, `tests/`, project manifests, or build configuration as part of initialization. Tell the user to start a fresh Pi process and grant project trust; only then can the extension and all four registered slash commands be claimed as available. Registration does not run a prompt automatically.
 
 ### Phase 3 — Bounded read-only source orientation (Layer 3)
 
@@ -155,6 +155,7 @@ After an approved save, start a fresh Pi session and verify the intended behavio
 - project instructions still load through `.pi/APPEND_SYSTEM.md`;
 - scope is read before consequential work;
 - the compact overview is available at the start of ordinary work (the proposed V5 instruction is to read it once in each fresh session, not to re-scan the source tree);
+- `/initialize-workspace`, `/plan`, `/implement`, and `/premortem` are available as user-invoked commands; none is auto-run;
 - no application-root paths were created or changed by initialization;
 - a small follow-up task can use the overview's pointers and verify current facts against source.
 
@@ -186,6 +187,7 @@ A later explicit refresh may be offered when the user requests it or a concrete 
 6. A fixture with an existing `src/`, `tests/`, manifest, root `AGENTS.md`, and `.pi` content retains all host-owned paths unless individually approved setup changes are previewed.
 7. No `.env`, protected `data/`, backups, dependencies, app execution, tests, database, or global Pi config is accessed/changed during the default orientation path.
 8. The report identifies partial coverage honestly and never equates “not inspected” with “does not exist.”
+9. A fresh trusted Pi session registers all prompt templates declared in project settings; delivery workflows remain opt-in and are not automatically invoked.
 
 ## 8. Decisions for review
 
@@ -193,7 +195,7 @@ A later explicit refresh may be offered when the user requests it or a concrete 
 2. Is `AgenticLab/PROJECT-OVERVIEW.md` beside `PROJECT-SCOPE.md` the right location, with explicit setup approval distinct from memory-record gating?
 3. Should the shared V5 operating instructions tell every fresh session to read the compact overview once, as proposed, or should a Pi adapter inject its contents directly? The draft prefers one small file read over a new injection extension.
 4. Is the proposed profile scope right—stack, layout, entry points/flows, test approach, unknowns—or should a category be added/removed?
-5. Is direct file-reference invocation for the first run (before `.pi/` exists), followed by a registered slash command after setup, the right sequence?
+5. **Resolved:** invoke initialization by direct file reference before `.pi/` exists; after approved setup, register `/initialize-workspace` and the available delivery prompts as opt-in slash commands. Registration must not auto-run any workflow.
 6. What exact path exclusions and inspection budget should the first test fixture use?
 
-The user approved preparing this setup. The prompt prototype now exists, but the exact design choices above remain reviewable and delivery-host behavior is unverified. Do not treat this draft as authorization to install/overwrite an existing workspace or to claim the initialization flow is validated.
+The user approved preparing this setup and later approved registering all currently available delivery prompt prototypes as opt-in slash commands during initialization. The first-use prompt and setup have been exercised in one fresh Evershop workspace. Canonical instructions, local payload copies, and the target `.pi/settings.json` now register `/initialize-workspace`, `/plan`, `/implement`, and `/premortem`; the user confirmed that these commands are registered and ready in a fresh Evershop Pi session. Registration does not automatically invoke workflows. This draft does not authorize overwrite/refresh or publication of a new source revision.

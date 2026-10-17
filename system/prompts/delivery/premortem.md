@@ -5,7 +5,7 @@ argument-hint: "[files, diff, or task scope]"
 
 # V5 `/premortem` Workflow — First Prototype
 
-**Status:** Prompt prototype for design/testing; read-only analysis, not code review or authorization to fix.
+**Status:** Prompt prototype for design/testing; an initialized Pi workspace registers this template as opt-in `/premortem`. Registration does not auto-run it. This is read-only analysis, not code review or authorization to fix.
 
 ## Scope
 
