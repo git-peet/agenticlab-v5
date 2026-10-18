@@ -154,7 +154,11 @@ Before writing anything, show one combined setup preview containing:
 3. exact creates/merges for `.pi/settings.json` and `.pi/APPEND_SYSTEM.md`;
 4. a statement that no host application files, root `AGENTS.md`, V4 knowledge, `.env`, `data/`, app/test/DB command, or global Pi configuration will be changed/accessed.
 
-Ask one explicit question: **“Do you approve these exact AgenticLab scope/profile and project-local `.pi` setup changes?”** Do not write any of them before approval. If the user asks for changes, update the entire preview and ask again.
+Ask one explicit question: **"Do you approve these exact AgenticLab scope/profile and project-local `.pi` setup changes?"** Do not write any of them before approval. If the user asks for changes, update the entire preview and ask again.
+
+**Optional — knowledge-capture metrics (privacy-minimized, opt-in):**
+
+Before the approval question, ask whether the user wants to enable knowledge-capture metrics for this workspace. If yes, the adapter writes aggregate events (staging, promotion, retrieval, confirmation outcomes) to `.pi/metrics/agenticlab.jsonl`. No raw user content is recorded. This setting can be changed later in `AgenticLab/knowledge-capture-policy.json` (key: `metricsEnabled`).
 
 On approval, write only the listed setup/profile files. Do not create or modify anything under `AgenticLab/knowledge/` in this workflow; durable project records/index changes belong to the separate V5 knowledge interface and its write gate. If any write fails or an unexpected file conflict appears, stop and report partial completion; do not broaden the file list.
 
