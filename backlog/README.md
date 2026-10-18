@@ -49,7 +49,7 @@ Status, priority, dependencies, and authorization are separate. A high-interest 
 | V52-C06 | Reusable skills, procedures, and process routines | candidate | Candidate; don't preload a speculative library | [C06](candidates/C06-procedures-routines.md) |
 | V52-C07 | Specialist forms and independent coordination | candidate | Candidate; isolate only when independence/value warrants | [C07](candidates/C07-specialists-coordination.md) |
 | V52-C08 | Runtime, adapters, and current AI landscape | candidate | Candidate; portable contracts, thin capability-aware adapters | [C08](candidates/C08-runtime-adapters.md) |
-| V52-C09 | Jev-inspired bounded decision support | parked | User direction: no Jev for now. Revisit only for recurring bounded decisions or demonstrable review/interruption friction; no universal classifier | [C09](candidates/C09-jev-decisions.md) |
+| V52-C09 | Jev-inspired bounded decision support | candidate | Reopened for bounded knowledge-review design/pilot after user raised per-entry approval friction; no API/runtime or write-authorization role selected | [C09](candidates/C09-jev-decisions.md) |
 | V52-C10 | Bounded semantic reuse / decision caching | parked | Revisit only after repeated bounded decisions are observed | [C10](candidates/C10-bounded-reuse.md) |
 | V52-C11 | Project bootstrap, greenfield setup, and workspace isolation | candidate | Prototype payload-to-host shape confirmed; reusable setup/update boundaries need design | [C11](candidates/C11-bootstrap-and-scope.md) |
 | V52-C12 | Codemode-assisted Pi tool orchestration and context shaping | candidate | Preserve as an optional Pi capability to evaluate only on a concrete context/tool-flow need; no V5 benefit or nested-gate behavior demonstrated | [C12](candidates/C12-codemode-orchestration.md) |
@@ -63,7 +63,7 @@ Status, priority, dependencies, and authorization are separate. A high-interest 
 - **Foundational baselines — C01/C02:** core to the product vision and already developed into usable operating/knowledge-interface baselines. Reopen only for a concrete routing, lifecycle, or retrieval gap.
 - **Recently reviewed — C03/C04/C05:** the current context, governance, and continuity design passes found no implementation slice to select. Reopen only on new evidence or a specific task need.
 - **Later, need-triggered — C06/C07:** revisit procedures when real work repeats a method; revisit specialist isolation/coordination when independent judgment or parallelism has a concrete benefit.
-- **Parked — C10/C09:** C10 needs evidence of repeated equivalent decisions; C09 remains parked by the user's explicit direction and trigger.
+- **Parked — C10:** C10 needs evidence of repeated equivalent decisions. C09 is reopened for bounded knowledge-review design/pilot; implementation remains unselected.
 
 This is a navigation aid, not automatic sequencing, implementation authorization, or a priority commitment. At the end of each review, record the outcome and stop for the user's choice of the next focus. No implementation candidate is currently selected or `in-progress`.
 

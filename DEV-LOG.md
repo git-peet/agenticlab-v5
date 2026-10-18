@@ -1990,3 +1990,295 @@
 - **Approval/scope:** User approved the bounded batch based on Alpha PBI evidence. Changed only canonical delivery prompt guidance, evaluation result template/index, and the new `ALPHA-TUNE-001` plan/result records. No EverShop payload, sandbox source, package, global settings, or runtime was changed.
 - **Changes:** `/plan` now requires a scoped test readiness map for custom/browser harnesses, including real imports, style tooling, browser/runner, exact command, mocks, and temp-output cleanup. `/implement` now preflights required validation, distinguishes environment/build/bootstrap failures from acceptance failures, requires temporary diagnostic cleanup and output cleanup, and follows the plan's bounded retry/approval limit. The result template records session roles/windows, test command attempts separately from test cases, dependency setup, cleanup, usage and time caveats; README evidence conventions now reinforce these distinctions.
 - **Validation/limits:** Static review and `git diff --check` pass. No runtime task was run; impact on retries, cost, or user friction remains unverified pending a later approved delivery task. Baseline v0.1 remains unchanged.
+
+### V5-20261017-208 — Stop clean-workspace provisioning after path-list boundary risk
+
+- **Recorded:** 2026-10-17T16:19:53+02:00
+- **Type:** Scope deviation / stopped workspace setup
+- **Context:** The user approved a clean EverShop tuning workspace at `/home/peet/Projects/V5-alpha-sandbox-tune-001`. The existing sandbox has no Git metadata, so a partial no-checkout clone of upstream EverShop v2.2.1 was started at that new path.
+- **Issue:** A subsequent `git status` against the no-checkout clone enumerated tracked paths as missing. Because that listing could include repository-root `data/` paths, it crossed the agreed path-list boundary even though no file contents, `.env`, database, app, or tests were opened/run.
+- **Recovery/status:** Removed only the exact incomplete clone created for this attempt. No target source/payload was installed; the approved new workspace is not currently present. No test or PBI plan was run.
+- **Next gate:** Do not repeat a whole-tree/no-checkout status listing. To resume safely, get a trusted clean source snapshot with root `data/` and `.env` excluded, or approve a narrowly verified sparse-export method before checkout. The tuning commit remains local at `3e779dc`; no push was performed.
+
+### V5-20261017-209 — Initialize tuned EverShop workspace and prepare PBI 2 replay
+
+- **Recorded:** 2026-10-17T17:04:42+02:00
+- **Type:** Alpha tuning validation setup
+- **Workspace/source:** User provided `/home/peet/Projects/V5-alpha-tune001/`. Package metadata reports EverShop 2.2.1; the copy has no Git metadata, so the source commit is unknown. Known prior PBI1/PBI2 artifacts were absent in the checked paths. Root `.env` and `data/` were not inspected. AgenticLab payload from local commit `3e779dc31aa581efe07a6426b27767c2a77d4d88` was installed at `AgenticLab/` without development-only adapter tests.
+- **Initialization:** User approved ALPHA-INIT-002. The fresh Pi showed a preview of exactly four setup writes; those paths were verified absent, their referenced payload files existed, and the preview was reviewed. User approved; Pi wrote/read back the four files. Trust was granted for this session only, not the parent directory. No app/database/dependencies/tests were run.
+- **Herdr:** User created/started the new workspace Pi at `w6:p1`; the prior sandbox Pi remains at `w5:p1`. Removed only the duplicate empty Herdr workspace `w7` created during setup.
+- **PBI replay plan:** Drafted `evaluation/plans/ALPHA-TUNE-VAL-001.md` for a fresh PBI 2 replay with the tuned prompts. It is awaiting user approval. `/help` was sent but produced a model answer rather than a direct registry listing; command availability is not independently verified. No PBI2 plan or implementation has started.
+- **Scope:** This is an operational validation setup; Herdr remains only a control channel. No root `data/`, `.env`, app, database, or full tests were accessed/run.
+
+### V5-20261017-210 — Tuned `/plan` produced PBI 2 replay plan; preflight stopped safely
+
+- **Recorded:** 2026-10-17T17:30:28+02:00
+- **Type:** Alpha tuning validation / planning and preflight result
+- **Action:** User approved the PBI 2 replay plan. Sent `/plan` and the separate `/implement` preflight prompt to the new Evershop Pi `w6:p1` through Herdr.
+- **Plan outcome:** Tuned `/plan` initially guessed two wrong component paths because the invocation omitted exact paths; after providing the reviewed paths `packages/evershop/src/components/frontStore/catalog/Media.tsx` and `.scss`, it produced a complete plan for real `react-slick`, Sass/CSS processing, static fixture, temp-output cleanup, and bounded remediation.
+- **Preflight outcome:** The new workspace has no local Playwright/React/react-slick/Sass/webpack/SWC test toolchain; system Chromium 152 is present. Pi stopped before source edits or tests and requested separate approval for an exact lock-pinned `/tmp` setup. No dependencies were installed.
+- **Source mismatch:** `package.json` says 2.2.1 and `package-lock.json` root metadata says 2.1.3. A read-only check against the official v2.2.1 tag confirmed the same mismatch upstream; no package files were changed.
+- **Records/next:** `evaluation/results/ALPHA-TUNE-VAL-001.md` summarizes this plan/preflight-only stage. The user must separately approve the temporary dependency set before any setup/retry; no PBI implementation or test has started.
+
+### V5-20261017-211 — Fresh PBI 2 replay harness compile blocked
+
+- **Recorded:** 2026-10-17T17:42:27+02:00
+- **Type:** Alpha tuning validation / failed harness startup
+- **Run:** User approved the PBI 2 replay plan and `/tmp` dependency set. The tuned `/implement` attempt ran in Herdr workspace `V5-alpha-tune001`.
+- **Result:** Pi created PBI 2 source/harness files within approved paths, then the only approved command `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium node tests/product-image-viewer/run.mjs` failed during Webpack fixture compilation. `.js` alias imports did not resolve to TypeScript source files; Chromium never launched and no acceptance test ran. Pi reports the generated `/tmp` output was cleaned. No package/lock changes or other tests.
+- **Stop:** Pi requests approval for one harness-only `webpack.config.mjs` correction to map `.js` to `.ts/.tsx` and one rerun. Further edits/runs are not authorized until the user approves this correction.
+
+### V5-20261017-212 — Authorized alias correction reaches Chromium but fixture still fails
+
+- **Recorded:** 2026-10-17T17:47:50+02:00
+- **Type:** Alpha tuning validation / bounded harness remediation
+- **Approval/action:** User approved one Webpack alias correction and one rerun. Pi applied the `.js` → `.tsx`/`.ts`/`.js` extension mapping in `webpack.config.mjs` and ran only the approved `run.mjs` harness command.
+- **Outcome:** Webpack compiled and Chromium launched, but the fixture never exposed the expected initial `Open image 1` button. Playwright timed out; 0/4 acceptance cases completed. The test runner called it an acceptance error, but the preregistered categories classify it as fixture startup. Temporary output was cleaned.
+- **Stop:** The approved correction/rerun cycle is complete. Pi made no further edits and stopped. No app/database/full-suite/package operations occurred. Another diagnostic/fix requires fresh user approval.
+
+### V5-20261017-213 — Slider tags corrected; PBI 2 navigation still fails
+
+- **Recorded:** 2026-10-17T18:06:20+02:00
+- **Type:** Alpha tuning validation / bounded retry result
+- **Action:** User approved one JSX tag correction. Pi changed the main/modal slider closing tags to match `<SliderComponent>` openings and reran only `node tests/product-image-viewer/run.mjs` with system Chromium.
+- **Outcome:** Webpack compiled and browser startup succeeded. Test 1 (modal opening, focus, Escape) passed; test 2 (image navigation) timed out waiting for the expected active image; tests 3–4 did not run. This remains an incomplete replay, not an overall acceptance pass.
+- **Stop:** The authorized cycle is complete. Pi reports no further edits. Another fix/diagnostic needs fresh approval. No app/database/full-suite/package activity.
+
+### V5-20261017-214 — Navigation diagnostics confirm slider transitions; timeout persists
+
+- **Recorded:** 2026-10-17T18:12:10+02:00
+- **Type:** Alpha tuning validation / bounded diagnostic and retry
+- **Approval/action:** User approved one diagnostic/fix cycle. Pi captured temporary slider snapshots, then removed them and added a 150 ms settling wait before case 2 navigation. Only the approved product-image-viewer harness was run.
+- **Diagnostic outcome:** Snapshots showed the real slider changing from index 0/Main product image to index 1/Gallery image one with Next, index 2 with ArrowRight, and back to index 1 with ArrowLeft; the corresponding active-image alts matched.
+- **Rerun outcome:** Case 1 passed; case 2 still timed out waiting for the expected active image after the 150 ms wait; cases 3–4 did not run. Temporary output was cleaned. Replay remains incomplete, not an overall pass.
+- **Stop:** This authorized cycle is complete. Further changes/runs need fresh approval. No app/database/full-suite/package activity.
+
+### V5-20261017-215 — Non-animated initial alignment does not resolve Next timeout
+
+- **Recorded:** 2026-10-17T18:16:05+02:00
+- **Type:** Alpha tuning validation / bounded repair retry
+- **Approval/action:** User approved one further repair cycle. Pi verified installed react-slick supports `slickGoTo(index, dontAnimate)`, changed only the delayed opening-index alignment to pass `true`, removed the preceding cycle's ineffective 150 ms test delay, and ran only the approved product-image-viewer harness.
+- **Outcome:** Exit 1. Case 1 passed; case 2 again timed out waiting for Gallery image one after the Next button; cases 3–4 did not run. Temporary output cleaned. The prior snapshots had shown navigation transitions when allowed to settle; the discrepancy remains unexplained.
+- **Stop:** Cycle complete; Pi made no further changes. Another diagnostic/fix needs fresh approval. No app/database/full-suite/package activity.
+
+### V5-20261017-216 — Initial transition-race hypothesis (later insufficient)
+
+- **Recorded:** 2026-10-17T18:33:48+02:00
+- **Type:** Alpha tuning validation / root-cause investigation
+- **Actions:** Under the user's delegated diagnosis request, one initial trace attempt failed due to a Locator/DOM mismatch and was restored. A corrected trace run left the navigation sequence/assertions unchanged; output was too large to inspect, and the temporary instrumentation was restored. No product source change.
+- **Runtime observation:** With trace instrumentation, case 1 passed; Next reached Gallery image one; ArrowRight then timed out waiting for Gallery image two. Earlier diagnostic runs with 600 ms settling between actions observed successful navigation.
+- **Initial hypothesis (later not sufficient):** `waitForActiveImage` observes `.slick-active`, which follows React Slick's target `currentSlide` before the 500 ms animation completes. Installed react-slick defaults `waitForAnimate: true` and ignores a subsequent slide request while `animating` is true. Tune001 omitted `waitForAnimate: false`; the original passing `V5-alpha-sandbox` modal settings explicitly include it. This appeared to explain the timeout, consistent with settled snapshots, but the subsequent rescue setting did not resolve ArrowRight. Trace output itself was not inspectable, so this was not direct trace confirmation.
+- **Decision at that checkpoint:** The original modal setting looked like the likely repair; later rescue evidence is recorded in V5-20261017-217 below and shows that change alone was insufficient.
+
+### V5-20261017-217 — Rescue setting did not resolve ArrowRight timeout
+
+- **Recorded:** 2026-10-17T18:42:02+02:00
+- **Type:** Separately labeled PBI 2 rescue
+- **Approval/action:** User approved one bounded rescue. Pi added `waitForAnimate: false` only to modal slider settings in tune001 and ran only the isolated product-image-viewer harness; no assertions or waits changed.
+- **Outcome:** Exit 1. Case 1 passed; Next reached Gallery image one; ArrowRight timed out waiting for Gallery image two; cases 3–4 did not run. Temporary output was cleaned. Result is separately recorded in `evaluation/results/ALPHA-TUNE-RESCUE-001.md`.
+- **Interpretation at that checkpoint:** The setting difference was real but not sufficient. A subsequent focused diagnostic is recorded in V5-20261017-218 and localized the reset to a pending opening-index alignment timer.
+
+### V5-20261017-218 — Stale delayed alignment resets modal slider during navigation
+
+- **Recorded:** 2026-10-17T18:56:50+02:00
+- **Type:** Alpha tuning validation / focused root-cause diagnostic
+- **Action:** User approved temporary diagnostic instrumentation in `Media.tsx` and the case-2 harness. The rescue setting `waitForAnimate: false` was preserved; no actions, waits, assertions, or product behavior were changed. The harness command ran once, then both files were restored to pre-diagnostic state.
+- **Evidence:** ArrowRight reached the component handler while Next had focus; modal ref and `slickNext` existed; internal state showed slide 1, animating true, `waitForAnimate` false. `slickNext` was called and `beforeChange` reported 1→2, followed by another `beforeChange` 1→0 and `afterChange` 0. No timestamps/call stack were captured.
+- **Root-cause assessment:** The pending 100 ms `slickGoTo(openingIndex, true)` timer is the only identified path that would send this case back to opening index 0. The current implementation captures the original opening index once and does not update/cancel the timer on modal navigation. This strongly indicates the stale delayed alignment overwrote the user's navigation; attribution is high confidence but not stack-trace-proven. The original implementation updates `activeSlide` in modal `beforeChange` and resynchronizes on that state.
+- **Outcome:** Case 1 passed; case 2 timed out after ArrowRight; cases 3–4 did not run. Temporary output cleaned. No source changes remained from diagnostics; rescue `waitForAnimate: false` remains.
+- **Next at that checkpoint:** A bounded source fix should cancel/guard delayed alignment after navigation begins or sync against the latest modal index, then run a separately labeled rescue. Later result is recorded in V5-20261017-219.
+
+### V5-20261017-219 — Timer cancellation fixes navigation; scroll restoration fails
+
+- **Recorded:** 2026-10-17T19:08:10+02:00
+- **Type:** Separately labeled PBI 2 rescue repair
+- **Approval/action:** User approved one bounded fix and isolated rerun. Pi added a ref for the modal-alignment timer; modal `beforeChange` cancels it, the callback clears the ref on firing, and effect cleanup clears any pending timer. Existing `waitForAnimate: false`, 500 ms speed, and test actions/assertions were preserved.
+- **Outcome:** Exit 1. Case 1 passed; case 2 button/ArrowRight/ArrowLeft navigation passed; case 3 failed scroll restoration (expected 420, observed 0); case 4 did not run. Temporary output `/tmp/evershop-product-image-viewer-zE1m7Q` was cleaned. See `evaluation/results/ALPHA-TUNE-RESCUE-002.md`.
+- **Interpretation:** The timer repair resolves the navigation failure, supporting the stale delayed-alignment root cause. The newly exposed scroll-restoration failure is a separate unresolved acceptance issue; no causal link to the timer repair is established.
+- **Stop:** No further changes/runs were made. Another diagnosis or fix requires fresh user approval. No installs, package/lock edits, app/database access, full Jest/E2E, or browser downloads.
+
+### V5-20261017-220 — Initial scroll trace shows opener focus changes baseline
+
+- **Recorded:** 2026-10-17T19:12:23+02:00
+- **Type:** PBI 2 rescue / case-3 diagnostic
+- **Action:** User approved a diagnostic-only run. Pi instrumented only temporary logging around scroll/focus state in Media cleanup and the case-3 harness, then restored both files after one isolated harness command.
+- **Evidence:** Before modal open, `scrollY=420` and body overflow was `scroll`. The test's `openDialog()` focuses the opener; about 3.6 ms later, the focus event had moved `scrollY` to 0. The component then captured `previousScrollY=0`; dialog close, overflow restoration, `window.scrollTo(0,0)`, and opener focus left it at 0. Thus the component restored the state observed at modal open; the test compared against a stale pre-focus 420 baseline.
+- **Assessment at that checkpoint:** Opener focus was a confirmed scroll-changing event, but whether it fully explained case 3 remained to be tested. No behavior change made.
+- **Next at that checkpoint:** A test-only `preventScroll` attempt followed; its failure is recorded in V5-20261017-221.
+
+### V5-20261017-221 — preventScroll test adjustment does not resolve case 3
+
+- **Recorded:** 2026-10-17T19:17:31+02:00
+- **Type:** PBI 2 rescue / test-only correction
+- **Approval/action:** User approved an optional `preventScroll` focus path in `openDialog`, used only by case 3. No production source or assertion changed; the isolated harness ran once.
+- **Outcome:** Exit 1. Cases 1–2 passed; case 3 still failed (expected scrollY 420, observed 0); case 4 did not run. Temporary output `/tmp/evershop-product-image-viewer-OXTgz1` was cleaned.
+- **Interpretation:** Preventing scroll on the opener's programmatic focus alone was insufficient. The first trace did show that ordinary opener focus moved scroll to 0, but a further change still occurs under `preventScroll` or the scroll assertion is otherwise misaligned. The responsible step remains unknown.
+- **Stop/next:** No further fixes/runs. A fresh diagnostic-only authorization is needed to trace scrollY after opener focus, `showModal`, close-button focus, cleanup `scrollTo`, and final assertion.
+
+### V5-20261017-222 — Post-restart scroll diagnostic blocked by missing temporary dependencies
+
+- **Recorded:** 2026-10-17T19:32:16+02:00
+- **Type:** PBI 2 rescue / diagnostic preflight failure
+- **Approval/action:** User approved one diagnostic-only case-3 trace under the existing `preventScroll` test path. Temporary instrumentation was applied then restored.
+- **Outcome:** The approved command failed before the test runner loaded: Node could not resolve `webpack` because `/tmp/agenticlab-tune-val-001-deps.7gYNE1` no longer existed after restart, although `V5-alpha-tune001/node_modules` still symlinked to that path. No browser or test case ran; no new scroll evidence. No install or retry was attempted.
+- **Stop/next at that checkpoint:** User then approved recreating the pinned dependency set; follow-up trace is recorded in V5-20261017-223.
+
+### V5-20261017-223 — Cleanup opener focus undoes restored scroll position
+
+- **Recorded:** 2026-10-17T19:38:15+02:00
+- **Type:** PBI 2 rescue / case-3 root-cause diagnostic
+- **Setup:** After restart, the approved pinned dependencies had to be recreated under `/tmp` with lifecycle scripts disabled because the original temp tree was gone; no project package/lock files changed. The existing `node_modules` symlink now resolves.
+- **Action:** User approved a diagnostic-only case-3 trace with the test's `preventScroll` opener focus. Temporary instrumentation in `Media.tsx` and `acceptance.mjs` was restored after the single run.
+- **Evidence:** ScrollY=420 before/after opener focus and Enter. Modal effect captured 420. `showModal`, overflow hidden, close-button focus, dialog close, and overflow restoration retained 420. `window.scrollTo(0,420)` restored/kept 420. Immediately after cleanup called `mainImageTriggerRef.current?.focus()`, scrollY became 0; scroll/focus events corroborated the change.
+- **Root cause:** Cleanup focus scrolls the opener into view after the component has restored the pre-modal scroll position, undoing restoration. No fix was made in this diagnostic.
+- **Outcome:** Cases 1–2 passed; case 3 failed its existing scroll assertion; case 4 did not run. Temporary output cleaned.
+- **Next at that checkpoint:** A separately approved cleanup-focus fix followed; case 3 passed, but case 4 then failed. See V5-20261017-224.
+
+### V5-20261017-224 — Cleanup focus fix passes case 3; case 4 scroll failure remains
+
+- **Recorded:** 2026-10-17T19:44:02+02:00
+- **Type:** Separately labeled PBI 2 rescue repair
+- **Approval/action:** User approved one production change and one run. Cleanup now calls `mainImageTriggerRef.current?.focus({ preventScroll: true })` after restoring the prior scroll position. No tests/assertions changed. Existing timer-cancellation and `waitForAnimate: false` rescue changes remain.
+- **Outcome:** Exit 1. Cases 1–3 passed; case 4 (unmount cleanup) failed, expected scrollY 360, observed 0. Case 4 does not pass `preventScroll` to `openDialog` after measuring the baseline; this is a plausible analogous test setup cause, not yet confirmed. Temporary output `/tmp/evershop-product-image-viewer-Fn0n98` was cleaned.
+- **Stop/next at that checkpoint:** A final test-only case-4 focus adjustment followed; see V5-20261017-225.
+
+### V5-20261017-225 — Isolated PBI 2 rescue suite passes 4/4
+
+- **Recorded:** 2026-10-17T19:49:42+02:00
+- **Type:** Separately labeled PBI 2 rescue / test-only adjustment
+- **Approval/action:** User approved one final test-only change and one run. Case 4 now calls `openDialog(page, undefined, { preventScroll: true })`, matching the 360-pixel pre-open scroll baseline without changing the assertion. No production code changed in this cycle.
+- **Outcome:** Exact command `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium node tests/product-image-viewer/run.mjs` exited 0; cases 1–4 all passed. One command attempt; reported duration 2.6 s; Chromium 152.0.7977.82; temporary output `/tmp/evershop-product-image-viewer-UTHH7J` cleaned. Pinned `/tmp` dependencies were already restored; no install or package/lock changes. Per-run Pi/coordinator usage metrics unavailable (resumed session spans multiple rescues; no isolated coordinator window).
+- **Interpretation:** The rescue series passes after component fixes for stale alignment and cleanup focus plus test-only scroll-preserving opener focus in cases 3–4. This does not retroactively pass the original `ALPHA-TUNE-VAL-001` first replay or prove the tuning prompts caused/prevented the earlier failures. Full details in `evaluation/results/ALPHA-TUNE-RESCUE-005.md`.
+
+### V5-20261017-226 — Archive completed Alpha experiment workspaces
+
+- **Recorded:** 2026-10-17T20:06:10+02:00
+- **Type:** Workspace housekeeping
+- **Approval/action:** User approved creating `/home/peet/Projects/Archive/V5-Experiments/` and moving the two explicitly recommended experimental EverShop workspaces there.
+- **Outcome:** Moved `V5-alpha-sandbox/` and `V5-alpha-tune001/` intact to the archive. No directories were deleted; no other project directories were moved. Herdr confirmed the active tune001 pane's CWD followed the move. The original sandbox Pi agent was not registered at the time.
+
+### V5-20261017-227 — Archive the Alpha wishlist smoke workspace
+
+- **Recorded:** 2026-10-17T20:08:56+02:00
+- **Type:** Workspace housekeeping
+- **Approval/action:** User asked whether `/home/peet/Projects/AgenticLab-Alpha-Workspace/` was another Alpha experiment and authorized moving it if confirmed.
+- **Confirmation:** Its `TASK.md` defines a synthetic, dependency-free mock wishlist-ID helper task; `AgenticLab/SOURCE-REVISION.txt` records payload revision `7e4be9c`. It is not a production wishlist PBI. The 88 KB workspace has no Git repository.
+- **Outcome:** Moved intact to `/home/peet/Projects/Archive/V5-Experiments/AgenticLab-Alpha-Workspace/`. No deletion. Other AgenticLab, V4, canonical V5, and active Evershop directories were untouched.
+
+### V5-20261017-228 — Reopen C09 for low-friction knowledge capture pilot design
+
+- **Recorded:** 2026-10-17T20:58:44+02:00
+- **Type:** Backlog/design direction / draft evaluation plan
+- **User direction:** The current per-write confirmation experience is too burdensome if applied to workflow knowledge capture. User asked to explore Jev-style review/triage at the knowledge-capture boundary and authorized planning/design/implementation of the next phase.
+- **Assessment:** C09's deferred knowledge-review trigger is now met. Its role remains advisory; it cannot approve or activate records. Existing C02/C04 rules still require explicit approval for persistent knowledge changes until revised through an approved design.
+- **Action:** Created draft `evaluation/plans/ALPHA-KNOWLEDGE-PILOT-001.md` proposing transient workflow candidates, Jev-style shadow triage, opt-in pending staging, one batch review/promotion, and a fresh-session relevant/irrelevant retrieval check. Reopened C09 from parked to candidate for design only; updated backlog index and roadmap note. No workspace was created and no runtime/system code changed.
+- **Next gate at that checkpoint:** A read-only reviewer and implementation amendment followed; see V5-20261017-229.
+
+### V5-20261017-229 — Independent review identifies pending-isolation and batch-transaction blockers
+
+- **Recorded:** 2026-10-17T21:28:47+02:00
+- **Type:** Knowledge-capture pilot / read-only design review
+- **Action:** Started a separate Pi reviewer in Herdr after the workspace initialization preview was approved and the four setup files were written/read back. The reviewer read C02/C04/C09, the pilot plan/scope, and current gate/policy code; it made no edits, ran no commands/tests, and accessed no protected data. Initial Codex reviewer attempt required ChatGPT sign-in; it was canceled before login; the actual reviewer was Pi.
+- **Findings:** Current built-in gate confirms individual write/edit calls and has no batch transaction, rollback, or pending-versus-active enforcement. Pending must be isolated from active retrieval; one-time opt-in/revocation and rejection/partial failure semantics require explicit design. Jev remains advisory only.
+- **Action taken:** Created `evaluation/plans/ALPHA-KNOWLEDGE-PILOT-001-amendment-001.md` proposing a separate pending inbox, typed staging and batch-promotion tools, default-off workspace opt-in, complete preview, and rollback tests. The base pilot plan now points to the amendment. No runtime/adapter code or candidate record was changed.
+- **Stop/next:** Exact adapter boundary is not yet approved for coding. Request approval for the proposed pilot-local changes before implementing them.
+
+### V5-20261017-230 — Pilot workspace initialized; reviewer confirmation pending
+
+- **Recorded:** 2026-10-17T21:30:48+02:00
+- **Type:** Knowledge-capture pilot / setup and design gate
+- **Action:** User approved the exact four-file initialization preview. Pi wrote/read back `PROJECT-SCOPE.md`, `PROJECT-OVERVIEW.md`, `.pi/settings.json`, and `.pi/APPEND_SYSTEM.md`; no other files were changed. A read-only Pi reviewer was completed in Herdr; the current gate lacks pending isolation and atomic batch promotion.
+- **Payload/workspace:** The pilot is copied from the user-designated immutable clean EverShop source and has AgenticLab payload revision `3e779dc31aa581efe07a6426b27767c2a77d4d88`. No changes were made to the clean source or canonical payload.
+- **Stop/next at that checkpoint:** The independent reviewer report is captured in V5-20261017-231.
+
+### V5-20261017-231 — Reviewer review of candidate staging and batch promotion
+
+- **Recorded:** 2026-10-17T21:42:00+02:00
+- **Type:** Knowledge-capture pilot / independent design review
+- **Agent:** Separate Pi reviewer in Herdr pane `w7:p3`, read-only. An attempted Codex reviewer required OpenAI sign-in; it was canceled before login and replaced with Pi.
+- **Review scope:** ALPHA-KNOWLEDGE-PILOT-001, C02/C04/C09, knowledge contract, workspace scope, and current Pi write-gate/policy files. No edits, commands, tests, network access, or protected-data reads.
+- **Findings:** The current gate handles per-file built-in `write`/`edit` confirmations only. It does not isolate pending from active retrieval and has no atomic batch/rollback or promotion operation. Workspace opt-in/revocation and rejection/partial-failure semantics need a precise design. Jev must remain advisory only.
+- **Response:** Prepared `evaluation/plans/ALPHA-KNOWLEDGE-PILOT-001-amendment-001.md` with a separate pending inbox, default-off opt-in, purpose-built stage and batch-promotion tools, direct access restrictions, and tests. No code has been changed.
+- **Next at that checkpoint:** User approved the pilot-local adapter/tool scope; implementation and shadow results are recorded in V5-20261017-232/233.
+
+### V5-20261017-232 — Pilot-local candidate staging and batch tools implemented
+
+- **Recorded:** 2026-10-17T22:46:37+02:00
+- **Type:** ALPHA-KNOWLEDGE-PILOT-001 / experimental implementation
+- **Scope:** Changes confined to `/home/peet/Projects/V5-memory-pilot-001/AgenticLab/` and adapter tests. Canonical `system/`, Evershop app/package files, clean source, and other workspaces were not modified.
+- **Implemented:** Default-off workspace policy; opt-in/opt-out commands; strict transient triage/review IDs; candidate staging to separate `knowledge-pending`; built-in pending-path access guards; one UI-confirmed promotion into an initially absent active knowledge root; pilot `/implement` candidate handoff; synthetic Node tests.
+- **Verification:** `node --test AgenticLab/adapters/pi/tests/knowledge-capture.test.mjs` passed 20/20 in the final implementation run. No app, database, full Jest/E2E, dependency installation, or real opt-in/staging was performed. Reviewer notes residual best-effort shell restrictions and no-replace race against out-of-process writers; sensitive filtering is heuristic, not a guarantee.
+- **State:** Actual workspace policy remains disabled; no `knowledge/` or `knowledge-pending/` store exists in the pilot workspace. The one-time opt-in and cross-session retrieval phases have not run.
+
+### V5-20261017-233 — Typed shadow triage returns 12/12 reference labels
+
+- **Recorded:** 2026-10-17T22:46:37+02:00
+- **Type:** ALPHA-KNOWLEDGE-PILOT-001 / synthetic shadow evaluation
+- **Method:** A fresh Pi session in Herdr called `triageKnowledgeCandidates` once on the v2 synthetic 12-case fixture. It returned a schema-valid review ID and dispositions; no staging/promotion or file access/write occurred. Workspace policy remained false.
+- **Outcome:** 12/12 dispositions matched the fixture's reference labels. An earlier free-form JSON attempt was malformed and unscored; the typed tool path was used for this measured sample.
+- **Limit:** One synthetic, model-authored case set is a schema/feasibility check, not a reliable accuracy estimate or evidence of delivery benefit. Reference labels were not independently calibrated; per-run usage/cost was unavailable. See `evaluation/results/ALPHA-KNOWLEDGE-PILOT-001-SHADOW-001.md`.
+
+### V5-20261018-234 — One-candidate opt-in, batch promotion, and retrieval loop
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-KNOWLEDGE-PILOT-001 / bounded live-path evaluation
+- **Workspace state:** User confirmed the one-time pilot opt-in. One user-decision candidate was triaged, staged pending, then promoted after the user's one-batch confirmation. The active index and one record now exist; pending queue was consumed. Policy remains enabled.
+- **Retrieval:** Fresh Pi session `w7:p5` read the active index/record and answered the relevant rationale question with a record citation. Initial unrelated query in `w7:p6` answered no-match without reading knowledge (not grounded); a new fresh session `w7:p7` checked the one-record corpus and correctly returned no-match for retry/backoff. The recheck exceeded the metadata-header range before the full body read; see run result for the process deviation.
+- **Burden/evidence:** Two explicit confirmations for one promoted record (workspace opt-in and one batch approval), zero per-record confirmations; review and active time unavailable. This was a pilot-design decision, not an EverShop delivery-task capture. Session costs and caveats are in `evaluation/results/ALPHA-KNOWLEDGE-PILOT-001-RUN-001.md`.
+- **Safety/scope:** No application, package/lock, database, `.env`, root data, canonical V5, or clean-source changes/access. Shell filtering and credential checks remain best-effort; no general memory-benefit claim.
+
+### V5-20261018-235 — Decision to separate write/read testing and approval for read pilot
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-KNOWLEDGE-PILOT-001 / decision & next-step gating
+- **Decision:** User approved separating write-side testing (completed) from read-side testing (insufficiently tested in pilot). This preserves the bounded scope and allows focused evaluation of each capability.
+- **Approval:** User granted approval for a separate read-focused pilot (ALPHA-KNOWLEDGE-READ-001) with its own scope approval, distinct from ALPHA-KNOWLEDGE-PILOT-001.
+- **Current write-pilot status:** Completed with one successful transaction, 20/20 adapter tests passed, synthetic shadow triage 12/12, policy remains enabled in `/home/peet/Projects/V5-memory-pilot-001/`.
+- **Next:** A new read-pilot will be created and submitted for scope approval, testing index navigation, tool-based searches, scope filtering, and cross-session retrieval patterns against the active knowledge corpus.
+
+### V5-20261018-236 — Read pilot execution and results
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-KNOWLEDGE-READ-001 / bounded read-path evaluation
+- **Workspace:** `/home/peet/Projects/V5-memory-pilot-001/`; fresh sub-Pi panes created in tab `w7:t5` after closing write-pilot sub sessions (`w7:p3`–`w7:p7`). Master `w7:p1` delegates sub-sessions; canonical `w3:p2` unchanged.
+- **Sessions used:** `read-relevant` (w7:p8), `read-unrelated` (w7:p9), `read-tool-check` (w7:pB).
+- **Relevant retrieval:** Read INDEX.md → found low-friction-capture-batch-review → read metadata + body → correctly answered approval-fatigue question with record citation. Grounded positive.
+- **Unrelated retrieval:** First pass returned no-match without reading knowledge (ungrounded, not counted). Revised pass read INDEX.md, checked active record, returned grounded no-match for retry/backoff; did not read pending data. Protocol note: metadata header read exceeded prescribed range before full body read.
+- **Tool-based verification:** Confirmed active record status, INDEX navigation, corpus search for retry/backoff (not found), pending directory inaccessible through read tools. Output partially obscured by alternate-screen buffer.
+- **Safety/scope:** Policy unchanged; no staging/promotion; knowledge-pending absent; clean source and application/database files untouched.
+- **Result:** Read capability demonstrated as adequate for one active record; not integration-ready (single-record corpus, no scale/precision claims). See `evaluation/results/ALPHA-KNOWLEDGE-READ-001-RUN-001.md`.
+
+### V5-20261018-237 — C03 context retrieval evaluation
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-C03-CONTEXT-RETRIEVAL-001 / bounded retrieval feasibility
+- **Workspace:** `/home/peet/Projects/V5-memory-pilot-001/`; fresh sub-Pi sessions (`c03-relevant`, `c03-unrelated`, `c03-out-of-scope`) in tab `w7:t6`.
+- **Test 1 — Relevant retrieval:** Outcome `applicable`; read INDEX.md → metadata header → full body → correctly answered approval-fatigue question with record citation. Tool behavior verified: bounded header then full-body read attempted (line range beyond end made no effect).
+- **Test 2 — Unrelated retrieval:** Outcome `no-match`; read INDEX.md → inspected active record full body → confirmed no retry/backoff behavior → grounded negative; did not read pending data.
+- **Test 3 — Out-of-scope retrieval:** Outcome `no-match` (vocabulary gap: should have been `filtered` per C03). Agent correctly identified that active record content does not match EverShop PBI 1 image viewer query; did not read pending data.
+- **C03 observations:** Scope/status filtering verified via INDEX.md navigation; vocabulary `filtered` not emitted — needs reinforcement; multi-record/scale not tested.
+- **Safety/scope:** No write/staging/promotion invoked; pending queue absent; clean source/canonical V5/application/database files untouched.
+- **Result:** Read capability adequate for one active record; C03 bounded evaluation complete but not integration-ready. See `evaluation/results/ALPHA-C03-CONTEXT-RETRIEVAL-001.md`.
+
+### V5-20261018-238 — C04 governance and safety evaluation
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-C04-GOVERNANCE-SAFETY-001 / bounded governance/safety evaluation
+- **Workspace:** `/home/peet/Projects/V5-memory-pilot-001/`; fresh sub-Pi sessions (`c04-t1-1-reverify-optin`, `c04-t1-2-no-write`, `c04-t1-3-out-of-scope`, `c04-t1-4-pending-isolation`) in tab `w7:t8`.
+- **Test 1.1 — Opt-in status verification:** PASSED. `pendingStagingEnabled: true` confirmed. Active knowledge directory present. Pending queue identified as present but inaccessible through built-in read tools.
+- **Test 1.2 — Write protection:** PASSED. Policy blocks unauthorized writes; agent did not bypass triage/staging pipeline.
+- **Test 1.3 — Out-of-scope blocking:** TECHNICAL ISSUE. Agent attempted to invoke `stageKnowledgeCandidates` but had difficulty; no out-of-scope candidate was created. Test inconclusive but no safety violation occurred.
+- **Test 1.4 — Pending isolation:** PASSED. Built-in read tools cannot access `knowledge-pending/`; agent confirmed private queue protection.
+- **Safety/scope:** No unauthorized writes; no scope violations; no pending queue leaks; clean source and canonical V5 untouched.
+- **Result:** 3/4 tests passed; out-of-scope test had technical issue. See `evaluation/results/ALPHA-C04-GOVERNANCE-SAFETY-001.md`.
+
+### V5-20261018-239 — Integration of validated knowledge-capture mechanisms
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-INTEGRATION-001 / integration into canonical V5 and installed payload
+- **Action:** User approved integration of pilot-validated knowledge-capture mechanisms into canonical V5 (`AgenticLab-v5/system/`) and installed payload (`AgenticLab/`).
+- **Copied files:** Pilot workspace adapters (`knowledge-capture-core.mjs`, `knowledge-capture-tools.mjs`, `knowledge-write-gate.mjs`, `knowledge-write-policy.mjs`, `knowledge-write-gate.ts`, `tests/knowledge-capture.test.mjs`) and `prompts/delivery/implement.md` to canonical V5 `system/`. Installed payload updated with same enhanced adapters.
+- **Verification:** Focused adapter suite passed 20/20 in canonical V5. Adapter file consistency confirmed between canonical V5, installed payload, and pilot workspace.
+- **Safety/scope:** No changes to clean source, application code, package/lock files, databases, or `.env`. Active knowledge index and record intact. Policy enabled. Pending queue absent. Safety mechanisms preserved.
+- **Result:** Integration checkpoint created at `evaluation/checkpoints/ALPHA-20261018-INTEGRATION-CHECKPOINT.md`. Evaluation README updated. See `evaluation/plans/ALPHA-INTEGRATION-001.md`.
+- **Next:** Future workspaces will receive enhanced knowledge-capture adapters by default. Next step is either expanding testing scale, approving broader adoption for specific workflows, or continuing bounded exploration of remaining backlog candidates.

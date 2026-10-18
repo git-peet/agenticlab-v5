@@ -1,8 +1,8 @@
 # V52-C09 — Jev-inspired bounded decision support
 
-**Status:** `parked`; user direction is no Jev for now. Advisory methodology and revisit triggers are preserved; no API/runtime selected.
+**Status:** `candidate`; reopened for bounded knowledge-review design under [`ALPHA-KNOWLEDGE-PILOT-001`](../../evaluation/plans/ALPHA-KNOWLEDGE-PILOT-001.md). No Jev runtime/API or implementation is selected.
 
-**Implementation readiness:** **Not ready for automation.** First identify a recurring bounded decision and define outcomes.
+**Implementation readiness:** **Not ready for automation.** First define the candidate-review policy, outcome labels, and safety boundary; evaluate Jev-style advice in shadow mode before any persistence influence.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C03 context](C03-context-engineering.md), [C04 authority](C04-governance-safety.md)
 
@@ -22,9 +22,9 @@ V5's Jev register adopts the conceptual model: bounded state → atomic typed qu
 
 If tested, define one atomic question and permitted outputs, pass only task-relevant evidence with provenance/uncertainty, and allow abstention. Keep results in a bounded evaluation record, separate from semantic memory. First observe or shadow; do not make an automatic branch until the decision's outcomes are measurable and errors understood. Deterministic code applies any permissible policy.
 
-## Deferred revisit: knowledge-review prompt
+## Reopened design: knowledge-review assistance
 
-When a durable-knowledge candidate needs human review, the system could use Jev-style advice to assess whether the candidate is worth presenting, what evidence is missing, or whether several candidates can be summarized into one review batch. This is a later **review-preparation** hypothesis, not the first Jev pilot and not an extension of the existing write gate. Reconsider only after real V5 use shows recurring approval interruptions or confusing reviews. The current first-slice trial required two successful approvals (record write plus later index update) for one decision; the user emphasized that prompt *frequency*, not wording alone, determines whether the workflow is less streamlined. This single sample is a signal to measure, not enough to implement a batch mechanism.
+When a durable-knowledge candidate needs review, Jev-style advice may assess whether it is worth staging, what evidence is missing, or whether several candidates can be consolidated into one batch. The user has now identified per-entry approvals as an unsustainable UX and asked to explore this layer; this satisfies the earlier revisit trigger. Begin with shadow/advisory evaluation and a low-friction persistence design. This is not an extension that lets Jev make the final write decision. The prior first-slice trial required two successful approvals (record write plus index update) for one decision; the user emphasizes prompt frequency, not wording alone. This is one observation, not a general interruption rate.
 
 Hard boundary: Jev may recommend `present / keep transient / gather evidence` or help structure a batch. It cannot approve the write, choose `active` status, suppress a required confirmation, or authorize deletion. The user remains the decision-maker; deterministic Pi gating remains unchanged. Before considering automation, measure approval interactions per task/decision, false omissions, unnecessary or redundant prompts, review time, user corrections, and token/call cost.
 
@@ -44,4 +44,4 @@ Before a pilot, define: the repeated problem; exactly when support is invoked; l
 
 ## Timing / next action
 
-Keep this candidate parked under the user's current direction: no Jev in the present V5 work. Revisit only when real tasks show recurring bounded decisions that a transparent rule does not handle, or when knowledge-review interruptions become measurably repetitive. If later selected, begin with one manual/local advisory question in shadow mode. Actual Jev runtime access/API evaluation requires a separate bounded scope and approval.
+Reopened for a bounded knowledge-review design/pilot under [`evaluation/plans/ALPHA-KNOWLEDGE-PILOT-001.md`](../../evaluation/plans/ALPHA-KNOWLEDGE-PILOT-001.md). The current proposal uses Jev-style typed recommendations in shadow mode, then an opt-in pending-candidate path and one batch review. The plan remains draft pending review; no Jev API/service, auto-activation, or change to the existing write gate is authorized until separately approved. The unrelated default-session workflow recommendation remains parked.
