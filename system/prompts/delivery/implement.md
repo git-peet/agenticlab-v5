@@ -17,7 +17,16 @@ The workflow may use only the task's authorized project scope and tools. Tests o
 
 ${@:-Use the approved plan already present in this conversation. If no approved plan and scope are present, ask for them and do not edit.}
 
-## Execution
+## Authorization preflight — READ THIS BEFORE PROCEEDING
+
+This workflow requires explicit authorization before any source inspection, command execution, or analysis begins.
+
+- If this invocation was entered directly by the user, proceed after confirming the user's explicit intent to implement.
+- If this invocation was relayed from another agent (e.g., main session) rather than entered by the user, **do not proceed** until the relayed text carries the user's explicit request. If the relay does not quote the user's request verbatim and label the relay as such, ask the user for confirmation before proceeding.
+- A user question about implementing ("can we implement X?", "is X feasible?") is **not** an instruction to implement. Answer the question first; begin implementation only on explicit invocation or approval.
+- If the precondition does not hold, stop and ask the user to clarify their intent.
+
+## Validation preflight before edits
 
 ### Validation preflight before edits
 
@@ -41,7 +50,7 @@ For ALPHA-KNOWLEDGE-PILOT-001 only, run each nonempty task-local candidate ledge
 
 Check `AgenticLab/knowledge-capture-policy.json`; never run `/knowledge-opt-in` or `/knowledge-opt-out` automatically. If staging is disabled, stop after triage and report the dispositions as transient recommendations; do not call the stage tool. If enabled, call `stageKnowledgeCandidates` only with the returned `reviewId` and only when at least one decision is `stage`. The tool stages only those reviewed records and revalidates their scope, provenance, size, schema, and deterministic sensitive-value patterns (defense in depth, not a guarantee). Never pass raw candidate records to the staging tool. Staged records have lifecycle status `candidate` in the `pending` queue/location; they are not active or approved knowledge and must not be retrieved or used as approved evidence. A missing/expired review ID fails closed; re-triage the transient ledger rather than bypassing the tool.
 
-After staging, use `promoteKnowledgeBatch` once at workflow end to show the complete batch for the single user approval. A rejection or unavailable UI leaves the queue pending and no active records are created. Never bypass these tools with built-in file writes or shell. Outside this pilot-specific flow, durable persistence continues to require the project's approved write gate. This handoff remains transient task context; do not write persona memories, logs, checkpoints, or project records automatically.
+After staging, use `promoteKnowledgeBatch` once at workflow end to show the complete batch for the single user approval. A rejection or unavailable UI leaves the queue pending and no active records are created. Never bypass these tools with built-in file writes or shell. Outside this pilot-specific flow, durable persistence continues to require the project's approved write gate. This handoff remains transient task context; do not write persona memories, logs, or project records automatically. The plan checkpoint (`AgenticLab/plan-checkpoint.json`) is read at start and deleted at end of this workflow; it is not a project record..
 
 ## Verification and completion
 

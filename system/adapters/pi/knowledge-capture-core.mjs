@@ -4,7 +4,7 @@ import { createHash, randomUUID } from "node:crypto";
 
 export const PILOT_PROJECT = "ALPHA-KNOWLEDGE-PILOT-001";
 export const PILOT_SCOPE = `project:${PILOT_PROJECT}`;
-export const PILOT_WORKSPACE_ROOT = "/home/peet/Projects/V5-memory-pilot-001";
+export const PILOT_WORKSPACE_ROOT = "/home/peet/Projects/post-integration-delivery";
 export const MAX_CANDIDATES = 20;
 export const MAX_PENDING_CANDIDATES = 20;
 export const MAX_RECORD_BYTES = 8 * 1024;

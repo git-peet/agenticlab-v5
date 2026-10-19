@@ -2282,3 +2282,47 @@
 - **Safety/scope:** No changes to clean source, application code, package/lock files, databases, or `.env`. Active knowledge index and record intact. Policy enabled. Pending queue absent. Safety mechanisms preserved.
 - **Result:** Integration checkpoint created at `evaluation/checkpoints/ALPHA-20261018-INTEGRATION-CHECKPOINT.md`. Evaluation README updated. See `evaluation/plans/ALPHA-INTEGRATION-001.md`.
 - **Next:** Future workspaces will receive enhanced knowledge-capture adapters by default. Next step is either expanding testing scale, approving broader adoption for specific workflows, or continuing bounded exploration of remaining backlog candidates.
+
+### V5-20261018-240 — Payload metrics integration
+
+- **Recorded:** 2026-10-18T08:20:07+02:00
+- **Type:** ALPHA-METRICS-INTEGRATION-001 / payload-native metrics for knowledge-capture
+- **Workspace:** `/home/peet/Projects/AgenticLab-v5/` (canonical), `/home/peet/Projects/AgenticLab/` (installed payload)
+- **Action:** User approved adding a Pi-native metrics system to the knowledge-capture payload:
+  - Adapter `knowledge-capture-metrics.mjs` added to both canonical V5 (`system/adapters/pi/`) and installed payload (`AgenticLab/adapters/pi/`)
+  - Initialization prompt updated to include opt-in question during `/initialize-workspace`
+  - Metrics stored at `<workspace>/.pi/metrics/agenticlab.jsonl` (JSONL, privacy-minimized)
+  - Enabled via `AgenticLab/knowledge-capture-policy.json` → `metricsEnabled: true/false` (default off)
+- **Scope:** Records 4 event types — `candidate_staged`, `promotion_approved`, `retrieval_success`, `confirmation_decision` (no raw user content)
+- **Value:** Enables data-driven backlog prioritization, adoption tracking, safety validation, and quality assessment for knowledge-capture mechanisms (C05, C06, C07, etc.)
+- **Result:** Proposed in `evaluation/payload-metrics-proposal.md`. Ready for adoption when user decides to enable metrics.
+- **Next:** Enable metrics via initialization opt-in or policy toggle to start collecting data.
+### V5-20261018-241 — Post-integration-delivery workspace setup and application startup
+
+- **Recorded:** 2026-10-18T19:49:57+02:00
+- **Type:** ALPHA-INTEGRATION-001 / post-integration-delivery workspace setup
+- **Workspace:** `/home/peet/Projects/post-integration-delivery/` (clean EverShop copy)
+- **Payload:** Installed at `/home/peet/Projects/AgenticLab/` (revision `3e779dc31aa581efe07a6426b27767c2a77d4d88`)
+- **Steps completed:**
+  1. Docker socket access enabled (`sudo chmod 666 /var/run/docker.sock`)
+  2. PostgreSQL container started (`docker-compose up -d database`) — port 5432, accepting connections
+  3. `npm install` completed (81 vulnerabilities reported, Husky warning — workspace not a Git repo)
+  4. `npm run compile` succeeded (2,062 files compiled, 534 copied)
+  5. `npm run build` completed (generated GraphQL query files including `.evershop/build/frontStore/homepage/server/query.graphql`)
+  6. `npm start` running on localhost:3000 — homepage returns HTTP 200
+- **Knowledge-capture status:** `metricsEnabled: true` in policy; `.pi/metrics/` directory created; adapter `knowledge-write-gate.ts` loaded
+- **Result:** Integration checkpoint created at `evaluation/checkpoints/ALPHA-20261018-INTEGRATION-CHECKPOINT.md`; integration result documented at `evaluation/results/ALPHA-INTEGRATION-001.md`
+- **Next:** Test knowledge-capture flow (staging, promotion, retrieval) in the live workspace; monitor metrics collection
+
+### V5-20261018-242 — PBI 1 plan finalized (Dynamic Pricing Rule Builder)
+
+- **Recorded:** 2026-10-19T11:30:00+02:00
+- **Type:** ALPHA-INTEGRATION-001 / PBI 1 plan completion
+- **Workspace:** `/home/peet/Projects/post-integration-delivery/`
+- **Decision:** Pricing rules remain business records in EverShop PostgreSQL database
+- **Metrics integration:** Harness emits only privacy-minimized events (`candidate_staged`, `promotion_approved`, `retrieval_success`) to `.pi/metrics/agenticlab.jsonl`
+- **Knowledge-capture scope:** Design/approval decisions staged as `candidate` records with scope `project:post-integration-delivery`
+- **Archived rule history:** Accessed via pricing-rules API, not `/knowledge-opt-in` query
+- **Sub session:** `w8:p1` completed `/plan` for PBI 1 (Dynamic Pricing Rule Builder)
+- **Homepage status:** Verified rendering 8 product cards via Page Builder widget
+- **Next:** `/implement` PBI 1 with knowledge-capture metrics enabled
