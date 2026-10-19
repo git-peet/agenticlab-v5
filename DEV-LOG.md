@@ -2326,3 +2326,16 @@
 - **Sub session:** `w8:p1` completed `/plan` for PBI 1 (Dynamic Pricing Rule Builder)
 - **Homepage status:** Verified rendering 8 product cards via Page Builder widget
 - **Next:** `/implement` PBI 1 with knowledge-capture metrics enabled
+
+### V5-20261019-001 — Authorization & process design decisions from pilot integration
+
+- **Recorded:** 2026-10-19T17:00:00+02:00
+- **Type:** ALPHA-INTEGRATION-001 / process design
+- **Decisions:**
+  - Authorization preflight added to /plan, /implement, /premortem prompts — direct invocation vs relayed; user questions are NOT workflow invocations
+  - Relay rule added to AGENTS.md — never paraphrase a user question into a workflow invocation; relay only on explicit request with verbatim quote
+  - Plan checkpoint artifact (AgenticLab/plan-checkpoint.json) created by /plan after approval, read and deleted by /implement — transient phase artifact, not durable knowledge
+  - /premortem auto-invoked by /implement after successful validation — no separate user invocation needed
+  - Option A confirmed: pricing rules remain EverShop business records (PostgreSql) — harness emits only candidate_staged metric; no rule contents, promotion_approved, retrieval_success, or knowledge promotion
+- **Finding:** A question is not authorization to implement; relayed actions require explicit user approval
+- **Files changed:** prompts/delivery/{plan,implement,premortem}.md, prompts/delivery/checkpoint.md, AGENTS.md (canonical, payload versions)
