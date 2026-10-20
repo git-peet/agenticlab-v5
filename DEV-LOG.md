@@ -2352,3 +2352,44 @@
 - **Enforcement:** Authorization preflight and relay rules prevent accidental coupling; audit via `grep -r AgenticLab packages/evershop/src/`
 - **Future state:** All AgenticLab mechanisms live exclusively in `AgenticLab/` or `.pi/` directories; project code interacts only through stable, versioned interfaces (if any)
 - **Alignment:** Matches user-directed principle: "never touch project code just to get AgenticLab results"
+
+### V5-20261020-001 — PBI-2 implementation completed; knowledge capture mechanism validated
+
+- **Recorded:** 2026-10-20
+- **Type:** ALPHA-INTEGRATION-001 / delivery implementation / knowledge-capture validation
+- **Workspace:** post-integration-delivery
+- **Status:** completed implementation; knowledge-capture mechanism validated
+- **Files changed:**
+  - `AgenticLab/implementation-logs/post-integration-delivery/pbi-2-multi-warehouse-inventory/implementation-log.md` — durable log rendered (2,069 bytes, clean of mechanism details)
+  - `AgenticLab/implementation-logs/post-integration-delivery/pbi-2-multi-warehouse-inventory/implement-record.json` — implementation snapshot (project-level facts only)
+  - `AgenticLab/knowledge/pbi-2-advisory-lock-concurrency.md` — first durable knowledge record (candidate_staged → decision_knowledge → retrieval_success flow)
+  - `AgenticLab/adapters/pi/knowledge-capture-core.mjs` — added `readKnowledge()` function to read durable records from `AgenticLab/knowledge/`
+  - `AgenticLab/adapters/pi/knowledge-capture-tools.mjs` — added `readKnowledgeRecords` tool that emits `retrieval_success` metric
+  - `AgenticLab/adapters/pi/knowledge-capture-metrics.mjs` — unchanged (validates events)
+  - `packages/evershop/src/modules/inventory/services/inventoryService.ts` — project code clean (0 AgenticLab imports; `recordInventoryMetric` function removed)
+- **Metrics:** 10 events in `.pi/metrics/agenticlab.jsonl` (all agent-side, no project-code emissions)
+- **Mechanism validation:** Full lifecycle confirmed — staged candidates → user-approved promotion → durable record → retrieval verification → metrics capture
+- **Operating contract compliance:** Project codebase remains clean; all knowledge-capture mechanics are agent-side only
+
+### V5-20261020-002 — Design gap identified: retrieval trigger mechanism
+
+- **Recorded:** 2026-10-20
+- **Type:** V5-2 design / mechanism gap
+- **Status:** Confirmed; requires calibration
+- **Source evidence:** Current session transcript — sub session read source code (`inventoryService.ts`, test files) instead of consulting `AgenticLab/knowledge/pbi-2-advisory-lock-concurrency.md`; agent explained advisory-lock mechanism accurately from source, not from durable knowledge.
+- **Finding:** The durable knowledge entry (with rationale, evidence, claim, limitations) exists and is retrievable, but the agent does not automatically consult it when given a natural/conversational question. This is not a retrieval failure (adapter works) — it is a **trigger/consultation failure** (agent doesn't know when to ask for knowledge).
+- **Implication:** The value of durable knowledge is not just persistence — it's the ability to retrieve concise, verified context instead of re-deriving from large codebases. To realize this, the mechanism needs either: (a) keyword/slur-based triggers in agent prompts, (b) retrieval as a default step when uncertainty exists, or (c) explicit knowledge-reference behavior when the agent detects a relevant design topic.
+- **Related candidates:** C02 (knowledge lifecycle / memory defense); C05 (continuity / checkpoint recovery); C03 (context engineering — retrieval interface design). All three reference the need for activation/fetch/delivery, not just storage.
+- **Next:** Design a minimal retrieval-trigger policy (keyword match against `AgenticLab/knowledge/` index, or retrieval attempt when source-read is large/uncertain) and test with unscripted prompts; calibrate false-positive/false-negative rates.
+
+### V5-20261020-003 — Gate fix allows retrieval; mechanism complete
+
+- **Recorded:** 2026-10-20
+- **Type:** ALPHA-INTEGRATION-001 / mechanism repair
+- **Status:** Fix applied; verified
+- **Files changed:**
+  - `AgenticLab/adapters/pi/knowledge-write-policy.mjs` — added `READ_ONLY_SHELL_COMMANDS` set and `isReadOnlyShellCommand()`; modified `shellReferencesKnowledge()` to allow read-only shell commands on `AgenticLab/knowledge/` while blocking write/mutation commands
+  - `AgenticLab/adapters/pi/knowledge-capture-core.mjs` — added `readKnowledge()` function to read durable records from `AgenticLab/knowledge/` (ID exact match, query substring search, bounded results)
+  - `AgenticLab/adapters/pi/knowledge-capture-tools.mjs` — added `readKnowledgeRecords` tool that emits `retrieval_success` metric when matched ≥1 record
+- **Verification:** Direct `node -e` test of `readKnowledge({ id })` returned record correctly; `ls`, `find`, `cat` shell commands now allowed on knowledge directory (verified via `shellReferencesKnowledge` unit-style test); `rm`/`edit` still blocked.
+- **Note:** The fix avoids changing the mutation gate (still requires preview + confirmation via `classifyKnowledgeMutation` + `captureTransactionLocked`). It only relaxes the overly-aggressive read block on `AgenticLab/knowledge/`.
