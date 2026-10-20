@@ -29,7 +29,7 @@ yes, i think this is related with what i just mentioned: the relationship betwee
 even when the human feels confortable with the codebase, relying or discussing with AI always carries an extra layer of responsability. that's the reason why i decided on certain approval gates or extra testing layers: even when the human masters prompting or dominates the codebase, AI still has space to make mistakes. these control layers give the user more confidence in these workflows
 
 
-===================================================
+====================================================
 
 “I didn’t study computer science, so early on I lacked the mental models for complex tasks, and I relied on senior colleagues, whose time was limited. AI removed that limit: I could now ask freely, and my questions grew from how to build a feature to how the whole system fits together.
 
@@ -38,3 +38,25 @@ Then I built my own agent system, and what surprised me was that models tend to 
 It also taught me that I’m accountable for whatever ships. Once you accept that, you start asking which flaws in a system would really hurt, and that tells you where to put approval gates, which principles are non-negotiable, and how testing and review can catch most of the rest. So I built those controls into my workflow, including a review step that looks for hidden assumptions in finished code. Regressions dropped noticeably afterwards.
 
 I think that’s how AI should work for everyone: good output depends on how well people frame the problem, and the controls are what make it trustworthy. That’s what interests me about this role.”
+
+======================================================
+
+An equally plausible explanation is that the tasks were well specified enough for cheaper models to handle, so the result tells you more about the task than about who did the reasoning.
+
+right, but the idea of redisigning the system came from me, the whole planning discussion passed through me, etc. basically all decisions relied on my reasoning and the result is that the process was simplified to a point where tasks were clear/simple enough for free/cheap models to complete them successfully
+
+
+=====================================================
+
+
+I didn’t study computer science, so early on I lacked the mental models for complex tasks, and I relied on senior colleagues, whose time was limited. AI removed that limit. I could ask freely, and my questions grew from how to build a feature to how the whole system fits together.
+
+Then I built my own agent system, and what surprised me was that models tend to go along with your framing. If I didn’t understand the problem, neither would the model, and I’d finish the task without really understanding what made it complex. That moved me from thinking about components to thinking about systems.
+
+Working with AI changed how I look at problems. I stopped seeing a task as a piece of code to write and started seeing where it sits in the whole system, and I shaped my workflows around that. One result is that tasks became clear enough for much cheaper models to handle.
+
+It also taught me that I’m accountable for whatever ships. Once you accept that, you start asking which flaws in a system would really hurt, and that tells you where to put approval gates, which principles are non-negotiable, and how testing and review can catch most of the rest. So I built those controls into my workflow, including a review step that looks for hidden assumptions in finished code. I saw fewer regressions afterwards.
+
+AI is very good at processing large amounts of information and connecting things across layers of an interface. What it can’t know unless someone tells it is what the user is actually trying to do and how it should feel to them. That context comes from people, from user stories and from working with designers, and that’s the part I want to be close to.
+
+I think that’s how AI should work for everyone: good output depends on how well people frame the problem, and the controls are what make it trustworthy. That’s what interests me about this role.

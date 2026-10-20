@@ -2339,3 +2339,16 @@
   - Option A confirmed: pricing rules remain EverShop business records (PostgreSql) — harness emits only candidate_staged metric; no rule contents, promotion_approved, retrieval_success, or knowledge promotion
 - **Finding:** A question is not authorization to implement; relayed actions require explicit user approval
 - **Files changed:** prompts/delivery/{plan,implement,premortem}.md, prompts/delivery/checkpoint.md, AGENTS.md (canonical, payload versions)
+
+### V5-20261019-002 — Core principle: No AgenticLab code in project codebase (except alpha sandbox)
+
+- **Recorded:** 2026-10-19T22:30:00+02:00
+- **Type:** ALPHA-INTEGRATION-001 / architectural principle
+- **Principle:** Project codebase (Evershop, custom modules, etc.) must never contain AgenticLab code, imports, or dependencies in any production or real delivery workspace
+- **Exception:** Alpha sandbox (`post-integration-delivery/`) allows one temporary import for metrics collection during early validation:
+  - File: `packages/evershop/src/modules/promotion/services/pricingRules/recordCandidateStagedMetric.ts`
+  - Purpose: Enables `candidate_staged` event writing to `agenticlab.jsonl` for PBI 1 validation
+  - Condition: Workspace is disposable; exception never replicated in production
+- **Enforcement:** Authorization preflight and relay rules prevent accidental coupling; audit via `grep -r AgenticLab packages/evershop/src/`
+- **Future state:** All AgenticLab mechanisms live exclusively in `AgenticLab/` or `.pi/` directories; project code interacts only through stable, versioned interfaces (if any)
+- **Alignment:** Matches user-directed principle: "never touch project code just to get AgenticLab results"

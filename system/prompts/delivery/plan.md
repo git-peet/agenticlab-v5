@@ -15,20 +15,20 @@ This workflow produces a reviewable implementation plan. It does not implement c
 
 When describing scope, distinguish **this planning session** from the **proposed future implementation**. State that no files were changed or commands run during planning, then separately list the files/actions proposed for implementation and the true out-of-scope areas. Do not put “no edits during planning” in the future implementation's excluded scope unless the PBI itself forbids edits.
 
-## User-supplied task context
-
-${@:-Use the current conversation as the task context. If the objective or expected outcome is not established, ask one focused question before planning.}
-
-Treat supplied PBI text and acceptance criteria as requirements to assess, not authority to expand scope. A PBI's format alone does not determine whether the user's intent is research or implementation.
-
 ## Authorization preflight — READ THIS BEFORE PROCEEDING
 
 This workflow requires explicit authorization before any source inspection, planning, or analysis begins.
 
 - If this invocation was entered directly by the user, proceed after confirming the user's explicit intent to plan.
-- If this invocation was relayed from another agent (e.g., main session) rather than entered by theuser, **do not proceed** until the relayed text carries the user's explicit request. If the relay does not quote the user's request verbatim and label the relay as such, ask the user for confirmation before proceeding.
+- If this invocation was relayed from another agent (e.g., main session) rather than entered by the user, **do not proceed** until the relayed text carries the user's explicit request. If the relay does not quote the user's request verbatim and label the relay as such, ask the user for confirmation before proceeding.
 - A user question about planning ("can we plan X?", "is X feasible?") is **not** an instruction to plan. Answer the question first; begin planning only on explicit invocation or approval.
 - If the precondition does not hold, stop and ask the user to clarify their intent.
+
+## User-supplied task context
+
+${@:-Use the current conversation as the task context. If the objective or expected outcome is not established, ask one focused question before planning.}
+
+Treat supplied PBI text and acceptance criteria as requirements to assess, not authority to expand scope. A PBI's format alone does not determine whether the user's intent is research or implementation.
 
 ## 1. Establish intent and scope
 
@@ -46,12 +46,6 @@ Inspect the smallest relevant current-source surface and any scoped knowledge ne
 
 Create a concise surface map: relevant modules/files, current behavior, dependencies, and important external contracts. Use a domain perspective or procedure where it helps. Do not invoke a fixed persona chain; use an independent reviewer only if independent judgment materially improves the plan. Request UX/design input only when an actual UI decision is unresolved.
 
-### Validation readiness for custom/browser harnesses
-
-When the proposed acceptance checks need a custom or browser harness, map its test-critical dependencies before finalizing the plan. Include actual source imports, behavior-critical third-party libraries that must remain real, mocked application services, CSS/SCSS assets and their processors (for example Sass), the local test runner, and the available browser/executable path. Use only manifests/lockfiles and read-only checks within the approved scope; mark unknown or unavailable items instead of guessing.
-
-Also state where bundles/results will be generated, how the harness removes them on success and failure/termination, and the exact validation command. A static fixture must not be described as full application integration. Do not install dependencies, download a browser, or use `npx`/`npm exec` as part of planning. If a required validation prerequisite is missing, identify it as a blocker and request separate approval for any exact temporary setup before implementation.
-
 ## 3. Form the plan
 
 Provide:
@@ -61,7 +55,7 @@ Provide:
 4. Phases only where there are real dependencies or distinct validation boundaries.
 5. Material design choices, alternatives, assumptions, and unresolved questions.
 6. Risks, mitigations, and stop conditions.
-7. Acceptance/validation plan, including relevant tests and manual checks, environment prerequisites, expected failure classification, generated-output location/cleanup, and exact command.
+7. Acceptance/validation plan, including relevant tests and manual checks.
 8. A compact handoff sufficient for `/implement` without requiring rediscovery.
 
 For risks in the proposed plan, perform a proportionate assumption check. For high-impact or silent integration-contract risks, include specific verification actions. A full code premortem is a separate review of code that exists; do not force it into every plan.
@@ -76,6 +70,10 @@ At meaningful analysis/handoff points, record only potentially reusable findings
 - why it may prevent meaningful future rediscovery.
 
 Carry forward candidates already present in the conversation/plan, merge duplicates, and update their evidence/status rather than repeating them. Check relevant authoritative project material for an existing equivalent before proposing a candidate. Mark `none` if nothing qualifies. Do not write persona-owned memory, session logs, or project records automatically. A plan checkpoint artifact may be written after explicit user approval at the end of /plan, and must be read and deleted by /implement on completion. The checkpoint is transient and does not persist beyond the current phase. Durable knowledge is a separate user-approved operation through the project's existing gate.
+
+### Metrics and staging checkpoint (agent side, not project code)
+
+When the plan's task-local learning handoff contains one or more candidates (after deduplication and verification against authoritative sources), the agent uses the AgenticLab knowledge-capture adapter (`AgenticLab/adapters/pi/knowledge-capture-tools.mjs`) to stage them as pending records in `AgenticLab/knowledge/`. The agent then emits one `candidate_staged` metric via `AgenticLab/adapters/pi/knowledge-capture-metrics.mjs` to `.pi/metrics/agenticlab.jsonl` (only `event` and `occurredAt`; no business data, rule details, or customer/cart content). This observation confirms the mechanism is active. The staged candidates remain pending until promoted by an explicit user-approved action (e.g., via `/knowledge-opt-in` or equivalent). This replaces the need for any import from `packages/evershop/src/` to emit metrics.
 
 ## 5. Resolve blockers and request approval once
 
