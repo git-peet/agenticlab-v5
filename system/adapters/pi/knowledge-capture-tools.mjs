@@ -21,6 +21,7 @@ const MAX_REVIEWS = 32;
 const DISPOSITIONS = ["stage", "transient", "merge", "needs-evidence", "unsafe/out-of-scope", "abstain"];
 const DISPOSITION_SET = new Set(DISPOSITIONS);
 const REVIEW_ID_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
+const validKnowledgeId = /^[a-z0-9](?:[a-z0-9-]{1,62}[a-z0-9])?$/;
 const RECORD_KEYS = ["id", "title", "category", "scope", "status", "source", "evidence", "recorded", "verified", "claim", "rationale"];
 
 function textResult(text, details) {
@@ -287,9 +288,12 @@ export function registerKnowledgeCaptureTools(pi, Type, StringEnum, { expectedRo
       if (!isPlainObject(params) || !hasOnlyKeys(params, ["id", "query"])) {
         throw new Error("read tool accepts only id and query");
       }
-      const result = await readKnowledge(ctx.cwd, { id: params.id, query: params.query }, { expectedRoot });
+      const cleanId = typeof params.id === "string" && validKnowledgeId.test(params.id.trim()) ? params.id.trim() : undefined;
+      const result = await readKnowledge(ctx.cwd, { id: cleanId, query: params.query }, { expectedRoot });
       if (result.status === "ok" && result.count > 0) {
         recordKnowledgeCaptureMetric("retrieval_success", { workspaceRoot: ctx.cwd }).catch(() => {});
+      } else if (result.status === "no_match" || result.status === "not_found") {
+        recordKnowledgeCaptureMetric("no_match", { workspaceRoot: ctx.cwd }).catch(() => {});
       }
       const summary = {
         status: result.status,

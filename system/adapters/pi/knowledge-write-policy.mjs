@@ -215,6 +215,62 @@ export async function captureTransactionLocked(cwd) {
   }
 }
 
+// Hard-trigger: nudge agent to call readKnowledgeRecords before reading source for design rationale
+const KNOWLEDGE_READ_TRIGGER_PATHS = [
+  path.join("packages", "evershop", "src", "modules", "inventory"),
+  path.join("packages", "evershop", "src", "modules", "catalog", "services", "recommendation"),
+];
+
+const KNOWLEDGE_READ_TRIGGER_KEYWORDS = [
+  "advisory lock",
+  "concurrency",
+  "pg_advisory",
+  "reserve inventory",
+  "inventory lock",
+];
+
+function pathsMatchTriggerCandidates(targetPath, cwd) {
+  for (const triggerPath of KNOWLEDGE_READ_TRIGGER_PATHS) {
+    const fullTriggerPath = path.resolve(cwd, triggerPath);
+    const relative = path.relative(fullTriggerPath, targetPath);
+    if (!relative.startsWith("..") && !path.isAbsolute(relative)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function queryMatchesTriggerKeywords(input) {
+  const searchText = [
+    input?.query,
+    input?.pattern,
+    input?.regex,
+    input?.text,
+    input?.path,
+    input?.directory,
+    ...(Array.isArray(input?.paths) ? input.paths : []),
+  ].filter(Boolean).join(" ").toLowerCase();
+
+  return KNOWLEDGE_READ_TRIGGER_KEYWORDS.some((kw) => searchText.includes(kw.toLowerCase()));
+}
+
+export async function classifyKnowledgeReadTrigger(toolName, input, cwd) {
+  if (!["read", "grep", "find", "ls"].includes(toolName) || typeof cwd !== "string") return null;
+
+  const paths = resolvePathCandidates(cwd, { ...input, toolName });
+  for (const target of paths) {
+    const resolvedTarget = await resolveThroughExistingSymlinks(target);
+    if (pathsMatchTriggerCandidates(resolvedTarget, cwd) || queryMatchesTriggerKeywords(input)) {
+      return {
+        toolName,
+        target: resolvedTarget,
+        reason: "Before reading source for design rationale or decision context on a topic matching AgenticLab knowledge triggers, call the `readKnowledgeRecords` adapter tool first. This ensures `retrieval_success` (or `no_match`) metrics fire and avoids deriving claims from source only.",
+      };
+    }
+  }
+  return null;
+}
+
 export function decideKnowledgeMutation(request, hasUI, approved) {
   if (!request) return { allow: true };
   if (!hasUI) return { allow: false, reason: "Project knowledge changes require interactive user confirmation." };

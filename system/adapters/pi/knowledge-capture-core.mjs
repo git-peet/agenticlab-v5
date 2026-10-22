@@ -654,7 +654,7 @@ export async function readKnowledge(cwd, { id, query, limit = MAX_RETRIEVAL_RESU
         const hits = terms.filter((term) => haystack.includes(term)).length;
         return { record, hits };
       })
-      .filter((entry) => entry.hits > 0)
+      .filter((entry) => entry.hits >= Math.max(1, Math.ceil(terms.length / 2)))
       .sort((a, b) => b.hits - a.hits || a.record.id.localeCompare(b.record.id))
       .slice(0, Math.max(1, Math.min(limit, MAX_RETRIEVAL_RESULTS)))
       .map((entry) => entry.record);
