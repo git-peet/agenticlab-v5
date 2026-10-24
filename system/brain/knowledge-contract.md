@@ -15,6 +15,7 @@ Project records belong to exactly one target workspace and must not be copied in
 - **Category:** one primary type per record; initial values: `decision | fact | experience | risk | procedure` (extensible through a reviewed contract change, not a folder migration)
 - **Scope:** project:[workspace key] [and feature/task scope if needed]
 - **Status:** candidate | active | inactive
+- **Supersedes:** optional stable ID of the predecessor when this record corrects/replaces prior knowledge
 - **Source:** [file/turn/artifact and revision, or explicit user decision]
 - **Evidence:** [what supports it; separate observation from inference]
 - **Recorded:** YYYY-MM-DD
@@ -67,9 +68,11 @@ Other collectionsâ€”such as user notes or AgenticLab-system backlog candidatesâ€
 
 1. The agent proposes a candidate in conversation with source, project scope, claim, uncertainty, and future value.
 2. The user reviews and explicitly approves or rejects persistence. A proposal is not itself approval.
-3. A saved record may be `active` only after explicit approval. Update/supersede records visibly; do not silently overwrite or delete them.
-4. On retrieval, scope and status must match; verify mutable/current-code claims against current source. Use MOCs as routes, then search the relevant record corpus when completeness is required. Inspect candidate metadata before loading full record bodies. A no-match claim requires a complete search of the eligible scope; if the scan is capped, unavailable, or incomplete, report that limitation instead.
-5. If a store/read/write fails, report unavailable; do not pretend there was no match.
+3. A saved record may be `active` only after explicit approval.
+4. Correction is append-only: a new replacement may carry `Supersedes: <old-id>`. Keep the predecessor file/body unchanged. The adapter derives its effective `superseded` retrieval state from the replacement relation, excludes its body from active search, and resolves old IDs to the latest replacement. Do not rewrite or delete the predecessor or INDEX/MOC as part of correction.
+5. On retrieval, scope and effective status must match; verify mutable/current-code claims against current source. Use MOCs as routes, then search the relevant record corpus when completeness is required. Inspect candidate metadata before loading full record bodies. A no-match claim requires a complete search of the eligible scope; if the scan is capped, unavailable, or incomplete, report that limitation instead.
+6. If a store/read/write fails, report unavailable; do not pretend there was no match.
+7. Superseded records remain as history. Do not auto-purge them or invent an age-based cutoff; revisit archive/purge only for a concrete retention need through a separate explicit policy.
 
 ## Authority and safety
 

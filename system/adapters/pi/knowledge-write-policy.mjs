@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { getCapturePolicy } from "./knowledge-capture-core.mjs";
 
 const KNOWLEDGE_RELATIVE_PATH = path.join("AgenticLab", "knowledge");
 const PENDING_RELATIVE_PATH = path.join("AgenticLab", "knowledge-pending");
@@ -116,11 +117,15 @@ export async function shellReferencesKnowledge(cwd, command) {
   const mentionsPending = normalized.includes(pendingRoot) || normalized.includes("knowledge-pending");
   const mentionsPolicy = normalized.includes(policyPath) || normalized.includes("knowledge-capture-policy.json") || normalized.includes(".knowledge-promotion-committed.json");
 
+  // The private pending queue and capture policy are never accessible through shell,
+  // including read-only commands. Only active knowledge may be read through shell.
+  if (mentionsPending || mentionsPolicy) return true;
+
   // Read-only shell access to active knowledge records is allowed for retrieval.
   // Only writes/mutations go through the preview+confirmation gate.
   if (mentionsKnowledge && isReadOnlyShellCommand(command)) return false;
 
-  if (mentionsKnowledge || mentionsPending || mentionsPolicy) return true;
+  if (mentionsKnowledge) return true;
 
   // Resolve ordinary path-shaped shell arguments so a symlink alias into the private queue does
   // not bypass the lexical check. This intentionally is not a shell parser or OS sandbox.
@@ -151,15 +156,18 @@ export async function shellReferencesKnowledge(cwd, command) {
   const cwdIsInPackage = isWithin(projectPackage, path.resolve(cwd));
   const cwdIsInPending = isWithin(path.resolve(cwd, PENDING_RELATIVE_PATH), path.resolve(cwd));
   const mentionsPackage = words.includes("AgenticLab");
-  const mentionsKnowledgeWords = words.includes("knowledge") || words.includes("knowledge-pending") || words.includes("knowledge-capture-policy.json");
+  const mentionsPendingWords = words.includes("knowledge-pending");
+  const mentionsPolicyWords = words.includes("knowledge-capture-policy.json") || words.includes(".knowledge-promotion-committed.json");
+  const mentionsActiveKnowledgeWords = words.includes("knowledge");
+  const mentionsPackageContext = mentionsPackage || cwdIsInPackage;
 
-  // Read-only lexical access to active knowledge is allowed
-  if (mentionsPackage && mentionsKnowledgeWords && isReadOnlyShellCommand(command)) return false;
-  if (cwdIsInPackage && mentionsKnowledgeWords && isReadOnlyShellCommand(command)) return false;
+  // The private pending queue and capture policy remain blocked even in read-only commands.
+  if (mentionsPackageContext && (mentionsPendingWords || mentionsPolicyWords)) return true;
 
-  return (mentionsPackage && mentionsKnowledgeWords) ||
-    (cwdIsInPackage && mentionsKnowledgeWords) ||
-    cwdIsInPending;
+  // Read-only lexical access to active knowledge is allowed.
+  if (mentionsPackageContext && mentionsActiveKnowledgeWords && isReadOnlyShellCommand(command)) return false;
+
+  return (mentionsPackageContext && (mentionsActiveKnowledgeWords || mentionsPendingWords || mentionsPolicyWords)) || cwdIsInPending;
 }
 
 /**
@@ -215,52 +223,45 @@ export async function captureTransactionLocked(cwd) {
   }
 }
 
-// Hard-trigger: nudge agent to call readKnowledgeRecords before reading source for design rationale
-const KNOWLEDGE_READ_TRIGGER_PATHS = [
-  path.join("packages", "evershop", "src", "modules", "inventory"),
-  path.join("packages", "evershop", "src", "modules", "catalog", "services", "recommendation"),
-];
+// Workspace-configured read trigger: policy defines source paths / terms; default is empty (no hard-trigger)
 
-const KNOWLEDGE_READ_TRIGGER_KEYWORDS = [
-  "advisory lock",
-  "concurrency",
-  "pg_advisory",
-  "reserve inventory",
-  "inventory lock",
-];
 
-function pathsMatchTriggerCandidates(targetPath, cwd) {
-  for (const triggerPath of KNOWLEDGE_READ_TRIGGER_PATHS) {
-    const fullTriggerPath = path.resolve(cwd, triggerPath);
-    const relative = path.relative(fullTriggerPath, targetPath);
-    if (!relative.startsWith("..") && !path.isAbsolute(relative)) {
-      return true;
-    }
-  }
-  return false;
-}
 
-function queryMatchesTriggerKeywords(input) {
-  const searchText = [
-    input?.query,
-    input?.pattern,
-    input?.regex,
-    input?.text,
-    input?.path,
-    input?.directory,
-    ...(Array.isArray(input?.paths) ? input.paths : []),
-  ].filter(Boolean).join(" ").toLowerCase();
-
-  return KNOWLEDGE_READ_TRIGGER_KEYWORDS.some((kw) => searchText.includes(kw.toLowerCase()));
-}
 
 export async function classifyKnowledgeReadTrigger(toolName, input, cwd) {
   if (!["read", "grep", "find", "ls"].includes(toolName) || typeof cwd !== "string") return null;
 
+  let policy = null;
+  try { policy = await getCapturePolicy(cwd, { expectedRoot: cwd }); } catch { /* no policy or invalid, proceed without triggers */ }
+  const triggersConfig = policy?.knowledgeReadTriggers || [];
+  const triggerEntries = Array.isArray(triggersConfig) ? triggersConfig : [];
+
   const paths = resolvePathCandidates(cwd, { ...input, toolName });
   for (const target of paths) {
     const resolvedTarget = await resolveThroughExistingSymlinks(target);
-    if (pathsMatchTriggerCandidates(resolvedTarget, cwd) || queryMatchesTriggerKeywords(input)) {
+    const matchedPath = triggerEntries.some((entry) => {
+      const triggerPaths = entry?.sourcePaths || entry || [];
+      if (!Array.isArray(triggerPaths)) return false;
+      return triggerPaths.some((p) => {
+        const fullTriggerPath = path.resolve(cwd, p);
+        const relative = path.relative(fullTriggerPath, target);
+        return !relative.startsWith("..") && !path.isAbsolute(relative);
+      });
+    });
+    const matchedTerm = triggerEntries.some((entry) => {
+      const terms = entry?.triggerTerms || [];
+      const searchText = [
+        input?.query,
+        input?.pattern,
+        input?.regex,
+        input?.text,
+        input?.path,
+        input?.directory,
+        ...(Array.isArray(input?.paths) ? input.paths : []),
+      ].filter(Boolean).join(" ").toLowerCase();
+      return terms.some((term) => searchText.includes(String(term).toLowerCase()));
+    });
+    if (matchedPath || matchedTerm) {
       return {
         toolName,
         target: resolvedTarget,

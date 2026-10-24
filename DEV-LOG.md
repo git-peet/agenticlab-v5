@@ -2795,3 +2795,13 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Open validation:** The free-session smoke does not establish general capture reliability. PBI-3 and PBI-4 PostgreSQL acceptance tests remain pending a verified disposable target.
 - **Upstream port:** Not started. Delivery C02 changes are not committed/pushed; canonical/payload adapters are unchanged. Prepare a reviewed, workspace-by-workspace port and test plan before porting.
 - **Delivery worktree:** Correction changes are staged but uncommitted; the PBI-4 checkpoint was backed up under `/tmp` and its transient file was consumed. The worktree also retains the separately noted unstaged address-compatibility and handoff/start-guide/test-plan files.
+
+### V5-20261024-007 — Canonical port completed (clean and generic)
+
+- **Recorded:** 2026-10-24T12:32:00+02:00
+- **Type:** Canonical port completion / genericization
+- **Status:** Canonical `system/` directory is now generic (no EverShop-specific paths or triggers), policy schema updated with optional `knowledgeReadTriggers`, all relevant adapter and gate tests pass 48/48; syntax/diff checks pass.
+- **Outcome:** Port files in `system/` (adapters, tests, brain/knowledge-contract.md, prompts/delivery/plan/implement/premortem, prompts/system/initialize-workspace.md, AGENTS.md) are validated. Project-specific data (`system/brain/INDEX.md` with EverShop scope, implementation logs, metrics fixtures) left out of the generic payload per rules.
+- **Scope boundary:** No delivery workspace changes, live project knowledge, database access, payload files, or global Pi settings changed. Unrelated canonical edits (PBI file, Mendix file, untracked artifacts) preserved separately; not staged.
+- **Next:** Payload sync (root + nested `system/` mirror); isolated fresh Pi smoke; then review and approve before any commit/push.
+- **Note:** No Git commit or push performed; requires explicit approval.

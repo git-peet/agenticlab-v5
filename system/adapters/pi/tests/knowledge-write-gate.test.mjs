@@ -10,16 +10,21 @@ import { registerKnowledgeWriteGate } from "../knowledge-write-gate.mjs";
 const cwd = "/tmp/agenticlab-gate-fixture";
 
 function makePi() {
-  let handler;
+  const handlers = new Map();
   return {
     pi: {
       on(eventName, callback) {
-        assert.equal(eventName, "tool_call");
-        handler = callback;
+        handlers.set(eventName, callback);
       },
     },
     call(event, ctx) {
+      const handler = handlers.get("tool_call");
       assert.ok(handler, "gate registered its tool_call handler");
+      return handler(event, ctx);
+    },
+    callUserBash(event, ctx) {
+      const handler = handlers.get("user_bash");
+      assert.ok(handler, "gate registered its user_bash handler");
       return handler(event, ctx);
     },
   };
@@ -52,10 +57,19 @@ test("writes outside project knowledge and path traversal are not classified as 
   );
 });
 
-test("shell commands that visibly reference project knowledge are detected for blocking", () => {
-  const command = "find AgenticLab/knowledge -maxdepth 2 -type f";
-  assert.equal(shellReferencesKnowledge(cwd, command), true);
-  assert.equal(classifyKnowledgeMutation("bash", { command }, cwd), null);
+test("read-only active knowledge shell access is allowed; pending and policy paths are blocked", async () => {
+  const activeRead = "find AgenticLab/knowledge -maxdepth 2 -type f";
+  assert.equal(await shellReferencesKnowledge(cwd, activeRead), false);
+  assert.equal(classifyKnowledgeMutation("bash", { command: activeRead }, cwd), null);
+
+  const activeWrite = "rm AgenticLab/knowledge/example.md";
+  assert.equal(await shellReferencesKnowledge(cwd, activeWrite), true);
+
+  const pendingRead = "cat AgenticLab/knowledge-pending/batch-x/bundle.json";
+  assert.equal(await shellReferencesKnowledge(cwd, pendingRead), true);
+
+  const policyRead = "cat AgenticLab/knowledge-capture-policy.json";
+  assert.equal(await shellReferencesKnowledge(cwd, policyRead), true);
 });
 
 test("unrelated tools and shell commands pass without a confirmation prompt", () => {
@@ -123,17 +137,17 @@ test("Pi handler blocks a knowledge edit if it cannot build a preview", async ()
   assert.match(result?.reason, /reviewable preview could not be built/);
 });
 
-test("Pi handler blocks shell access to knowledge without a misleading approval prompt", async () => {
+test("Pi handler blocks shell access to pending without a misleading approval prompt", async () => {
   const mock = makePi();
   let confirmationRequested = false;
   registerKnowledgeWriteGate(mock.pi);
   const result = await mock.call(
-    { toolName: "bash", input: { command: "find AgenticLab/knowledge -maxdepth 2 -type f" } },
+    { toolName: "bash", input: { command: "cat AgenticLab/knowledge-pending/batch-x/bundle.json" } },
     { cwd, hasUI: true, ui: { async confirm() { confirmationRequested = true; return true; } } },
   );
   assert.equal(result?.block, true);
   assert.equal(confirmationRequested, false);
-  assert.match(result?.reason, /Use Pi's read tool/);
+  assert.match(result?.reason, /private pending queue/u);
 });
 
 test("Pi handler blocks if confirmation UI fails", async () => {
@@ -155,4 +169,14 @@ test("Pi handler allows a confirmed knowledge change", async () => {
     { cwd, hasUI: true, ui: { async confirm() { return true; } } },
   );
   assert.equal(result, undefined);
+});
+
+test("Pi user_bash hook blocks private pending and policy paths", async () => {
+  const mock = makePi();
+  registerKnowledgeWriteGate(mock.pi);
+  const result = await mock.callUserBash(
+    { command: "cat AgenticLab/knowledge-pending/batch-x/bundle.json" },
+    { cwd },
+  );
+  assert.equal(result.result.exitCode, 126);
 });
