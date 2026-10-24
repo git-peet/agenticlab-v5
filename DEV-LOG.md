@@ -2704,10 +2704,45 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 
 ---
 
-## Current Status (as of 2026-10-23)
+## Historical status snapshot (as of 2026-10-23; superseded by 2026-10-24 entries)
 
 - **C02 evidence in delivery:** Retrieval/metrics, hard-trigger behavior, scoped retrieval, MOC/index routing, candidate staging, and one-record promotion have implementation/test evidence. PBI-4 exercised retrieval and live stage→promote in a real workflow, but its PostgreSQL concurrency acceptance tests were not run.
 - **Free-session candidate reminder:** Added to delivery `.pi/APPEND_SYSTEM.md` and the canonical/delivery initialization templates. This is prompt guidance only; it has not been behaviorally tested and does not automatically stage or emit candidate metrics.
 - **Correction/supersession:** Not implemented. Freshness policy remains deferred until a concrete use case requires one.
 - **Database prerequisite:** PBI-4 integration remains blocked pending a verified disposable PostgreSQL target (PBI-6 or equivalent). Do not use the shared port-5432 development database.
-- **Upstream porting:** Review whether to port validated delivery changes to canonical/payload; no port has been made or approved yet.
+- **Upstream porting:** Review whether to port validated delivery changes to canonical/payload; no port had been made as of this snapshot.
+
+---
+
+### V5-20261024-001 — Delivery workstreams checkpointed; correction attempt reverted
+
+- **Recorded:** 2026-10-24T09:45:10+02:00
+- **Type:** Delivery checkpoint / C02 scope and rollback
+- **Status:** Four scoped commits pushed to delivery `origin/master`; C02 correction/supersession remains unimplemented; PBI-3/PBI-4 database validation remains pending.
+
+### Delivery commits
+- `76f4d41` — `feat(agenticlab): add delivery C02 retrieval and write paths` (adapter/gate/tests and workflow guidance; free-session reminder included but not behaviorally tested).
+- `c5e5527` — `docs(agenticlab): add delivery knowledge routes and risk record` (root/MOC routes, PBI-2 record update, and the promoted PBI-4 source-to-dist risk record).
+- `e4562a3` — `feat(customer): add wishlist slice (DB validation pending)` (PBI-3 wishlist API/service/migration/UI/test runner; isolated PostgreSQL tests were not run).
+- `69924d7` — `test(inventory): add guarded PBI-4 concurrency harness` (PBI-4 test/runner and partial implementation record; database acceptance remains unverified).
+- Delivery `master` and `origin/master` matched at `69924d7` after push.
+
+### Correction/supersession implementation attempt
+- Started a delivery-only `/plan` → implementation for a UI-confirmed correction/supersession operation, but the design expanded into a journaled multi-file transaction and generated duplicate helpers/syntax errors. The sub-session was stopped before tests or any live mutation.
+- Restored `knowledge-capture-core.mjs`, `knowledge-capture-tools.mjs`, `knowledge-capture.test.mjs`, and the PBI-4 plan checkpoint to their pre-attempt delivery state using the sub-session's pre-edit snapshots; the partial attempt was saved outside the repo at `/tmp/c02-supersession-partial-backup/` for audit, not as an active patch.
+- After restoration, the delivery adapter suite passed **30/30**; syntax checks and `git diff --check` passed. No live knowledge records/index or database were changed by the attempt. Correction/supersession remains open and is not ready to port.
+
+### Remaining delivery state and gates
+- PBI-4 database integration still requires a verified disposable loopback PostgreSQL target; do not use the shared port-5432 database.
+- The PBI-3 wishlist database test was not run; the commit message marks that validation pending.
+- The free-session reminder remains prompt-only and behaviorally untested. No canonical/payload adapter port has been made; the only canonical-related edit in this cycle is the reminder in the initialization template.
+- Local uncommitted delivery items remain: transient `AgenticLab/plan-checkpoint.json`, customer address compatibility changes, and older handoff/start-guide/test-plan documents. They were excluded from the four delivery commits pending separate review.
+
+---
+
+## Current Status (as of 2026-10-24)
+
+- **Delivery C02:** scoped retrieval, candidate staging, and one-record promotion are committed and the adapter tests pass. Correction/supersession is still open; the abandoned attempt was reverted. The free-session reminder is present but untested.
+- **Delivery PBI-3:** wishlist code and isolated-test runner committed; PostgreSQL validation pending.
+- **Delivery PBI-4:** guarded concurrency harness and partial record committed; PostgreSQL integration acceptance still blocked pending disposable test infrastructure.
+- **Upstream port:** not started. Canonical/payload adapters remain unported; plan a reviewed, tested port only after C02 scope is resolved.
