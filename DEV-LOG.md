@@ -2740,9 +2740,21 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 
 ---
 
+### V5-20261024-002 — Retain superseded records; defer purge policy
+
+- **Recorded:** 2026-10-24T10:16:09+02:00
+- **Type:** C02 lifecycle decision / deferred maintenance
+- **Decision:** The planned correction model adds a replacement record with an explicit `supersedes` relation; the old record remains physically preserved and is treated as superseded by retrieval. Correction does not rewrite or delete the old file.
+- **Purge/archival:** Parked outside the current C02 slice. No automatic age-based deletion or expiry.
+- **Revisit trigger:** Reopen if a concrete retention need arises—material corpus/storage growth that affects retrieval or maintenance, a privacy/legal retention requirement, an explicit user/data-owner purge request, or a governance policy requiring a retention window. Design a separate, explicit, reviewable archive/purge process then, preserving provenance and protecting records referenced by active successors.
+- **Status:** Design decision recorded; correction/supersession implementation remains pending in delivery.
+
+---
+
 ## Current Status (as of 2026-10-24)
 
 - **Delivery C02:** scoped retrieval, candidate staging, and one-record promotion are committed and the adapter tests pass. Correction/supersession is still open; the abandoned attempt was reverted. The free-session reminder is present but untested.
+- **Superseded-record retention:** approved design is append-only preservation with retrieval-level supersession; purge/archival is deferred until a concrete retention trigger arises.
 - **Delivery PBI-3:** wishlist code and isolated-test runner committed; PostgreSQL validation pending.
 - **Delivery PBI-4:** guarded concurrency harness and partial record committed; PostgreSQL integration acceptance still blocked pending disposable test infrastructure.
 - **Upstream port:** not started. Canonical/payload adapters remain unported; plan a reviewed, tested port only after C02 scope is resolved.
