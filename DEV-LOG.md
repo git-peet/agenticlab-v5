@@ -2751,10 +2751,47 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 
 ---
 
-## Current Status (as of 2026-10-24)
+## Historical status snapshot (as of 2026-10-24T10:16+02:00; superseded by later entries)
 
 - **Delivery C02:** scoped retrieval, candidate staging, and one-record promotion are committed and the adapter tests pass. Correction/supersession is still open; the abandoned attempt was reverted. The free-session reminder is present but untested.
 - **Superseded-record retention:** approved design is append-only preservation with retrieval-level supersession; purge/archival is deferred until a concrete retention trigger arises.
 - **Delivery PBI-3:** wishlist code and isolated-test runner committed; PostgreSQL validation pending.
 - **Delivery PBI-4:** guarded concurrency harness and partial record committed; PostgreSQL integration acceptance still blocked pending disposable test infrastructure.
 - **Upstream port:** not started. Canonical/payload adapters remain unported; plan a reviewed, tested port only after C02 scope is resolved.
+
+---
+
+### V5-20261024-003 — Append-only correction/supersession implemented and fixture-tested in delivery
+
+- **Recorded:** 2026-10-24T10:51:42+02:00
+- **Type:** C02 lifecycle implementation / verification
+- **Status:** Implemented and fixture-tested in delivery only; not committed or ported upstream.
+- **Changes:** Added optional `supersedes` metadata to replacement records and a separate UI-confirmed `promoteKnowledgeCorrection` operation. The existing single-record publish path is reused; predecessor files and INDEX/MOC files remain unchanged. Retrieval treats predecessors as effectively superseded, excludes their bodies from active search, and resolves exact old/intermediate IDs to the latest replacement. Invalid, branching, cyclic, and incomplete relationships fail closed.
+- **Validation:** Complete adapter suite passed **35/35**; changed `.mjs` syntax checks and `git diff --check` passed. Fixtures cover legacy candidates, success/chained replacement resolution, replacement query retrieval, invalid targets, collisions, rejection, injected publish failure, unchanged predecessor/index/pending bytes, metrics, and post-publish cleanup warnings.
+- **Premortem limits:** An invalid or ambiguous relationship anywhere in the workspace-scoped active graph can make unrelated retrieval return `incomplete`; isolation from unrelated malformed scopes was not tested. Metrics persistence remains best-effort, and direct external OS-level writes are outside the adapter lock's protection.
+- **Boundaries:** No live knowledge record, INDEX/MOC, database, EverShop application source, canonical adapter, or payload was changed. The new task implementation record is under `AgenticLab/implementation-logs/post-integration-delivery/knowledge-correction-supersession/`; the prior PBI-4 implementation record was preserved. The PBI-4 plan checkpoint was backed up at `/tmp/PBI-4-plan-checkpoint.before-c02-correction.json`; the correction checkpoint was consumed at workflow completion.
+- **Deviation:** One `triageKnowledgeCandidates` call used placeholder input and created a temporary in-memory review; it was never staged/promoted and caused no durable write or candidate metric. The review expires under the tool's normal TTL.
+
+---
+
+### V5-20261024-004 — Free-session candidate reminder passes positive and negative prompt smokes
+
+- **Recorded:** 2026-10-24T11:05:52+02:00
+- **Type:** C02 prompt behavior smoke / qualitative result
+- **Status:** One source-backed proposal observed in a positive free-session smoke; a casual unrelated negative-control prompt produced no candidate. This is qualitative evidence, not a population-level capture guarantee.
+- **Method:** In fresh Pi terminals in `/home/peet/Projects/post-integration-delivery`, ran an unscripted wishlist duplicate-save investigation and, separately, an unrelated movie-night conversation. The session startup showed `.pi/APPEND_SYSTEM.md` loaded. The positive run read the explicitly supplied migration, wishlist service, and API paths. No workflow prompt, tests, shell discovery command, database access, or file write was used.
+- **Positive result:** The agent proposed a source-backed reusable observation: the migration declares uniqueness on `(customer_id, product_uuid)`, the service uses `ON CONFLICT DO NOTHING`, and the API treats a successful add as success without distinguishing new from duplicate. The uniqueness conclusion is conditional on the migration having been applied; live schema and runtime behavior were not tested.
+- **Negative control:** Casual movie-night suggestions produced no source inspection and no candidate proposal, as expected for non-source-backed conversation.
+- **Retrieval/metrics caveat:** The positive lookup returned `filtered` for the advisory-lock record rather than a complete `no_match`; this is not evidence of a wishlist no-match. No `candidate_staged` or `decision_knowledge` event was emitted, and no candidate was staged/promoted. The proposal remained conversational only.
+- **First attempt:** An initial exploratory prompt did not locate source files; the follow-up supplied the known paths and succeeded. The first attempt made no changes.
+
+---
+
+## Current Status (as of 2026-10-24T11:05+02:00)
+
+- **C02 delivery implementation:** Retrieval, staging, promotion, and append-only correction/supersession are implemented in delivery; the adapter suite passes 35/35. Correction files and the implementation record are staged in the delivery worktree but not committed or pushed.
+- **Free-session reminder:** One positive source-backed proposal and one unrelated negative-control conversation were observed in fresh sessions. This is qualitative evidence only; the reminder proposes but does not stage or emit candidate metrics.
+- **Retention:** Superseded files are preserved; automatic purge/archival remains deferred until a concrete retention trigger arises.
+- **Open validation:** The free-session smoke does not establish general capture reliability. PBI-3 and PBI-4 PostgreSQL acceptance tests remain pending a verified disposable target.
+- **Upstream port:** Not started. Delivery C02 changes are not committed/pushed; canonical/payload adapters are unchanged. Prepare a reviewed, workspace-by-workspace port and test plan before porting.
+- **Delivery worktree:** Correction changes are staged but uncommitted; the PBI-4 checkpoint was backed up under `/tmp` and its transient file was consumed. The worktree also retains the separately noted unstaged address-compatibility and handoff/start-guide/test-plan files.
