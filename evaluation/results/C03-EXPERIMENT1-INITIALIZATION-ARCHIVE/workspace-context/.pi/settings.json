@@ -1,9 +1,0 @@
-{
-  "extensions": ["../AgenticLab/adapters/pi/knowledge-write-gate.ts"],
-  "prompts": [
-    "../AgenticLab/prompts/system/initialize-workspace.md",
-    "../AgenticLab/prompts/delivery/plan.md",
-    "../AgenticLab/prompts/delivery/implement.md",
-    "../AgenticLab/prompts/delivery/premortem.md"
-  ]
-}
