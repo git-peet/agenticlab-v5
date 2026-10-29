@@ -165,7 +165,7 @@ Ask one explicit question: **"Do you approve these exact AgenticLab scope/profil
 
 **Optional — knowledge-capture metrics (privacy-minimized, opt-in):**
 
-Before the approval question, ask whether the user wants to enable knowledge-capture metrics for this workspace. If yes, the adapter writes aggregate events (staging, promotion, retrieval, confirmation outcomes) to `.pi/metrics/agenticlab.jsonl`. No raw user content is recorded. This setting can be changed later in `AgenticLab/knowledge-capture-policy.json` (key: `metricsEnabled`).
+Before the approval question, ask whether the user wants to enable knowledge-capture metrics for this workspace. If yes, the adapter writes allowlisted, content-free event/timestamp entries (`candidate_staged`, `decision_knowledge`, `retrieval_success`, and `no_match`) to `.pi/metrics/agenticlab.jsonl`. Confirmation outcomes are not currently recorded. This setting can be changed later in `AgenticLab/knowledge-capture-policy.json` (key: `metricsEnabled`).
 
 On approval, write only the listed setup/profile files. Do not create or modify anything under `AgenticLab/knowledge/` in this workflow; durable project records/index changes belong to the separate V5 knowledge interface and its write gate. If any write fails or an unexpected file conflict appears, stop and report partial completion; do not broaden the file list.
 
