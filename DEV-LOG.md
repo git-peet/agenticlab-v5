@@ -3293,3 +3293,25 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Known gap:** `recordContextSelectionMetric` currently calls the low-level writer without forwarding those values. Consequently, the context-selection JSONL events still contain only the event name and timestamp; source names, stop-rule value, and outcome are not yet recorded. The Pi tool's runtime invocation has not been verified.
 - **Validation:** `node --check` passed for both adapter files. The attempted regression-test path did not exist, so no regression suite or runtime metric-write test was completed.
 - **Boundary:** exp4 workspace only. No canonical V5 or clean-payload changes.
+
+### V5-20261110-044 — First-pass context-selection metrics captured in exp4 plan session (PBI-3)
+
+- **Recorded:** 2026-11-10T14:24-14:25 UTC
+- **Type:** C03 context-selection metrics verification (exp4)
+- **Status:** Pass — context_source_used, context_stop_rule_triggered, context_assembly_complete events emitted with sourcesUsed, stopRuleFired, outcome fields (content-free)
+- **Gap:** No provider-integration or credential data captured (as intended)
+- **Next:** Continue PBI-3 implementation; no additional metric changes required at this stage
+
+
+### V5-20261111-045 — C03 Option B context policy calibrated and hardened in exp4
+
+- **Recorded:** 2026-11-11T22:11:22+01:00
+- **Type:** C03 context-source policy, metrics, and `/plan` tool guard (exp4 prototype)
+- **Status:** Local and uncommitted; 16 adapter tests pass; fresh interactive Pi smoke test pending.
+- **Changes in exp4:** Added the content-free `context_source_selected` event, distinct from actual source-use and assembly events; updated `/plan` and `/implement` to record actual sources and `blocked` outcomes before pausing for clarification; added a Pi guard that blocks `bash`/interactive shell calls during explicit `/plan`, while leaving read/context tools, `/implement`, and default work unaffected. `/plan-cancel` clears an abandoned plan guard.
+- **Synthetic evidence:** A relevant backend plan retrieved one applicable active isolation procedure, filtered other records, and emitted context/retrieval metrics. Its `/implement` run added `test_api_requests_use_isolated_test_database`; the isolated runner reported 20 passing tests and one deprecation warning. A fully specified low-knowledge plan omitted project knowledge and emitted context metrics. The earlier ambiguous-plan attempt selected sources but used shell commands and emitted no context metrics.
+- **Aggregate:** exp4's local metrics grew from 121 rows at baseline to 132 after the synthetic plan/implementation runs. The earlier legacy source/outcome fields outside the current allowlists were not printed or copied.
+- **Regression validation:** 16 Node tests passed, including allowlist/content-free checks, blocked outcomes, selector event recording, retrieval scope/status cases, and plan-shell-guard state/tool behavior. These use temporary metric workspaces and a fake Pi registry; they do not replace a fresh interactive Pi smoke test.
+- **Known limitations:** Actual source/outcome recording on blocked/clarification paths still depends on the workflow invoking `recordContextSelectionMetric`; only policy selection is automatically recorded. The shell guard has not yet been verified in a live Pi session. Broad-workload and default-work behavior were not tested; default-work remains phase two.
+- **Boundary:** Exp4 AgenticLab only; canonical V5 `system/` and clean payload were not changed. No commit or push.
+- **Detailed result:** `/home/peet/Projects/exp4/AgenticLab/evaluation/results/EXP4-C03-CONTEXT-POLICY-001.md`.
