@@ -3315,3 +3315,51 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Known limitations:** Actual source/outcome recording on blocked/clarification paths still depends on the workflow invoking `recordContextSelectionMetric`; only policy selection is automatically recorded. The shell guard has not yet been verified in a live Pi session. Broad-workload and default-work behavior were not tested; default-work remains phase two.
 - **Boundary:** Exp4 AgenticLab only; canonical V5 `system/` and clean payload were not changed. No commit or push.
 - **Detailed result:** `/home/peet/Projects/exp4/AgenticLab/evaluation/results/EXP4-C03-CONTEXT-POLICY-001.md`.
+
+
+### V5-20261113-046 — C03 evaluation capture and exp4 PBI reconciliation
+
+- **Recorded:** 2026-11-13T17:32:06+01:00
+- **Type:** C03 Option B completion follow-up and exp4 backlog reconciliation
+- **Status:** Core Option B commits are pushed; final metrics/gate semantics and opt-in evaluation-card prompt updates remain local to exp4 and uncommitted.
+- **Validation:** The isolated PBI2 Conversation CRUD rerun passed 22/22 tests against a fresh disposable SQLite database. The runner removed the database. The user resolved checkpoint disposition as B (delete) and declined the separate validation implementation-log write.
+- **Metrics semantics:** Context assembly outcomes no longer use `selected`; completion uses an allowlisted assembly outcome. Stop-rule evaluation records an explicit boolean (`true` or `false`) as `context_stop_rule_evaluated`, distinct from historical `context_stop_rule_triggered` rows. Regression tests pass (18 tests).
+- **Implementation gate:** `/implement` must ask the A/B checkpoint disposition even for validation-only runs, must not infer retention from silence, and asks implementation-log approval separately. The PBI2 validation-only run completed these gates after the prompt clarification.
+- **C03 evaluation collection:** Added opt-in `C03-EVAL-ID` handling for `/plan` → `/implement` runs. A marked approved plan scopes one sanitized evaluation-card append to the exp4 C03 evaluation report; unmarked runs add no card. The card records source-layer IDs, retrieval/stop/assembly and validation outcomes, candidate disposition counts, evaluation ratings, and interruption counts—never prompts, source text, queries, claims, or transcripts.
+- **PBIs:** Per user direction, PBIs 1–4 are closed; PBI1's unrun disposable-PostgreSQL verification is a leftover, not open PBI scope. PBIs 5 and 6 are deferred. Candidate PBIs 7–9 were added to exp4's PBIs.md: owner-scoped conversation search/pagination, conversation export, and structured triage feedback. They remain proposals, not implementation authorization.
+- **Boundary:** Default-work context selection remains phase two. No changes to canonical V5 `system/` or clean payload; no new commit/push in this entry.
+- **Detailed C03 evaluation:** exp4 `AgenticLab/evaluation/results/EXP4-C03-CONTEXT-POLICY-001.md`.
+
+
+### V5-20261122-047 — exp4.1 disposable PBI8 export validation
+
+- **Recorded:** 2026-11-22T08:59:52+01:00
+- **Type:** Disposable app test workspace / PBI8 conversation export
+- **Status:** Application work completed locally but uncommitted; workspace retained pending disposal decision; implementation log and A/B checkpoint disposition remain incomplete.
+- **Change:** exp4.1 received a conversation export endpoint and schema, a 68 KiB export size limit, a download UI, backend/frontend tests, and regenerated client files. `frontend/openapi.json` is ignored by `frontend/.gitignore`.
+- **Validation:** The isolated backend conversation suite passed 34 tests. OpenAPI and client generation completed with test-mode settings; `PrivateService` was preserved. `git diff --check` flagged trailing whitespace in generated `frontend/src/client/sdk.gen.ts`.
+- **Known limitations:** TypeScript validation was blocked by a pre-existing mismatch: `frontend/src/routes/_layout/conversations.$conversationId.tsx` references `isUserLoading` and `isUserError`, but `useAuth()` in `frontend/src/hooks/useAuth.ts` does not return them; those references were unchanged from `HEAD`. Frontend E2E was not run because environment/auth setup was blocked; no `.env` was read and no services were started.
+- **Workspace state:** exp4.1 has one committed baseline (`2f887ca chore(exp4.1): establish disposable app baseline`), nine modified tracked files from PBI8, no stashes, no untracked files, and is about 841 MB including dependencies/build artifacts.
+- **Disposition:** exp4.1 was created only to test the clean-payload port. Recommendation: preserve the conclusions in this entry, then move the directory to trash rather than hard-deleting it. No deletion has been performed yet.
+- **Boundary:** Disposable application workspace only. No canonical V5 `system/` changes and no clean-payload changes from this PBI8 work.
+
+### V5-20261122-048 — Knowledge retrieval tool-use reliability and navigation scope
+
+- **Recorded:** 2026-11-22T08:59:52+01:00
+- **Type:** C02 retrieval evidence / evaluation interpretation
+- **Status:** Diagnosis only; no adapter, prompt, or payload changes.
+- **Finding:** In the exp4.1 PBI8 trace, malformed `readKnowledgeRecords` calls used invented IDs and unsupported category filters. A later query-only effective call returned `status: ok`, `complete: true`, and `count: 1` for `export-403-ui-error-path` before source reads. The adapter source and its exp4.1 copy match, and no recent change to retrieval implementation explains the discrepancy.
+- **Interpretation:** Earlier free-model traces skipped or bypassed the tool; a paid-model trace used it successfully. Model-dependent tool-use reliability is plausible but not proven. Do not add more prompt or adapter machinery without further evidence.
+- **Navigation clarification:** A promoted record need not be linked from `INDEX.md` or a MOC to be retrievable. Those files are navigation aids, not exhaustive inventories.
+- **Boundary:** Evidence from exp4/exp4.1 traces only. No changes to canonical V5, clean payload, or retrieval adapters.
+
+### V5-20261122-049 — C03 clean-payload port reconciled and published
+
+- **Recorded:** 2026-11-22T08:59:52+01:00
+- **Type:** C03 clean-payload port audit, validation, and push
+- **Status:** Complete for the selected generic scope; published as an experimental baseline, not full exp4 feature parity.
+- **Audit reconciliation:** Updated `C03-carry-to-clean-payload.md` against the actual clean-payload history. The selected local slices were `bcd80d7` (context metric hardening), `2e5c1b0` (prompt-only context guidance), `4f71221` (filtered-only duplicate-check clarification), `9a4c671` (metric vocabulary/schema alignment), `0dd5b7a` (bounded initialization/validation guidance), `ed6ecea` (staging/workflow completion changes), and `119705d` (initialization/validation handoff simplification).
+- **Disposition:** Keep exp4-specific evaluation IDs, C03 cards, report paths, and PBI10 artifacts out of the generic payload. Defer the deterministic context selector and extra selection metric, the C04 workflow/shell guard, and project-agnostic plan preflight. No bootstrap initialization extension or preflight validator was added. Metrics and candidate staging default on; staged candidates stay inactive and promotion requires separate confirmation.
+- **Validation:** Clean working tree at `119705d`; `git diff --check` clean; all `.mjs` files pass `node --check`; policy JSON parses; a temporary current-contract regression passed 5/5 checks covering canonical source IDs/outcomes, `stopRuleFired: false`, invalid-label suppression, direct-writer rejection, and disabled-metrics behavior; config/prompt invariants passed; no exp4/PBI10/C03-eval identifiers or hardcoded home paths appeared in the outgoing diff. The in-repo `c03-smoke-test.mjs` is stale (hardcoded path and obsolete outcome) and was not used as a gate. No live Pi initialization → `/plan` → `/implement` smoke was run.
+- **Push:** `0922e93..119705d  main -> main` to `https://github.com/git-peet/clean-payload.git`. Live `git ls-remote` confirmed both `HEAD` and `refs/heads/main` at `119705d0b00561076044ea941012331fcf5d2a42`; local and remote are `0 0`. The commit timestamp is `2026-11-20T18:14:18+01:00`, so GitHub showing “2 days ago” reflects commit date rather than push time.
+- **Boundary:** Only the clean-payload repository was pushed. Canonical V5 `system/` and backlog/candidate files were not part of that push; the audit note remains local and untracked in AgenticLab-v5.
