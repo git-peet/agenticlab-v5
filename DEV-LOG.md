@@ -3363,3 +3363,27 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Validation:** Clean working tree at `119705d`; `git diff --check` clean; all `.mjs` files pass `node --check`; policy JSON parses; a temporary current-contract regression passed 5/5 checks covering canonical source IDs/outcomes, `stopRuleFired: false`, invalid-label suppression, direct-writer rejection, and disabled-metrics behavior; config/prompt invariants passed; no exp4/PBI10/C03-eval identifiers or hardcoded home paths appeared in the outgoing diff. The in-repo `c03-smoke-test.mjs` is stale (hardcoded path and obsolete outcome) and was not used as a gate. No live Pi initialization → `/plan` → `/implement` smoke was run.
 - **Push:** `0922e93..119705d  main -> main` to `https://github.com/git-peet/clean-payload.git`. Live `git ls-remote` confirmed both `HEAD` and `refs/heads/main` at `119705d0b00561076044ea941012331fcf5d2a42`; local and remote are `0 0`. The commit timestamp is `2026-11-20T18:14:18+01:00`, so GitHub showing “2 days ago” reflects commit date rather than push time.
 - **Boundary:** Only the clean-payload repository was pushed. Canonical V5 `system/` and backlog/candidate files were not part of that push; the audit note remains local and untracked in AgenticLab-v5.
+
+
+### V5-20261122-050 — C04 governance prototype validated in exp5
+
+- **Recorded:** 2026-11-22T18:40:54+01:00
+- **Type:** C04 governance prototyping / disposable exp5 host
+- **Status:** Prototype validated locally in exp5; no clean-payload port authorized.
+- **Changes:** Added exp5-local sensitive-file boundary, default action-boundary semantics, shell-segment evaluation for protected env access, and external tests. The F4 chained-metadata overblocking defect was fixed by evaluating shell segments independently; metadata-only `find -exec`/`-delete` and `file` were not allowed.
+- **Validation:** Local regression suite passed 9/9. Live Pi checks confirmed deterministic blocking for native read, shell `cat`, shell `cp`, and inline Python access to a synthetic protected fixture; allowed synthetic `.env.example` and metadata existence checks. PBI 4 completed through `/plan` → `/implement` with checkpoint disposition; PBI 5 and PBI 6 passed as basic authorization and approval-boundary probes.
+- **Limitations:** Built-in `grep` remained disabled and unexercised. PBI 2 semantic refusal was not a deterministic-gate result. Protection is lexical and host-scoped, not an OS sandbox. A live PBI 3 rerun is still needed to confirm the F4 friction fix in real use.
+- **Boundary:** exp5 is an experimental local host; canonical `system/` and clean payload were not changed. Commits in exp5 are local only; no push. C04.2 received a dated prototype-results section.
+- **Next:** Rerun PBI 3 live, then decide whether the prototype should be retained, revised, deferred, or proposed for a separate clean-payload sandbox.
+
+
+### V5-20261122-051 — C04 sensitive-path prototype completed in exp5
+
+- **Recorded:** 2026-11-22T21:48:37+01:00
+- **Type:** C04 governance prototyping follow-up / exp5 validation
+- **Status:** Prototype completed locally in exp5; no clean-payload port authorized.
+- **Changes:** Fixed three exp5-local classifier issues found during validation: F4 shell-chain metadata overblocking, F10 false positives from escaped code identifiers, and F11 `.environ`/exact-token boundary false positives. Added external regression tests only; canonical V5 and clean payload were not changed.
+- **Validation:** `node --test tests/c04-sensitive-path.test.mjs` passed 13/13. Live PBI 3 reruns confirmed metadata-only `.env` checks and narrow source/config scans can proceed, while exact protected-path content access remains blocked. The final PBI 3 trace showed no protected values read, copied, searched, displayed, or reported.
+- **Remaining limitations:** Built-in `grep` was off by default and unexercised. Combined `for`/`[ -f ]` metadata commands and regex exclusion text can still be blocked or require restructuring. The literal `.environ` case is covered by unit tests but was not directly exercised in the final live run. Protection is lexical and host-scoped, not an OS sandbox.
+- **Boundary:** exp5 is a disposable local experiment. Commits are local only; no push. No clean-payload or canonical `system/` changes were made.
+- **Next:** C04.2 now reflects F4/F10/F11/F12. Decide whether to retain, revise, defer, or propose the prototype for a separate clean-payload sandbox.
