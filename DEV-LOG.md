@@ -3400,3 +3400,14 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Limitations:** `grep` remains disabled and unexercised; protection is lexical and host-scoped, not an OS sandbox; combined `for`/`[ -f ]` metadata commands and regex exclusion text can still be blocked or restructured; `git diff --check` may not inspect untracked new files.
 - **Boundary:** exp5 remains the preserved C04 prototype; exp6 is the clean-payload validation host. No canonical `system/` changes were made.
 - **Next:** Push clean-payload commit `77e315a` after this record, then verify remote refs. Further C04 work only from recurring real friction or demonstrated bypasses.
+
+
+### V5-20261123-053 — C04 remaining scope reconciled
+
+- **Recorded:** 2026-11-23T09:24:39+01:00
+- **Type:** C04 governance gap reconciliation / next-slice decision
+- **Status:** Tracking decision only; no new implementation authorized.
+- **Outcome:** Reviewed the original eight V4 governance gaps against V5.2, the published clean payload at `77e315a`, the exp5 prototype, and exp6 validation. `C04-governance-gap.md` now marks each original item with a current disposition instead of the stale “missing from V5” snapshot.
+- **Dispositions:** approval/high-risk boundaries are covered semantically without a V4 zero-tolerance table; blocker behavior is partially covered by the semantic stop-and-ask rule; memory curation is covered by C02; tier labels, fixed loop/fix caps, DIGEST/semantic-map injection, and content-based secret scanning are deferred or not needed without new evidence; path-based credential protection is covered by the implemented slice.
+- **Next candidate slice:** action-scope fidelity for consequential commands and writes, if separately approved. Rationale: published semantic rule has only basic live evidence, prior Evershop command-scope/model-reliability incidents provide concrete risk, and the slice can stay bounded to allowed/denied/ask/stop behavior with benign and adversarial tests.
+- **Boundary:** No runtime changes. No clean-payload changes. No push. `C04.2` received the same next-slice decision.
