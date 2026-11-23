@@ -3434,3 +3434,13 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Preservation:** exp4 application code and its `AgenticLab/` are also published in `git-peet/fastapi-python` at `48c6295`. exp6 contained only a reproducible clean baseline, initialization outputs, and one validation task, so it was removed without an archive. A stale `exp4.1` directory was absent.
 - **Orca state:** Workspace list now shows only `AgenticLab-v5`, `C03-clean-payload`, and `AgenticLab-V4`; stale experiment entries were already dropped.
 - **Boundary:** No canonical V5 source, clean payload, or runtime changes. No push in this entry.
+
+
+### V5-20261123-056 — V5.2 status snapshot added
+
+- **Recorded:** 2026-11-23T10:02:44+01:00
+- **Type:** Documentation / status dashboard
+- **Status:** New living snapshot created; no runtime or clean-payload changes.
+- **Change:** Added `V5.2-STATUS.md` with a one-paragraph state, system-layer locations, implemented and validated capabilities, the full candidate maturity table, open decisions, and evidence pointers. It is explicitly a convenience snapshot, with the roadmap, backlog index, candidates, and DEV-LOG remaining authoritative.
+- **Correction:** `V5.2-roadmap.md` validation-host text updated because exp4/exp5/exp6 no longer exist on disk; it now cites the archives and notes the roadmap's status-dashboard pointer.
+- **Boundary:** Documentation only. No clean-payload, canonical `system/`, runtime, or push changes.
