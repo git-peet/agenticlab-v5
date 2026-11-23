@@ -3422,3 +3422,15 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Current implementation baseline:** Published clean payload `77e315a` contains C02 bounded knowledge lifecycle, first-use initialization, delivery workflows, C03 thin context slice, and C04 sensitive-file boundary. Clean payload is authoritative for distributed runtime behavior; canonical `system/` remains an older stable snapshot.
 - **Still open:** Broad C02 closure/general memory benefit, general C03 subsystem, full C04 governance, C11 refresh/update, and most C01/C05–C10/C12 candidates. Next C04 candidate is action-scope fidelity, requiring separate prototype approval.
 - **Boundary:** No clean-payload changes, no runtime changes, and no push in this entry.
+
+
+### V5-20261123-055 — Disposable experiment workspaces archived and removed
+
+- **Recorded:** 2026-11-23T10:01:11+01:00
+- **Type:** Workspace housekeeping / evidence archival
+- **Status:** `exp4`, `exp5`, and `exp6` removed; artifact evidence preserved in archives.
+- **Archives:** `Projects/Archive/V5-Experiments/exp5-c04-prototype-2026-11-23.tar.gz` (full exp5, including `.git`, `PBIs.md` F1–F12, tests, fixtures, `.pi`) and `Projects/Archive/V5-Experiments/exp4-agenticlab-evidence-2026-11-23.tar.gz` (exp4 `AgenticLab/`, 18 knowledge records, 8 implementation logs, `PBIs.md`, `docs/`, `LOCAL-STARTUP.md`, `.pi`, and `.git`; dependencies, build output, and env files excluded).
+- **Verification:** Both archives passed `gzip -t`; exp5 passed `tar --compare` against source; exp4 archive confirmed to contain all evidence with zero `node_modules`/`.venv`/`.env` entries. Originals removed only after verification. Roughly 730 MB freed.
+- **Preservation:** exp4 application code and its `AgenticLab/` are also published in `git-peet/fastapi-python` at `48c6295`. exp6 contained only a reproducible clean baseline, initialization outputs, and one validation task, so it was removed without an archive. A stale `exp4.1` directory was absent.
+- **Orca state:** Workspace list now shows only `AgenticLab-v5`, `C03-clean-payload`, and `AgenticLab-V4`; stale experiment entries were already dropped.
+- **Boundary:** No canonical V5 source, clean payload, or runtime changes. No push in this entry.
