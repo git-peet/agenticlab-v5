@@ -53,7 +53,7 @@ The next C04 candidate slice, if approved separately, is **action-scope fidelity
 - the slice can be bounded to allowed/denied/ask/stop behavior with benign and adversarial cases;
 - it does not require a broad governance engine.
 
-No implementation is authorized by this reconciliation. A separate exp7 prototype and clean-payload staging decision are still required.
+This reconciliation did not itself authorize implementation. The slice was subsequently prototyped, validated, ported, and published at clean-payload `4f44378`; see `C04.2` for the evidence and limits.
 
 ### Explicit exclusions (from C04 governance/safety candidate)
 
@@ -69,7 +69,7 @@ These must **not** be blindly ported from V4 without a V5-specific justification
 1. **Done:** re-review the original eight findings against current V5, clean payload, exp5, and exp6 evidence.
 2. **Done:** decide current treatment for each finding in the reconciliation table.
 3. **Done for the implemented slice:** add validation tests for the sensitive-file boundary; node and live Pi checks passed.
-4. **Open candidate:** if approved, prototype action-scope fidelity in a fresh exp7-style workspace, then stage a generic-only port if the prototype proves useful.
+4. **Done:** action-scope fidelity was prototyped in a fresh exp7 workspace, validated with 16/16 external tests plus live Pi probes, staged as a generic-only diff, and published at `4f44378`.
 5. **Still required:** obtain explicit approval before any further governance implementation, clean-payload change, or publication.
 
 ## Acceptance criteria for revisiting after backlog completion
@@ -78,6 +78,7 @@ These must **not** be blindly ported from V4 without a V5-specific justification
 - [x] The implemented C04 slice passes a validation suite: `node --check`, 13/13 external tests, and live Pi validation in exp5/exp6.
 - [x] V4 exclusions verified: no V4 `.env` regexes, fixed tool-call/fix-attempt numbers, Pi hooks, Tier A/B/C labels, or V4 memory paths were ported.
 - [x] The original eight-item V4 audit list was reviewed; no additional item was added from that list. New work requires fresh evidence.
+- [x] The action-scope slice passed 16/16 external tests, live Pi probes, and a generic-only port review before publication at `4f44378`.
 
 ## References
 

@@ -1,8 +1,8 @@
 # V52-C04 — Governance, authorization, and deterministic safety
 
-**Status:** `bounded first slice implemented`; broader governance remains open
+**Status:** `two bounded slices implemented`; broader governance remains open
 
-**Implementation readiness:** **Sensitive-file boundary validated and published.** The clean payload now includes path-based protected-file handling plus semantic authorization-fidelity, blocker, and fail-safe rules. Broader governance controls are not ready; see `C04.2` and `C04-governance-gap.md` for the reconciled remaining scope.
+**Implementation readiness:** **Sensitive-file boundary and action-scope fidelity validated and published.** The clean payload at `4f44378` includes path-based protected-file handling, semantic authorization-fidelity/blocker/fail-safe rules, and checkpoint-derived exact write/shell scope during `/implement`. Broader governance controls are not ready; see `C04.2` and `C04-governance-gap.md` for the reconciled remaining scope.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 memory safety](C02-knowledge-lifecycle.md), [C08 adapters](C08-runtime-adapters.md), [C07 delegation](C07-specialists-coordination.md)
 
@@ -47,4 +47,4 @@ A future safety slice should test both prohibited-action blocking and allowed sa
 
 ## Timing / next action
 
-Set the semantic boundary before enabling any mutating first-slice path. Decide which controls are needed for that path only; defer a comprehensive policy engine until concrete host/task needs are known.
+Two bounded slices are published. Reopen broader controls only on a demonstrated bypass, repeated ambiguity, or concrete new friction; defer a comprehensive policy engine until concrete host/task needs are known.

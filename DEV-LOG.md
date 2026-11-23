@@ -3444,3 +3444,16 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Change:** Added `V5.2-STATUS.md` with a one-paragraph state, system-layer locations, implemented and validated capabilities, the full candidate maturity table, open decisions, and evidence pointers. It is explicitly a convenience snapshot, with the roadmap, backlog index, candidates, and DEV-LOG remaining authoritative.
 - **Correction:** `V5.2-roadmap.md` validation-host text updated because exp4/exp5/exp6 no longer exist on disk; it now cites the archives and notes the roadmap's status-dashboard pointer.
 - **Boundary:** Documentation only. No clean-payload, canonical `system/`, runtime, or push changes.
+
+
+### V5-20261123-057 — C04 action-scope fidelity published
+
+- **Recorded:** 2026-11-23T15:34:17+01:00
+- **Type:** C04 bounded implementation / validation / clean-payload port and publication
+- **Status:** Second bounded C04 slice implemented, validated, ported, and published after separate approvals.
+- **Prototype:** Fresh exp7 workspace built from sanitized `fastapi-python` HEAD and clean payload `77e315a`, then initialized locally. No archived disposable workspace content was reused. The slice derived exact write/shell scope from the approved `/plan` checkpoint, armed during `/implement`, failed closed on missing/malformed scope, allowed exact approved validation commands, and added a narrow checkpoint-deletion exception after live friction was found.
+- **Validation:** 16/16 external policy and adapter tests; `node --check`, `git diff --check`, and generic-identifier scan clean. Live Pi probes covered exact allow, out-of-scope native write, out-of-scope shell redirect, missing checkpoint, and a real `/plan` → `/implement` task. A stale-extension block required a fresh Pi process after the deletion fix. `exp7/tests/ACTION-SCOPE-VALIDATION.md` and `LIVE-PROBE-TRACE-TAIL.txt` hold the local evidence.
+- **Simplification:** A generic-only staging sandbox reduced the candidate diff from 403 to 371 insertions by reusing the existing sensitive-path helpers and consolidating duplicated target checks, with 16/16 tests still passing.
+- **Port:** Clean payload commit `4f44378 feat(governance): add action-scope fidelity gate` added two generic modules, one TS wiring line, and two exports in `sensitive-path-policy.mjs`. No tests, fixtures, PBIs, project identifiers, or absolute paths entered the payload.
+- **Publication:** Explicitly approved push completed: `77e315a..4f44378 main -> main` to `https://github.com/git-peet/clean-payload.git`. `git ls-remote` confirmed remote `main` at `4f44378c7fc3a6241c66152a13bc7974585a73a0`; local and remote are in sync.
+- **Boundary:** Canonical `system/` was not changed. No V4 tiers, numeric caps, zero-tolerance table, content-based secret scanner, shell parser, or OS-sandbox claim was ported. No further publication or canonical commit was authorized by this entry.
