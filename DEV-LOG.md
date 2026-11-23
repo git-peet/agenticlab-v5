@@ -3387,3 +3387,16 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Remaining limitations:** Built-in `grep` was off by default and unexercised. Combined `for`/`[ -f ]` metadata commands and regex exclusion text can still be blocked or require restructuring. The literal `.environ` case is covered by unit tests but was not directly exercised in the final live run. Protection is lexical and host-scoped, not an OS sandbox.
 - **Boundary:** exp5 is a disposable local experiment. Commits are local only; no push. No clean-payload or canonical `system/` changes were made.
 - **Next:** C04.2 now reflects F4/F10/F11/F12. Decide whether to retain, revise, defer, or propose the prototype for a separate clean-payload sandbox.
+
+
+### V5-20261122-052 — C04 sensitive-file boundary ported and validated
+
+- **Recorded:** 2026-11-23T08:59:11+01:00
+- **Type:** C04 clean-payload port / exp6 validation / publication
+- **Status:** Ported locally, validated in exp6, and authorized for publication after this entry.
+- **Port:** Clean payload commit `77e315a feat(governance): add sensitive file boundary` added the generic sensitive-file boundary to `AGENTS.md`, `brain/operating-contract.md`, `adapters/pi/sensitive-path-policy.mjs`, and `adapters/pi/knowledge-write-gate.mjs`. No PBIs, fixtures, initialization outputs, logs, tests folder, or exp-specific artifacts were added.
+- **Staging validation:** A clean-payload sandbox from `119705d` passed 13/13 external tests, node checks, diff check, generic-identifier scan, and no-env-staged checks. The same 13/13 tests passed against the real clean payload after applying the port.
+- **exp6 validation:** Fresh FastAPI workspace initialized from the ported payload with staging and metrics enabled. Fresh trusted Pi session confirmed extension/prompt registration and no workflow auto-run. Live probes confirmed metadata-only `.env` checks and narrow source/config scans remain allowed, protected content reads are blocked, and no values are exposed. Authorization-fidelity and `/plan` → `/implement` validation passed; checkpoint deletion was explicitly authorized.
+- **Limitations:** `grep` remains disabled and unexercised; protection is lexical and host-scoped, not an OS sandbox; combined `for`/`[ -f ]` metadata commands and regex exclusion text can still be blocked or restructured; `git diff --check` may not inspect untracked new files.
+- **Boundary:** exp5 remains the preserved C04 prototype; exp6 is the clean-payload validation host. No canonical `system/` changes were made.
+- **Next:** Push clean-payload commit `77e315a` after this record, then verify remote refs. Further C04 work only from recurring real friction or demonstrated bypasses.
