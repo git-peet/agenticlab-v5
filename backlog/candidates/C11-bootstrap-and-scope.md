@@ -1,8 +1,8 @@
 # V52-C11 — Project bootstrap, greenfield setup, and workspace isolation
 
-**Status:** `candidate`; prototype payload boundary confirmed, reusable setup/update contract open
+**Status:** `first-use initialization implemented`; reusable setup/update contract open
 
-**Implementation readiness:** **Not ready for setup/reset tooling.** Python was an earlier experimental host; Evershop is now the selected V5.2 experiment workspace. General install, refresh, and collision behavior remain open.
+**Implementation readiness:** **Not ready for general setup/reset tooling.** The reviewed first-use initialization flow works in the clean-payload workspace and was validated in exp6. General install, refresh, collision handling, and update behavior remain open.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 knowledge](C02-knowledge-lifecycle.md), [C08 runtime](C08-runtime-adapters.md)
 

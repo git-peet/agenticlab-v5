@@ -1,8 +1,8 @@
 # V52-C04 — Governance, authorization, and deterministic safety
 
-**Status:** `framed`; hard-boundary semantics are core, implementation is open
+**Status:** `bounded first slice implemented`; broader governance remains open
 
-**Implementation readiness:** **Not ready for mutating actions.** Define and test minimum controls before enabling governed writes.
+**Implementation readiness:** **Sensitive-file boundary validated and published.** The clean payload now includes path-based protected-file handling plus semantic authorization-fidelity, blocker, and fail-safe rules. Broader governance controls are not ready; see `C04.2` and `C04-governance-gap.md` for the reconciled remaining scope.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 memory safety](C02-knowledge-lifecycle.md), [C08 adapters](C08-runtime-adapters.md), [C07 delegation](C07-specialists-coordination.md)
 

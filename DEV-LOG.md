@@ -3411,3 +3411,14 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Dispositions:** approval/high-risk boundaries are covered semantically without a V4 zero-tolerance table; blocker behavior is partially covered by the semantic stop-and-ask rule; memory curation is covered by C02; tier labels, fixed loop/fix caps, DIGEST/semantic-map injection, and content-based secret scanning are deferred or not needed without new evidence; path-based credential protection is covered by the implemented slice.
 - **Next candidate slice:** action-scope fidelity for consequential commands and writes, if separately approved. Rationale: published semantic rule has only basic live evidence, prior Evershop command-scope/model-reliability incidents provide concrete risk, and the slice can stay bounded to allowed/denied/ask/stop behavior with benign and adversarial tests.
 - **Boundary:** No runtime changes. No clean-payload changes. No push. `C04.2` received the same next-slice decision.
+
+
+### V5-20261123-054 — V5.2 portfolio status synchronized
+
+- **Recorded:** 2026-11-23T09:44:13+01:00
+- **Type:** Documentation sync / current-state reconciliation
+- **Status:** No runtime changes; design/status records now reflect the implemented baseline.
+- **Updates:** `backlog/README.md`, `C03-context-engineering.md`, `C04-governance-safety.md`, and `C11-bootstrap-and-scope.md` now distinguish thin/bounded implementations from broad candidates. `V5.2-roadmap.md` retains the historical first-slice narrative and adds a current implementation snapshot for 2026-11-23.
+- **Current implementation baseline:** Published clean payload `77e315a` contains C02 bounded knowledge lifecycle, first-use initialization, delivery workflows, C03 thin context slice, and C04 sensitive-file boundary. Clean payload is authoritative for distributed runtime behavior; canonical `system/` remains an older stable snapshot.
+- **Still open:** Broad C02 closure/general memory benefit, general C03 subsystem, full C04 governance, C11 refresh/update, and most C01/C05–C10/C12 candidates. Next C04 candidate is action-scope fidelity, requiring separate prototype approval.
+- **Boundary:** No clean-payload changes, no runtime changes, and no push in this entry.

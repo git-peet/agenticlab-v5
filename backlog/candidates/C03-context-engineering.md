@@ -1,8 +1,8 @@
 # V52-C03 — Task-aware context engineering and retrieval
 
-**Status:** `candidate`; tightly coupled to C02, not yet selected
+**Status:** `candidate`; thin slice implemented and ported; broad candidate not selected
 
-**Implementation readiness:** **Not ready for a general context subsystem.** A bounded retrieval path may be designed with the first memory slice.
+**Implementation readiness:** **Not ready for a general context subsystem.** The prompt/metric thin slice is implemented in the clean payload, but no selector, workload profiles, policy engine, or broad default-work integration is selected. See `C03.2` for the evidence-led decision.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 memory lifecycle](C02-knowledge-lifecycle.md), [C08 adapters](C08-runtime-adapters.md), [C12 Codemode](C12-codemode-orchestration.md)
 
@@ -108,3 +108,5 @@ Before implementing retrieval, specify the next-step information need and scope.
 ## Timing / next action
 
 C02's minimal INDEX → curated MOC → scoped-record interface is sufficient as the current knowledge foundation; its native two-phase search remains a manual completeness procedure, not a custom retrieval engine. The next V5 design pass is the context-assembly model above for default and explicitly invoked workflow sessions: distinguish always-on operating rules, task/request context, current-source evidence, scoped project knowledge, optional domain perspectives/procedures, and approved plan/checkpoint state. Prefer staged, task-relevant loading and trace material sources; do not add an unconditional digest, general context planner, fixed token budget, or semantic retrieval. Use representative direct, research, and explicit-workflow tasks to check whether each source was useful or unnecessary. Keep advanced retrieval parked until real tasks show misses that current sources and native tools cannot address.
+
+**Current wording (updated after the clean-payload port):** C02's minimal INDEX → curated MOC → scoped-record interface is now an implemented prototype baseline in the clean payload, with the latest retrieval/manual-discovery changes tested in exp4. The local adapter performs scoped eligible-record search and returns explicit retrieval outcomes; this is not semantic/vector retrieval or a generated catalog. The manual-discovery candidate proposal is in generic operating guidance, while integrating the new stage-to-promotion behavior into delivery workflow prompts remains separate future scope. Broad memory benefit and large-corpus behavior remain unproven. The next V5 design pass is the context-assembly model above for default and explicitly invoked workflow sessions: distinguish always-on operating rules, task/request context, current-source evidence, scoped project knowledge, optional domain perspectives/procedures, and approved plan/checkpoint state. Prefer staged, task-relevant loading and trace material sources; do not add an unconditional digest, general context planner, fixed token budget, or semantic retrieval. Use representative direct, research, and explicit-workflow tasks to check whether each source was useful or unnecessary. Keep advanced retrieval parked until real tasks show misses that current sources and native tools cannot address.
