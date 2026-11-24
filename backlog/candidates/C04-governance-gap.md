@@ -53,7 +53,7 @@ The next C04 candidate slice, if approved separately, is **action-scope fidelity
 - the slice can be bounded to allowed/denied/ask/stop behavior with benign and adversarial cases;
 - it does not require a broad governance engine.
 
-This reconciliation did not itself authorize implementation. The slice was subsequently prototyped, validated, ported, and published at clean-payload `4f44378`; see `C04.2` for the evidence and limits.
+This reconciliation did not itself authorize implementation. The slice was subsequently prototyped, validated, ported, and published at clean-payload `4f44378`, with knowledge-path friction fixes following at `d92cce8`; see `C04.2` for the evidence and limits.
 
 ### Explicit exclusions (from C04 governance/safety candidate)
 
