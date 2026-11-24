@@ -1,0 +1,8 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi1,action_scope,write,1,2026-11-24T12:30:03.617Z,Action-scope fidelity: target 'scripts/check_alembic_chain.py' is not an exact approved path; blocked.
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi1,knowledge_shell,bash,3,2026-11-24T12:17:19.258Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi1,sensitive_path,bash,1,2026-11-24T12:24:12.965Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl"
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi4,action_scope,bash,1,2026-11-24T12:48:16.707Z,Action-scope fidelity: target '../../../../tmp/doclinks.txt' is not an exact approved path; blocked.
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi4,knowledge_shell,bash,2,2026-11-24T12:45:50.033Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi4,sensitive_path,bash,1,2026-11-24T12:44:12.476Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl"
+ALPHA-DELIVERY-001,delivery_pi,exp10-pbi5,knowledge_shell,bash,2,2026-11-24T13:04:07.574Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."

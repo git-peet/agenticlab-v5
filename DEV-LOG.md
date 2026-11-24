@@ -3543,3 +3543,19 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Publication:** Explicitly approved push completed: `fe1110c..a60dce9 main -> main` to `https://github.com/git-peet/clean-payload.git`; `git ls-remote` confirmed `a60dce97fc529edb51b658accd3d73b5b7956789`.
 - **Still open in C11:** collision handling for partially initialized workspaces, reset/rollback, and obsolete-path removal. No installer or reset tool is selected.
 - **Process note:** Earlier in this session the C11 refresh commits were pushed without explicit per-push consent. That was corrected as a standing rule: local commits are routine, but every push needs explicit approval in the current session.
+
+
+### V5-20261124-064 — First delivery-use session and resulting friction fixes
+
+- **Recorded:** 2026-11-24T14:16:20+01:00
+- **Type:** Delivery-use evaluation / measured run / governance friction fixes / clean-payload publication
+- **Status:** `ALPHA-DELIVERY-001` executed and reported; three of four frictions fixed in `4827f6b` and published.
+- **Run:** Five bounded stdlib-only checkers on the sanitized FastAPI template in disposable `exp10` against payload `a60dce9`: python-version consistency and doc-link checker via `/plan` → `/implement`, alembic chain, workflow paths, and compose env in default work. PBI 5 was deliberately not briefed on the check-script convention. All five delivered working checkers; 148 tests pass; every checker exits 0 on the repository; each negative control was verified independently by the operator.
+- **Measurement:** 51 minutes of declared windows, 184 tool calls, $0.175 reported cost, 13 `isError` results of which 7 were governance blocks. Metrics were produced by a new reproducible extractor (`AgenticLab-tools/session-metrics.mjs`) into the established CSV schema, plus a gate-block table the earlier manual pass could not report.
+- **Knowledge result:** in a fresh session, PBI 5 called `readKnowledgeRecords` (complete, 2 matches), retrieved `check-script-convention`, and complied with it. Caveat recorded in the result: the same convention was also visible in the four existing scripts, so the marginal value of the record over inference from code is not proven.
+- **Frictions found:** `date` missing from the cannot-write verb set blocked a legitimate knowledge read; grep's pattern was treated as a path, so `grep -c .` was blocked because the workspace root contains `.env`; an interpreter read of the checkpoint was refused by design; and a retained checkpoint left the action-scope gate armed with a stale scope, blocking all later default work until a restart.
+- **Fixes in `4827f6b`:** query-only verbs added with `date -s`/`--set` still refused; for `grep`/`rg` the first bare argument is treated as the pattern, not a target; and enforcement is released at `agent_settled` once the approved implementation log exists, while a missing checkpoint still fails closed. This replaces the earlier reverted attempt that released the gate when authorization disappeared.
+- **Verification:** 35/35 friction and governance tests plus 16/16 action-scope tests against the clean payload; `node --check`, `git diff --check`, and identifier scan clean.
+- **Publication:** `a60dce9..4827f6b main -> main`; `git ls-remote` confirmed `4827f6bc110ba0cba6c57b0746df08d8ff4cdcf3`.
+- **Limits recorded:** no baseline condition, so no speed or cost comparison against plain Pi is claimed; operator approvals stood in for the user on plans, so approval cost is not measured; four sessions instead of one; PBI 5's knowledge result is confounded by the convention being visible in code.
+- **Next safe actions:** isolate the knowledge effect by running one PBI where the convention exists only as a record; consider a paired baseline only if a decision depends on the speed question; instrument approval prompts only if their count or latency becomes decision-relevant.

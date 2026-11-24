@@ -35,6 +35,27 @@ The `agenticlab-master` rows use those same UTC windows as **calendar-window coo
 
 Only the exact known master/PBI sessions, the one initializer session, and the fresh-session check were processed. To identify the isolated initializer session, a metadata-only lookup was limited to JSONL headers in the exact `V5-alpha-sandbox` session directory and Oct 15 run window; only the session matching the target CWD and initialization markers was aggregated. No other workspace/session bodies were inspected. Local scripts parsed JSONL metadata and usage fields, counted tool-call/result entries, calculated timestamp windows, and emitted aggregates. No prompt, source, tool-argument, or tool-result text was copied into these records.
 
+## ALPHA-DELIVERY-001 (2026-11-24)
+
+Produced by `AgenticLab-tools/session-metrics.mjs` rather than by hand, so the same schema can be
+regenerated for any run:
+
+- [`ALPHA-DELIVERY-001-SESSION-METRICS.csv`](ALPHA-DELIVERY-001-SESSION-METRICS.csv) — one row per
+  declared window (five PBIs across four Pi sessions).
+- [`ALPHA-DELIVERY-001-TOOL-ROUNDTRIPS.csv`](ALPHA-DELIVERY-001-TOOL-ROUNDTRIPS.csv) — call-to-result
+  deltas per tool and window.
+- [`ALPHA-DELIVERY-001-GATE-BLOCKS.csv`](ALPHA-DELIVERY-001-GATE-BLOCKS.csv) — governance refusals by
+  category, tool, and count, with a truncated first-line reason. The earlier manual pass had no such
+  column, so block behaviour was invisible in its numbers.
+
+Two additions to the definitions above:
+
+- `gate_blocks` counts tool results that a governance adapter refused, classified by the refusal's
+  stable opening text. It is **not** an error rate and not a safety score: a wrong block is friction,
+  a missing block is a hole, and only the run result can judge which occurred.
+- Approval prompts and confirmations remain uncaptured. The confirm dialog leaves no trace in the
+  session file, so their count and latency are operator-recorded or unavailable.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.
