@@ -1,6 +1,6 @@
 # V52-C11 — Project bootstrap, greenfield setup, and workspace isolation
 
-**Status:** `first-use initialization and reviewed refresh implemented`; collision handling and reset/rollback open
+**Status:** `first-use initialization and reviewed refresh implemented`; collision handling, reset/rollback, and obsolete-path removal open
 
 **Implementation readiness:** **Reviewed initialization and refresh work; no installer or reset tooling.** First-use initialization was validated in exp6 and exp8. Reviewed payload refresh — recorded revision, file manifest, previewed added/replaced/obsolete sets, conflict stop, and post-apply no-op verification — was implemented in `ac9fca5`/`fe1110c` and validated end to end in exp8. General install, collision/reset, rollback, and obsolete-path removal remain open.
 
@@ -174,6 +174,20 @@ A managed tree was reset to genuine `d92cce8` content and recorded at that revis
 Live prompt testing also found and fixed two defects: the prompt lacked an `${@}` placeholder so an
 invoked path was dropped, and status was derived from revision labels, which reported phantom
 changes whenever the incoming revision was unknown.
+
+### Initialization provenance — validated (exp9)
+
+A fresh workspace was initialized from payload `fe1110c` and the first-use preview included
+`AgenticLab/SOURCE-REVISION.json`. After approval the file recorded revision `fe1110c` with 22
+payload-owned files, and `.pi/settings.json` registered `/refresh-payload` alongside the four
+existing prompts. A refresh preview run immediately afterwards reported `noop` with 22 unchanged
+files, so the manifest written at initialization is correct on day one rather than only after
+hand-recording.
+
+That run also exposed one CLI defect: `--record` required `--payload`, although recording only
+describes the installed tree and first initialization may have no separate payload snapshot.
+`--payload` is now optional for `--record` and still required for a preview (`a60dce9`), with tests
+for both.
 
 ### Limits
 

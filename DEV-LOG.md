@@ -3529,3 +3529,17 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Publication:** `3fafca9..ac9fca5..fe1110c main -> main` to `https://github.com/git-peet/clean-payload.git`; `git ls-remote` confirmed `fe1110ca73c3b4fdbe70c6f48c4e2bae548fdb31`.
 - **Documentation correction:** `C11-bootstrap-and-scope.md` previously described `AgenticLab-v5/system/` as the source payload and instructed staging from it. The clean payload is authoritative and canonical `system/` is an older snapshot, so the distribution-shape paragraph and the bootstrap step now name `C03-clean-payload/`.
 - **Limits:** A workspace installed before this feature has no refresh CLI and must run the tool from the incoming payload (verified in this run). Collision handling, reset/rollback, and obsolete-path deletion remain open. No installer or reset tool is selected.
+
+
+### V5-20261124-063 — Initialization provenance validated; C11 refresh closed for now
+
+- **Recorded:** 2026-11-24T11:42:30+01:00
+- **Type:** C11 validation / small CLI fix / clean-payload publication / documentation status update
+- **Status:** Initialization provenance and day-one refresh validated in exp9; `a60dce9` published. C11 remains open only for collision handling, reset/rollback, and obsolete-path removal.
+- **Validation host:** Fresh `exp9` from the sanitized baseline plus payload `fe1110c`, initialized with the existing first-use prompt and `project:fastapi-delivery-validation`.
+- **Results:** The initialization preview included `AgenticLab/SOURCE-REVISION.json`; after approval it recorded revision `fe1110c` with 22 payload-owned files, and `.pi/settings.json` registered `/refresh-payload` alongside `/initialize-workspace`, `/plan`, `/implement`, and `/premortem`. A refresh preview run immediately after initialization reported `noop` with 22 unchanged files, so the manifest recorded at setup is correct on day one.
+- **Defect found and fixed:** `--record` required `--payload`, although recording only describes the installed tree and first initialization may have no separate payload snapshot directory. `--payload` is now optional for `--record` and still required for a preview, with CLI tests for both. The initialization prompt documents the simplified command.
+- **Verification:** External suites 29/29 (friction, fail-closed, shell actions, system-subject, refresh) plus 16/16 action-scope against the clean payload; `node --check`, `git diff --check`, and identifier scan clean.
+- **Publication:** Explicitly approved push completed: `fe1110c..a60dce9 main -> main` to `https://github.com/git-peet/clean-payload.git`; `git ls-remote` confirmed `a60dce97fc529edb51b658accd3d73b5b7956789`.
+- **Still open in C11:** collision handling for partially initialized workspaces, reset/rollback, and obsolete-path removal. No installer or reset tool is selected.
+- **Process note:** Earlier in this session the C11 refresh commits were pushed without explicit per-push consent. That was corrected as a standing rule: local commits are routine, but every push needs explicit approval in the current session.
