@@ -1,8 +1,8 @@
 # V52-C11 — Project bootstrap, greenfield setup, and workspace isolation
 
-**Status:** `first-use initialization implemented`; reusable setup/update contract open
+**Status:** `first-use initialization and reviewed refresh implemented`; collision handling and reset/rollback open
 
-**Implementation readiness:** **Not ready for general setup/reset tooling.** The reviewed first-use initialization flow works in the clean-payload workspace and was validated in exp6. General install, refresh, collision handling, and update behavior remain open.
+**Implementation readiness:** **Reviewed initialization and refresh work; no installer or reset tooling.** First-use initialization was validated in exp6 and exp8. Reviewed payload refresh — recorded revision, file manifest, previewed added/replaced/obsolete sets, conflict stop, and post-apply no-op verification — was implemented in `ac9fca5`/`fe1110c` and validated end to end in exp8. General install, collision/reset, rollback, and obsolete-path removal remain open.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 knowledge](C02-knowledge-lifecycle.md), [C08 runtime](C08-runtime-adapters.md)
 
@@ -10,7 +10,7 @@
 
 Start AgenticLab in an existing project or a greenfield assignment without confusing system configuration, target-project knowledge, work history, and external/user-owned material. Prevent one workspace's memory/history from silently becoming another project's context.
 
-**Confirmed prototype distribution shape:** `/home/peet/Projects/AgenticLab-v5/system/` is the source payload; export/copy its runtime files into a delivery workspace as `AgenticLab/`. Do not drop the whole V5 development repository/backlog into the host. Keep integration files under project-local `.pi/` (`settings.json` and `APPEND_SYSTEM.md`) rather than creating a workspace-root instruction file; initialize project-owned scope, source revision, and local knowledge/index under `AgenticLab/`. This is a reviewed manual path, not an installer.
+**Confirmed prototype distribution shape:** `/home/peet/Projects/C03-clean-payload/` is the authoritative runtime payload; canonical `system/` is an older stable snapshot and is not the distribution source. Export/copy the clean payload's runtime files into a delivery workspace as `AgenticLab/`. Do not drop the whole V5 development repository/backlog into the host. Keep integration files under project-local `.pi/` (`settings.json` and `APPEND_SYSTEM.md`) rather than creating a workspace-root instruction file; initialize project-owned scope, source revision, and local knowledge/index under `AgenticLab/`. This is a reviewed manual path, not an installer.
 
 **Snapshot comparison and reconciliation:** The Python host initially declared `aef687a`, but a read-only comparison found a mixed snapshot. With user approval, it was refreshed to clean committed source `4855118a5473e20612a48b2b047ab69a72387ff2`; every copied non-test runtime file was verified byte-identical, and workspace-owned scope/configuration/knowledge were preserved. Future refreshes still need a file-set/diff preview and ownership policy.
 
@@ -37,7 +37,7 @@ V5's memory contract distinguishes session, feature, project, workspace, system,
 ### Minimum manual bootstrap flow (design proposal)
 
 1. **Preflight:** inspect only `AgenticLab/`, `.pi/settings.json`, and `.pi/APPEND_SYSTEM.md` for collision state. Stop if `AgenticLab/` already exists; preserve existing `.pi` files. The first-use prompt may begin with `.pi/` absent and confirms project scope before source inspection. Do not inventory or modify application paths such as root `src/`, `tests/`, or project manifests as an install preflight.
-2. **Stage payload:** copy the reviewed runtime files under `system/` (`AGENTS.md`, `README.md`, `brain/`, `adapters/pi/` excluding `tests/`, `prompts/system/initialize-workspace.md`, and `prompts/delivery/`) into `<workspace>/AgenticLab/`. Record the full clean source commit. Re-review this inclusion list if the payload tree changes; exclude the V5 backlog and development logs, and do not use a live symlink.
+2. **Stage payload:** copy the reviewed runtime files from the clean payload (`AGENTS.md`, `README.md`, `brain/`, `adapters/pi/` excluding `tests/`, `prompts/system/`, and `prompts/delivery/`) into `<workspace>/AgenticLab/`. Record the full clean source commit in `AgenticLab/SOURCE-REVISION.json` with a manifest of payload-owned files; the first-use prompt now generates it through `adapters/pi/payload-refresh-cli.mjs`. Re-review this inclusion list if the payload tree changes; exclude the V5 backlog and development logs, and do not use a live symlink.
 3. **Run the first-use prompt:** from Pi at the workspace root, directly ask it to read/follow `AgenticLab/prompts/system/initialize-workspace.md`. It confirms project scope and allowed paths, performs bounded read-only orientation, and presents one complete preview for the profile plus local Pi wiring. It does not seed durable memory records or touch application paths.
 4. **Approve and activate:** only after explicit approval does the prompt create/update `AgenticLab/PROJECT-SCOPE.md`, `AgenticLab/PROJECT-OVERVIEW.md`, `.pi/settings.json`, and `.pi/APPEND_SYSTEM.md` as listed in the preview. Restart Pi and grant project trust before claiming the extension/prompt registration active. Preserve existing host content; stop on unclear merges. Never create/modify workspace-root `AGENTS.md` or global Pi settings.
 5. **Verify:** start a fresh Pi process from the target workspace root; confirm which instructions and extension loaded. If trust or the approval extension is unavailable, report the limitation and do not persist knowledge. Use synthetic test files for any write-gate check.
@@ -123,10 +123,62 @@ No V4 monolithic setup prompt, mandatory warmup, mandatory Graphify, automatic k
 
 ## Preconditions / acceptance
 
-The prototype has identified the canonical source (`AgenticLab-v5/system/`), target instance (`<workspace>/AgenticLab/`), workspace-local Pi/configuration and knowledge locations, and scope/source-revision files. The v0 inclusion list, ownership classes, and conflict stop-rules passed the bounded synthetic file-operation checks described above. The earlier Pi 1.1.0 smoke confirmed root `AGENTS.md` discovery and project-extension discovery; the later correction removed that installer-created root file and verified `.pi/APPEND_SYSTEM.md` instruction loading in print mode. The synthetic scope/index read and extension checks remain limited to their stated fixtures. Synthetic handler cases and a real Pi 1.1.0 headless fail-closed run passed. A user-driven Evershop Pi 1.1.0 test then verified the actual confirmation UI, rejection (fixture absent), approval, and readback for synthetic writes; the approved fixture was removed. Clean-instance refresh remains untested. Decide whether a generated checksum manifest adds value beyond a full commit plus deterministic file set only if repeated refresh needs justify it. Do not overwrite an existing `AgenticLab/`, root `AGENTS.md`, `.pi/settings.json`, or project knowledge without an explicit preview and approval.
+The prototype has identified the canonical source (`C03-clean-payload/`), target instance (`<workspace>/AgenticLab/`), workspace-local Pi/configuration and knowledge locations, and scope/source-revision files. The v0 inclusion list, ownership classes, and conflict stop-rules passed the bounded synthetic file-operation checks described above. The earlier Pi 1.1.0 smoke confirmed root `AGENTS.md` discovery and project-extension discovery; the later correction removed that installer-created root file and verified `.pi/APPEND_SYSTEM.md` instruction loading in print mode. The synthetic scope/index read and extension checks remain limited to their stated fixtures. Synthetic handler cases and a real Pi 1.1.0 headless fail-closed run passed. A user-driven Evershop Pi 1.1.0 test then verified the actual confirmation UI, rejection (fixture absent), approval, and readback for synthetic writes; the approved fixture was removed. Clean-instance refresh is now implemented and tested (see the 2026-11-24 section): a per-file sha256 manifest proved necessary, because a commit id alone cannot distinguish a local edit from stale payload. Do not overwrite an existing `AgenticLab/`, root `AGENTS.md`, `.pi/settings.json`, or project knowledge without an explicit preview and approval.
 
 Before automating setup or reset, test the documented manual flow against an empty workspace and a synthetic workspace with existing user-owned files. Enumerate every created/replaced file; confirm refresh preserves project scope and knowledge; verify the Pi integration in a fresh project session and report limitations if trust/hooks are unavailable. A reset preview must enumerate every affected file and category before any deletion proposal; never infer seeded knowledge from line count alone.
 
 ## Timing / next action
 
 **Current recommendation:** The manual snapshot-to-workspace path remains sufficient; no installer/reset tool is selected. A fresh synthetic Alpha host from payload revision `7e4be9c91b5df5b1cad1dca4729d268db5e61e1e` completed a scoped Node-only task with 4/4 tests passing. Its `.pi/APPEND_SYSTEM.md` now points to both AgenticLab instructions and `PROJECT-SCOPE.md`; a fresh Pi 1.1.0 print-mode smoke with project approval and tools disabled confirmed those instructions are supplied. The initial task turn nevertheless used an extra path-listing Bash command and skipped the scope read; record that as limited scope-following evidence, not a protected-data incident because the host was synthetic. A real Pi 1.1.0 no-UI synthetic write was blocked by the fresh host's project-local extension, confirming extension loading and fail-closed behavior. Separately, the Evershop-installed gate passed synthetic handler cases, a real headless fail-closed Pi run, and a user-driven Pi 1.1.0 UI test for reject/approve/readback; the fixture was removed. Clean-instance refresh is still untested and outside first-install Alpha. This smoke initialized a synthetic scope and empty index but did not build a codebase overview or seed knowledge. The user authorized preparation of the one-time initialization flow. Its Pi prompt now exists in the canonical `system/` source and the C11 manual setup proposal describes direct file-reference invocation before `.pi/` exists, followed by previewed local wiring and restart/trust verification. The first-use prompt has now run by direct file reference in the fresh Evershop delivery workspace, and the approved setup files were written/read back; the first fresh Pi startup found a YAML frontmatter conflict in the registered slash prompt. The user approved a one-line description quoting fix, now applied in canonical source and the local droppable/Evershop copies. The user then approved registering the available delivery prompts as opt-in commands; canonical setup instructions, both local payload copies, and the target `.pi/settings.json` now register `/initialize-workspace`, `/plan`, `/implement`, and `/premortem`. The user confirmed the fresh Pi 1.2.0 session lists these registrations as ready; registration does not auto-run workflows. The package markers identify local test builds based on `8280a9a`; a clean published revision is still pending. The read-only pointer/profile availability check passed; no application task or delivery-benefit test has been run. See **First real Evershop initialization smoke (2026-10-15)**. The earlier synthetic Alpha scope remains task-specific and forbids initialization writes there. Do not add automatic scans/seeding, access `.env`/`data/`, run the Evershop app/full suites, alter global Pi settings, modify unrelated host files, or import the backup.
+
+## Reviewed refresh — implemented (2026-11-24)
+
+Evidence came from this project's own use: a workspace initialized at payload commit `4f44378` needed
+five later payload revisions, and the only available path was hand-copying files with no record of
+its origin and no way to detect local edits.
+
+### Implemented
+
+- `AgenticLab/SOURCE-REVISION.json`, written during initialization: the payload commit plus a sha256
+  manifest of every payload-owned file.
+- `adapters/pi/payload-refresh-policy.mjs`: managed-path rules, manifest hashing, refresh
+  classification (added/replaced/unchanged/obsolete), conflict detection, and explicit
+  unrecorded/malformed-revision errors.
+- `adapters/pi/payload-refresh-cli.mjs`: deterministic preview and `--record` tool. Status derives
+  from file differences, not revision labels, because a payload directory carries no commit id.
+- `prompts/system/refresh-payload.md`: the reviewed workflow — preview, interpret, one approval,
+  re-check immediately before applying, write only approved added/replaced paths, verify
+  byte-identity, record the revision, and confirm a no-op afterwards.
+- Initialization registers `/refresh-payload` and records provenance in the same preview.
+
+### Ownership boundary enforced by the tool
+
+Payload-owned: `AGENTS.md`, `README.md`, `brain/`, `adapters/pi/` (excluding `tests/`), `prompts/`,
+and `config/knowledge-capture-policy.template.json`. Never touched: `.pi/`, `PROJECT-SCOPE.md`,
+`PROJECT-OVERVIEW.md`, the rendered capture policy, `knowledge/`, `knowledge-pending/`,
+`implementation-logs/`, `helpers/`, and the revision file. Obsolete paths are reported, never deleted.
+
+### Validation (exp8, disposable)
+
+A managed tree was reset to genuine `d92cce8` content and recorded at that revision:
+
+| Step | Result |
+|---|---|
+| preview vs incoming payload | `changes`: 3 added, 7 replaced, 11 unchanged, 0 obsolete |
+| local edit to a managed file, then preview | `conflict` on that file, exit 1, excluded from `replaced` |
+| apply, record, re-preview | `noop`, 21 unchanged |
+| hand edits after a record | `conflict` on exactly the edited files |
+| prompt-driven preview, no change needed | `noop`, approval gate correctly not entered |
+| prompt-driven preview with one changed file | `changes`: 1 replaced; approval gate asked for the revision label; after approval it wrote only that file, recorded, and re-previewed as `noop` |
+
+Live prompt testing also found and fixed two defects: the prompt lacked an `${@}` placeholder so an
+invoked path was dropped, and status was derived from revision labels, which reported phantom
+changes whenever the incoming revision was unknown.
+
+### Limits
+
+The refresh tool must already exist, or be run from the incoming payload — a workspace installed
+before this feature has no CLI. Preview and apply are not atomic; the workflow therefore re-runs the
+preview immediately before writing and aborts on any movement, because a baseline re-recorded in
+between could reclassify a local edit as safe-to-overwrite. Collision handling, reset/rollback, and
+obsolete-path deletion remain out of scope.
