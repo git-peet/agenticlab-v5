@@ -3473,3 +3473,17 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Publication:** Explicitly approved push completed: `4f44378..d92cce8 main -> main` to `https://github.com/git-peet/clean-payload.git`. `git ls-remote` confirmed remote `main` at `d92cce8e7ba54cf1f211cee4a8cb528cc2de4c49`; local and remote are in sync.
 - **Open, not selected:** `sed` and `find` remain classified read-only for knowledge-path purposes, so `sed -i` on a record and `find … -delete` under `AgenticLab/knowledge` are not blocked. This predates the fix round and was not widened by it; revisit only under an approved bounded scope.
 - **Boundary:** Canonical `system/` was not changed. No shell parser or OS-sandbox claim is made. Evidence lives in `/home/peet/Projects/exp8/PBI-RESULTS.md` and `/home/peet/Projects/exp8/tests/knowledge-friction-fixes.test.mjs`. No further publication or canonical commit was authorized beyond this documentation update.
+
+
+### V5-20261124-059 — Write-capable shell reads closed on knowledge paths
+
+- **Recorded:** 2026-11-24T09:02:58+01:00
+- **Type:** Bounded governance fix / live validation / clean-payload port and publication
+- **Status:** Follow-up hole closed; clean payload moved `d92cce8` → `f2040da`, published.
+- **Gap:** `sed` and `awk` were classified as read-only for knowledge paths, and output redirection was never considered. `sed -i`, `sed -n 'w out'`, `awk 'BEGIN{print > ...}'`, and `cat record > target` could therefore act on knowledge paths through an allowed verb. The same review found `sed -i` was never classified as mutating in the action-scope gate, so in-place edits of out-of-scope files during `/implement` went unchecked.
+- **Fix:** The knowledge-read invariant changed from "looks read-only" to "cannot write": only non-writing verbs plus navigation are allowed, `sed` and `awk` were removed, `find` is allowed only without action flags, and any output redirection disqualifies the segment. The action-scope gate now treats `find` action flags as mutating and detects `-i`, `-i.bak`, `-ni`, and `--in-place` for `sed`. Unknown verbs keep their passthrough deliberately so ordinary validation runs such as `npm test`, `pytest`, and `uv run` are not blocked.
+- **Live validation:** Fresh Pi process. Knowledge gate 8/8 as intended (`sed -i`, `awk … >`, `find -delete`, `find -fprint`, `cat … > /tmp/...` blocked; prefixed `head`, `grep -c`, name-only `find` allowed), no artifacts created, `INDEX.md` unchanged. Action-scope gate 4/4 with a synthetic single-file checkpoint (`sed -i README.md` and `find backend … -fprint /tmp/...` blocked; `sed -n` and name-only `find` allowed); synthetic checkpoint removed afterwards.
+- **Verification:** External friction suite 11/11, action-scope shell-action suite 1/1, existing action-scope suite 16/16 against the actual clean payload; `node --check`, `git diff --check`, and identifier scan clean.
+- **Publication:** `d92cce8..f2040da main -> main` to `https://github.com/git-peet/clean-payload.git`; `git ls-remote` confirmed `f2040dad07bee75ec1778e9bcbbf40a19ce179e2`. Local and remote are in sync.
+- **Deliberate asymmetry:** the knowledge gate restricts reads and writes on knowledge paths; the action-scope gate restricts only writes, because reading workspace source is ordinary work. Do not "fix" this into read isolation without evidence.
+- **Boundary:** No shell parser or OS-sandbox claim. `awk`/`sed` removal applies only to commands that already mention a knowledge path, so unrelated shell work is unaffected. Canonical `system/` unchanged.

@@ -2,7 +2,7 @@
 
 **Status:** `two bounded slices implemented`; broader governance remains open
 
-**Implementation readiness:** **Sensitive-file boundary and action-scope fidelity validated and published.** The clean payload at `d92cce8` includes path-based protected-file handling, semantic authorization-fidelity/blocker/fail-safe rules, and checkpoint-derived exact write/shell scope during `/implement`. Broader governance controls are not ready; see `C04.2` and `C04-governance-gap.md` for the reconciled remaining scope.
+**Implementation readiness:** **Sensitive-file boundary and action-scope fidelity validated and published.** The clean payload at `f2040da` includes path-based protected-file handling, semantic authorization-fidelity/blocker/fail-safe rules, and checkpoint-derived exact write/shell scope during `/implement`. Broader governance controls are not ready; see `C04.2` and `C04-governance-gap.md` for the reconciled remaining scope.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C02 memory safety](C02-knowledge-lifecycle.md), [C08 adapters](C08-runtime-adapters.md), [C07 delegation](C07-specialists-coordination.md)
 
