@@ -3601,3 +3601,17 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Honest scope:** one record, one task, one model, two runs; the control is from a different run, so run variance is not separated from record effect. The record also restated the rules more compactly, so the example and the compactness arrived together and cannot be separated by this design.
 - **Next safe actions:** (1) one treatment with the original prose plus the example block, to separate example from compactness; (2) a fresh control run to remove the variance confound; (3) only then consider guidance recommending a worked example in records that describe conventions or output shapes. No payload change is authorised by this entry.
 - **Boundary:** results in `evaluation/results/ALPHA-KNOWLEDGE-APPLICATION-001.md` with CSVs under `evaluation/metrics/`.
+
+
+### V5-20261125-068 — Example isolation: the worked example carries the effect
+
+- **Recorded:** 2026-11-25T07:00:15+01:00
+- **Type:** Preregistered single-treatment experiment / attribution of the previous result
+- **Status:** `ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001` pass; the example, not the shorter wording, is the plausible cause.
+- **Design:** One workspace (`exp15`) from payload `4827f6b`, same task and model, with exactly one record: exp10's original verbose prose verbatim plus the fenced example block. Four conditions now exist for the same task family: control with no record (4/7), verbose prose only (5/7), compact prose plus example (7/7 twice), and verbose prose plus example (7/7).
+- **Result:** exp15 scored 7/7 with the identical wording that had scored 5/7 without the example. It retrieved once, matched once, and printed `summary: check=compose-env status=ok … errors=0 warnings=3`, lowercase severity prefixes, `fatal:` with exit 2, and findings on stdout.
+- **Grading correction:** criterion 2 was first scored by grepping the script source, which missed exp15 because the summary line is produced by an f-string. It was re-scored from actual output, which is what the criterion means; the other runs were re-checked the same way and were unaffected.
+- **Cost:** 157 s and $0.0183, the cheapest of the treatment runs.
+- **Supported scope:** a record showing the exact expected output transfers formatting conventions that the same rules in prose do not, in default work, on this model. Not supported: universality, stability, or any performance claim; each condition has one run and the control is from an earlier session.
+- **Next safe action:** if acted on, the smallest step is guidance, not code: recommend in `AGENTS.md` that records describing a convention or output shape include one worked example. That is a prompt change and needs its own approval. Robustness checks, if the finding is challenged: a fresh control run and a repeat of the prose-only condition.
+- **Boundary:** no payload change; results in `evaluation/results/ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001.md` with CSVs under `evaluation/metrics/`.

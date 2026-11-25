@@ -1,0 +1,6 @@
+run_id,session_role,session_label,tool_name,paired_calls,roundtrip_sum_seconds,median_seconds,p90_seconds,max_seconds,definition
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,bash,20,154.89,3.599,21.352,36.138,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,edit,2,7.81,3.405,4.408,4.408,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,read,1,2.50,2.499,2.499,2.499,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,readKnowledgeRecords,1,2.50,2.499,2.499,2.499,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,write,2,49.71,21.614,28.092,28.092,Assistant toolCall entry timestamp to matching toolResult entry timestamp

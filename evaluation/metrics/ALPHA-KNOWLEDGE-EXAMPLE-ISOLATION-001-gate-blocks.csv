@@ -1,0 +1,3 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,knowledge_shell,bash,1,2026-11-25T05:57:03.785Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001,delivery_pi,exp15-verbose+example,sensitive_path,bash,1,2026-11-25T05:59:19.892Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl"
