@@ -96,6 +96,23 @@ Single treatment run isolating the example from the wording change:
 One retrieval call, one applicable match, 7/7 on the rubric: the fenced example transferred the
 formatting rules that the identical verbose prose had not.
 
+## AlphaProject PBI 0/1 (2026-11-25)
+
+Raw metrics from the first two lab PBIs are preserved here, but not interpreted as a comparison:
+both runs used a free model, so cost is unavailable, and PBI 1's span includes a long blocked
+interval. Use the PBI run records in `AlphaProject/PBIs.md` for the narrow observations.
+
+- [`ALPHA-PBI-0-session-metrics.csv`](ALPHA-PBI-0-session-metrics.csv),
+  [`ALPHA-PBI-0-tool-roundtrips.csv`](ALPHA-PBI-0-tool-roundtrips.csv),
+  [`ALPHA-PBI-0-gate-blocks.csv`](ALPHA-PBI-0-gate-blocks.csv)
+- [`ALPHA-PBI-1-session-metrics.csv`](ALPHA-PBI-1-session-metrics.csv),
+  [`ALPHA-PBI-1-tool-roundtrips.csv`](ALPHA-PBI-1-tool-roundtrips.csv),
+  [`ALPHA-PBI-1-gate-blocks.csv`](ALPHA-PBI-1-gate-blocks.csv)
+
+From PBI 2 onward the lab uses the paid DeepSeek model already used in earlier alpha runs, so a
+cost comparison becomes possible. A consolidated table should be written only after the sequence,
+with model and window caveats intact.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.
