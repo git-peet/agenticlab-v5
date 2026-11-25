@@ -1,0 +1,5 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,knowledge_shell,bash,1,2026-11-24T13:50:57.330Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,sensitive_path,bash,1,2026-11-24T13:54:28.544Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl"
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,knowledge_shell,bash,1,2026-11-24T13:50:47.632Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,sensitive_path,bash,1,2026-11-24T14:17:35.785Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl"

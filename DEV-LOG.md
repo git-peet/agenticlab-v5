@@ -3559,3 +3559,18 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Publication:** `a60dce9..4827f6b main -> main`; `git ls-remote` confirmed `4827f6bc110ba0cba6c57b0746df08d8ff4cdcf3`.
 - **Limits recorded:** no baseline condition, so no speed or cost comparison against plain Pi is claimed; operator approvals stood in for the user on plans, so approval cost is not measured; four sessions instead of one; PBI 5's knowledge result is confounded by the convention being visible in code.
 - **Next safe actions:** isolate the knowledge effect by running one PBI where the convention exists only as a record; consider a paired baseline only if a decision depends on the speed question; instrument approval prompts only if their count or latency becomes decision-relevant.
+
+
+### V5-20261124-065 — Knowledge transfer experiment: null result, activation is the bottleneck
+
+- **Recorded:** 2026-11-25T06:27:45+01:00
+- **Type:** Preregistered two-workspace experiment / negative result / measurement gap identified
+- **Status:** `ALPHA-KNOWLEDGE-TRANSFER-001` complete; no transfer observed because the treatment never retrieved.
+- **Design:** Two disposable workspaces from payload `4827f6b`, identical task (compose env checker), identical model and prompt, identical mode. Control had an empty knowledge corpus; treatment had exp10's real `check-script-convention` record in a matching scope. A 7-point mechanical rubric was preregistered with a stated prediction and contamination audit before either run.
+- **Result:** Control scored 4/7 and treatment 5/7 — a one-point gap that the preregistration said must not be treated as evidence. Neither matched the convention's summary-line or severity-prefix shape.
+- **Decisive observation:** the treatment never called `readKnowledgeRecords` (0 calls); the control called it once and correctly received a complete no-match. So the run measured activation, not transfer: a retrievable, in-scope, active record was simply not consulted in default work.
+- **Secondary observations:** activation varied between two identical runs; control span 408 s and $0.027 versus treatment 2,195 s and $0.057, unexplained by one run each; both agents produced working, tested checkers (16 and 15 tests); rubric criterion 5 (exit codes) is non-discriminating because the baseline script already used `sys.exit(0/1)`.
+- **Carried finding:** two governance blocks appeared in both workspaces on the fixed payload, so either different command shapes remain blocked or the fixes did not cover them. Not investigated.
+- **Interpretation:** this is not evidence that knowledge fails to help; it is evidence that the agent did not read the knowledge. The next hypothesis is activation, not record quality: test a record whose content cannot be inferred from the repository, then adjust `AGENTS.md` trigger wording or add a read-before-new-convention rule only if retrieval still fails.
+- **Measurement gap:** retrieval activation had to be counted by hand from session files. If it becomes a recurring question, it belongs in the metrics extractor as a derived column rather than a manual count.
+- **Boundary:** No payload change, no publication beyond the evaluation record. Results in `evaluation/results/ALPHA-KNOWLEDGE-TRANSFER-001.md` with CSVs under `evaluation/metrics/`.

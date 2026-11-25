@@ -1,0 +1,12 @@
+run_id,session_role,session_label,tool_name,paired_calls,roundtrip_sum_seconds,median_seconds,p90_seconds,max_seconds,definition
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,bash,28,425.60,6.431,9.918,132.395,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,edit,6,45.98,6.385,9.899,9.899,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,read,5,29.70,6.320,7.940,7.940,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,readKnowledgeRecords,1,9.92,9.918,9.918,9.918,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp11-control,write,2,88.00,17.116,70.889,70.889,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,bash,28,1518.28,16.915,137.218,152.925,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,edit,8,417.27,36.086,131.388,131.388,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,read,5,317.14,31.320,129.796,129.796,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,readKnowledgeRecords,2,118.60,6.567,112.030,112.030,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,recordContextSelectionMetric,1,52.90,52.904,52.904,52.904,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-TRANSFER-001,delivery_pi,exp12-treatment,write,3,176.86,19.640,143.944,143.944,Assistant toolCall entry timestamp to matching toolResult entry timestamp
