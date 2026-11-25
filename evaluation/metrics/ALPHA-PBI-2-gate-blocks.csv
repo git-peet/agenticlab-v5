@@ -1,0 +1,4 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason
+ALPHA-PBI-2,delivery_pi,alpha-pbi2,action_scope,bash,2,2026-11-25T21:59:26.238Z,Action-scope fidelity: mutating shell target could not be identified; blocked.
+ALPHA-PBI-2,delivery_pi,alpha-pbi2,knowledge_shell,bash,1,2026-11-25T21:54:26.477Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-PBI-2,delivery_pi,alpha-pbi2,sensitive_path,bash,1,2026-11-25T21:59:19.304Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl"

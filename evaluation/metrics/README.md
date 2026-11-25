@@ -109,9 +109,10 @@ interval. Use the PBI run records in `AlphaProject/PBIs.md` for the narrow obser
   [`ALPHA-PBI-1-tool-roundtrips.csv`](ALPHA-PBI-1-tool-roundtrips.csv),
   [`ALPHA-PBI-1-gate-blocks.csv`](ALPHA-PBI-1-gate-blocks.csv)
 
-From PBI 2 onward the lab uses the paid DeepSeek model already used in earlier alpha runs, so a
-cost comparison becomes possible. A consolidated table should be written only after the sequence,
-with model and window caveats intact.
+PBI 0 and 1 ran on `hy4-flash-free`; PBI 2 was the first paid `deepseek-v4.1-flash` lab run
+($0.0868). The PBI 0/1 figures were corrected after fixing the extractor to honour declared
+`--start`/`--end` windows and to attribute the dominant model in each window. A consolidated table
+should be written only after the sequence, with model and window caveats intact.
 
 ## Future runs
 
