@@ -129,6 +129,17 @@ PBI 2: 445 s, 68 calls, $0.0868. PBI 3: 459 s, 60 calls, $0.0700. Both used
 `deepseek-v4.1-flash` and included relevant retrieval and promotions. A consolidated table remains
 deferred until the PBI sequence closes.
 
+## AlphaProject PBI 4 (2026-11-25)
+
+PBI 4 (Conversations UI) paid-model lab metrics:
+
+- [`ALPHA-PBI-4-session-metrics.csv`](ALPHA-PBI-4-session-metrics.csv),
+  [`ALPHA-PBI-4-tool-roundtrips.csv`](ALPHA-PBI-4-tool-roundtrips.csv),
+  [`ALPHA-PBI-4-gate-blocks.csv`](ALPHA-PBI-4-gate-blocks.csv)
+
+316 s, 54 tool calls, $0.0687, `deepseek-v4.1-flash`, no gate blocks. A consolidated table remains
+deferred until the sequence closes.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.
