@@ -3628,3 +3628,16 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Evidence lineage:** `ALPHA-KNOWLEDGE-TRANSFER-001` (prose record retrieved, formatting rules not applied), `ALPHA-KNOWLEDGE-APPLICATION-001` (compact prose plus example: 7/7 twice), `ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001` (verbose prose plus example: 7/7, versus 5/7 for the same prose without it).
 - **Verification:** docs-only change; payload suites 35/35 and 16/16 still pass, `git diff --check` clean, identifier scan clean.
 - **Boundary:** no code, gate, or configuration change. No publication without separate approval.
+
+
+### V5-20261125-070 — Implement checkpoint disposition ordering defect (observed twice)
+
+- **Recorded:** 2026-11-25T14:07:55+01:00
+- **Type:** Workflow finding / deferred fix; no payload change
+- **Status:** documented, not fixed. Recorded in C04.2 and in AlphaProject `PBIs.md` under PBI 0.
+- **Observation 1 (exp10 PBI 1):** the user chose A (retain the plan checkpoint). The action-scope gate stayed armed with PBI 1's three-file scope and blocked unrelated default work in the next PBI until a Pi restart.
+- **Observation 2 (AlphaProject PBI 0):** the user chose B (delete the checkpoint). The deletion succeeded, but the implementation log path was still inside approved scope; with the checkpoint gone the gate could no longer verify scope and correctly refused the log write. The agent reported it rather than routing around it; the operator wrote the log from verified evidence.
+- **Defect statement:** `/implement` currently asks for checkpoint disposition **before** the implementation log is written. Both A and B therefore fail: A leaves a stale armed scope, B removes the authorization needed for the required log output. This is not a choice the user can currently make correctly.
+- **Observed behaviour is correct; the ordering is wrong.** The gate fails closed in both branches, as designed. No code change is justified by these observations alone.
+- **Proposed fix, deferred:** in `prompts/delivery/implement.md`, write the implementation log before asking A/B. Disposition then controls only transient checkpoint retention, not a required workflow output. An optional gate-side release on log existence was considered and is **not** recommended first: it reintroduces the earlier fail-open failure mode that was reverted after live testing.
+- **Boundary:** no payload change, no prompt change, no publication. This entry records the finding so that a later bounded fix has two independent observations behind it.
