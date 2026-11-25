@@ -1,10 +1,26 @@
 # V52-C02 — Project knowledge capture, lifecycle, and memory defense
 
-**Status:** `candidate` — central capability; not yet selected for implementation
+**Status:** `implemented` (bounded scope) — not selected as one unified backlog item; substantial component implementation and validation exist.
 
-**Implementation readiness:** **Partly framed, not implementation-ready.** Select a minimal record/write/read slice and obtain an explicit work scope first.
+**Implementation readiness:** **Core loop substantially prototyped; C02-level scope closure and broader acceptance remain open.** The original minimal record/write/read preconditions have been exercised in bounded slices; do not treat the historical readiness statement as the current implementation state.
 
 **Parent:** [`../README.md`](../README.md) · [`../../V5.2-roadmap.md`](../../V5.2-roadmap.md) · related: [C03 context engineering](C03-context-engineering.md), [C04 governance](C04-governance-safety.md), [C05 continuity](C05-continuity-observability.md)
+
+## Current implementation status (2026-11-04)
+
+Keep backlog selection separate from implementation progress. C02 remains a portfolio candidate, but it has a substantial implementation history: delivery-workspace lifecycle/retrieval work, an earlier generic canonical `system/` snapshot, and the recent clean-payload/exp4 validation described below. The canonical `system/` is intentionally the older stable snapshot and was not changed in this latest slice.
+
+| Instance | Current role/status |
+|---|---|
+| `AgenticLab-v5/system/` | Older stable canonical snapshot; deliberately left unchanged during the current C02 work. |
+| `/home/peet/Projects/C03-clean-payload/` | Generic distribution target, now the authoritative published payload at `1f26fbe`. The exp4 delta was committed and published; later knowledge fixes and the worked-example guidance followed. |
+| `/home/peet/Projects/exp4/AgenticLab/` | Historical delivery/test workspace that supplied the tested retrieval/manual-discovery changes. Archived to `Archive/V5-Experiments/exp4-agenticlab-evidence-2026-11-23.tar.gz`; the workspace was removed. |
+
+**Validated in bounded slices:** the exp4 retrieval experiment ran all five jobs against promoted synthetic records; manual source discovery produced a structured candidate, followed by user-approved staging and a separate UI promotion confirmation; the promotion confirmation was shortened to keep its controls visible. The generic operating guidance, retrieval contract, adapter confirmation, and initialization command note were then staged and regression-tested before the clean-payload update. See [`DEV-LOG.md`](../../DEV-LOG.md) entries V5-20261103-035 and V5-20261104-036, and the archived [exp4 retrieval execution plan](../../Archive/C02-retrieval-plan.md).
+
+**Superseded status note (2026-11-25):** the paragraph above records the 2026-11-04 position. Since then, three preregistered knowledge experiments ran against the published payload and produced the first measured indication that retrieval changes behaviour. A record carrying a **worked example** transferred a formatting convention in two independent runs (7/7), while identical prose alone scored 5/7; a fourth experiment showed retrieval firing after an initial `no_match` and partially applying a record. See `evaluation/results/ALPHA-KNOWLEDGE-*.md`. The knowledge contract now recommends a worked example for convention records.
+
+**Still open:** these results remain single-model (`deepseek-v4.1-flash`), single-task-family, and one run per condition. They do not establish population-level capture reliability, absence of over-capture, causal memory benefit at scale, large-corpus performance, or broad C02 completion. Freshness has no age-based cutoff by design until a concrete use case requires one. The new manual-discovery stage-to-promotion behavior has not been ported into delivery workflow prompts. Keep those as separate scope/validation decisions rather than implying the backlog item is complete.
 
 ## Purpose
 
@@ -41,11 +57,13 @@ V5 should preserve the **capture and traceability function**, not assume persona
 
 **Prototype evidence:** An early synthetic draft-plan run proposed a compatibility candidate, and `/implement` later returned two overlapping candidates; the read-only `/premortem` also repeated the header/importer limitation already present in the fixture contract. A later manual run of the canonical V5 `/plan` prompt correctly returned no new candidate when the contract had been read. The native Pi prompt-template run exposed a remaining reliability gap: it listed the real `AgenticLab/knowledge` directory despite the fixture-only boundary, skipped the fixture's `docs/csv-contract.md`, then proposed the compatibility candidate from source alone. It did not read real knowledge contents, edit, or execute, but this is not a clean scope/deduplication pass. The synthetic implementation returned no new candidate and its isolated fixture suite passed 4/4; the premortem surfaced a conditional partial-destination risk and marked atomicity as unrequired by the PBI. No durable knowledge was persisted. This supports an explicit cross-phase consolidation/filter step and exact-source-boundary handling in fixture tests; the sample does not estimate capture recall or the reported V4 provenance share.
 
-## Knowledge interface design checkpoint — proposal, not selected
+## Knowledge interface design checkpoint — initial proposal and subsequent validation
+
+**Status update (2026-11-04):** The hierarchical INDEX → curated MOC → authoritative record-corpus direction described here was subsequently approved for continued design and exercised in retrieval contracts and exp4 tests. The original host trials below remain historical evidence with their stated limitations; the approved direction is not evidence of broad memory utility.
 
 The first lookup found an active date decision via `INDEX.md` only after the user explicitly asked Pi to check project knowledge; the response did not establish that the linked record was opened. A later natural task failed to read the index/record and queried the real database read-only, violating the no-read boundary; treat that run as invalid. After adding a project-level data boundary and starting Pi with read-only tools, a new natural date-format task (no memory/index mention) did read `INDEX.md`, the linked record, and current source, without accessing `data/`, executing commands/tests, or editing files. This demonstrates activation, fetch, and source verification for that bounded case. The answer did not explicitly attribute its recommendation to the stored user decision, so causal usefulness remains unproven.
 
-**Current V5 implementation boundary:** `system/brain/knowledge-contract.md` and `system/AGENTS.md` define the record lifecycle and instruct selective file reads; Pi's native `read`/`ls` tools performed the explicit host trial. `system/adapters/pi/knowledge-write-gate.*` gates supported `write`/`edit` calls and blocks visible shell references—it does not implement read selection, search, index parsing, MOC/graph traversal, ranking, or retrieval telemetry. V5 has no custom retrieval engine yet.
+**Historical implementation boundary (superseded by the versioned status above):** At the time of the initial knowledge-interface trial, canonical `system/` had the write gate and prompt-guided native file reads but not the newer `readKnowledgeRecords` implementation. The current clean payload includes the local scoped `readKnowledgeRecords` adapter and retrieval contract. It remains a local filesystem-based mechanism—not semantic/vector retrieval, a generated catalog, or a graph engine. Do not infer the clean-payload or exp4 state from the older canonical `system/` snapshot.
 
 **Data-boundary incident and follow-up:** an earlier natural-task Pi transcript showed a read-only SQLite query against the real `data/expenses.db`, despite the no-read boundary. It used `mode=ro` and post-run size/mtime/ctime were unchanged, but the read was still unauthorized; that run is invalid. The host root `AGENTS.md` now explicitly forbids data/ and `.env` access, and the later activation check used a read-only Pi tool allowlist with no Bash/MCP. Treat the boundary instruction as important but not a sandbox; stop if a future tool call approaches protected data.
 
@@ -59,7 +77,7 @@ Do not conflate these two DiaWorkspace paths, and do not confuse either with the
 
 Only a selective, read-only review of valuable backup material is in scope. Do not copy or import its knowledge into V5 or Python. Counts and structure are not evidence that any item remains useful or accurate; model recoverability must be assessed separately.
 
-### Working mental model for the V5 knowledge interface (draft)
+### Working mental model for the V5 knowledge interface (approved baseline; scale and utility remain open)
 
 Keep the interface understandable as one path, with separate responsibilities:
 
@@ -111,9 +129,9 @@ Evidence labels distinguish specification, implementation, populated artifacts, 
 
 **Observed runtime granularity:** 9 usable map nodes point to a ~3.9 KB symbol index and 3 point to a ~27.8 KB Architect MOC. The adapter caps notes/domains loaded, but a match can still load a much larger file than the matched concept. This is a candidate design issue—not proof that the legacy mechanism failed—because the backup contains no controlled user-level retrieval outcome for these examples.
 
-### Proposed retrieval jobs
+### Retrieval jobs exercised in exp4 (synthetic validation)
 
-Treat these as a workload to review, not as validated requirements:
+These five jobs were executed against the promoted synthetic records in exp4; the completed plan is archived at [`../../Archive/C02-retrieval-plan.md`](../../Archive/C02-retrieval-plan.md). They validate bounded retrieval mechanics on a small synthetic corpus, not representative production recall, causal utility, or scale. Retain the list as a workload reference, not as the complete C02 acceptance set:
 
 1. **Exact decision recall:** find a scoped decision and return its claim, rationale, status, and provenance.
 2. **Task-relevant guidance:** identify applicable procedures or risks for a current task without loading unrelated records.
@@ -223,7 +241,9 @@ The current first-slice template declares one `Category` field with values `deci
 
 This aims for one approval per new record; map edits remain gated only when navigation concepts/relationships genuinely change. If enumerating the canonical record corpus is too expensive as it grows, compare a safe generated metadata inventory/catalog against local lexical search before adding a custom runtime.
 
-### Minimum knowledge-interface contract v0 (design draft)
+### Minimum knowledge-interface contract v0 (implemented prototype baseline)
+
+This contract has been added to the clean payload and exercised in exp4. The checks below describe the prototype baseline, not scale or broad-benefit acceptance.
 
 - **INDEX:** identifies the project scope, links to topic/domain MOCs, points to the authoritative records corpus, and states how retrieval outcomes are reported. It does not manually enumerate every record.
 - **MOC:** provides concise concept summaries, aliases/trigger language, cross-topic relationships, and curated links to high-value records. It is useful navigation but may be incomplete; it never duplicates record truth.
@@ -237,6 +257,8 @@ This aims for one approval per new record; map edits remain gated only when navi
 **Not selected:** exact physical sharding, a generated catalog/custom reader, ranking beyond native lexical + curated routes, multi-valued topic metadata, semantic/vector search, and multi-file write batching. Revisit only if measured scale, misses, or approval cost justify them.
 
 ### Proposed index-completeness rule (candidate)
+
+**Status update (2026-11-04):** This rule is now present in the clean-payload knowledge contract and retrieval instructions; the exp4 five-job experiment exercised the outcome distinctions on a small promoted synthetic corpus. The heading is retained for existing cross-references; broader completeness and scale behavior remain unproven.
 
 Treat `records/` as the authoritative set of atomic records; `INDEX.md` routes to topic MOCs, and MOCs may be curated navigation rather than an exhaustive per-record manifest. To claim **no match**, retrieval must complete a search/inventory of all eligible records in the requested workspace/subproject scope, in addition to consulting any relevant MOC routes. Report the scan scope and whether it was complete; if the scan is truncated or unavailable, report that limitation instead of “no match.” A map miss alone is never proof of absence.
 
@@ -255,19 +277,20 @@ A candidate flow is: resolve workspace/project scope → discover candidate reco
 - No automatic promotion, automatic synthesis into “truth,” unconditional injection, Hindsight dependency, vector store, or copied V4 tier/file layout.
 - No broad metrics collection unless an approved experiment specifies its purpose and data handling.
 
-## Preconditions before implementation
+## Original preconditions and current disposition
 
-- Select one project/workspace scope and a concrete source of a candidate decision/experience.
-- Define the smallest inspectable record and where its source evidence points.
-- Decide how a human reviews and approves a candidate in the chosen host; fail closed for any governed write if confirmation is unavailable.
-- Define retrieval states, scope/freshness checks, and what must be verified against current code.
-- Confirm that using a real project task and storing its data is explicitly approved.
+The initial exp4 prototype selected `project:exp4`, used source-backed candidates, exercised the staged/inactive and UI-confirmed promotion lifecycle, and distinguished retrieval outcomes with source verification. These conditions are satisfied for those bounded tests, not as a blanket C02 implementation authorization or universal acceptance claim. Broader workspace/version rollout remains separately reviewed and approved.
 
-## Future acceptance checks
+## Remaining acceptance and evaluation checks
 
-A bounded prototype should show that it can: propose a supported, scoped candidate; keep it inactive until human action; retrieve it only in the right scope; mark stale/filtered/unavailable distinctly; preserve provenance; verify current facts where needed; and avoid secrets/unsafe content. Test a fresh session using one genuine project decision rather than a designer-authored fact that duplicates code. Measure capture/review effort and retrieval errors as well as usefulness.
+- Expand fresh-session tests to include positive and negative manual-discovery cases, deduplication against active/pending knowledge, and cases where no candidate should be proposed. Current evidence is a small number of positive exp4 smokes.
+- Continue checking scope, provenance, source verification, complete/incomplete retrieval outcomes, and secret/value-shape defenses in the intended target payload; a passing mechanism test is not a guarantee of broad safety.
+- Evaluate capture/review interruptions, over-capture, retrieval misses, and task utility on representative work before claiming general benefit. Current evidence does not establish causal memory benefit or large-corpus performance.
+- Decide whether the clean-payload version is accepted as the new distribution baseline after the user reviews the exact local diff. Do not synchronize the older canonical `system/` as part of this step.
 
-## Timing / next action
+## Timing / current status and next action
+
+**Current status (2026-11-04):** The retrieval experiment is complete; the latest manual-discovery and compact-confirmation slice was smoke-tested in exp4 and ported to the clean payload. The older `system/` snapshot remains intentionally unchanged. The following first-slice and Phase 4 paragraphs preserve earlier evidence, not the current implementation boundary.
 
 **First-slice evidence:** A guarded, natural date-format task read the index, linked record, and current source; the user found the answer useful, but it did not explicitly cite the saved rationale, so causal memory benefit is unproven. An unrelated description task did not read the date record. An explicit retention-policy no-match check, followed by record-corpus inventory, confirmed that the current flat one-record store contains no applicable record. Synthetic map-omission tests showed native lexical discovery and status/scope filtering when explicitly prompted; directory-wide grep exposed excluded snippets, while per-eligible-file search avoided that. A natural-query test with the refined instructions used bounded metadata reads and avoided excluded bodies, but did not call grep; its correct candidate answer does not establish complete corpus search. One earlier unguarded attempt queried the real DB read-only and violated the data boundary; no modification was detected. Later tests used the root AGENTS safety instruction and read-only Pi tools, with no data access. Two approvals (record and index) were required for one decision; the user's concern is prompt frequency. These are small qualitative trials, not performance or scale claims.
 
@@ -279,14 +302,12 @@ A bounded prototype should show that it can: propose a supported, scoped candida
 
 **Next:** Keep the explicitly prompted two-phase native method as the procedure for claims of complete search/no-match; require the tool trace to show every eligible path was searched. The natural-query tests show metadata-first filtering can avoid excluded-body reads, but do not yet show that instructions reliably trigger exhaustive per-file search. Do not keep adding prompt wording, build a custom catalog, or run larger scale tests for the current one-record corpus. Revisit deterministic search orchestration only if real corpus growth or repeated retrieval misses make the gap material; any such runtime work needs a separate bounded scope. Keep the real DB off limits; do not add Jev or batching from these small samples.
 
-### Proposed next implementation slice (pending explicit approval)
+### Remaining C02 scope and decisions
 
-**Canonical V5 files:** update `system/brain/knowledge-contract.md` with the MOC/index template and coverage semantics; update `system/AGENTS.md` with the task-triggered route/search/read/verify sequence and incomplete-search behavior. Add no custom runtime/search code.
-
-**Python host:** refresh only the corresponding reviewed `AgenticLab/` system snapshot and revision marker. Do not change the app, tests, `.pi/settings.json`, real knowledge index, date record, or database. Use temporary synthetic fixtures for additional checks; do not commit/push Python changes.
-
-**Acceptance:** in a fresh Pi session, (1) a relevant task reads the appropriate MOC/record and verifies current source; (2) an active in-scope record omitted from a MOC is found; (3) inactive/wrong-scope records are filtered without their body snippets being exposed before filtering; (4) `no match` follows only a complete inventory, while capped/unavailable search is surfaced as such; (5) the tool trace establishes which files were read and what candidate content was returned. No user approval is required for reads; persistent writes remain behind the existing gate. No per-record map/index update is required by the contract.
-
-This is a proposal for approval, not authorization to make those changes. If native tools prove insufficient, stop and present that evidence before adding a custom catalog.
+- Reconcile the broad C02 completion boundary and backlog status; do not mark the candidate complete solely because several mechanisms are implemented.
+- Gather broader evidence for capture reliability, over-capture, utility, and user-interruption cost; current positive smokes are qualitative.
+- Keep freshness policy use-case-driven; no age-based expiration rule is selected.
+- Delivery workflow prompts are a separate future decision. The latest post-discovery two-gate flow is in the generic clean payload and exp4 test workspace, but its integration into `/plan`, `/implement`, or `/premortem` was explicitly deferred.
+- Keep canonical V5 `system/` as the older stable snapshot unless a separate future port is approved. The current clean payload has a local, uncommitted C02 update; no commit/push was included in this work.
 
 **Jev revisit:** The later design of when/how to present a memory candidate for user review is a bounded-decision candidate (e.g. retain as candidate / keep transient / needs more evidence, or summarize a batch). See C09. Revisit only after actual candidate reviews reveal repeated friction—especially repeated approval interruptions, not merely unclear prompt wording. Jev may advise or prepare a review, never approve, persist, promote, suppress required confirmation, or delete knowledge.
