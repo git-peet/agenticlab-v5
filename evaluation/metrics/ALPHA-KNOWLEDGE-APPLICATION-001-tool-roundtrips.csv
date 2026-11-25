@@ -1,0 +1,10 @@
+run_id,session_role,session_label,tool_name,paired_calls,roundtrip_sum_seconds,median_seconds,p90_seconds,max_seconds,definition
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp13-treatmentA,bash,14,77.85,4.330,9.244,9.619,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp13-treatmentA,read,1,5.37,5.369,5.369,5.369,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp13-treatmentA,readKnowledgeRecords,3,9.61,2.860,3.887,3.887,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp13-treatmentA,write,2,70.78,13.092,57.688,57.688,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp14-treatmentB,bash,17,94.54,2.699,8.427,41.021,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp14-treatmentB,edit,4,22.88,4.703,8.230,8.230,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp14-treatmentB,read,4,29.24,2.972,14.772,14.772,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp14-treatmentB,readKnowledgeRecords,2,11.06,2.634,8.426,8.426,Assistant toolCall entry timestamp to matching toolResult entry timestamp
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp14-treatmentB,write,2,70.46,26.254,44.209,44.209,Assistant toolCall entry timestamp to matching toolResult entry timestamp

@@ -73,6 +73,18 @@ The first version of this result was wrong because activation was counted by han
 missed two calls: control 1 call / 0 matches, treatment 2 calls / 1 match. Counting activation by
 hand is not acceptable; use the columns.
 
+## ALPHA-KNOWLEDGE-APPLICATION-001 (2026-11-25)
+
+Two treatment runs against an example-bearing record, with the earlier control reused as reference.
+Retrieval columns made the activation question answerable without hand-counting:
+
+- [`ALPHA-KNOWLEDGE-APPLICATION-001-SESSION-METRICS.csv`](ALPHA-KNOWLEDGE-APPLICATION-001-SESSION-METRICS.csv)
+- [`ALPHA-KNOWLEDGE-APPLICATION-001-TOOL-ROUNDTRIPS.csv`](ALPHA-KNOWLEDGE-APPLICATION-001-TOOL-ROUNDTRIPS.csv)
+- [`ALPHA-KNOWLEDGE-APPLICATION-001-GATE-BLOCKS.csv`](ALPHA-KNOWLEDGE-APPLICATION-001-GATE-BLOCKS.csv)
+
+Both treatments retrieved the record (3 and 2 calls, 2 applicable matches each) and scored 7/7 on the
+rubric, versus 4/7 for the reference control.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.

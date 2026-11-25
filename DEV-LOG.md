@@ -3587,3 +3587,17 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Tooling change:** `AgenticLab-tools/session-metrics.mjs` now derives `retrieval_calls`, `retrieval_applicable`, `retrieval_no_match`, `retrieval_filtered`, and `retrieval_unavailable` from the adapter's own `status` field, with tests. The regenerated CSVs show control 1 call / 0 matches and treatment 2 calls / 1 match.
 - **Revised conclusion:** retrieval activation is weaker evidence than assumed but did occur here; the weaker link is application. A retrieved semantic rule was adopted, while literal formatting rules were not. The next question is why, and whether an example line transfers better than prose.
 - **Process note:** the correction is appended rather than written over the earlier entry. The result document carries an explicit correction line so a reader who saw the first version sees that it changed.
+
+
+### V5-20261125-067 — Knowledge application experiment: an example transferred what prose did not
+
+- **Recorded:** 2026-11-25T06:43:54+01:00
+- **Type:** Preregistered two-treatment experiment / first positive knowledge result
+- **Status:** `ALPHA-KNOWLEDGE-APPLICATION-001` pass, hypothesis confirmed on both runs.
+- **Design:** Two fresh workspaces (`exp13`, `exp14`) from payload `4827f6b`, identical task and model, one record in each corpus: the repository check-script convention restated with a fenced example of the exact output lines. The earlier control (`exp11`, 4/7, both formatting criteria unmet) was reused as the reference, as preregistered.
+- **Result:** both treatments scored 7/7, including the two formatting criteria that prose alone had failed to transfer. Both printed findings to stdout with lowercase `error:`/`warning:` prefixes and a final `summary: check=compose-env status=ok … errors=0 warnings=3` line matching the example shape; both used `fatal:` with exit 2 for unusable input.
+- **Retrieval:** both treatments retrieved the example record (3 and 2 calls, 2 applicable matches each), and neither stopped after a first `no_match`. This is now measured from the adapter's own status field rather than by hand.
+- **Cost:** 137 s / $0.0144 and 209 s / $0.0210, both faster and cheaper than the earlier prose-record run (2,195 s / $0.0566), which one run each cannot attribute to anything.
+- **Honest scope:** one record, one task, one model, two runs; the control is from a different run, so run variance is not separated from record effect. The record also restated the rules more compactly, so the example and the compactness arrived together and cannot be separated by this design.
+- **Next safe actions:** (1) one treatment with the original prose plus the example block, to separate example from compactness; (2) a fresh control run to remove the variance confound; (3) only then consider guidance recommending a worked example in records that describe conventions or output shapes. No payload change is authorised by this entry.
+- **Boundary:** results in `evaluation/results/ALPHA-KNOWLEDGE-APPLICATION-001.md` with CSVs under `evaluation/metrics/`.

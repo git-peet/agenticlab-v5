@@ -1,0 +1,3 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp13-treatmentA,knowledge_shell,bash,1,2026-11-25T05:39:52.929Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+ALPHA-KNOWLEDGE-APPLICATION-001,delivery_pi,exp14-treatmentB,knowledge_shell,bash,1,2026-11-25T05:39:42.579Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
