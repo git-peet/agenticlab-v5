@@ -2,6 +2,7 @@
 
 - **Preregistration:** [`../plans/ALPHA-KNOWLEDGE-TRANSFER-001.md`](../plans/ALPHA-KNOWLEDGE-TRANSFER-001.md) (committed before either run as `5ffae8b`)
 - **Status:** **partial transfer** — the record was retrieved and one criterion was adopted, the rest were not
+- **Reproducibility note 2026-11-25:** the treatment's archived script now scores 7/7 under the mechanical rubric in `AgenticLab-tools/eval`, not the 5/7 recorded here. Its archive mtime postdates the measured run and the session log contains no later messages, so the change cannot be reconstructed. The exp12 row below is therefore **unreproducible from the surviving artifact**; the control and all three later experiments reproduce exactly. Treated as an isolated artifact integrity issue, not a finding about retrieval.
 - **Correction 2026-11-24:** this result was first published as "treatment never retrieved" after a hand-scan of the session file missed two calls. The session record shows two retrieval calls with one match. The correction is recorded rather than silently edited; the hand-count was the failure, not the adapter.
 - **Run date/time and offset:** 2026-11-24, UTC+01:00
 - **Workspaces:** `exp11` (control), `exp12` (treatment), both disposable
