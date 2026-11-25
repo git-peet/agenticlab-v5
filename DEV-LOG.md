@@ -3615,3 +3615,16 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Supported scope:** a record showing the exact expected output transfers formatting conventions that the same rules in prose do not, in default work, on this model. Not supported: universality, stability, or any performance claim; each condition has one run and the control is from an earlier session.
 - **Next safe action:** if acted on, the smallest step is guidance, not code: recommend in `AGENTS.md` that records describing a convention or output shape include one worked example. That is a prompt change and needs its own approval. Robustness checks, if the finding is challenged: a fresh control run and a repeat of the prose-only condition.
 - **Boundary:** no payload change; results in `evaluation/results/ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001.md` with CSVs under `evaluation/metrics/`.
+
+
+### V5-20261125-069 — Worked-example guidance published in the knowledge contract
+
+- **Recorded:** 2026-11-25T07:03:19+01:00
+- **Type:** Payload documentation change / bounded follow-on to the knowledge experiments
+- **Status:** committed locally in clean payload `1f26fbe`; publication pending explicit approval.
+- **Change:** `brain/knowledge-contract.md` gained one paragraph after the existing "do not persist re-derivable code facts" guidance: when a record defines a convention, output format, or procedure, include one short worked example showing the expected result, because a prose-only rule is easy to reinterpret or drift from.
+- **Why this file:** `AGENTS.md` already points to `brain/knowledge-contract.md` as the record-format authority, so the rule belongs there rather than duplicated across both contracts.
+- **Why this wording:** the supporting evidence is narrow — one task family, one model, four conditions — so shipped payload text states the practice and its rationale without citing internal experiments or claiming measured superiority.
+- **Evidence lineage:** `ALPHA-KNOWLEDGE-TRANSFER-001` (prose record retrieved, formatting rules not applied), `ALPHA-KNOWLEDGE-APPLICATION-001` (compact prose plus example: 7/7 twice), `ALPHA-KNOWLEDGE-EXAMPLE-ISOLATION-001` (verbose prose plus example: 7/7, versus 5/7 for the same prose without it).
+- **Verification:** docs-only change; payload suites 35/35 and 16/16 still pass, `git diff --check` clean, identifier scan clean.
+- **Boundary:** no code, gate, or configuration change. No publication without separate approval.
