@@ -114,6 +114,21 @@ PBI 0 and 1 ran on `hy4-flash-free`; PBI 2 was the first paid `deepseek-v4.1-fla
 `--start`/`--end` windows and to attribute the dominant model in each window. A consolidated table
 should be written only after the sequence, with model and window caveats intact.
 
+## AlphaProject PBI 2/3 (2026-11-25)
+
+First paid-model lab runs, usable for a cost comparison with earlier alpha runs:
+
+- [`ALPHA-PBI-2-session-metrics.csv`](ALPHA-PBI-2-session-metrics.csv),
+  [`ALPHA-PBI-2-tool-roundtrips.csv`](ALPHA-PBI-2-tool-roundtrips.csv),
+  [`ALPHA-PBI-2-gate-blocks.csv`](ALPHA-PBI-2-gate-blocks.csv)
+- [`ALPHA-PBI-3-session-metrics.csv`](ALPHA-PBI-3-session-metrics.csv),
+  [`ALPHA-PBI-3-tool-roundtrips.csv`](ALPHA-PBI-3-tool-roundtrips.csv),
+  [`ALPHA-PBI-3-gate-blocks.csv`](ALPHA-PBI-3-gate-blocks.csv)
+
+PBI 2: 445 s, 68 calls, $0.0868. PBI 3: 459 s, 60 calls, $0.0700. Both used
+`deepseek-v4.1-flash` and included relevant retrieval and promotions. A consolidated table remains
+deferred until the PBI sequence closes.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.
