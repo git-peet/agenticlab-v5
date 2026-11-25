@@ -3574,3 +3574,16 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Interpretation:** this is not evidence that knowledge fails to help; it is evidence that the agent did not read the knowledge. The next hypothesis is activation, not record quality: test a record whose content cannot be inferred from the repository, then adjust `AGENTS.md` trigger wording or add a read-before-new-convention rule only if retrieval still fails.
 - **Measurement gap:** retrieval activation had to be counted by hand from session files. If it becomes a recurring question, it belongs in the metrics extractor as a derived column rather than a manual count.
 - **Boundary:** No payload change, no publication beyond the evaluation record. Results in `evaluation/results/ALPHA-KNOWLEDGE-TRANSFER-001.md` with CSVs under `evaluation/metrics/`.
+
+
+### V5-20261124-066 — Correction: the knowledge record was retrieved, and partly applied
+
+- **Recorded:** 2026-11-25T06:30:25+01:00
+- **Type:** Correction to V5-20261124-065 / measurement-tooling change
+- **Status:** V5-20261124-065's central claim was wrong; corrected in the result record and here.
+- **What was wrong:** V5-20261124-065 stated the treatment never called `readKnowledgeRecords` and concluded that activation was the bottleneck. That was based on a hand-scan of the session file. The session record shows two calls at 14:13:56 and 14:14:03: the first returned `no_match` for a compose-specific query, the second returned `ok` with `count: 1` for `scripts check tooling python unittest convention`, delivering `check-script-convention`.
+- **Corrected reading:** the record was retrieved and partially applied. Treatment scored 5/7 versus control 4/7, and the single criterion it gained, exit 2 for unusable input, is one of the record's stated rules. The formatting rules — `summary: check=… status=…`, lowercase severity prefixes — were retrieved but not adopted.
+- **Cause of the error:** activation was counted by hand instead of from the session record. The extractor did not yet report retrieval, so a manual count was the only available method, and it was wrong.
+- **Tooling change:** `AgenticLab-tools/session-metrics.mjs` now derives `retrieval_calls`, `retrieval_applicable`, `retrieval_no_match`, `retrieval_filtered`, and `retrieval_unavailable` from the adapter's own `status` field, with tests. The regenerated CSVs show control 1 call / 0 matches and treatment 2 calls / 1 match.
+- **Revised conclusion:** retrieval activation is weaker evidence than assumed but did occur here; the weaker link is application. A retrieved semantic rule was adopted, while literal formatting rules were not. The next question is why, and whether an example line transfers better than prose.
+- **Process note:** the correction is appended rather than written over the earlier entry. The result document carries an explicit correction line so a reader who saw the first version sees that it changed.

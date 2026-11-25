@@ -1,7 +1,8 @@
 # ALPHA-KNOWLEDGE-TRANSFER-001 — Result
 
 - **Preregistration:** [`../plans/ALPHA-KNOWLEDGE-TRANSFER-001.md`](../plans/ALPHA-KNOWLEDGE-TRANSFER-001.md) (committed before either run as `5ffae8b`)
-- **Status:** **null result** — no transfer observed, because the treatment never consulted the record
+- **Status:** **partial transfer** — the record was retrieved and one criterion was adopted, the rest were not
+- **Correction 2026-11-24:** this result was first published as "treatment never retrieved" after a hand-scan of the session file missed two calls. The session record shows two retrieval calls with one match. The correction is recorded rather than silently edited; the hand-count was the failure, not the adapter.
 - **Run date/time and offset:** 2026-11-24, UTC+01:00
 - **Workspaces:** `exp11` (control), `exp12` (treatment), both disposable
 - **Payload revision:** `4827f6b`, identical in both
@@ -13,12 +14,14 @@
 Two identical workspaces received the identical compose-coverage task. The only difference was the
 knowledge corpus: empty control, one relevant record in treatment.
 
-The treatment **never called `readKnowledgeRecords`**. The control did call it once and correctly got
-a complete no-match. Therefore this run does not test whether knowledge transfers; it tests whether
-retrieval activates, and the answer in the treatment was no.
+The treatment retrieved the record (two calls: one `no_match` for a compose-specific query, then
+`ok` with `count: 1` for `scripts check tooling python unittest convention`) and adopted **one** of
+its seven criteria — exit 2 for unusable input, which the control did not. It did not adopt the
+`summary: check=…` shape, the lowercase severity prefixes, or the `fatal:` marker.
 
-Both agents produced working, tested checkers that exit 0 on the repository and 1 with an
-undocumented required variable. Neither matched the repository check-script convention exactly.
+So the record demonstrably reached the model and partially changed behaviour. The parts followed were
+semantic (an unusual exit code); the parts dropped were literal formatting instructions. Both agents
+produced working, tested checkers.
 
 ## Acceptance results
 
@@ -33,7 +36,9 @@ undocumented required variable. Neither matched the repository check-script conv
 | 7. tests under `scripts/tests/` | met (16 tests) | met (15 tests) |
 | **Total** | **4 / 7** | **5 / 7** |
 
-Retrieval: control 1 call → complete `no_match` (searched 0); treatment **0 calls**.
+Retrieval: control 1 call → complete `no_match` (searched 0). Treatment **2 calls** → first
+`no_match`, second `ok` returning `check-script-convention`. The only criterion the treatment gained
+over the control is criterion 4, which is exactly one of the record's stated rules.
 
 ## Session/window boundaries
 
@@ -55,7 +60,8 @@ occurred inside the measured windows.
 | Gate blocks | 2 (`knowledge_shell` 1, `sensitive_path` 1) | 2 (`knowledge_shell` 1, `sensitive_path` 1) |
 | Total tokens | 1,040,683 | 1,573,985 |
 | Reported cost | $0.0265 | $0.0566 |
-| `readKnowledgeRecords` calls | 1 | **0** |
+| `readKnowledgeRecords` calls | 1 | **2** |
+| applicable / no_match results | 0 / 1 | 1 / 1 |
 | Tests passing | 16 | 15 |
 
 The treatment took five times longer and cost twice as much while producing a comparable result. One
@@ -64,12 +70,15 @@ run cannot attribute that to anything; it is recorded, not explained.
 ## Failures, corrections, and deviations
 
 - **Prediction not matched.** The preregistered expectation was treatment ≥5/7 with control ≤3/7.
-  Actual 5/7 and 4/7, with no retrieval in treatment. By the preregistered rule, a one-point gap
-  triggers a repeat — but a repeat would test the same non-retrieval behaviour, so it was not run.
-- **Treatment retrieval absence is the finding**, not a variance footnote. The record was in the
-  matching scope, active, and retrievable; the agent simply did not ask.
-- **Control did retrieve**, on an identical prompt. So activation is unstable between runs, not
-  uniformly absent.
+  Actual 5/7 and 4/7: a one-point gap, which the preregistration said must not be treated as evidence
+  and would trigger a repeat run. Not repeated, because the informative question changed.
+- **Operator error, corrected.** The first version of this result claimed the treatment never
+  retrieved. It was based on a hand-scan of the session file that missed both calls. The automated
+  extractor, extended with retrieval columns during this analysis, reports 2 calls. The corrected
+  reading is recorded above and was never silently swapped.
+- **Retrieval fired second time.** The first treatment query was compose-specific and returned
+  `no_match`; the agent then re-queried with a convention-focused phrase and found the record. So a
+  failed query did not end the attempt.
 - **Baseline caveat carried from the preregistration:** `scripts/add_latest_release_date.py` already
   used `sys.exit(0/1)`, which is why criterion 5 is met by both agents. Criterion 5 therefore
   discriminates poorly and should be dropped or replaced in a future rubric.
@@ -88,31 +97,41 @@ reviewer wanting consistency would have to correct both.
 
 Supported:
 
-- In default work, a relevant active record was not consulted by this model in this run.
-- Two capable agents produced comparable, working results with and without a convention record.
-- Retrieval activation varies between runs on identical prompts.
+- A relevant active record was retrieved in default work after one failed query, without workflow
+  ceremony.
+- The retrieved record changed behaviour: the treatment adopted the record's exit-code rule, which
+  the control without the record did not.
+- The record's semantic rule transferred; its literal formatting rules did not.
 
 Not supported:
 
-- That knowledge does not help. The treatment never read it, so the experiment did not test transfer.
-- That the record is a poor format. The record was never examined by the agent.
-- Any speed or cost comparison: one run each, and the treatment's extra time is unexplained.
+- That retrieval is reliable. One treatment run, one retrieval sequence; the control made a single
+  unrelated query and stopped.
+- That the record's full convention is applied. Five of seven criteria were missed by the treatment,
+  including both formatting rules.
+- Any speed or cost comparison: one run each; the treatment's 5x span is unexplained and may reflect
+  retrieval plus longer deliberation.
+- Whether partial application is a model limitation or a record-precision limitation. This run cannot
+  separate them.
 
 ## Decision and next safe action
 
-The hypothesis to test next is **activation**, not record quality. The specific question:
+Activation worked here; **application is the weaker link**. The question for the next run is:
 
-> Why does an agent with a matching active record skip `readKnowledgeRecords` in default work, while
-> the same prompt in a sibling workspace triggers it?
+> When a record is retrieved, which of its rules actually govern the output, and why do literal
+> formatting rules lose to the model's own layout?
 
 Options, in order of preference:
 
-1. Test a record whose content is **not inferable** from the repository, on a task where guessing is
-   expensive — this separates "retrieval unnecessary" from "retrieval not happening".
-2. Then, only if retrieval still fails, adjust activation: either the `AGENTS.md` trigger wording or a
-   read-before-write rule for tasks that create new conventions.
-3. Drop rubric criterion 5 (exit codes) as non-discriminating, and add a criterion that captures
-   output-shape conformance to an existing script if a convention test is repeated.
+1. Repeat with more treatment runs to see whether partial application is stable, and whether the
+   adopted criterion is always the semantic one.
+2. Make the formatting rules unambiguous and short in the record (a single example line), and check
+   whether an example transfers better than prose. That is a record-quality test, now worth running
+   because retrieval is no longer the blocker.
+3. Drop rubric criterion 5 (exit codes) as non-discriminating: the baseline script already used
+   `sys.exit(0/1)`.
+4. Only if application stays poor, consider a mechanism that surfaces the rule at the moment of use
+   rather than at retrieval.
 
 No payload change is authorised by this result.
 
