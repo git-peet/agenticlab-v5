@@ -2,7 +2,8 @@
 
 ## In-repository
 
-- PBI 0–4 raw metrics: [`../metrics/`](../metrics/)
+- Consolidated result: [`../../results/ALPHA-DELIVERY-R1.md`](../../results/ALPHA-DELIVERY-R1.md)
+- PBI 0–9 raw metrics: [`../metrics/`](../metrics/)
 - Earlier cross-project experiment results: [`../../results/`](../../results/)
 - Metrics caveats and schema: [`../../metrics/README.md`](../../metrics/README.md)
 

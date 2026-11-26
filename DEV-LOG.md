@@ -3641,3 +3641,15 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Observed behaviour is correct; the ordering is wrong.** The gate fails closed in both branches, as designed. No code change is justified by these observations alone.
 - **Proposed fix, deferred:** in `prompts/delivery/implement.md`, write the implementation log before asking A/B. Disposition then controls only transient checkpoint retention, not a required workflow output. An optional gate-side release on log existence was considered and is **not** recommended first: it reintroduces the earlier fail-open failure mode that was reverted after live testing.
 - **Boundary:** no payload change, no prompt change, no publication. This entry records the finding so that a later bounded fix has two independent observations behind it.
+
+
+### V5-20261126-071 — R1 delivery sequence closed with consolidated metrics
+
+- **Recorded:** 2026-11-26T08:00:00+01:00
+- **Type:** Evaluation synthesis / status change
+- **Status:** `ALPHA-DELIVERY-R1` candidate PBI sequence closed; result published in `evaluation/results/ALPHA-DELIVERY-R1.md`.
+- **Scope:** Nine PBIs delivered in `AlphaProject` against payload `1f26fbe`: PBI 0–5, 7, 8, 9. PBI 6 was deferred by design; PBI 10 was not applicable to the application lab.
+- **Result:** all PBIs produced validated source changes without a task-breaking gate block. Paid-model subset totals: 3,502 s, 410 tool calls, 33 retrieval calls with 13 applicable, 139.2M tokens, $0.6814, 9 gate blocks.
+- **Findings:** retrieval activates in default work but has low precision (20/33 paid-subset lookups were `no_match`); knowledge deduplication worked in PBI 9; gate friction declined across the paid sequence; the checkpoint disposition/log ordering defect was repeatedly observed but worked around in the lab; schema PBIs require explicit lab-DB migration; generated SDK whitespace remains a recurring review cost.
+- **Limits:** no same-task plain-Pi baseline; no cross-model generalization; free-model cost unavailable; PBI 1 and 5 spans contaminated by blocking/crash; approval latency not captured.
+- **Next safe action:** before R2, fix prompt ordering, improve retrieval query guidance/record vocabulary, and consider generated-SDK whitespace normalization. Repeat the same PBI set under a tagged manifest and compare like-for-like. No payload change is authorized by this synthesis alone.
