@@ -1,0 +1,3 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,action_scope,bash,6,2026-11-26T09:48:41.448Z,Action-scope fidelity: target 'backend/app/frontend' is not an exact approved path; blocked.,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,sensitive_path,bash,4,2026-11-26T09:55:03.680Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl",ALPHA-DELIVERY-R2

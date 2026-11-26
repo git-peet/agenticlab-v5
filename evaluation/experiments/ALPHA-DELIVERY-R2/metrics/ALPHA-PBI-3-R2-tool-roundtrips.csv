@@ -1,0 +1,11 @@
+run_id,session_role,session_label,tool_name,paired_calls,roundtrip_sum_seconds,median_seconds,p90_seconds,max_seconds,definition,experiment_id
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,bash,44,384.99,4.946,12.411,48.373,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,edit,5,39.89,9.103,10.565,10.565,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,listPendingKnowledgeCandidates,2,9.88,4.938,4.945,4.945,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,promoteKnowledgeCandidate,2,13.10,4.393,8.706,8.706,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,read,11,43.70,3.669,5.890,6.511,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,readKnowledgeRecords,3,103.71,48.373,48.373,48.373,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,recordContextSelectionMetric,4,27.03,4.010,12.294,12.294,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,stageKnowledgeCandidates,1,2.31,2.314,2.314,2.314,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,triageKnowledgeCandidates,1,7.68,7.681,7.681,7.681,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
+ALPHA-PBI-3-R2,delivery_pi,alpha-pbi3-r2,write,17,323.30,20.804,41.002,41.003,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R2
