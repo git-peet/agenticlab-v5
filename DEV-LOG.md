@@ -3653,3 +3653,15 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Findings:** retrieval activates in default work but has low precision (20/33 paid-subset lookups were `no_match`); knowledge deduplication worked in PBI 9; gate friction declined across the paid sequence; the checkpoint disposition/log ordering defect was repeatedly observed but worked around in the lab; schema PBIs require explicit lab-DB migration; generated SDK whitespace remains a recurring review cost.
 - **Limits:** no same-task plain-Pi baseline; no cross-model generalization; free-model cost unavailable; PBI 1 and 5 spans contaminated by blocking/crash; approval latency not captured.
 - **Next safe action:** before R2, fix prompt ordering, improve retrieval query guidance/record vocabulary, and consider generated-SDK whitespace normalization. Repeat the same PBI set under a tagged manifest and compare like-for-like. No payload change is authorized by this synthesis alone.
+
+
+### V5-20261126-072 — C13 created from R1 retrieval evidence
+
+- **Recorded:** 2026-11-26T08:30:00+01:00
+- **Type:** Candidate creation / status change
+- **Status:** `C13-bounded-knowledge-query-shaping.md` added as an evidence-backed candidate; no implementation authorized.
+- **Rationale:** R1's paid-model subset produced 33 `readKnowledgeRecords` calls with 13 applicable results and 20 complete `no_match` results. Broad natural-language queries often missed, while short topic phrases and exact IDs worked. PBI 9 showed good deduplication. This is repeated evidence of a query-shape problem, not proof that a general retrieval subsystem is needed.
+- **C13 content:** inherits narrow action points from C03 (when-to-include/stop rule), C02 (record quality, worked examples, outcome vocabulary), C05 (preregistered evaluation), and the useful core of C12 (enumerate → metadata filter → eligible body search → compact results), without selecting Codemode.
+- **Mechanism ladder:** prompt query-shape guidance first; record-writing guidance second; bounded retrieval preflight only if still needed; Codemode A/B only under C12's evaluation rules and separate approval.
+- **Non-goals:** no context-policy engine, semantic ranking, Jev, semantic cache, automatic activation, runtime change, or payload change by this entry.
+- **Boundary:** documentation only in canonical V5; no payload, runtime, or publication changes authorized here.
