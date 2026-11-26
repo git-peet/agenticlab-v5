@@ -2,7 +2,9 @@
   "experiment": "ALPHA-DELIVERY-R2",
   "title": "Second delivery round after C13 Level 1 prompt guidance",
   "status": "in progress",
-  "dates": { "started": "2026-11-26" },
+  "dates": {
+    "started": "2026-11-26"
+  },
   "workspace": {
     "path": "/home/peet/Projects/AlphaProject-R2",
     "repository": "https://github.com/git-peet/alphaproject",
@@ -16,7 +18,12 @@
   "comparison": {
     "baseline": "ALPHA-DELIVERY-R1",
     "change_under_test": "C13 Level 1 query-shape guidance only",
-    "pbi_subset": ["PBI 2", "PBI 4", "PBI 7", "PBI 9"],
+    "pbi_subset": [
+      "PBI 2",
+      "PBI 4",
+      "PBI 7",
+      "PBI 9"
+    ],
     "model_phase": "deepseek-v4.1-flash",
     "measures": [
       "readKnowledgeRecords calls",
@@ -30,7 +37,11 @@
   },
   "confounders": [
     "R2 workspace uses isolated database ports 5433/1026 because R1 owns 5432/1025/8025",
-    "The staged payload also includes the implement-order fix already published as 50290a9"
+    "The staged payload also includes the implement-order fix already published as 50290a9",
+    "R2 PBI 2 required multiple in-run operator authorizations and is excluded from the like-for-like comparison."
   ],
-  "next_round": { "id": "ALPHA-DELIVERY-R3", "purpose": "Decide whether topic maps, preflight, or no further C13 mechanism is warranted." }
+  "next_round": {
+    "id": "ALPHA-DELIVERY-R3",
+    "purpose": "Decide whether topic maps, preflight, or no further C13 mechanism is warranted."
+  }
 }

@@ -1,0 +1,4 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-PBI-2-R2,delivery_pi,alpha-pbi2-r2,action_scope,edit,3,2026-11-26T09:09:12.899Z,Action-scope fidelity: target 'backend/app/alembic/versions/b7c1d9e4f210_add_conversation_table.py' is not an exact approved path; blocked.,ALPHA-DELIVERY-R2
+ALPHA-PBI-2-R2,delivery_pi,alpha-pbi2-r2,knowledge_shell,bash,4,2026-11-26T09:03:01.022Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked.",ALPHA-DELIVERY-R2
+ALPHA-PBI-2-R2,delivery_pi,alpha-pbi2-r2,sensitive_path,bash,4,2026-11-26T09:02:34.597Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl",ALPHA-DELIVERY-R2
