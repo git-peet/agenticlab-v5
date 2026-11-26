@@ -1,0 +1,36 @@
+{
+  "experiment": "ALPHA-DELIVERY-R2",
+  "title": "Second delivery round after C13 Level 1 prompt guidance",
+  "status": "in progress",
+  "dates": { "started": "2026-11-26" },
+  "workspace": {
+    "path": "/home/peet/Projects/AlphaProject-R2",
+    "repository": "https://github.com/git-peet/alphaproject",
+    "baseline": "Clean FastAPI template snapshot 6fa03b3, staged payload 3b69eaa applied before initialization"
+  },
+  "payload": {
+    "repository": "https://github.com/git-peet/clean-payload",
+    "revision": "3b69eaa",
+    "note": "Local c13-level1 branch: clean payload 50290a9 plus C13 Level 1 query-shape prompt guidance"
+  },
+  "comparison": {
+    "baseline": "ALPHA-DELIVERY-R1",
+    "change_under_test": "C13 Level 1 query-shape guidance only",
+    "pbi_subset": ["PBI 2", "PBI 4", "PBI 7", "PBI 9"],
+    "model_phase": "deepseek-v4.1-flash",
+    "measures": [
+      "readKnowledgeRecords calls",
+      "first-query success",
+      "applicable / no_match outcomes",
+      "exact-ID reads",
+      "staging / promotion counts",
+      "tool calls, window span, tokens, cost",
+      "task correctness"
+    ]
+  },
+  "confounders": [
+    "R2 workspace uses isolated database ports 5433/1026 because R1 owns 5432/1025/8025",
+    "The staged payload also includes the implement-order fix already published as 50290a9"
+  ],
+  "next_round": { "id": "ALPHA-DELIVERY-R3", "purpose": "Decide whether topic maps, preflight, or no further C13 mechanism is warranted." }
+}
