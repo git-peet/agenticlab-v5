@@ -149,6 +149,12 @@ round. Future rounds should use a new id and the same PBI declarations so result
 All `ALPHA-PBI-*.csv` rows carry `experiment_id = ALPHA-DELIVERY-R1` in their final column. Older
 experiment CSVs predate the column and keep their original schema.
 
+Provider/model is a run covariate, not a controlled constant. Compare cost only inside a declared
+model phase: R1-free (PBI 0–1, `hy4-flash-free`, no usable cost) and R1-deepseek (PBI 2+,
+`deepseek-v4.1-flash`). A future model switch adds a new phase label to the same experiment, not a
+new experiment. Gate blocks, retrieval outcomes, tool counts, and qualitative friction remain
+comparable across phases with the model label attached.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.

@@ -1,7 +1,7 @@
 {
   "experiment": "ALPHA-DELIVERY-R1",
   "title": "First AlphaProject delivery round",
-  "status": "complete",
+  "status": "in progress \u2014 PBI 0\u20134 complete; continuing with PBI 5+",
   "dates": {
     "started": "2026-11-25",
     "completed": "2026-11-25"
@@ -40,16 +40,51 @@
   "models": {
     "primary": "deepseek-v4.1-flash",
     "used": [
-      {"model": "hy4-flash-free", "pbis": ["PBI 0", "PBI 1"], "cost_available": false},
-      {"model": "deepseek-v4.1-flash", "pbis": ["PBI 2", "PBI 3", "PBI 4"], "cost_available": true}
+      {
+        "model": "hy4-flash-free",
+        "pbis": [
+          "PBI 0",
+          "PBI 1"
+        ],
+        "cost_available": false
+      },
+      {
+        "model": "deepseek-v4.1-flash",
+        "pbis": [
+          "PBI 2",
+          "PBI 3",
+          "PBI 4"
+        ],
+        "cost_available": true
+      }
     ]
   },
   "pbis": [
-    {"id": "PBI 0", "title": "Isolated test-database runner", "status": "complete"},
-    {"id": "PBI 1", "title": "Add priority to demo items", "status": "complete"},
-    {"id": "PBI 2", "title": "Add Conversation storage and CRUD API", "status": "complete"},
-    {"id": "PBI 3", "title": "Add synchronous conversation triage", "status": "complete"},
-    {"id": "PBI 4", "title": "Add the Conversations UI", "status": "complete"}
+    {
+      "id": "PBI 0",
+      "title": "Isolated test-database runner",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 1",
+      "title": "Add priority to demo items",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 2",
+      "title": "Add Conversation storage and CRUD API",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 3",
+      "title": "Add synchronous conversation triage",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 4",
+      "title": "Add the Conversations UI",
+      "status": "complete"
+    }
   ],
   "capability_state": [
     "C02 bounded knowledge lifecycle",
@@ -67,6 +102,47 @@
   ],
   "next_round": {
     "id": "ALPHA-DELIVERY-R2",
-    "purpose": "Repeat the same PBI sequence after calibration/backlog changes; compare like-for-like metrics."
+    "purpose": "Repeat the same PBI sequence after calibration/backlog changes; compare like-for-like metrics under declared model phases."
+  },
+  "measurement_questions": [
+    "Did each PBI produce working, verified application changes?",
+    "Where did governance gates add friction, and were any blocks wrong?",
+    "Did retrieval fire, return applicable records, and change behaviour?",
+    "Which facts were staged/promoted, and were promotions explicitly reviewed?",
+    "What tool/token/cost overhead occurred under a known model phase?"
+  ],
+  "model_phase_policy": {
+    "principle": "Provider/model is a per-run covariate, not a controlled constant.",
+    "phases": [
+      {
+        "id": "R1-free",
+        "pbis": [
+          "PBI 0",
+          "PBI 1"
+        ],
+        "models": [
+          "hy4-flash-free"
+        ],
+        "cost_comparable": false
+      },
+      {
+        "id": "R1-deepseek",
+        "pbis": [
+          "PBI 2",
+          "PBI 3",
+          "PBI 4"
+        ],
+        "models": [
+          "deepseek-v4.1-flash"
+        ],
+        "cost_comparable": true
+      }
+    ],
+    "rule": "Compare cost only within a declared model phase. New model switches add a new phase label, not a new experiment."
+  },
+  "provider_boundary": {
+    "status": "approved for PBI 5",
+    "summary": "Model-agnostic metadata contract: optional provider/model identifiers and token counts; local latency; no credentials, network, live provider, raw content, or billing semantics.",
+    "live_provider": "requires separate PBI and explicit provider/privacy/cost approval"
   }
 }
