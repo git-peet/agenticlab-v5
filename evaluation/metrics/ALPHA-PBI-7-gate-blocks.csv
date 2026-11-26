@@ -1,0 +1,2 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-PBI-7,delivery_pi,alpha-pbi7,action_scope,bash,1,2026-11-26T07:20:12.516Z,Action-scope fidelity: mutating shell target could not be identified; blocked.,ALPHA-DELIVERY-R1
