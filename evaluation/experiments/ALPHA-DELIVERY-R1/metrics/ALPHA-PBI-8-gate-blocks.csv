@@ -1,0 +1,3 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-PBI-8,delivery_pi,alpha-pbi8,action_scope,bash,1,2026-11-26T07:32:22.178Z,Action-scope fidelity: mutating shell target could not be identified; blocked.,ALPHA-DELIVERY-R1
+ALPHA-PBI-8,delivery_pi,alpha-pbi8,knowledge_shell,bash,1,2026-11-26T07:29:52.737Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked.",ALPHA-DELIVERY-R1

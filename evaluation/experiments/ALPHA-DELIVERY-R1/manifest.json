@@ -1,7 +1,7 @@
 {
   "experiment": "ALPHA-DELIVERY-R1",
   "title": "First AlphaProject delivery round",
-  "status": "in progress \u2014 PBI 0\u20135 and 7 complete; PBI 6 deferred, PBI 8+ pending",
+  "status": "in progress \u2014 PBI 0\u20135, 7, 8 complete; PBI 6 deferred; PBI 9 pending",
   "dates": {
     "started": "2026-11-25",
     "completed": "2026-11-25"
@@ -55,7 +55,8 @@
           "PBI 3",
           "PBI 4",
           "PBI 5",
-          "PBI 7"
+          "PBI 7",
+          "PBI 8"
         ],
         "cost_available": true
       }
@@ -95,6 +96,11 @@
     {
       "id": "PBI 7",
       "title": "Owner-scoped conversation search and pagination",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 8",
+      "title": "Export an owned conversation",
       "status": "complete"
     }
   ],

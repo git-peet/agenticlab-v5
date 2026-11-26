@@ -177,6 +177,17 @@ PBI 7 (conversation search and pagination), tagged `ALPHA-DELIVERY-R1`:
 524 s, 57 calls, $0.1064, `deepseek-v4.1-flash`, one action-scope gate block. The C03 evaluation
 marker was carried as metadata only; no evaluation card artifact was added.
 
+## AlphaProject PBI 8 (2026-11-26)
+
+PBI 8 (owned conversation export), tagged `ALPHA-DELIVERY-R1`:
+
+- [`ALPHA-PBI-8-session-metrics.csv`](ALPHA-PBI-8-session-metrics.csv),
+  [`ALPHA-PBI-8-tool-roundtrips.csv`](ALPHA-PBI-8-tool-roundtrips.csv),
+  [`ALPHA-PBI-8-gate-blocks.csv`](ALPHA-PBI-8-gate-blocks.csv)
+
+425 s, 48 calls, $0.0941, `deepseek-v4.1-flash`, two gate blocks (one action-scope, one
+knowledge-shell). A consolidated table remains deferred until PBI 9 closes.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.
