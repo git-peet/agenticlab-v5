@@ -188,6 +188,17 @@ PBI 8 (owned conversation export), tagged `ALPHA-DELIVERY-R1`:
 425 s, 48 calls, $0.0941, `deepseek-v4.1-flash`, two gate blocks (one action-scope, one
 knowledge-shell). A consolidated table remains deferred until PBI 9 closes.
 
+## AlphaProject PBI 9 (2026-11-26)
+
+PBI 9 (triaged feedback capture), tagged `ALPHA-DELIVERY-R1`:
+
+- [`ALPHA-PBI-9-session-metrics.csv`](ALPHA-PBI-9-session-metrics.csv),
+  [`ALPHA-PBI-9-tool-roundtrips.csv`](ALPHA-PBI-9-tool-roundtrips.csv),
+  [`ALPHA-PBI-9-gate-blocks.csv`](ALPHA-PBI-9-gate-blocks.csv)
+
+335 s, 43 calls, $0.0949, `deepseek-v4.1-flash`, no gate blocks. This closes the candidate PBI
+sequence for R1 (PBI 6 deferred, PBI 10 not applicable).
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.
