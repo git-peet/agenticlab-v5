@@ -176,6 +176,8 @@ If no improvement appears, stop; the current prompt/record behavior is sufficien
 
 `ALPHA-C13-PROBE-001` tested the Level 1 guidance in a read-only AlphaProject probe after installing the staged C13 prompts. The agent used short topic phrases; the first query for each of two topics returned relevant records. Six total retrieval calls produced three applicable results and three complete `no_match` follow-ups. The probe supports the wording but does not establish full-run efficiency or justify Level 3/4 mechanisms.
 
+`ALPHA-C13-REALWORK-001` repeated the test in a small `/plan` → `/implement` maintenance task. The agent used short phrases and exact-ID reads, retrieved the existing generation-script record, promoted two new verified findings, and fixed the issue with a small source change. Seven retrieval calls produced four applicable results and three `no_match` follow-ups. This is a second narrow positive signal, not proof of reduced total calls or a need for Level 3/4 mechanisms.
+
 See [`../../evaluation/results/ALPHA-C13-PROBE-001.md`](../../evaluation/results/ALPHA-C13-PROBE-001.md).
 
 ## Revisit trigger

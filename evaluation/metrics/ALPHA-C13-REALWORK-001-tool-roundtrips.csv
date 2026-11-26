@@ -1,0 +1,11 @@
+run_id,session_role,session_label,tool_name,paired_calls,roundtrip_sum_seconds,median_seconds,p90_seconds,max_seconds,definition,experiment_id
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,bash,39,237.30,4.074,9.518,36.134,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,edit,1,2.81,2.807,2.807,2.807,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,listPendingKnowledgeCandidates,2,10.42,4.000,6.418,6.418,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,promoteKnowledgeCandidate,2,11.81,5.109,6.703,6.703,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,read,9,67.90,5.189,29.127,29.127,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,readKnowledgeRecords,7,28.85,3.411,7.740,7.740,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,recordContextSelectionMetric,2,36.48,2.593,33.884,33.884,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,stageKnowledgeCandidates,1,10.89,10.892,10.892,10.892,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,triageKnowledgeCandidates,1,12.89,12.894,12.894,12.894,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,write,2,26.27,10.383,15.890,15.890,Assistant toolCall entry timestamp to matching toolResult entry timestamp,ALPHA-DELIVERY-R1

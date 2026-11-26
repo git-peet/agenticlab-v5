@@ -3686,3 +3686,14 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Result:** after installing staged C13 prompts in AlphaProject, a read-only two-topic probe produced six retrieval calls: three applicable and three complete no-match follow-ups. The first query for each topic returned relevant records; the agent answered from those records and did not infer beyond no-match results.
 - **Interpretation:** supports Level 1 wording and low-friction default-work behavior. Does not establish reduced total calls, topic-map value, preflight value, or full-run efficiency.
 - **Boundary:** no payload publication or further mechanism change authorized by this probe. R2 should compare the same PBI subset against R1.
+
+
+### V5-20261126-075 — C13 real-work signal recorded
+
+- **Recorded:** 2026-11-26T09:05:00+01:00
+- **Type:** Preliminary evaluation / candidate evidence
+- **Status:** `ALPHA-C13-REALWORK-001` recorded; small maintenance task completed under staged C13 prompts.
+- **Result:** `/plan` → `/implement` updated `scripts/generate-client.sh` to strip generated-client trailing whitespace. Validation passed through the documented `bash ./scripts/generate-client.sh` form; direct execution failed because the script is not executable. A scratch-copy shell check was blocked by the action-scope gate; full in-place `-i.bak` portability remains unverified.
+- **Retrieval:** 7 calls, 4 applicable and 3 complete `no_match`, under `deepseek-v4.1-flash`. An existing record was retrieved; two new verified facts were promoted through explicit adapter confirmation.
+- **Interpretation:** second narrow positive signal for C13 Level 1 in real workflow work. It does not establish reduced total retrieval calls, topic-map value, preflight value, or general efficiency.
+- **Boundary:** canonical record only here; no clean-payload port or C13 Level 3/4 implementation authorized.

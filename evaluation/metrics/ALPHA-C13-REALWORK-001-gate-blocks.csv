@@ -1,0 +1,4 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,action_scope,bash,2,2026-11-26T08:45:22.697Z,Action-scope fidelity: target 'frontend/src/client' is not an exact approved path; blocked.,ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,knowledge_shell,bash,4,2026-11-26T08:41:25.767Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked.",ALPHA-DELIVERY-R1
+ALPHA-C13-REALWORK-001,delivery_pi,c13-realwork,sensitive_path,bash,2,2026-11-26T08:41:39.335Z,"Sensitive environment files are protected. Content reads, searches, edits, copies, and reports of .env/.env.* files are blocked; .env.exampl",ALPHA-DELIVERY-R1
