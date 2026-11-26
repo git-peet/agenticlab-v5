@@ -140,6 +140,15 @@ PBI 4 (Conversations UI) paid-model lab metrics:
 316 s, 54 tool calls, $0.0687, `deepseek-v4.1-flash`, no gate blocks. A consolidated table remains
 deferred until the sequence closes.
 
+## Tagged experiment bundles
+
+Round-level bundles live in [`../experiments/`](../experiments/). `ALPHA-DELIVERY-R1` contains the
+manifest, run declarations, and backfilled PBI 0–4 metrics for the first AlphaProject delivery
+round. Future rounds should use a new id and the same PBI declarations so results are comparable.
+
+All `ALPHA-PBI-*.csv` rows carry `experiment_id = ALPHA-DELIVERY-R1` in their final column. Older
+experiment CSVs predate the column and keep their original schema.
+
 ## Future runs
 
 Add a row per run and session role, define the window boundaries before aggregation, preserve raw-session provenance locally, and mark missing measures as unavailable. Keep delivery-agent and coordinator numbers separate; include a coordinator total in a PBI cost only after the window has been reviewed for unrelated work. Do not add automatic collection or raw transcript storage without a separate approved scope.

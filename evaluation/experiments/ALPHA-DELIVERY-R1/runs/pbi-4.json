@@ -1,0 +1,18 @@
+{
+  "experimentId": "ALPHA-DELIVERY-R1",
+  "runId": "ALPHA-PBI-4",
+  "outDir": "/home/peet/Projects/AgenticLab-v5/evaluation/experiments/ALPHA-DELIVERY-R1/metrics",
+  "sessions": [
+    {
+      "path": "/home/peet/.pi/agent/sessions/--home-peet-Projects-AlphaProject--/2026-11-25T09-48-52-903Z_01a2121b-ab27-759f-80f4-a64e96560364.jsonl",
+      "role": "delivery_pi",
+      "label": "alpha-pbi4",
+      "start": "2026-11-25T22:19:09Z",
+      "end": "2026-11-25T22:24:25Z",
+      "attributionStatus": "declared window",
+      "acceptancePassed": 18,
+      "acceptanceTotal": 18,
+      "notes": "AlphaProject PBI 4; original CLI invocation; backfilled into R1"
+    }
+  ]
+}

@@ -1,3 +1,3 @@
-run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason
-ALPHA-PBI-1,delivery_pi,alpha-pbi1,action_scope,bash,2,2026-11-25T13:46:52.345Z,Action-scope fidelity: target 'backend/app/alembic/versions/7b3d9e2f1a4c_add_item_priority.py' is not an exact approved path; blocked.
-ALPHA-PBI-1,delivery_pi,alpha-pbi1,knowledge_shell,bash,2,2026-11-25T13:45:33.477Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked."
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-PBI-1,delivery_pi,alpha-pbi1,action_scope,bash,2,2026-11-25T13:46:52.345Z,Action-scope fidelity: target 'backend/app/alembic/versions/7b3d9e2f1a4c_add_item_priority.py' is not an exact approved path; blocked.,ALPHA-DELIVERY-R1
+ALPHA-PBI-1,delivery_pi,alpha-pbi1,knowledge_shell,bash,2,2026-11-25T13:45:33.477Z,"Shell access to AgenticLab knowledge, the private pending queue, and workspace capture policy is blocked.",ALPHA-DELIVERY-R1

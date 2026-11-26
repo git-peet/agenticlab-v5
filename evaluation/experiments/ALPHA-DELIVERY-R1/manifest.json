@@ -1,0 +1,72 @@
+{
+  "experiment": "ALPHA-DELIVERY-R1",
+  "title": "First AlphaProject delivery round",
+  "status": "complete",
+  "dates": {
+    "started": "2026-11-25",
+    "completed": "2026-11-25"
+  },
+  "workspace": {
+    "path": "/home/peet/Projects/AlphaProject",
+    "repository": "https://github.com/git-peet/alphaproject",
+    "head_commit": "d2aa920",
+    "baseline": "Clean local Full Stack FastAPI Template snapshot; no prior feature PBIs"
+  },
+  "payload": {
+    "repository": "https://github.com/git-peet/clean-payload",
+    "revision": "1f26fbe",
+    "workflow_commands": [
+      "/initialize-workspace",
+      "/refresh-payload",
+      "/plan",
+      "/implement",
+      "/premortem"
+    ],
+    "metrics_policy": "enabled",
+    "staging_policy": "enabled; inactive by default; promotion separately confirmed"
+  },
+  "canonical_revision": {
+    "repository": "https://github.com/git-peet/agenticlab-v5",
+    "head_commit": "55252a9"
+  },
+  "measurement_tool": {
+    "repository": "https://github.com/git-peet/agenticlab-tools",
+    "revision": "24fff2d",
+    "primary_outputs": [
+      "session-metrics.mjs",
+      "eval/eval.mjs"
+    ]
+  },
+  "models": {
+    "primary": "deepseek-v4.1-flash",
+    "used": [
+      {"model": "hy4-flash-free", "pbis": ["PBI 0", "PBI 1"], "cost_available": false},
+      {"model": "deepseek-v4.1-flash", "pbis": ["PBI 2", "PBI 3", "PBI 4"], "cost_available": true}
+    ]
+  },
+  "pbis": [
+    {"id": "PBI 0", "title": "Isolated test-database runner", "status": "complete"},
+    {"id": "PBI 1", "title": "Add priority to demo items", "status": "complete"},
+    {"id": "PBI 2", "title": "Add Conversation storage and CRUD API", "status": "complete"},
+    {"id": "PBI 3", "title": "Add synchronous conversation triage", "status": "complete"},
+    {"id": "PBI 4", "title": "Add the Conversations UI", "status": "complete"}
+  ],
+  "capability_state": [
+    "C02 bounded knowledge lifecycle",
+    "C03 thin context metrics slice",
+    "C04 sensitive-path and action-scope gates",
+    "C04 knowledge-path, system-subject, and write-capable-read hardening",
+    "C11 first-use initialization and reviewed payload refresh"
+  ],
+  "known_confounders": [
+    "PBI 0 and 1 used a free model, so their cost is unavailable and not comparable with paid runs.",
+    "PBI 1's session window includes a long blocked interval and is not active-work time.",
+    "PBI 3 and 4 had a prompt-ordering deviation: the log was written before checkpoint disposition by explicit instruction.",
+    "PBI 4 deferred the conversation edit form; comparison should use the stated scope, not the full PBI text.",
+    "No same-task plain-Pi baseline exists for this round."
+  ],
+  "next_round": {
+    "id": "ALPHA-DELIVERY-R2",
+    "purpose": "Repeat the same PBI sequence after calibration/backlog changes; compare like-for-like metrics."
+  }
+}
