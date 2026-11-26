@@ -1,0 +1,2 @@
+run_id,session_role,session_label,category,tool_name,count,first_seen_utc,example_reason,experiment_id
+ALPHA-PBI-7-R2,delivery_pi,alpha-pbi7-r2,action_scope,bash,2,2026-11-26T10:26:29.192Z,Action-scope fidelity: target 'tests/conversations.spec.ts' is not an exact approved path; blocked.,ALPHA-DELIVERY-R2
