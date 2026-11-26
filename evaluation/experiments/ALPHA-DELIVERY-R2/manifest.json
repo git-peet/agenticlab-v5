@@ -39,7 +39,8 @@
     "R2 workspace uses isolated database ports 5433/1026 because R1 owns 5432/1025/8025",
     "The staged payload also includes the implement-order fix already published as 50290a9",
     "R2 PBI 2 required multiple in-run operator authorizations and is excluded from the like-for-like comparison.",
-    "R2 PBI 3 required a checkpoint re-plan because inScope used descriptive suffixes; excluded from the like-for-like comparison."
+    "R2 PBI 3 required a checkpoint re-plan because inScope used descriptive suffixes; excluded from the like-for-like comparison.",
+    "R2 PBI 4 added edit UI and queryClient.clear() on logout; it is comparable only with those deviations noted."
   ],
   "next_round": {
     "id": "ALPHA-DELIVERY-R3",
