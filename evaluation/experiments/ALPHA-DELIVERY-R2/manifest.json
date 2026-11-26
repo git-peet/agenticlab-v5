@@ -1,7 +1,7 @@
 {
   "experiment": "ALPHA-DELIVERY-R2",
   "title": "Second delivery round after C13 Level 1 prompt guidance",
-  "status": "in progress",
+  "status": "complete \u2014 PBI 2/3 exploratory; PBI 4/7/9 comparison subset complete",
   "dates": {
     "started": "2026-11-26"
   },
@@ -45,5 +45,32 @@
   "next_round": {
     "id": "ALPHA-DELIVERY-R3",
     "purpose": "Decide whether topic maps, preflight, or no further C13 mechanism is warranted."
-  }
+  },
+  "pbis": [
+    {
+      "id": "PBI 2",
+      "title": "Conversation CRUD",
+      "status": "complete (exploratory)"
+    },
+    {
+      "id": "PBI 3",
+      "title": "Synchronous triage",
+      "status": "complete (exploratory)"
+    },
+    {
+      "id": "PBI 4",
+      "title": "Conversations UI",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 7",
+      "title": "Search + pagination",
+      "status": "complete"
+    },
+    {
+      "id": "PBI 9",
+      "title": "Triage feedback",
+      "status": "complete"
+    }
+  ]
 }

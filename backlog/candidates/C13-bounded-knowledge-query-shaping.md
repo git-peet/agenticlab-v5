@@ -172,6 +172,10 @@ Keep or port only if:
 
 If no improvement appears, stop; the current prompt/record behavior is sufficient for now.
 
+## R2 evidence
+
+`ALPHA-DELIVERY-R2` repeated PBI 4, 7, and 9 under staged Level 1 guidance. The comparison subset was slower and more expensive in all three tasks, had more tool calls and gate blocks, and produced zero applicable retrieval results versus six in R1. All tasks completed and validated. With three small, non-identical PBIs and a fresh workspace, this is directional only: it does not support publishing Level 1 as a proven improvement. See [`../../evaluation/results/ALPHA-DELIVERY-R2.md`](../../evaluation/results/ALPHA-DELIVERY-R2.md).
+
 ## Preliminary evidence
 
 `ALPHA-C13-PROBE-001` tested the Level 1 guidance in a read-only AlphaProject probe after installing the staged C13 prompts. The agent used short topic phrases; the first query for each of two topics returned relevant records. Six total retrieval calls produced three applicable results and three complete `no_match` follow-ups. The probe supports the wording but does not establish full-run efficiency or justify Level 3/4 mechanisms.

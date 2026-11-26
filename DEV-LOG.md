@@ -3697,3 +3697,15 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Retrieval:** 7 calls, 4 applicable and 3 complete `no_match`, under `deepseek-v4.1-flash`. An existing record was retrieved; two new verified facts were promoted through explicit adapter confirmation.
 - **Interpretation:** second narrow positive signal for C13 Level 1 in real workflow work. It does not establish reduced total retrieval calls, topic-map value, preflight value, or general efficiency.
 - **Boundary:** canonical record only here; no clean-payload port or C13 Level 3/4 implementation authorized.
+
+
+### V5-20261126-076 — R2 comparison closed; C13 Level 1 not proven
+
+- **Recorded:** 2026-11-26T11:45:00+01:00
+- **Type:** Evaluation synthesis / candidate decision
+- **Status:** `ALPHA-DELIVERY-R2` complete; consolidated result published. C13 Level 1 remains a candidate; no payload publication authorized.
+- **Comparison subset:** PBI 4, 7, 9. R1 totals: 1,175 s, $0.2700, 154 calls, 6 applicable retrievals / 11 calls, 1 gate block. R2 totals: 1,655 s, $0.3402, 197 calls, 0 applicable / 6 calls, 5 gate blocks. All tasks completed and validated.
+- **Conclusion:** the staged query-shape guidance did not produce a measurable improvement on this subset. The result is directional because task details and workspace lineage differed, but it does not justify publishing the staged payload.
+- **Excluded runs:** R2 PBI 2 and 3 required in-run checkpoint re-serialization and multiple operator decisions; they are recorded as exploratory governance evidence, not comparison data.
+- **Knowledge outcome:** R2 ended with 19 promoted records from a fresh empty corpus. Capture/dedup behavior was strong; retrieval applicability in the comparison subset was weak.
+- **Next safe actions:** keep the published payload at `50290a9`; if C13 continues, use a focused retrieval-only A/B where query shape is the sole variable, or evaluate Level 3 topic maps/preflight under explicit approval.
