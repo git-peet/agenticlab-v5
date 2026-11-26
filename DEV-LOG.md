@@ -3676,3 +3676,13 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Guardrails:** maps remain navigation aids, not authority or completeness evidence; a missing map link never supports `no_match`; `readKnowledgeRecords` remains the only eligible-corpus completeness check.
 - **Evaluation:** R2 should record whether a map was consulted, whether it produced a better query or exact-ID lookup, and whether `no_match` calls decreased without added maintenance cost.
 - **Boundary:** documentation only; no payload, runtime, or publication change authorized here.
+
+
+### V5-20261126-074 — C13 Level 1 probe recorded
+
+- **Recorded:** 2026-11-26T08:50:00+01:00
+- **Type:** Preliminary evaluation / candidate evidence
+- **Status:** `ALPHA-C13-PROBE-001` recorded; narrow positive signal for query-shape guidance.
+- **Result:** after installing staged C13 prompts in AlphaProject, a read-only two-topic probe produced six retrieval calls: three applicable and three complete no-match follow-ups. The first query for each topic returned relevant records; the agent answered from those records and did not infer beyond no-match results.
+- **Interpretation:** supports Level 1 wording and low-friction default-work behavior. Does not establish reduced total calls, topic-map value, preflight value, or full-run efficiency.
+- **Boundary:** no payload publication or further mechanism change authorized by this probe. R2 should compare the same PBI subset against R1.
