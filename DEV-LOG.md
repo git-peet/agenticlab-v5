@@ -3665,3 +3665,14 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Mechanism ladder:** prompt query-shape guidance first; record-writing guidance second; bounded retrieval preflight only if still needed; Codemode A/B only under C12's evaluation rules and separate approval.
 - **Non-goals:** no context-policy engine, semantic ranking, Jev, semantic cache, automatic activation, runtime change, or payload change by this entry.
 - **Boundary:** documentation only in canonical V5; no payload, runtime, or publication changes authorized here.
+
+
+### V5-20261126-073 — C13 topic-map option added
+
+- **Recorded:** 2026-11-26T08:40:00+01:00
+- **Type:** Candidate refinement
+- **Status:** C13 now includes lightweight topic-map / INDEX enrichment as a bounded Level 3 option before any preflight or Codemode work.
+- **Rationale:** R1 showed that short phrases and exact IDs retrieve well while broad natural-language queries often miss. Maps with aliases, task phrases, record titles, and stable IDs may improve query formulation, but maps are currently empty and the corpus has only 11 records. The benefit is plausible but unproven.
+- **Guardrails:** maps remain navigation aids, not authority or completeness evidence; a missing map link never supports `no_match`; `readKnowledgeRecords` remains the only eligible-corpus completeness check.
+- **Evaluation:** R2 should record whether a map was consulted, whether it produced a better query or exact-ID lookup, and whether `no_match` calls decreased without added maintenance cost.
+- **Boundary:** documentation only; no payload, runtime, or publication change authorized here.

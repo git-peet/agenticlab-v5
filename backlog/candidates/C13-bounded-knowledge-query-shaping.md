@@ -83,13 +83,19 @@ Use the smallest mechanism that solves the repeated problem.
    - Convention and output-format records should include one worked example.
    - Keep evidence separate from claim; evidence may quote paths that claim text should avoid.
 
-3. **Bounded retrieval preflight**
+3. **Lightweight topic map / INDEX enrichment**
+   - Optionally curate `maps/` entries with aliases, task phrases, record titles, and stable IDs for recurring topics.
+   - Use them to improve query formulation, never as authority or completeness evidence.
+   - A missing map link must never support a `no_match` claim; `readKnowledgeRecords` remains the only eligible-corpus completeness check.
+   - Evaluate this only after Level 1 guidance, and only if R2 shows repeated broad-query misses or useful exact-ID discoveries that a map could have provided earlier.
+
+4. **Bounded retrieval preflight**
    - A deterministic sequence that inventories eligible records, filters metadata first, searches only eligible bodies, and returns compact IDs/snippets.
    - Must preserve scope/status filtering and retrieval outcome vocabulary.
    - Must not expose excluded record body snippets.
    - Direct-tool implementation is preferred before any runtime capability change.
 
-4. **Optional Codemode A/B**
+5. **Optional Codemode A/B**
    - Only if a preflight would otherwise require many serial tool calls or produce large irrelevant outputs.
    - Must verify nested gate behavior, fallback, and cost against direct tools.
 
@@ -112,6 +118,7 @@ This is a knowledge-use improvement, not a new authority source. Retrieved recor
 
 - Too much query guidance could suppress useful broad searches.
 - Record-writing guidance could make titles unnatural if over-optimized.
+- Topic maps could become stale, duplicated knowledge stores or be misread as complete inventories.
 - A preflight helper could add code and maintenance cost for a small gain.
 - Codemode could reduce model-visible output without reducing underlying work; script generation overhead may outweigh benefit.
 - `no_match` counts can be misread as failures when they are correct; evaluation must distinguish wasted queries from valid no-match checks.
@@ -146,6 +153,7 @@ Preregister before the run:
 - `readKnowledgeRecords` calls per PBI;
 - applicable / `no_match` / filtered outcomes;
 - exact-ID reads;
+- whether a map or INDEX entry was consulted and whether it produced a better query;
 - number of staging and promotion calls;
 - tool calls, window, tokens, cost under the same model phase;
 - task correctness and validation result;
@@ -168,7 +176,7 @@ If no improvement appears, stop; the current prompt/record behavior is sufficien
 
 This candidate was created because R1 produced repeated evidence: many broad natural-language queries returned `no_match`, while short phrases and exact IDs succeeded. Revisit for implementation only after an explicit approval of a bounded R2 experiment.
 
-If R2 after prompt-only guidance shows no repeated problem, keep C13 as a reference and do not implement a preflight. If R2 still shows repeated misses despite query-shape guidance, propose either a deterministic direct-tool preflight or a Codemode A/B under C12's evaluation rules.
+If R2 after prompt-only guidance shows no repeated problem, keep C13 as a reference and do not implement a preflight. If R2 still shows repeated misses despite query-shape guidance, first consider a lightweight topic map for the recurring topics. If misses persist after that, propose either a deterministic direct-tool preflight or a Codemode A/B under C12's evaluation rules.
 
 ## Next safe action
 
