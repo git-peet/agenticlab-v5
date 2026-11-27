@@ -3737,8 +3737,8 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Recorded:** 2026-11-27T09:30:00+01:00
 - **Type:** Focused evaluation / C13 evidence
 - **Status:** `RETRIEVAL-AB-001` recorded; no payload change authorized.
-- **Design:** two fresh read-only Pi sessions in AlphaProject, published payload `50290a9`, same four topic areas. Control used ordinary engineering-review wording; candidate wording asked to use prior project experience. Neither named the retrieval tool, index, records, or IDs.
+- **Design:** two fresh read-only Pi sessions in AlphaProject, installed staged payload `3b69eaa` with C13 Level 1 guidance, same four topic areas. Control used ordinary engineering-review wording; candidate wording asked to use prior project experience. Neither named the retrieval tool, index, records, or IDs. This was an A/B of task framing under C13, not C13 versus no-C13.
 - **Result:** control made 4 retrieval calls, all applicable; candidate made 6, all applicable. Both conditions had 0 no-match results and 27 tool calls. Cost was $0.0112 vs $0.0103 respectively. Both answers were grounded in retrieved records and current source.
-- **Interpretation:** natural task framing triggers retrieval without explicit instruction. For clean single-topic questions, query activation and precision were excellent in both conditions. Memory-oriented wording produced extra applicable lookups, not better efficiency.
+- **Interpretation:** natural task framing triggers retrieval without explicit instruction under C13. For clean single-topic questions, activation and precision were excellent in both conditions. Memory-oriented wording produced extra applicable lookups, not better efficiency. Without a no-C13 control, this probe cannot attribute the good activation to C13.
 - **Implication:** C13 remains unproven and unpublished. R1/R2 no-match counts came from broad composite implementation queries, not from natural topic-framed questions. A next probe, if any, should use ambiguous/multi-topic questions rather than clean ones.
 - **Boundary:** evaluation record only. No clean-payload change or C13 publication authorized by this result.
