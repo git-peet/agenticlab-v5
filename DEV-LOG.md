@@ -3742,3 +3742,15 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Interpretation:** natural task framing triggers retrieval without explicit instruction under C13. For clean single-topic questions, activation and precision were excellent in both conditions. Memory-oriented wording produced extra applicable lookups, not better efficiency. Without a no-C13 control, this probe cannot attribute the good activation to C13.
 - **Implication:** C13 remains unproven and unpublished. R1/R2 no-match counts came from broad composite implementation queries, not from natural topic-framed questions. A next probe, if any, should use ambiguous/multi-topic questions rather than clean ones.
 - **Boundary:** evaluation record only. No clean-payload change or C13 publication authorized by this result.
+
+
+### V5-20261127-080 — Governance state audited; C14 release candidate created
+
+- **Recorded:** 2026-11-27T11:19:24+01:00
+- **Type:** Governance audit / documentation sync / backlog candidate creation
+- **Status:** Design/status docs synchronized to published payload `d07ff5d`; C14 added as a candidate for a minimally viable, governance-safe V5 release. No implementation authorized.
+- **Governance audit:** V5 keeps a strong semantic contract (task authority, no record/tool output as authority, exact action fidelity, blocker/fail-safe rules, sensitive data boundary, separate approvals) and narrow deterministic enforcement (knowledge writes/promotion, sensitive paths, action scope during `/implement`, payload refresh, candidate subject guard, workflow prompt boundaries). V4 zero-tolerance tables, tiers, fixed caps, structured blocker protocol, DIGEST injection, content-based secret scanning, general context policy engine, and Codemode remain unselected.
+- **Reliability:** experimentally reliable but not release-proven. R1/R2 completed many PBIs without task-breaking gate events; knowledge promotion remained human-authoritative; no protected values were exposed. Limits are lexical enforcement, no OS sandbox, mostly semantic-only default work, and no plain-Pi baseline.
+- **Documentation sync:** `V5.2-STATUS.md`, `V5.2-roadmap.md`, `backlog/README.md`, C04 governance records were updated from stale hashes to `d07ff5d`; historical C04 next-slice wording was corrected to a selected/implemented slice; C13 status was updated to reflect R2 non-improvement.
+- **C14 content:** defines release definition, acceptance suite, user-facing docs, capability matrix, release metadata, backlog triage, non-goals, and success criteria. It intentionally adds no new mechanism.
+- **Boundary:** docs/backlog only; no clean payload, runtime, publication, or release commit authorized by this entry.

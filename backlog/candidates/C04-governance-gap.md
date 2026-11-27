@@ -44,9 +44,9 @@ This reconciliation uses V5.2, the clean payload after commit `77e315a`, the exp
 | 7 | Credential redaction / secret detector | Path-based sensitive-file boundary implemented in clean payload: `.env`, `.env.*`, `frontend/.env`, credentials/keys/secrets semantics; no content-based secret scanner. | Deterministic lexical gate + semantic rule | 13/13 tests; exp5 PBI2b/PBI3; exp6 fresh init and live probes | **Partially covered. Keep path-based boundary. Defer content-based scanning.** No V4 regexes were ported. |
 | 8 | Memory curation items | V5 has C02 candidate → inactive staging → explicit promotion/correction lifecycle. No V4 curation pipeline. | Deterministic adapter lifecycle + semantic contract | C02 validation history; clean payload lifecycle | **Covered by C02. No C04 action.** |
 
-### Next-slice decision
+### Selected slice decision (historical, implemented)
 
-The next C04 candidate slice, if approved separately, is **action-scope fidelity for consequential commands and writes**. It is selected over tier labels, fixed loop caps, zero-tolerance tables, and content-based secret scanning because:
+The selected C04 candidate slice was **action-scope fidelity for consequential commands and writes**. It was selected over tier labels, fixed loop caps, zero-tolerance tables, and content-based secret scanning because:
 
 - semantic authorization fidelity is already published but not deterministically tested in general delivery;
 - the Evershop command-scope incident and model-dependent tool-use traces are concrete evidence;
@@ -69,7 +69,7 @@ These must **not** be blindly ported from V4 without a V5-specific justification
 1. **Done:** re-review the original eight findings against current V5, clean payload, exp5, and exp6 evidence.
 2. **Done:** decide current treatment for each finding in the reconciliation table.
 3. **Done for the implemented slice:** add validation tests for the sensitive-file boundary; node and live Pi checks passed.
-4. **Done:** action-scope fidelity was prototyped in a fresh exp7 workspace, validated with 16/16 external tests plus live Pi probes, staged as a generic-only diff, and published at `4f44378`.
+4. **Done:** action-scope fidelity was prototyped in a fresh exp7 workspace, validated with 16/16 external tests plus live Pi probes, staged as a generic-only diff, and published at `4f44378`. Subsequent hardening was published through `d07ff5d`.
 5. **Still required:** obtain explicit approval before any further governance implementation, clean-payload change, or publication.
 
 ## Acceptance criteria for revisiting after backlog completion
