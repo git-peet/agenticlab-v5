@@ -3767,3 +3767,13 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Smoke metrics:** 291 s, 31 tool calls, 2 retrieval calls (both `no_match` in an empty corpus), 973K tokens, $0.0184, no gate blocks.
 - **Limitations:** semantic-only approval boundaries outside implemented gates, lexical non-sandbox controls, mixed retrieval evidence, no dependency/service/database end-to-end run, lightly exercised `/premortem`.
 - **Boundary:** no payload change, no C13/C12 publication, no push/tag/release announcement authorized by this entry.
+
+
+### V5-20261127-082 — V5.2-RC1 release note published locally
+
+- **Recorded:** 2026-11-27T12:06:19+01:00
+- **Type:** Release documentation
+- **Status:** `V5.2-RC1 — experimental` defined in `RELEASE.md`; no stable release, tag, or external announcement authorized.
+- **Content:** release label, payload revision `d07ff5d`, included capabilities, explicit claims and non-claims, host assumptions, install/use flow, and validation evidence.
+- **Decision rule:** the current state is an experimental release candidate. Sustained real use, repeated concrete failure, or a bounded improvement with a new comparison should be required before changing the state.
+- **Boundary:** documentation only; no payload change and no push/tag/publication authorized by this entry.
