@@ -3730,3 +3730,15 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Result:** the agent proposed an exact revision-pinned migration path, said it would ask before approval if the generated ID were not pinned, and identified placeholder/annotated `inScope` entries as rejected. No files changed and no checkpoint was written.
 - **Interpretation:** the rule is understood and does not create gratuitous questions when an exact path can be known. It is not full-run evidence and does not prove no future placeholder will occur.
 - **Boundary:** documentation only; no payload change or publication authorized by this entry.
+
+
+### V5-20261127-079 — Targeted retrieval probe: natural activation works
+
+- **Recorded:** 2026-11-27T09:30:00+01:00
+- **Type:** Focused evaluation / C13 evidence
+- **Status:** `RETRIEVAL-AB-001` recorded; no payload change authorized.
+- **Design:** two fresh read-only Pi sessions in AlphaProject, published payload `50290a9`, same four topic areas. Control used ordinary engineering-review wording; candidate wording asked to use prior project experience. Neither named the retrieval tool, index, records, or IDs.
+- **Result:** control made 4 retrieval calls, all applicable; candidate made 6, all applicable. Both conditions had 0 no-match results and 27 tool calls. Cost was $0.0112 vs $0.0103 respectively. Both answers were grounded in retrieved records and current source.
+- **Interpretation:** natural task framing triggers retrieval without explicit instruction. For clean single-topic questions, query activation and precision were excellent in both conditions. Memory-oriented wording produced extra applicable lookups, not better efficiency.
+- **Implication:** C13 remains unproven and unpublished. R1/R2 no-match counts came from broad composite implementation queries, not from natural topic-framed questions. A next probe, if any, should use ambiguous/multi-topic questions rather than clean ones.
+- **Boundary:** evaluation record only. No clean-payload change or C13 publication authorized by this result.
