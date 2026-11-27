@@ -3754,3 +3754,16 @@ C02's currently implemented slices have meaningful delivery-workspace evidence, 
 - **Documentation sync:** `V5.2-STATUS.md`, `V5.2-roadmap.md`, `backlog/README.md`, C04 governance records were updated from stale hashes to `d07ff5d`; historical C04 next-slice wording was corrected to a selected/implemented slice; C13 status was updated to reflect R2 non-improvement.
 - **C14 content:** defines release definition, acceptance suite, user-facing docs, capability matrix, release metadata, backlog triage, non-goals, and success criteria. It intentionally adds no new mechanism.
 - **Boundary:** docs/backlog only; no clean payload, runtime, publication, or release commit authorized by this entry.
+
+
+### V5-20261127-081 — Release candidate package completed
+
+- **Recorded:** 2026-11-27T11:55:56+01:00
+- **Type:** Release-readiness evaluation
+- **Status:** `RELEASE-CANDIDATE-001` complete; outcome **Ready with limitations** for an experimental V5.2 release candidate. No stable release claim authorized.
+- **Artifacts:** `evaluation/RELEASE-CAPABILITY-MATRIX.md`, external `AgenticLab-tools/release/` acceptance suite, `evaluation/results/RELEASE-CANDIDATE-001.md`, and archived fresh-smoke evidence.
+- **Acceptance:** release suite passed 15 checks, including payload revision `d07ff5d`, adapter syntax, policy JSON, generic-identifier scan, docs hash sync, C14/plan presence, and 66/66 external tests.
+- **Fresh smoke:** clean FastAPI workspace initialized at `d07ff5d`; prompts/extension registered; no workflow auto-ran; exact scope allowed, near-miss blocked; `.env.example` allowed and `.env` blocked; refresh preview `noop`; `/plan` → `/implement` produced one doc plus its implementation log and disposed of its checkpoint with explicit B.
+- **Smoke metrics:** 291 s, 31 tool calls, 2 retrieval calls (both `no_match` in an empty corpus), 973K tokens, $0.0184, no gate blocks.
+- **Limitations:** semantic-only approval boundaries outside implemented gates, lexical non-sandbox controls, mixed retrieval evidence, no dependency/service/database end-to-end run, lightly exercised `/premortem`.
+- **Boundary:** no payload change, no C13/C12 publication, no push/tag/release announcement authorized by this entry.

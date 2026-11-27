@@ -1,6 +1,6 @@
 # RELEASE-CANDIDATE-001 — Execution Plan
 
-**Status:** approved for execution; no push or release tag authorized.
+**Status:** complete — see [`../results/RELEASE-CANDIDATE-001.md`](../results/RELEASE-CANDIDATE-001.md). No push or release tag authorized.
 
 ## Objective
 
